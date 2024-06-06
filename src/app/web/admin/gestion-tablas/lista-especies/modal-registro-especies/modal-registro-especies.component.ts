@@ -32,7 +32,7 @@ export class ModalRegistroEspeciesComponent implements OnInit {
     
   }
   close(){
-
+    this.exitModal();
   }
 
 }

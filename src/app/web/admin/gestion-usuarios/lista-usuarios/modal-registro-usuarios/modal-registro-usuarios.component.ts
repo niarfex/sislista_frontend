@@ -34,7 +34,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
     
   }
   close(){
-
+    this.exitModal();
   }
   consultarElementos(viewUserTemplate: TemplateRef<any>){
     this.SubmodalRef = this.SubmodalService.show(viewUserTemplate,{

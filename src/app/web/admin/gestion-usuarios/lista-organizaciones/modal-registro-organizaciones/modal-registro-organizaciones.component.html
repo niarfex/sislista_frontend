@@ -17,7 +17,9 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="campo">Tipo de organización</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
                         <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
                             <div *ngIf="campo.errors?.['required']">
                                 El campo es obligatorio
@@ -65,7 +67,9 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="campo">Departamento</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
                         <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
                             <div *ngIf="campo.errors?.['required']">
                                 El campo es obligatorio

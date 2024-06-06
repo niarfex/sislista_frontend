@@ -32,7 +32,7 @@ export class ModalRegistroNotificacionesComponent implements OnInit {
     
   }
   close(){
-
+    this.exitModal();
   }
 
 }

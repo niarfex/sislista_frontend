@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
+import { ConfirmationService } from 'primeng/api';
 //import { LoginRequest } from 'src/app/services/auth/loginRequest';
 
 @Component({
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
     .getCurrentUserValue;
     //console.log("entra_0");
   if (currentUser) {
-    this.router.navigate(['/app/web/inicio']);
+    console.log("hola2");
+    this.router.navigate(['./app/web/inicio']);
   }
     
 

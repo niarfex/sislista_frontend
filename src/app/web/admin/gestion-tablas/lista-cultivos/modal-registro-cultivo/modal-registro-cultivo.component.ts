@@ -32,7 +32,7 @@ export class ModalRegistroCultivoComponent implements OnInit {
     
   }
   close(){
-
+    this.exitModal();
   }
 
 }

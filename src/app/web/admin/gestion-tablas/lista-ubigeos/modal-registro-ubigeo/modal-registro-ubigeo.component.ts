@@ -32,7 +32,7 @@ export class ModalRegistroUbigeoComponent implements OnInit {
     
   }
   close(){
-
+    this.exitModal();
   }
 
 }

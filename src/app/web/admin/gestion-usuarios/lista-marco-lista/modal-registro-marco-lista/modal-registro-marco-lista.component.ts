@@ -31,7 +31,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
     
   }
   close(){
-
+    this.exitModal();
   }
 
 }

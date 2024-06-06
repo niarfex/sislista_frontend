@@ -28,7 +28,9 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="campo">Periodo</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
                         <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
                             <div *ngIf="campo.errors?.['required']">
                                 El campo es obligatorio
@@ -41,7 +43,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="campo">Fecha de inicio</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <input formControlName="campo" type="date" class="form-control" [(ngModel)]="txt_campo" required>
                         <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
                             <div *ngIf="campo.errors?.['required']">
                                 El campo es obligatorio
@@ -52,7 +54,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="campo">Fecha de cierre</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <input formControlName="campo" type="date" class="form-control" [(ngModel)]="txt_campo" required>
                         <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
                             <div *ngIf="campo.errors?.['required']">
                                 El campo es obligatorio
@@ -109,7 +111,9 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="campo">Plantilla</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
                         <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
                             <div *ngIf="campo.errors?.['required']">
                                 El campo es obligatorio

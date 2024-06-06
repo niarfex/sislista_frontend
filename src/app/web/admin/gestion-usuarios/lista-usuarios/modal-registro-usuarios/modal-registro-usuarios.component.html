@@ -89,8 +89,9 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="campo">Perfil</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
                         <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
                             <div *ngIf="campo.errors?.['required']">
                                 El campo es requerido.
@@ -108,8 +109,9 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="campo">Organización</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
                         <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
                             <div *ngIf="campo.errors?.['required']">
                                 El campo es requerido.
@@ -182,14 +184,7 @@
                     <div class="form-group">
                         <label for="campo">Seleccione departamento</label>
                         <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">
-                            <option value="-1">
-                                -- Seleccione --
-                            </option>
-                            <!--<option *ngFor="let tipoDocumento of service.data.tipoDocumentos"
-                                [value]="tipoDocumento.ide_parametrodet">
-                                {{ tipoDocumento.txt_nombre }}
-                            </option>-->
+                            class="form-select">                                          
                         </select>
                         <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
                             <div *ngIf="campo.errors?.['required']">

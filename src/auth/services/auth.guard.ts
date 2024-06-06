@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -7,13 +7,15 @@ import {
 } from '@angular/router';
 import { LoginService } from './login.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ConfirmationService } from 'primeng/api';
 //import { ToastrService } from 'ngx-toastr';
 
 @Injectable({ providedIn: 'root' })
+
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authenticationService: LoginService,
+    private authenticationService: LoginService
     //private toastr: ToastrService
   ) { }
 
@@ -36,6 +38,28 @@ export class AuthGuard implements CanActivate {
         const helper = new JwtHelperService();
         const token = sessionStorage.getItem('token');
         if (helper.isTokenExpired(token)) {
+          this.authenticationService.logout();
+          //this.router.navigate(['auth/login']);  
+          /*this.confirmationService.confirm({
+            message: 'Sesión finalizada',
+            header: 'Sesión',
+            icon: 'none',           
+            acceptButtonStyleClass: "p-button-danger p-button-text",
+            rejectButtonStyleClass: "p-button-text p-button-text",
+            acceptLabel: "Si, estoy seguro",
+            rejectLabel: "Cancelar",
+            acceptIcon: "none",
+            rejectIcon: "none",
+            
+            
+            accept: () => {   
+              this.router.navigate(['auth/login']);           
+            },
+            reject: () => {
+              this.router.navigate(['auth/login']);
+            }
+          });*/
+          
           //console.log("ruteo_auth");
           /*this.router.navigate(['auth/login']);
           setTimeout(() => {

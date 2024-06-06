@@ -32,7 +32,7 @@ export class ModalRegistroCondicionJuridicaComponent implements OnInit {
     
   }
   close(){
-
+    this.exitModal();
   }
 
 }
