@@ -1,0 +1,75 @@
+<div class="row" style="height: 100%;">
+    <div class="col-sm-6" style="background-image: url('../../assets/images/campo_1.jpeg'); background-size: 100%;
+        background-size: cover; position: relative;">
+
+        <div class="text-end" style="color: white; font-weight: bold;
+         font-size:xx-large; bottom: 0; position: absolute; padding-right: 10px; padding-bottom: 10px;">Sistema del Marco de Lista de Encuesta Nacional Agropecuaria
+        </div>
+    </div>
+    <div class="col-sm-6" style="height: 100%;">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div class="text-center" style="margin-top: 40px;">
+                    <form [formGroup]="loginForm">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <img [src]="appBaseUrl + '/assets/images/logo_midagri.png'"
+                                    style="width: 100px;height: 100px;" />
+                            </div>
+                        </div>
+                        <p class="text-danger">{{loginError}}</p>
+
+                        <div class="mb-3" style="margin-left: 20px; margin-right: 20px;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="row" style="text-align: left; font-weight: bold;">
+                                        <label for="inputUsuario" class="form-label">Usuario</label>
+                                    </div>
+                                    <div class="row">
+                                        <input formControlName="username" type="text" class="form-control"
+                                            id="inputUsuario">
+                                        <div *ngIf="username.invalid && (username.dirty || username.touched)"
+                                            class="text-danger">
+                                            <div *ngIf="username.errors?.['required']">
+                                                El usuario es requerido.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3" style="margin-left: 20px; margin-right: 20px;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="row" style="text-align: left; font-weight: bold;">
+                                        <label for="inputPass" class="form-label">Contraseña</label>
+                                    </div>
+                                    <div class="row">
+                                        <input formControlName="password" type="password" class="form-control"
+                                            id="inputPass">
+                                        <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                                            class="text-danger">
+                                            <div *ngIf="password.errors?.['required']">
+                                                La contraseña es requerido.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" (click)="login()" class="btn btn-primary"
+                                style="background-color: #E22850; border-color: #E22850;">Iniciar Sesión</button>
+                        </div>
+                        <div class="mb-3">
+                            <span><a [routerLink]="'#'">¿Olvidaste la contraseña?</a></span>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</div>

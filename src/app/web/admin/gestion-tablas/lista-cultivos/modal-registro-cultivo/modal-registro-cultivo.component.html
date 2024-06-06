@@ -1,0 +1,113 @@
+<div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="modalForm" (ngSubmit) = "onClickSubmit(modalForm.value)">
+        <div class="modal-header"
+            style="background-color: green; color: white; text-align: center; align-items: center;">
+            <span style="font-size: large; font-weight: bold;">
+                Registro de Organización
+            </span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Grupo</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Clase</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Subclase CPC</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Subclase andina</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Subclase nacional</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Descripción</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Arancel de aduanas 2012</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Clanae 2012</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-end" style="display: block;">
+            <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
+                style="background-color: green; border-color: green;">Registrar</button>
+        </div>
+    </form>
+</div>
