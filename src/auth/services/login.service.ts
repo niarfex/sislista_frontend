@@ -18,7 +18,7 @@ export class LoginService {
 
     constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router) {
 
-        console.log("session");
+        //console.log("session");
         console.log(sessionStorage.getItem('currentUser'));
         this.currentUserSubject = 
         this.currentUserSubject = new BehaviorSubject<Login>(
@@ -57,7 +57,7 @@ export class LoginService {
                     const usuario = response.body.usuario.username;
                     sessionStorage.setItem('currentUser', usuario);//almacenamos temporalmente el string, luego esto debe volver desde el back
                     this.currentUserSubject.next({
-                        numeroDocumento: Number(1),
+                        numeroDocumento: Number(usuario),
                         token: response.body.usuario.accessToken,
                     });
                     console.log("llega_1");

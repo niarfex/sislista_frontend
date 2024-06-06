@@ -7,7 +7,7 @@ const routes: Routes = [
     /*{
         path: 'auth',
         loadChildren: () => import('./auth/auth.module').then((m) => m.AccountModule), //Lazy load account module
-        data: { preload: true },
+        data: { preload: true }, canActivate: [AuthGuard]
     },*/
     {
         path: 'app',

@@ -20,6 +20,14 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder:FormBuilder, private router:Router, private loginService: LoginService) { }
 
   ngOnInit(): void {
+    const currentUser = this.loginService
+    .getCurrentUserValue;
+    //console.log("entra_0");
+  if (currentUser) {
+    this.router.navigate(['/app/web/inicio']);
+  }
+    
+
   }
 
   get username(){
