@@ -1,6 +1,7 @@
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy,CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -17,6 +18,7 @@ import { BasicAuthInterceptor } from 'src/auth/services';
 import { ErrorInterceptor } from 'src/auth/services';
 import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
 import { LocaleService } from 'src/shared/services/locale.service';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { LocaleService } from 'src/shared/services/locale.service';
     FormsModule,    
     ReactiveFormsModule,
     HttpClientModule,
+    ConfirmDialogModule,
+    ToastrModule.forRoot()
   ],
   providers: [LocaleService,
     //{provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},//Con este provider hace la consulta mediante Bearer
