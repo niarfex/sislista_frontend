@@ -13,45 +13,36 @@ import { PlantillaUnoComponent } from './web/shared/plantilla-uno/plantilla-uno.
 import { PlantillaDosComponent } from './web/shared/plantilla-dos/plantilla-dos.component';
 import { ListaCamposPlantillaComponent } from './web/shared/lista-campos-plantilla/lista-campos-plantilla.component';
 import { ListaInformantesComponent } from './web/shared/lista-informantes/lista-informantes.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BasicAuthInterceptor } from 'src/auth/services';
 import { ErrorInterceptor } from 'src/auth/services';
 import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
 import { LocaleService } from 'src/shared/services/locale.service';
 import { ToastrModule } from 'ngx-toastr';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    HeaderComponent,
-    DefaultLayoutComponent,
-    MenuComponent,
-    InicioComponent,
-    PlantillaUnoComponent,
-    PlantillaDosComponent,
-    ListaCamposPlantillaComponent,
-    ListaInformantesComponent
-  ],
-  imports: [
-    AppRoutingModule,
-    CommonModule,
-    FormsModule,    
-    ReactiveFormsModule,
-    HttpClientModule,
-    ConfirmDialogModule,
-    ToastrModule.forRoot()
-  ],
-  providers: [LocaleService,
-    //{provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},//Con este provider hace la consulta mediante Bearer
-    //{ provide: APP_INITIALIZER, useFactory: initCommonConfig, deps: [Const], multi: true},
-    { provide: LOCALE_ID, useValue: 'es-ES' },
-    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor,multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor,multi:true },
-    { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true, },
-    
-    {provide: LocationStrategy, useClass: HashLocationStrategy} 
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        FooterComponent,
+        HeaderComponent,
+        DefaultLayoutComponent,
+        MenuComponent,
+        InicioComponent,
+        PlantillaUnoComponent,
+        PlantillaDosComponent,
+        ListaCamposPlantillaComponent,
+        ListaInformantesComponent
+    ],
+    bootstrap: [AppComponent], imports: [AppRoutingModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ConfirmDialogModule,
+        ToastrModule.forRoot()], providers: [LocaleService,
+        //{provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},//Con este provider hace la consulta mediante Bearer
+        //{ provide: APP_INITIALIZER, useFactory: initCommonConfig, deps: [Const], multi: true},
+        { provide: LOCALE_ID, useValue: 'es-ES' },
+        { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true, },
+        { provide: LocationStrategy, useClass: HashLocationStrategy }, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
