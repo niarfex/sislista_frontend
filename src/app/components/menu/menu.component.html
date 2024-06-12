@@ -1,0 +1,137 @@
+<div class='sidenav_container'>
+    <div class="text-end" style="padding-top: 10px; padding-bottom: 10px;">
+        <p-confirmDialog></p-confirmDialog>
+        <button  type="button" style="color: white;" class="btn btn-info fw-bold" (click)="logout()">
+            <i class="bi bi-door-closed"></i><span> Cerrar Sesión</span>
+        </button>        
+    </div>
+    <div class="parent d-flex">
+        <div style="text-align: center; font-size: medium; font-weight: bold; min-height: 50px; 
+      background-color:green; color: white;">Gestión de Usuarios y Perfiles</div>
+        <!---------------------------------------------------------------------->
+        <!------ MENU SIN HIJOS ------>
+        <!---------------------------------------------------------------------->
+        <ng-container>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-usuarios/lista-organizaciones'" routerLinkActive="active">
+                <div> Organizaciones </div>
+                <span class="flex-spacer"></span>
+            </div>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-usuarios/lista-marco-lista'" routerLinkActive="active">
+                <div> Marco de Lista </div>
+                <span class="flex-spacer"></span>
+            </div>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-usuarios/lista-usuarios'" routerLinkActive="active">
+                <div> Usuarios </div>
+                <span class="flex-spacer"></span>
+            </div>
+        </ng-container>
+    </div>    
+</div>
+<div class='sidenav_container'>
+    <div class="parent d-flex">
+        <div style="text-align: center; font-size: medium; font-weight: bold; min-height: 50px; 
+      background-color:green; color: white;">Gestión de Configuración</div>
+        <!---------------------------------------------------------------------->
+        <!------ MENU SIN HIJOS ------>
+        <!---------------------------------------------------------------------->
+        <ng-container>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-configuracion/lista-plantillas'" routerLinkActive="active">
+                <div> Plantillas </div>
+                <span class="flex-spacer"></span>
+            </div>
+            <div class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-configuracion/lista-panel-registro'" routerLinkActive="active">
+
+                <div> Programación </div>
+                <span class="flex-spacer"></span>
+            </div>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-configuracion/lista-notificaciones'" routerLinkActive="active">
+                <div> Alertas y Notificaciones </div>
+                <span class="flex-spacer"></span>
+            </div>
+        </ng-container>
+    </div>    
+</div>
+<div class='sidenav_container'>
+    <div class="parent d-flex">
+        <div style="text-align: center; font-size: medium; font-weight: bold; min-height: 50px; 
+      background-color:green; color: white;">Gestión de Tablas Generales</div>
+        <!---------------------------------------------------------------------->
+        <!------ MENU SIN HIJOS ------>
+        <!---------------------------------------------------------------------->
+        <ng-container>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-tablas/lista-cultivos'" routerLinkActive="active">
+                <div> Cultivos </div>
+                <span class="flex-spacer"></span>
+            </div>
+            <div class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-tablas/lista-ubigeos'" routerLinkActive="active">
+                <div> Ubigeo </div>
+                <span class="flex-spacer"></span>
+            </div>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-tablas/lista-condicion-juridica'" routerLinkActive="active">
+                <div> Condición Jurídica </div>
+                <span class="flex-spacer"></span>
+            </div>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-tablas/lista-tipo-explotacion'" routerLinkActive="active">
+                <div> Tipo de Explotación </div>
+                <span class="flex-spacer"></span>
+            </div>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-tablas/lista-linea-produccion'" routerLinkActive="active">
+                <div> Lineas de Producción </div>
+                <span class="flex-spacer"></span>
+            </div>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/admin/gestion-tablas/lista-especies'" routerLinkActive="active">
+                <div> Especies </div>
+                <span class="flex-spacer"></span>
+            </div>
+        </ng-container>
+    </div>    
+</div>
+<div class='sidenav_container'>
+    <div class="parent d-flex">
+        <div style="text-align: center; font-size: medium; font-weight: bold; min-height: 50px; 
+      background-color:green; color: white;">Gestión de Registro</div>
+        <!---------------------------------------------------------------------->
+        <!------ MENU SIN HIJOS ------>
+        <!---------------------------------------------------------------------->
+        <ng-container>
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/operativo/lista-gestion-registro'" routerLinkActive="active">
+                <div> Gestión de Registro </div>
+                <span class="flex-spacer"></span>
+            </div>           
+        </ng-container>
+    </div>    
+</div>
+<div class='sidenav_container'>
+    <div class="parent d-flex">
+        <div style="text-align: center; font-size: medium; font-weight: bold; min-height: 50px; 
+      background-color:green; color: white;">Reportes y Consultas</div>
+        <!---------------------------------------------------------------------->
+        <!------ MENU SIN HIJOS ------>
+        <!---------------------------------------------------------------------->
+        <ng-container>
+            <div style="width: 100%;" class="itemPadre lex-v-center"
+                [routerLink]="'/app/reportes/reporte-mapa'" routerLinkActive="active">
+                <div> Reporte de Mapa </div>
+                <span class="flex-spacer"></span>
+            </div>      
+            <div style="width: 100%;" class="itemPadre flex-v-center"
+                [routerLink]="'/app/reportes/reporte-estados'" routerLinkActive="active">
+                <div> Reporte de Estados de Registros </div>
+                <span class="flex-spacer"></span>
+            </div>     
+        </ng-container>
+    </div>    
+</div>

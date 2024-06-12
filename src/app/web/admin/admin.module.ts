@@ -68,7 +68,7 @@ import { ModalConsultaElementosComponent } from './gestion-usuarios/lista-usuari
     TableModule,
     ModalModule,
     ConfirmDialogModule,
-    AdminRoutingModule    
+    AdminRoutingModule
   ]
 })
 export class AdminModule { }

@@ -1,0 +1,343 @@
+<div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="modalForm" (ngSubmit) = "onClickSubmit(modalForm.value)">
+        <div class="modal-header"
+            style="background-color: green; color: white; text-align: center; align-items: center;">
+            <span style="font-size: large; font-weight: bold;">
+                Registro de Organización
+            </span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12" style="color:green">
+                    <h3>Información</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Condición jurídica</label>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                
+                <div class="col-sm-6">
+                    <!--Para Sociedad Anonima-->
+                    <div class="form-group">
+                        <label for="campo">RUC</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div> 
+                    <!--Para Sociedad Anonima-->
+                    <!--Para Persona Natural-->
+                    <div class="form-group">
+                        <label for="campo">Tipo de documento</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div> 
+                    <!--Para Persona Natural-->
+                      
+                </div>
+            </div>
+            <!--Para Sociedad Anonima-->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Razón social</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Dirección fiscal</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <!--Para Sociedad Anonima-->
+            <!--Para Persona Natural-->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Número de documento</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Nombres</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Apellido paterno</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Apellido materno</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">¿Tiene RUC?</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Domicilio</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <!--Para Persona Natural-->
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Departamento</label>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Provincia</label>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Distrito</label>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Tipo de explotación</label>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Teléfono fijo</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Celular</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Correo electrónico institucional</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Página web</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="color:green">
+                    <h3>Representante legal</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Nombre del representante legal</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Celular</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Correo electrónico</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                       
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="color:green">
+                    <h3>Ubicación de Entrevista</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Dirección</label>
+                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="campo">Departamento</label>
+                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                            class="form-select">                                          
+                        </select>
+                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
+                            <div *ngIf="campo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-end" style="display: block;">
+            <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
+                style="background-color: green; border-color: green;">Registrar</button>
+        </div>
+    </form>
+</div>

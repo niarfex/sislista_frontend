@@ -1,0 +1,81 @@
+
+* {
+    user-select: none;
+  }
+  
+  .parent {
+    /*background-color: white;*/
+    flex-direction: column;
+  }
+  
+  a {
+    text-decoration: none;  
+  }
+  a:focus {
+    color: black !important;
+  }
+  .item {
+    color: black;
+    
+   /*background-color: white;*/
+    font-weight: normal;
+    cursor: pointer;  
+  }
+  .item:hover {
+    /*background-color: #BFBFBF;*/
+    color: black !important;
+  }
+  
+  .itemPadre {
+    color: black;
+    font-weight: normal;
+    cursor: pointer;  
+  }
+  .itemPadre:hover {
+    /*background-color: #BFBFBF;*/
+    color: black !important;
+  }
+  .active {
+    /*color: white !important;*/
+    /*background-color: #E43A5E;  */
+  }
+  
+  .text-menu-hijo {
+    font-size: 0.938rem;
+    font-weight: 600;
+  }
+  
+  .submenu {
+    max-height: 0;
+    overflow: hidden;
+  }
+  
+  .submenu-on {
+    /*color: lightgrey;*/
+  }
+  
+  .icon-arrow {
+    font-size: 0.75rem;
+  }
+  
+  .icon__item {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .menuSelected {
+    /*background-color: #DDF3F6;*/
+    border-radius: 0.25rem;
+    font-weight: 600;
+    font-size: 0.938rem;
+  }
+  
+  .fijar {
+    color: rgba(34, 36, 38, 0.336);
+    font-weight: 600;
+    font-size: 0.938rem;
+  }
+  
+  .sidenav_container {
+    min-width: 60px;
+  }
+  
