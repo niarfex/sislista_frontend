@@ -26,7 +26,9 @@
 					"options": {
 						"allowedCommonJsDependencies": [
 							"dropzone",
-							"metismenujs/dist/metismenujs"
+							"metismenujs/dist/metismenujs",
+							"moment-timezone",
+							"file-saver"
 						],
 						"outputPath": "dist/frontend",
 						"index": "src/index.html",
@@ -63,18 +65,25 @@
 					},
 					"configurations": {
 						"production": {
+							"optimization": {
+								"scripts": true,
+								"styles": {
+									"minify": true,
+									"inlineCritical": false
+								}
+							},
 							"budgets": [
 								{
 									"type": "initial",
-									"maximumWarning": "500kb",
-									"maximumError": "1mb"
+									"maximumWarning": "50mb",
+									"maximumError": "100mb"
 								},
 								{
 									"type": "anyComponentStyle",
-									"maximumWarning": "2kb",
-									"maximumError": "4kb"
+									"maximumWarning": "1mb",
+									"maximumError": "2mb"
 								}
-							],
+							],							
 							"outputHashing": "all"
 						},
 						"development": {

@@ -1,6 +1,6 @@
 {    
-  "urlHost":"https://localhost:44335/", 
-  "urlBaseApp": "http://localhost:4200",     
+  "urlHost":"https://localhost/wsSislista/", 
+  "urlBaseApp": "http://localhost/appSislista",     
   "siteKeyCaptcha": "6LcsWZQpAAAAAIq7MWuFCLTnbtywO4lBVRCzc1eK"
   }
   

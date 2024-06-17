@@ -62,7 +62,8 @@ export class LoginComponent implements OnInit {
         next: (userData) => {          
         },
         error: (errorData) => {         
-          this.loginError=errorData.error.status.error.messages[0];     
+          console.log(errorData);
+          //this.loginError=errorData.error.status.error.messages[0];     
         },
         complete: () => {  
           console.log("ruteo_login");

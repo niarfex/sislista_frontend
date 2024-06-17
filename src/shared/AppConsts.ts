@@ -48,7 +48,8 @@ function getDocumentOrigin() {
             document.location.protocol +
             '//' +
             document.location.hostname +
-            (document.location.port ? ':' + document.location.port : '')
+            (document.location.port ? ':' + document.location.port : '') +
+             '//' + document.location.href 
         );
     }
 

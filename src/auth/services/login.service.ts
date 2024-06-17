@@ -45,7 +45,7 @@ export class LoginService {
             password: clave
         };
         const url = `${AppConsts.urlHost}v1/auth/login`;
-        console.log(url);
+        //console.log(url);
         return this.http
             .post<any>(url, param, { 
                 //headers: header,
@@ -91,12 +91,13 @@ export class LoginService {
         
     }
     private handleError(error: HttpErrorResponse) {
-        if (error.status === 0) {
+        console.log(error);
+        /*if (error.status === 0) {
             console.error('Se ha producio un error ', error.error);
         }
         else {
             console.error('Servicio retornó el código de estado ', error);
-        }
+        }*/
         return throwError(() => new Error('Algo falló. Por favor intente nuevamente.'));
     }
     get userToken(): String {

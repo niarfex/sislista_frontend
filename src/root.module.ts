@@ -63,13 +63,7 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
     ],
     declarations: [RootComponent],
     providers: [provideHttpClient(withFetch()), { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: APP_INITIALIZER, useFactory: initCommonConfig, deps: [AppConsts], multi: true },
-    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
-    {
-        provide: DROPZONE_CONFIG,
-        useValue: DEFAULT_DROPZONE_CONFIG
-    },
-        JwtHelperService
+    { provide: APP_INITIALIZER, useFactory: initCommonConfig, deps: [AppConsts], multi: true }    
     ],
 
     bootstrap: [RootComponent],
