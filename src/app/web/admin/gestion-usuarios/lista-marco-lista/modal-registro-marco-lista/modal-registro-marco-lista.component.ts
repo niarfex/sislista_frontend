@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'modal-registro-marco-lista',
   templateUrl: './modal-registro-marco-lista.component.html',
-  styleUrls: ['./modal-registro-marco-lista.component.css']
+  styleUrls: ['./modal-registro-marco-lista.component.scss']
 })
 export class ModalRegistroMarcoListaComponent implements OnInit {
   @Input() exitModal = (): void => {};

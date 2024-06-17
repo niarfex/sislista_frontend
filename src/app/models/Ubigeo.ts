@@ -1,13 +1,13 @@
-export interface IResponseUbigeo {
+export interface IResponseUbigeoListDto {
     success: boolean;
     message: String;
-    datos: UbigeoModel[];
+    datos: UbigeoListDto[];
 }
-export class ResponseUbigeo implements IResponseUbigeo {
+export class ResponseUbigeoListDto implements IResponseUbigeoListDto {
     success: boolean;
     message: String;
-    datos: UbigeoModel[];
-    constructor(data?: IResponseUbigeo) {
+    datos: UbigeoListDto[];
+    constructor(data?: IResponseUbigeoListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -22,13 +22,13 @@ export class ResponseUbigeo implements IResponseUbigeo {
             if (Array.isArray(_data["data"])) {
                 this.datos = [] as any;
                 for (let item of _data["data"])
-                    this.datos!.push(UbigeoModel.fromJS(item));
+                    this.datos!.push(UbigeoListDto.fromJS(item));
             }
         }
     }
-    static fromJS(data: any): ResponseUbigeo {
+    static fromJS(data: any): ResponseUbigeoListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ResponseUbigeo();
+        let result = new ResponseUbigeoListDto();
         result.init(data);
         return result;
     }
@@ -45,20 +45,20 @@ export class ResponseUbigeo implements IResponseUbigeo {
     }
 }
 
-export interface IUbigeoModel {
+export interface IUbigeoListDto {
     Id: String;
     Departamento: String;
     Provincia: String;
     Distrito: String;
     Estado: number;
 }
-export class UbigeoModel implements IUbigeoModel {
+export class UbigeoListDto implements IUbigeoListDto {
     Id: String;
     Departamento: String;
     Provincia: String;
     Distrito: String;
     Estado: number;
-    constructor(data?: IUbigeoModel) {
+    constructor(data?: IUbigeoListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -75,9 +75,9 @@ export class UbigeoModel implements IUbigeoModel {
             this.Estado = _data["Estado"];
         }
     }
-    static fromJS(data: any): UbigeoModel {
+    static fromJS(data: any): UbigeoListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new UbigeoModel();
+        let result = new UbigeoListDto();
         result.init(data);
         return result;
     }

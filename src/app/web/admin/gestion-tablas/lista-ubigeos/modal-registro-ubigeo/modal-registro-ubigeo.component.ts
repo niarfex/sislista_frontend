@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'modal-registro-ubigeo',
   templateUrl: './modal-registro-ubigeo.component.html',
-  styleUrls: ['./modal-registro-ubigeo.component.css']
+  styleUrls: ['./modal-registro-ubigeo.component.scss']
 })
 export class ModalRegistroUbigeoComponent implements OnInit {
 

@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'modal-registro-tipo-explotacion',
   templateUrl: './modal-registro-tipo-explotacion.component.html',
-  styleUrls: ['./modal-registro-tipo-explotacion.component.css']
+  styleUrls: ['./modal-registro-tipo-explotacion.component.scss']
 })
 export class ModalRegistroTipoExplotacionComponent implements OnInit {
 

@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'lista-tipo-explotacion',
   templateUrl: './lista-tipo-explotacion.component.html',
-  styleUrls: ['./lista-tipo-explotacion.component.css'],
+  styleUrls: ['./lista-tipo-explotacion.component.scss'],
   providers: [BsModalService]
 })
 export class ListaTipoExplotacionComponent implements OnInit {

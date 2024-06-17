@@ -5,7 +5,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 @Component({
   selector: 'lista-marco-lista',
   templateUrl: './lista-marco-lista.component.html',
-  styleUrls: ['./lista-marco-lista.component.css'],
+  styleUrls: ['./lista-marco-lista.component.scss'],
   providers: [BsModalService],
 })
 export class ListaMarcoListaComponent implements OnInit {

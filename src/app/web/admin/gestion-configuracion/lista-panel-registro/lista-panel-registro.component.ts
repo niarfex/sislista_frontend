@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'lista-panel-registro',
   templateUrl: './lista-panel-registro.component.html',
-  styleUrls: ['./lista-panel-registro.component.css'],
+  styleUrls: ['./lista-panel-registro.component.scss'],
   providers: [BsModalService]
 })
 export class ListaPanelRegistroComponent implements OnInit {

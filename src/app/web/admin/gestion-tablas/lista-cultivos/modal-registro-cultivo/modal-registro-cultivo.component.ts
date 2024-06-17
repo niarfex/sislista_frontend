@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'modal-registro-cultivo',
   templateUrl: './modal-registro-cultivo.component.html',
-  styleUrls: ['./modal-registro-cultivo.component.css']
+  styleUrls: ['./modal-registro-cultivo.component.scss']
 })
 export class ModalRegistroCultivoComponent implements OnInit {
 

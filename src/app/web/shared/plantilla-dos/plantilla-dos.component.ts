@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'plantilla-dos',
   templateUrl: './plantilla-dos.component.html',
-  styleUrl: './plantilla-dos.component.css'
+  styleUrl: './plantilla-dos.component.scss'
 })
 export class PlantillaDosComponent implements OnInit {
   plantillaForm=this.formBuilder.group({

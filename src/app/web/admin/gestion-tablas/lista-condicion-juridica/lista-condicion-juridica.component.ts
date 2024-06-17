@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'lista-condicion-juridica',
   templateUrl: './lista-condicion-juridica.component.html',
-  styleUrls: ['./lista-condicion-juridica.component.css'],
+  styleUrls: ['./lista-condicion-juridica.component.scss'],
   providers: [BsModalService]
 })
 export class ListaCondicionJuridicaComponent implements OnInit {

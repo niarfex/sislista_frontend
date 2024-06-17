@@ -4,10 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
-import { DefaultLayoutComponent } from './components/layout/default-layout/default-layout.component';
+import { LayoutComponent } from './components/layout/layout/layout.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { VerticalComponent } from './components/layout/vertical/vertical.component';
+import { HorizontalComponent } from './components/layout/horizontal/horizontal.component';
+import { TopbarComponent } from './components/layout/topbar/topbar.component';
+import { SidebarComponent } from './components/layout/sidebar/sidebar.component';
+import { RightsidebarComponent } from './components/layout/rightsidebar/rightsidebar.component';
+import { HorizontaltopbarComponent } from './components/layout/horizontaltopbar/horizontaltopbar.component';
+import { FooterComponent } from './components/layout/footer/footer.component';
 import { InicioComponent } from './web/inicio/inicio.component';
 import { PlantillaUnoComponent } from './web/shared/plantilla-uno/plantilla-uno.component';
 import { PlantillaDosComponent } from './web/shared/plantilla-dos/plantilla-dos.component';
@@ -19,13 +24,25 @@ import { ErrorInterceptor } from 'src/auth/services';
 import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
 import { LocaleService } from 'src/shared/services/locale.service';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { rootReducer } from '../app/store/index';
+import { StoreModule } from '@ngrx/store';
+import { SimplebarAngularModule } from 'simplebar-angular';
+import { LightboxModule } from 'ngx-lightbox';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({ declarations: [
         AppComponent,
-        FooterComponent,
-        HeaderComponent,
-        DefaultLayoutComponent,
+        LayoutComponent,
         MenuComponent,
+        VerticalComponent,
+        HorizontalComponent,
+        TopbarComponent,
+        SidebarComponent,
+        RightsidebarComponent,
+        HorizontaltopbarComponent,        
+        FooterComponent,
         InicioComponent,
         PlantillaUnoComponent,
         PlantillaDosComponent,
@@ -38,7 +55,12 @@ import { ToastrModule } from 'ngx-toastr';
         FormsModule,
         ReactiveFormsModule,
         ConfirmDialogModule,
-        
+        NgxSpinnerModule, 
+        SimplebarAngularModule,    
+        LightboxModule,
+        NgSelectModule,
+        BsDropdownModule.forRoot(),
+        StoreModule.forRoot(rootReducer),
         ToastrModule.forRoot()], 
     providers: [LocaleService,
         //{provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},//Con este provider hace la consulta mediante Bearer

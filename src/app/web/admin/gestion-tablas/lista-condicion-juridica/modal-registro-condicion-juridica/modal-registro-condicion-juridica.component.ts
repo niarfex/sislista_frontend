@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'modal-registro-condicion-juridica',
   templateUrl: './modal-registro-condicion-juridica.component.html',
-  styleUrls: ['./modal-registro-condicion-juridica.component.css']
+  styleUrls: ['./modal-registro-condicion-juridica.component.scss']
 })
 export class ModalRegistroCondicionJuridicaComponent implements OnInit {
 

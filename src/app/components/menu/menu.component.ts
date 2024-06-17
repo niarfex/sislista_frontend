@@ -5,7 +5,7 @@ import { LoginService } from 'src/auth/services/login.service';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css'],
+  styleUrls: ['./menu.component.scss'],
   providers: [ConfirmationService]
 })
 export class MenuComponent implements OnInit {

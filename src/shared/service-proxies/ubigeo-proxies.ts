@@ -4,7 +4,7 @@ import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { API_BASE_URL, blobToText, processComplete, throwException } from './service-proxies';
 import { AppConsts } from '../AppConsts';
-import { ResponseUbigeo } from 'src/app/models/Ubigeo';
+import { ResponseUbigeoListDto } from 'src/app/models/Ubigeo';
 
 @Injectable()
 export class UbigeoServiceProxy {
@@ -17,7 +17,7 @@ export class UbigeoServiceProxy {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getAll(param:String): Observable<ResponseUbigeo> {
+    getAll(param:String): Observable<ResponseUbigeoListDto> {
         let url_ = AppConsts.urlHost + "v1/ubigeo/GetAll?";  
         if (param!== undefined && param!== null)
             url_ += "param=" + encodeURIComponent("" + param) + "&"; 
@@ -38,14 +38,14 @@ export class UbigeoServiceProxy {
                 try {
                     return this.processgetAll(<any>response_);
                 } catch (e) {
-                    return <Observable<ResponseUbigeo>><any>_observableThrow(e);
+                    return <Observable<ResponseUbigeoListDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ResponseUbigeo>><any>_observableThrow(response_);
+                return <Observable<ResponseUbigeoListDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processgetAll(response: HttpResponseBase): Observable<ResponseUbigeo> {
+    protected processgetAll(response: HttpResponseBase): Observable<ResponseUbigeoListDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -57,7 +57,7 @@ export class UbigeoServiceProxy {
           
                 let result200: any = null;
                 let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);       
-                result200 = ResponseUbigeo.fromJS(resultData200);
+                result200 = ResponseUbigeoListDto.fromJS(resultData200);
 
                 return _observableOf(result200);
             }));
@@ -66,6 +66,6 @@ export class UbigeoServiceProxy {
                 return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ResponseUbigeo>(<any>null);
+        return _observableOf<ResponseUbigeoListDto>(<any>null);
     }
 }

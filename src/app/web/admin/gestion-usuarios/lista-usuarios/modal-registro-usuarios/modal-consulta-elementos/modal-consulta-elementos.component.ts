@@ -4,7 +4,7 @@ import { FormBuilder } from '@angular/forms';
 @Component({
   selector: 'modal-consulta-elementos',
   templateUrl: './modal-consulta-elementos.component.html',
-  styleUrl: './modal-consulta-elementos.component.css'
+  styleUrl: './modal-consulta-elementos.component.scss'
 })
 export class ModalConsultaElementosComponent implements OnInit {
   

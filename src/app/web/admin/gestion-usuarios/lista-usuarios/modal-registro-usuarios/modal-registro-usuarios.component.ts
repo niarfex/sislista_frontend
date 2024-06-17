@@ -5,7 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'modal-registro-usuarios',
   templateUrl: './modal-registro-usuarios.component.html',
-  styleUrls: ['./modal-registro-usuarios.component.css'],
+  styleUrls: ['./modal-registro-usuarios.component.scss'],
   providers: [BsModalService],
 })
 export class ModalRegistroUsuariosComponent implements OnInit {

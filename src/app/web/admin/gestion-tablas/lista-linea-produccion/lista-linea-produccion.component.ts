@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'lista-linea-produccion',
   templateUrl: './lista-linea-produccion.component.html',
-  styleUrls: ['./lista-linea-produccion.component.css'],
+  styleUrls: ['./lista-linea-produccion.component.scss'],
   providers: [BsModalService]
 })
 export class ListaLineaProduccionComponent implements OnInit {

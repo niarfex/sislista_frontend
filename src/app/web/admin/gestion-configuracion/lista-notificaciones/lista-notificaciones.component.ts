@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'lista-notificaciones',
   templateUrl: './lista-notificaciones.component.html',
-  styleUrls: ['./lista-notificaciones.component.css'],
+  styleUrls: ['./lista-notificaciones.component.scss'],
   providers: [BsModalService]
 })
 export class ListaNotificacionesComponent implements OnInit {

@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'modal-registro-notificaciones',
   templateUrl: './modal-registro-notificaciones.component.html',
-  styleUrls: ['./modal-registro-notificaciones.component.css']
+  styleUrls: ['./modal-registro-notificaciones.component.scss']
 })
 export class ModalRegistroNotificacionesComponent implements OnInit {
 
