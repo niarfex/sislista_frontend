@@ -40,9 +40,8 @@
                             <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button"><i class="bi bi-search"></i></button>
                         </div>                        
                         <div *ngIf="NumeroDocumento.invalid && (NumeroDocumento.dirty || NumeroDocumento.touched)" class="text-danger">
-                            <div *ngIf="NumeroDocumento.errors?.['required']">
-                                El campo es obligatorio
-                            </div>
+                            <div *ngIf="NumeroDocumento.errors?.['required']">El campo es obligatorio</div>
+                            <div *ngIf="NumeroDocumento.errors?.['minLenght']">el campo debe tener 11 caracteres como mínimo</div>
                         </div>
                     </div>   
                 </div>
@@ -129,12 +128,8 @@
                         <label for="CorreoElectronico">Correo electrónico</label>
                         <input formControlName="CorreoElectronico" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
                         <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)" class="text-danger">
-                            <div *ngIf="CorreoElectronico.errors?.['required']">
-                                El campo es obligatorio
-                            </div>
-                            <div *ngIf="CorreoElectronico.errors?.['email']">
-                                El campo no cumple con el formato requerido
-                            </div>
+                            <div *ngIf="CorreoElectronico.errors?.['required']">El campo es obligatorio</div>
+                            <div *ngIf="CorreoElectronico.errors?.['email']">El campo no cumple con el formato requerido</div>
                         </div>
                     </div> 
                 </div>

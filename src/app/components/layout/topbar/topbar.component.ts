@@ -8,11 +8,14 @@ import { Observable, map } from 'rxjs';
 import { changesLayout } from 'src/app/store/layouts/layout.actions';
 import { getLayoutMode } from 'src/app/store/layouts/layout.selector';
 import { RootReducerState } from 'src/app/store';
+import { ConfirmationService } from 'primeng/api';
+import { LoginService } from 'src/auth/services/login.service';
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.scss']
+  styleUrls: ['./topbar.component.scss'],
+  providers: [ConfirmationService]
 })
 
 /**
@@ -30,8 +33,12 @@ export class TopbarComponent implements OnInit {
   dataLayout$: Observable<string>;
   // Define layoutMode as a property
 
-  constructor(@Inject(DOCUMENT) private document: any, private router: Router,
-    public _cookiesService: CookieService, public store: Store<RootReducerState>) {
+  constructor(@Inject(DOCUMENT) private document: any
+  , private router: Router
+  , public _cookiesService: CookieService
+  , public store: Store<RootReducerState>
+  ,private loginService: LoginService
+  , private confirmationService: ConfirmationService) {
 
   }
 
@@ -91,7 +98,25 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-    
+    this.confirmationService.confirm({
+      message: '¿Estás seguro que deseas cerrar sesión?',
+      header: 'Cerrar Sesión',
+      icon: 'none',      
+      acceptButtonStyleClass: "botonAceptar",
+      rejectButtonStyleClass: "botonCancelar",
+      acceptLabel: "Si, estoy seguro",
+      rejectLabel: "Cancelar",
+      acceptIcon: "none",
+      rejectIcon: "none",
+      accept: () => {   
+        this.loginService.logout();    
+            
+      },
+      reject: () => {
+       
+        
+      }
+    });
   }
 
   /**

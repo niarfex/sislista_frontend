@@ -1,7 +1,7 @@
 import { XmlHttpRequestHelper } from './helpers/XmlHttpRequestHelper';
 import { environment } from '../environments/environment';
-import { Inject, Injectable,Injector } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable,Injector } from '@angular/core';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -10,7 +10,7 @@ export class AppConsts {
     static urlBaseApp: String; 
     static siteKeyCaptcha: String;
 
-    constructor(@Inject(DOCUMENT) private document: Document) {
+    constructor() {
         
     }
 
@@ -25,10 +25,9 @@ export class AppConsts {
     
     public  getApplicationConfig(appRootUrl: string, injector: Injector, callback: () => void) {
         let type = 'GET';
-        let url = appRootUrl + '/assets/' + environment.appConfig;      
+        let url = appRootUrl + 'assets/' + environment.appConfig;      
         //console.log(url);
-        XmlHttpRequestHelper.ajax(type, url, null, null, (result) => {     
-            
+        XmlHttpRequestHelper.ajax(type, url, null, null, (result) => {              
             AppConsts.urlHost = result.urlHost;          
             AppConsts.urlBaseApp = result.urlBaseApp;            
             AppConsts.siteKeyCaptcha = result.siteKeyCaptcha;      
@@ -43,15 +42,15 @@ export class AppConsts {
 // Para recuperar la ruta raiz de la aplicación
 
 function getDocumentOrigin() {
-    if (!document.location.origin) {
+    if (!document.location.origin) {       
         return (
             document.location.protocol +
             '//' +
             document.location.hostname +
             (document.location.port ? ':' + document.location.port : '') +
-             '//' + document.location.href 
+            document.location.pathname
         );
-    }
 
-    return document.location.origin;
+    }    
+    return document.location.origin + document.location.pathname ;
 }

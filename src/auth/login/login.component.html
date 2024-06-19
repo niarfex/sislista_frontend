@@ -1,5 +1,5 @@
 <div class="row" style="height: 100%; width: 100%;">
-    <div class="col-sm-6" style="background-image: url('../../assets/images/campo_1.jpeg'); background-size: 100%;
+    <div class="col-sm-6" style="background-image: url('./assets/images/campo_1.jpeg'); background-size: 100%;
         background-size: cover; position: relative;">
 
         <div class="text-end" style="color: white; font-weight: bold;
@@ -11,7 +11,8 @@
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
                 <div class="text-center" style="margin-top: 40px;">
-                    <form [formGroup]="loginForm">
+                    <form [formGroup]="loginForm" (ngSubmit) = "onClickSubmit(loginForm.value)">
+                
                         <div class="row">
                             <div class="col-sm-12 text-center">
                                 <img [src]="appBaseUrl + '/assets/images/logo_midagri.png'"
@@ -58,9 +59,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <div class="g-recaptcha" style="margin:auto; max-width:325px;">
+                                <re-captcha (resolved)="checkCaptcha($event)" siteKey="{{keyCaptcha}}" ></re-captcha>
+                            </div>                           
+                            
+                        </div>
                         <div class="mb-3">
-                            <button type="submit" (click)="login()" class="btn btn-primary"
-                                style="background-color: #E22850; border-color: #E22850;">Iniciar Sesión</button>
+                            <button type="submit" [disabled]="!captchaResolved" class="btn btn-primary"
+                                style="background-color: #008F49; border-color: #008F49;">Iniciar Sesión</button>
                         </div>
                         <div class="mb-3">
                             <span><a [routerLink]="'#'">¿Olvidaste la contraseña?</a></span>

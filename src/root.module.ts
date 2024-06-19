@@ -5,8 +5,8 @@ import { } from '@angular/common/http';
 import { APP_INITIALIZER, DEFAULT_CURRENCY_CODE, Injector, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppPreBootstrap } from './AppPreBootstrap';
 import { AppModule } from './app/app.module';
-import { AccountModule } from './auth/auth.module';
 import { RootRoutingModule } from './root-routing.module';
 import { RootComponent } from './root.component';
 import { AppConsts } from './shared/AppConsts';
@@ -53,7 +53,6 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
         BrowserModule,
         BrowserAnimationsModule,
         AppModule,
-        AccountModule,
         RootRoutingModule,
         ServiceProxyModule,
         ServerModule,

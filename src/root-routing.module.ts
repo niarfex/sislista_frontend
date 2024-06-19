@@ -3,29 +3,18 @@ import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/services';
 
 const routes: Routes = [
-
-    /*{
+    { path: '', redirectTo: 'app/web/inicio', pathMatch: 'full' },
+    {
         path: 'auth',
         loadChildren: () => import('./auth/auth.module').then((m) => m.AccountModule), //Lazy load account module
-        data: { preload: true }, canActivate: [AuthGuard]
-    },*/
-    {
+        data: { preload: true },
+      },
+      {
         path: 'app',
         loadChildren: () => import('./app/app.module').then((m) => m.AppModule), //Lazy load account module
         data: { preload: true }, canActivate: [AuthGuard]
-    },  
-    { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
-    { path: '**', redirectTo: 'auth/login', pathMatch: 'full' } 
-    /*{
-        path: '',
-        loadChildren: () => import('./auth/auth.module').then((m) => m.AccountModule), //Lazy load account module
-        data: { preload: true },
-    },
-    {
-        path: '**',
-        loadChildren: () => import('./auth/auth.module').then((m) => m.AccountModule), //Lazy load account module
-        data: { preload: true },
-    }*/
+      },
+    { path: '**', redirectTo: 'app/web/inicio' },
 ];
 
 @NgModule({

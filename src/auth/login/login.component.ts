@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators} from '@angular/forms';
+import { NgForm,FormBuilder, Validators} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
+import { AppConsts } from 'src/shared/AppConsts';
 //import { LoginRequest } from 'src/app/services/auth/loginRequest';
 
 @Component({
@@ -12,15 +13,19 @@ import { ConfirmationService } from 'primeng/api';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  appBaseUrl: string= "..";//AppConsts.appBaseUrl;
+  captchaResolved : boolean = false;
+  appBaseUrl: String=AppConsts.urlBaseApp;
+  keyCaptcha: String=AppConsts.siteKeyCaptcha;
   loginError:string="";
   loginForm=this.formBuilder.group({
     username:['',[Validators.required]],
     password: ['',Validators.required],
   })
-  constructor(private formBuilder:FormBuilder,private route: ActivatedRoute, private router:Router
-    , private loginService: LoginService,private toastr: ToastrService) { }
+  constructor(private formBuilder:FormBuilder
+    ,private route: ActivatedRoute
+    , private router:Router
+    , private loginService: LoginService
+    ,private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const currentUser = this.loginService.getCurrentUserValue;
@@ -49,7 +54,7 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls['password'];
   }
 
-  login(){
+  onClickSubmit(data){
     if(this.loginForm.valid){
       this.loginError="";
 
@@ -62,11 +67,11 @@ export class LoginComponent implements OnInit {
         next: (userData) => {          
         },
         error: (errorData) => {         
-          console.log(errorData);
+          //console.log(errorData);
           //this.loginError=errorData.error.status.error.messages[0];     
         },
         complete: () => {  
-          console.log("ruteo_login");
+          //console.log("ruteo_login");
           this.router.navigate(['app','web','inicio'], { });
           //this.router.navigateByUrl('/inicio');
           this.loginForm.reset();
@@ -76,8 +81,10 @@ export class LoginComponent implements OnInit {
     }
     else{
       this.loginForm.markAllAsTouched();
-      alert("Error al ingresar los datos.");
+      this.toastr.error('Usuario y/o contraseña incorrecto.', 'Error');      
     }
   }
-
+  checkCaptcha(captchaResponse : string) {
+    this.captchaResolved = (captchaResponse && captchaResponse.length > 0) ? true : false
+}
 }

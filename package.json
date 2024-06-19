@@ -38,6 +38,7 @@
     "moment-timezone": "^0.5.45",
     "ng-bootstrap-icons": "^13.1.2-canary.1",
     "ng-leaflet-universal": "^15.2.8",
+    "ng-recaptcha": "^13.2.1",
     "ngx-bootstrap": "^12.0.0",
     "ngx-cookie-service": "^17.1.0",
     "ngx-dropzone-wrapper": "^16.0.0",

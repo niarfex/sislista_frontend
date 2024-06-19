@@ -8,11 +8,12 @@ import { LoginComponent } from '../auth/login/login.component';
     imports: [
         RouterModule.forChild([
             {
-                path: 'auth',
+                path: '',
                 component: AuthComponent,
                 children: [
                     { path: '', redirectTo: 'login', pathMatch: 'full' },
-                    { path: 'login',component:LoginComponent,pathMatch: 'full',
+                    {
+                         path: 'login',component:LoginComponent,pathMatch: 'full',
                     },
                     { path: '**', redirectTo: 'login' },
                 ],

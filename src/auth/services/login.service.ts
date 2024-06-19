@@ -17,7 +17,11 @@ export class LoginService {
     private valToken: string = null;
 
 
-    constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router) {
+    constructor(private http: HttpClient
+        , private jwtHelper: JwtHelperService
+        , private router: Router
+        ,private toastr: ToastrService
+    ) {
 
         //console.log("session");
         //console.log(sessionStorage.getItem('currentUser'));
@@ -54,8 +58,9 @@ export class LoginService {
             .pipe(
                 timeout(20000),
                 map((response: any) => {
-                    
-                    const usuario = response.body.usuario.username;
+                    //console.log(response);
+                    if(response.body.success==true){
+                        const usuario = response.body.usuario.username;
                     sessionStorage.setItem('currentUser', usuario);//almacenamos temporalmente el string, luego esto debe volver desde el back
                     this.currentUserSubject.next({
                         numeroDocumento: Number(usuario),
@@ -71,6 +76,12 @@ export class LoginService {
                     
                     this.valToken = response.body.usuario.accessToken;
                     return response;
+                    }
+                    else{
+                        this.toastr.error('Usuario y/o contraseña incorrecto.', 'Error');
+                        return throwError(() => new Error('Usuario y/o contraseña incorrecto.'));
+                    }                    
+                    
                 }),
                 catchError((e) => {
                     if (e.code === 'PTMP') {
@@ -91,7 +102,7 @@ export class LoginService {
         
     }
     private handleError(error: HttpErrorResponse) {
-        console.log(error);
+        //console.log(error);
         /*if (error.status === 0) {
             console.error('Se ha producio un error ', error.error);
         }

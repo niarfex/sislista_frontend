@@ -3,7 +3,7 @@
         <div class="modal-header"
             style="background-color: green; color: white; text-align: center; align-items: center;">
             <span style="font-size: large; font-weight: bold;">
-                Registro de Organización
+                Registro de Tipo de Explotación
             </span>
             <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
         </div>
@@ -11,10 +11,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Código</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="CodigoTipoExplotacion">Código</label>
+                        <input formControlName="CodigoCondicionJuridica" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'CodigoTipoExplotacion')" required>
+                        <div *ngIf="CodigoTipoExplotacion.invalid && (CodigoTipoExplotacion.dirty || CodigoTipoExplotacion.touched)" class="text-danger">
+                            <div *ngIf="CodigoTipoExplotacion.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -22,10 +22,10 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Nombre</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="TipoExplotacion">Nombre</label>
+                        <input formControlName="TipoExplotacion" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'TipoExplotacion')" required>
+                        <div *ngIf="TipoExplotacion.invalid && (TipoExplotacion.dirty || TipoExplotacion.touched)" class="text-danger">
+                            <div *ngIf="TipoExplotacion.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -35,10 +35,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Descripción</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="DescripcionTipoExplotacion">Descripción</label>
+                        <input formControlName="DescripcionTipoExplotacion" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'DescripcionTipoExplotacion')" required>
+                        <div *ngIf="DescripcionTipoExplotacion.invalid && (DescripcionTipoExplotacion.dirty || DescripcionTipoExplotacion.touched)" class="text-danger">
+                            <div *ngIf="DescripcionTipoExplotacion.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -49,8 +49,9 @@
             </div>
         </div>
         <div class="modal-footer text-end" style="display: block;">
+            <p-confirmDialog></p-confirmDialog>
             <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
-                style="background-color: green; border-color: green;">Registrar</button>
+                style="background-color: #008F49; border-color: #008F49;">Registrar</button>
         </div>
     </form>
 </div>

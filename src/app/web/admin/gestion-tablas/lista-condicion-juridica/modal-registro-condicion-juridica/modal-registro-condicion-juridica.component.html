@@ -11,10 +11,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Código</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="CodigoCondicionJuridica">Código</label>
+                        <input formControlName="CodigoCondicionJuridica" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'CodigoCondicionJuridica')" required>
+                        <div *ngIf="CodigoCondicionJuridica.invalid && (CodigoCondicionJuridica.dirty || CodigoCondicionJuridica.touched)" class="text-danger">
+                            <div *ngIf="CodigoCondicionJuridica.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -22,10 +22,10 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Nombre</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="CondicionJuridica">Nombre</label>
+                        <input formControlName="CondicionJuridica" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'CondicionJuridica')" required>
+                        <div *ngIf="CondicionJuridica.invalid && (CondicionJuridica.dirty || CondicionJuridica.touched)" class="text-danger">
+                            <div *ngIf="CondicionJuridica.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -35,10 +35,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Descripción</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="DescripcionCondicionJuridica">Descripción</label>
+                        <input formControlName="DescripcionCondicionJuridica" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'DescripcionCondicionJuridica')" required>
+                        <div *ngIf="DescripcionCondicionJuridica.invalid && (DescripcionCondicionJuridica.dirty || DescripcionCondicionJuridica.touched)" class="text-danger">
+                            <div *ngIf="DescripcionCondicionJuridica.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -49,8 +49,9 @@
             </div>
         </div>
         <div class="modal-footer text-end" style="display: block;">
+            <p-confirmDialog></p-confirmDialog>
             <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
-                style="background-color: green; border-color: green;">Registrar</button>
+                style="background-color: #008F49; border-color: #008F49;">Registrar</button>
         </div>
     </form>
 </div>

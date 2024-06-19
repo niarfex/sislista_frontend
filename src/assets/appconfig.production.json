@@ -1,6 +1,6 @@
 {    
-  "urlHost":"https://localhost/wsSislista/", 
-  "urlBaseApp": "http://localhost/appSislista",     
-  "siteKeyCaptcha": "6LcsWZQpAAAAAIq7MWuFCLTnbtywO4lBVRCzc1eK"
+  "urlHost":"https://winjmdvapp02.midagri.gob.pe/wsSislista/", 
+  "urlBaseApp": "https://winjmdvapp01.midagri.gob.pe/appSislista",     
+  "siteKeyCaptcha": "6Ldp8_spAAAAAP3ztV39YBUbWJ7MposM1RFLhVi2"
   }
   

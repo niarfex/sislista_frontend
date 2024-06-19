@@ -22,7 +22,7 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
   modalForm=this.formBuilder.group({
     IdTipoOrganizacion:['',[Validators.required]],
     IdDepartamento:['',[Validators.required]],
-    NumeroDocumento:['',[Validators.required]],
+    NumeroDocumento:['',[Validators.required,Validators.minLength(11)]],
     Organizacion:['',[Validators.required]],
     DireccionFiscal:['',[Validators.required]],
     Telefono:['',[Validators.required]],
@@ -37,7 +37,15 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
     ,private toastr: ToastrService) { 
     this.organizacionServiceProxy = _injector.get(OrganizacionServiceProxy); 
   }
-
+  get IdTipoOrganizacion(){return this.modalForm.controls['IdTipoOrganizacion'];}
+  get IdDepartamento(){return this.modalForm.controls['IdDepartamento'];}
+  get NumeroDocumento(){return this.modalForm.controls['NumeroDocumento'];}
+  get Organizacion(){return this.modalForm.controls['Organizacion'];}
+  get DireccionFiscal(){return this.modalForm.controls['DireccionFiscal'];}
+  get Telefono(){return this.modalForm.controls['Telefono'];}
+  get PaginaWeb(){return this.modalForm.controls['PaginaWeb'];}
+  get CorreoElectronico(){return this.modalForm.controls['CorreoElectronico'];}
+  
   ngOnInit(): void {
     this.spinner.show();
     this.organizacionServiceProxy.getOrganizacionxId(this.idRegistro)
@@ -63,14 +71,7 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
           }
         });
   }
-  get IdTipoOrganizacion(){return this.modalForm.controls['IdTipoOrganizacion'];}
-  get IdDepartamento(){return this.modalForm.controls['IdDepartamento'];}
-  get NumeroDocumento(){return this.modalForm.controls['NumeroDocumento'];}
-  get Organizacion(){return this.modalForm.controls['Organizacion'];}
-  get DireccionFiscal(){return this.modalForm.controls['DireccionFiscal'];}
-  get Telefono(){return this.modalForm.controls['Telefono'];}
-  get PaginaWeb(){return this.modalForm.controls['PaginaWeb'];}
-  get CorreoElectronico(){return this.modalForm.controls['CorreoElectronico'];}
+ 
 
   onFocusOutEvent(event: any,nombreControl:string){
     this.modalForm.controls[nombreControl].setValue(event.target.value.trim()); 

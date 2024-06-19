@@ -20,8 +20,10 @@
         <div class="col-sm-2 text-end">
             Filtro<select>
                 <option value="0">Todos</option>
-                <option value="1">Perfil</option>
-                <option value="2">Estado</option>          
+                <option value="1">Tipo de organización</option>
+                <option value="2">RUC</option>     
+                <option value="3">Nombre</option>    
+                <option value="4">Departamento</option>          
             </select>
         </div>
     </div>
@@ -32,34 +34,37 @@
                 <tr>
                     <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Tipo de organización</th>
                     <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>RUC</th>
-                    <th style="width: 35%; flex: none; padding: 5px;" pResizableColumn>Nombre</th>  
+                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Nombre</th>  
                     <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Departamento</th> 
                     <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Usuarios vinculados</th>          
                     <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Estado</th>
-                    <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
+                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item>
                 <tr>
                     <td style="width: 15%; flex: none; padding: 5px;">{{ item.TipoOrganizacion }}</td>
                     <td style="width: 10%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
-                    <td style="width: 35%; flex: none; padding: 5px;">{{ item.Organizacion }}</td> 
+                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.Organizacion }}</td> 
                     <td style="width: 10%; flex: none; padding: 5px;">{{ item.Departamento }}</td> 
                     <td style="width: 10%; flex: none; padding: 5px;">{{ item.Usuarios }}</td> 
                     <td  style="width: 10%; flex: none; padding: 5px;">
                         <button *ngIf="item.Estado==1" type="button" class="btn btn-primary" style="background-color: darkblue; border-color: darkblue;" (click)="desactivarRegistro(item.Id)">Activo</button>
                         <button *ngIf="item.Estado==0" type="button" class="btn btn-primary" style="background-color: red; border-color: red;" (click)="activarRegistro(item.Id)">Inactivo</button>
                     </td>
-                    <td style="width: 10%; flex: none; padding: 5px;">
+                    <td style="width: 15%; flex: none; padding: 5px;">
                         <div class="input-group">
-                            <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="agregarRegistro(viewUserTemplate,item.Id)"><i class="bi bi-pencil-square"></i></button>
+                            <button *ngIf="item.Estado==1" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="agregarRegistro(viewUserTemplate,item.Id)"><i class="bi bi-pencil-square"></i></button>
                             <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49; margin-left: 10px;" type="button" (click)="eliminarRegistro(item.Id)"><i class="bi bi-trash3"></i></button>
+                            <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49; margin-left: 10px;" type="button" (click)="verRegistro(item.Id)"><i class="bi bi-eye"></i></button>
                         </div>
                     </td>
                 </tr>
+                
             </ng-template>
         </p-table> 
     </div>
+    <p-confirmDialog></p-confirmDialog>
     <ng-template #viewUserTemplate >
         <modal-registro-organizaciones [exitModal]="exitModal" [idRegistro]="idRegistro"></modal-registro-organizaciones> 
     </ng-template>

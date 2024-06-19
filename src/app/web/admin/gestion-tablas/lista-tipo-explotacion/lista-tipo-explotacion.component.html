@@ -14,7 +14,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-sm-10">
-            <button class="btn btn-primary" style="min-width: 100px;" type="button" (click)="agregarRegistro(viewUserTemplate)">Nuevo</button>
+            <button class="btn btn-primary" style="min-width: 100px;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nuevo</button>
             <button class="btn btn-primary" style="min-width: 100px;" type="button">Exportar</button>
         </div>        
         <div class="col-sm-2 text-end">
@@ -30,29 +30,34 @@
         <p-table [value]="lista_resultados" [paginator]="true" [rows]="8">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>ID recurso</th>
-                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Descripción recurso</th>
-                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Enlace recurso</th>  
-                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Tipo recurso</th> 
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Publicar</th>          
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Editar</th>
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Eliminar</th>
+                    <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Código</th>
+                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Tipo de explotación</th>
+                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Descripción</th>  
+                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Estado</th> 
+                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item>
                 <tr>
-                    <td style="width: 10%; flex: none; padding: 5px;">{{ item.idrecursoapoyo }}</td>
-                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.titulorecursoapoyo }}</td>
-                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.enlacerecursoapoyo }}</td> 
-                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.nombretiporecursoapoyo }}</td> 
-                    <td style="width: 5%; flex: none; padding: 5px;">{{ item.publicar=='1'?'Si':'No' }}</td> 
-                    <td style="width: 5%; flex: none; padding: 5px;"><button class="btn btn-primary" type="button"><i class="bi bi-pencil-square"></i></button></td>
-                    <td style="width: 5%; flex: none; padding: 5px;"><button class="btn btn-primary" type="button"><i class="bi bi-trash3"></i></button></td>
+                    <td style="width: 10%; flex: none; padding: 5px;">{{ item.CodigoTipoExplotacion }}</td>
+                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.TipoExplotacion }}</td>
+                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.DescripcionTipoExplotacion }}</td> 
+                    <td  style="width: 15%; flex: none; padding: 5px;">
+                        <button *ngIf="item.Estado==1" type="button" class="btn btn-primary" style="background-color: darkblue; border-color: darkblue;" (click)="desactivarRegistro(item.Id)">Activo</button>
+                        <button *ngIf="item.Estado==0" type="button" class="btn btn-primary" style="background-color: red; border-color: red;" (click)="activarRegistro(item.Id)">Inactivo</button>
+                    </td>
+                    <td style="width: 15%; flex: none; padding: 5px;">
+                        <div class="input-group">
+                            <button *ngIf="item.Estado==1" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="agregarRegistro(viewUserTemplate,item.Id)"><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49; margin-left: 10px;" type="button" (click)="eliminarRegistro(item.Id)"><i class="bi bi-trash3"></i></button>
+                        </div>
+                    </td>
                 </tr>
             </ng-template>
         </p-table> 
     </div>
+    <p-confirmDialog></p-confirmDialog>
     <ng-template #viewUserTemplate >
-        <modal-registro-tipo-explotacion [exitModal]="exitModal"></modal-registro-tipo-explotacion> 
+        <modal-registro-tipo-explotacion [exitModal]="exitModal" [idRegistro]="idRegistro"></modal-registro-tipo-explotacion> 
     </ng-template>
 </div>
