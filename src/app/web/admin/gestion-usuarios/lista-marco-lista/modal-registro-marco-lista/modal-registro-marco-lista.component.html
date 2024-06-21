@@ -295,7 +295,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="Celular">Celular</label>
-                        <input formControlName="Celular" type="text"
+                        <input formControlName="Celular" maxlength="10" type="text"
                             onkeypress="return '0123456789'.includes(event.key)" class="form-control"
                             (focusout)="onFocusOutEvent($event,'Celular')" required>
                         <div *ngIf="Celular.invalid && (Celular.dirty || Celular.touched)" class="text-danger">

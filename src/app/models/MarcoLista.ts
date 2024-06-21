@@ -135,10 +135,28 @@ export class ResponseMarcoListaGetDto implements IResponseMarcoListaGetDto {
 
 export interface IMarcoListaGetDto {
     Id: number;
-    IdPersona: number;
     IdTipoExplotacion: number;
     Direccion: String;
     IdDepartamento: String;
+    IdTipoDocumento: number;
+    IdCondicionJuridica: number;
+    IdCondicionJuridicaOtros: number;
+    IdUbigeo: String;
+    CodigoUUIDPersona: String;
+    NumeroDocumento: String;
+    Nombre: String;
+    ApellidoPaterno: String;
+    ApellidoMaterno: String;
+    RazonSocial: String;
+    Celular: String;
+    Telefono: String;
+    CorreoElectronico: String;
+    PaginaWeb: String;
+    DireccionFiscalDomicilio: String;
+    NombreRepLegal: String;
+    CorreoRepLegal: String;
+    CelularRepLegal: String;
+    TieneRuc: String;
     ListCondicionJuridica: SelectTipoDto[];
     ListCondicionJuridicaOtros: SelectTipoDto[];
     ListTipoDocumento: SelectTipoDto[];
@@ -149,10 +167,28 @@ export interface IMarcoListaGetDto {
 }
 export class MarcoListaGetDto implements IMarcoListaGetDto {
     Id: number;
-    IdPersona: number;
     IdTipoExplotacion: number;
     Direccion: String;
     IdDepartamento: String;
+    IdTipoDocumento: number;
+    IdCondicionJuridica: number;
+    IdCondicionJuridicaOtros: number;
+    IdUbigeo: String;
+    CodigoUUIDPersona: String;
+    NumeroDocumento: String;
+    Nombre: String;
+    ApellidoPaterno: String;
+    ApellidoMaterno: String;
+    RazonSocial: String;
+    Celular: String;
+    Telefono: String;
+    CorreoElectronico: String;
+    PaginaWeb: String;
+    DireccionFiscalDomicilio: String;
+    NombreRepLegal: String;
+    CorreoRepLegal: String;
+    CelularRepLegal: String;
+    TieneRuc: String;
     ListCondicionJuridica: SelectTipoDto[];
     ListCondicionJuridicaOtros: SelectTipoDto[];
     ListTipoDocumento: SelectTipoDto[];
@@ -171,11 +207,28 @@ export class MarcoListaGetDto implements IMarcoListaGetDto {
     init(_data?: any) {
         if (_data) {
             this.Id = _data["Id"];
-            this.IdPersona = _data["IdPersona"];
             this.IdTipoExplotacion = _data["IdTipoExplotacion"];
             this.Direccion = _data["Direccion"];
-            this.IdDepartamento = _data["IdDepartamento"];
-           
+            this.IdDepartamento = _data["IdDepartamento"];   
+            this.IdTipoDocumento = _data["IdTipoDocumento"];
+            this.IdCondicionJuridica = _data["IdCondicionJuridica"];
+            this.IdCondicionJuridicaOtros = _data["IdCondicionJuridicaOtros"];
+            this.IdUbigeo = _data["IdUbigeo"];
+            this.CodigoUUIDPersona = _data["CodigoUUIDPersona"];
+            this.NumeroDocumento = _data["NumeroDocumento"];
+            this.Nombre = _data["Nombre"];
+            this.ApellidoPaterno = _data["ApellidoPaterno"];
+            this.ApellidoMaterno = _data["ApellidoMaterno"];
+            this.RazonSocial = _data["RazonSocial"];
+            this.Celular = _data["Celular"];
+            this.Telefono = _data["Telefono"];
+            this.CorreoElectronico = _data["CorreoElectronico"];
+            this.PaginaWeb = _data["PaginaWeb"];
+            this.DireccionFiscalDomicilio = _data["DireccionFiscalDomicilio"];
+            this.NombreRepLegal = _data["NombreRepLegal"];
+            this.CorreoRepLegal = _data["CorreoRepLegal"];
+            this.CelularRepLegal = _data["CelularRepLegal"];
+            this.TieneRuc = _data["TieneRuc"];
             if (Array.isArray(_data["ListCondicionJuridica"]) && _data["ListCondicionJuridica"].length > 0) {
                 this.ListCondicionJuridica = [] as any;
                 for (let item of _data["ListCondicionJuridica"])
@@ -222,10 +275,28 @@ export class MarcoListaGetDto implements IMarcoListaGetDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.Id;
-        data["IdPersona"] = this.IdPersona;
         data["IdTipoExplotacion"] = this.IdTipoExplotacion;
         data["Direccion"] = this.Direccion;
         data["IdDepartamento"] = this.IdDepartamento;
+        data["IdTipoDocumento"] = this.IdTipoDocumento;
+        data["IdCondicionJuridica"] = this.IdCondicionJuridica;
+        data["IdCondicionJuridicaOtros"] = this.IdCondicionJuridicaOtros;
+        data["IdUbigeo"] = this.IdUbigeo;
+        data["CodigoUUIDPersona"] = this.CodigoUUIDPersona;
+        data["NumeroDocumento"] = this.NumeroDocumento;
+        data["Nombre"] = this.Nombre;
+        data["ApellidoPaterno"] = this.ApellidoPaterno;
+        data["ApellidoMaterno"] = this.ApellidoMaterno;
+        data["RazonSocial"] = this.RazonSocial;
+        data["Celular"] = this.Celular;
+        data["Telefono"] = this.Telefono;
+        data["CorreoElectronico"] = this.CorreoElectronico;
+        data["PaginaWeb"] = this.PaginaWeb;
+        data["DireccionFiscalDomicilio"] = this.DireccionFiscalDomicilio;
+        data["NombreRepLegal"] = this.NombreRepLegal;
+        data["CorreoRepLegal"] = this.CorreoRepLegal;
+        data["CelularRepLegal"] = this.CelularRepLegal;
+        data["TieneRuc"] = this.TieneRuc;
         return data;
     }
 }

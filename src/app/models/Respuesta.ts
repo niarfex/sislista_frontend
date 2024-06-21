@@ -1,13 +1,13 @@
 export interface IRespuesta {
     success: boolean;
     message:String;  
-    datos:number;
+    datos:object;
 }
 
 export class Respuesta implements IRespuesta {
     success: boolean;
     message:String;
-    datos:number;
+    datos:object;
 
     constructor(data?: IRespuesta) {
         if (data) {

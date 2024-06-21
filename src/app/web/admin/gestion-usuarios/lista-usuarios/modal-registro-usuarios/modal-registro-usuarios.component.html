@@ -16,19 +16,17 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Tipo de documento</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
+                        <label for="IdTipoDocumento">Tipo de documento</label>
+                        <select formControlName="IdTipoDocumento" id="IdTipoDocumento" name="IdTipoDocumento"
                             class="form-select">
-                            <option value="-1">
-                                -- Seleccione --
-                            </option>
-                            <!--<option *ngFor="let tipoDocumento of service.data.tipoDocumentos"
-                                [value]="tipoDocumento.ide_parametrodet">
-                                {{ tipoDocumento.txt_nombre }}
-                            </option>-->
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListTipoDocumento"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>   
                         </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="IdTipoDocumento.invalid && (IdTipoDocumento.dirty || IdTipoDocumento.touched)" class="text-danger">
+                            <div *ngIf="IdTipoDocumento.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
@@ -36,37 +34,10 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">RUC</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="campo">Nombres</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="campo">Apellido paterno</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="NumeroDocumento">Número de documento</label>
+                        <input formControlName="NumeroDocumento" onkeypress="return '0123456789'.includes(event.key)" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'NumeroDocumento')" required>
+                        <div *ngIf="NumeroDocumento.invalid && (NumeroDocumento.dirty || NumeroDocumento.touched)" class="text-danger">
+                            <div *ngIf="NumeroDocumento.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
@@ -76,11 +47,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Apellido materno</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="Nombre">Nombres</label>
+                        <input formControlName="Nombre" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Nombre')" required>
+                        <div *ngIf="Nombre.invalid && (Nombre.dirty || Nombre.touched)" class="text-danger">
+                            <div *ngIf="Nombre.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
@@ -88,84 +58,112 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Perfil</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">                                          
+                        <label for="ApellidoPaterno">Apellido paterno</label>
+                        <input formControlName="ApellidoPaterno" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'ApellidoPaterno')" required>
+                        <div *ngIf="ApellidoPaterno.invalid && (ApellidoPaterno.dirty || ApellidoPaterno.touched)" class="text-danger">
+                            <div *ngIf="ApellidoPaterno.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="ApellidoMaterno">Apellido materno</label>
+                        <input formControlName="ApellidoMaterno" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'ApellidoMaterno')" required>
+                        <div *ngIf="ApellidoMaterno.invalid && (ApellidoMaterno.dirty || ApellidoMaterno.touched)" class="text-danger">
+                            <div *ngIf="ApellidoMaterno.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IdPerfil">Perfil</label>
+                        <select formControlName="IdPerfil" id="IdPerfil" name="IdPerfil" (change)="selPerfil($event)"
+                            class="form-select"> 
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListPerfil"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>                                            
                         </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="IdPerfil.invalid && (IdPerfil.dirty || IdPerfil.touched)" class="text-danger">
+                            <div *ngIf="IdPerfil.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div *ngIf="contacto || contactoMarco" class="row">
                 <div class="col-sm-12" style="color:green">
                     <h3>Contacto</h3>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div *ngIf="contacto" class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Organización</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">                                          
+                        <label for="IdOrganizacion">Organización</label>
+                        <select formControlName="IdOrganizacion" id="IdOrganizacion" name="IdOrganizacion"
+                            class="form-select"> 
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListOrganizacion"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>                                            
                         </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="IdOrganizacion.invalid && (IdOrganizacion.dirty || IdOrganizacion.touched)" class="text-danger">
+                            <div *ngIf="IdOrganizacion.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div *ngIf="contacto" class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Oficina o área</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="campo">Cargo</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="campo">Celular</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="OficinaArea">Oficina o área</label>
+                        <input formControlName="OficinaArea" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'OficinaArea')" required>
+                        <div *ngIf="OficinaArea.invalid && (OficinaArea.dirty || OficinaArea.touched)" class="text-danger">
+                            <div *ngIf="OficinaArea.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6">
+            <div  class="row">
+                <div *ngIf="contacto" class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Correo electrónico</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="Cargo">Cargo</label>
+                        <input formControlName="Cargo" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Cargo')" required>
+                        <div *ngIf="Cargo.invalid && (Cargo.dirty || Cargo.touched)" class="text-danger">
+                            <div *ngIf="Cargo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="contacto || contactoMarco" class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Celular">Celular</label>
+                        <input formControlName="Celular" onkeypress="return '0123456789'.includes(event.key)" maxlength="10" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Celular')" required>
+                        <div *ngIf="Celular.invalid && (Celular.dirty || Celular.touched)" class="text-danger">
+                            <div *ngIf="Celular.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="contacto || contactoMarco" class="col-sm-6">
+                    <div class="form-group">
+                        <label for="CorreoElectronico">Correo electrónico</label>
+                        <input formControlName="CorreoElectronico" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
+                        <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)" class="text-danger">
+                            <div *ngIf="CorreoElectronico.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
@@ -174,30 +172,30 @@
                 <div class="col-sm-6">                    
                 </div>
             </div>
-            <div class="row">
+            <div *ngIf="contactoMarco" class="row">
                 <div class="col-sm-12" style="color:green">
                     <h3>Marco de Lista asignado</h3>
                 </div>
             </div>
-            <div class="row">
+            <div *ngIf="contactoMarco" class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Seleccione departamento</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">                                          
-                        </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
+                        <label for="IdDepartamento">Seleccione departamento</label>
+                        <select formControlName="IdDepartamento" id="IdDepartamento" name="IdDepartamento"
+                            class="form-select">   
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListDepartamento"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>                                         
+                        </select>                       
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <button type="button" class="btn btn-primary" (click)="consultarElementos(viewUserTemplate)">Consultar</button>
                 </div>
             </div>
-            <div class="row">
+            <div *ngIf="contactoMarco" class="row">
                 <lista-marco-lista-asignado></lista-marco-lista-asignado>
             </div>
         </div>
@@ -206,6 +204,7 @@
                 style="background-color: green; border-color: green;">Registrar</button>
         </div>
     </form>
+    <p-confirmDialog></p-confirmDialog>
     <ng-template #viewUserTemplate >
         <modal-consulta-elementos [exitSubModal]="exitSubModal"></modal-consulta-elementos> 
     </ng-template>
