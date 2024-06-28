@@ -6,6 +6,7 @@ import { ConfirmationService } from 'primeng/api';
 import { finalize } from 'rxjs/operators';
 import { MarcoListaGetDto } from 'src/app/models/MarcoLista';
 import { MarcoListaServiceProxy } from 'src/shared/service-proxies/marcolista-proxies';
+import { UbigeoServiceProxy } from 'src/shared/service-proxies/ubigeo-proxies';
 
 @Component({
   selector: 'modal-registro-marco-lista',
@@ -16,47 +17,49 @@ import { MarcoListaServiceProxy } from 'src/shared/service-proxies/marcolista-pr
 export class ModalRegistroMarcoListaComponent implements OnInit {
   @Input() exitModal = (): void => { };
   @Input() idRegistro: number;
-  
+  @Input() modalActivo: boolean = true;
   objRegistro: MarcoListaGetDto = new MarcoListaGetDto();
   txt_campo: string = "";
   active: boolean = true;
-  perSA:boolean=false;
-  perPN:boolean=false;
-  perSAOtro:boolean=false;
+  perSA: boolean = false;
+  perPN: boolean = false;
+  perSAOtro: boolean = false;
   modalForm = this.formBuilder.group({
     IdCondicionJuridica: ['', [Validators.required]],
-    IdCondicionJuridicaOtros: ['', this.perSAOtro ? [Validators.required]:[]],
-    NumeroDocumentoSA: ['', this.perSA ? [Validators.required]:[]],
-    NumeroDocumentoPN: ['', this.perPN ? [Validators.required]:[]],
-    IdTipoDocumento: ['', this.perPN ? [Validators.required]:[]],
-    RazonSocial: ['', this.perSA ? [Validators.required]:[]],
-    DireccionFiscalDomicilioSA: ['', this.perSA ? [Validators.required]:[]],
-    DireccionFiscalDomicilioPN: ['', this.perPN ? [Validators.required]:[]],
-    Nombre: ['', this.perPN ? [Validators.required]:[]],
-    ApellidoPaterno: ['', this.perPN ? [Validators.required]:[]],
-    ApellidoMaterno: ['', this.perPN ? [Validators.required]:[]],
-    TieneRuc: ['', this.perPN ? [Validators.required]:[]],
+    IdCondicionJuridicaOtros: ['', this.perSAOtro ? [Validators.required] : []],
+    NumeroDocumentoSA: ['', this.perSA ? [Validators.required] : []],
+    NumeroDocumentoPN: ['', this.perPN ? [Validators.required] : []],
+    IdTipoDocumento: ['', this.perPN ? [Validators.required] : []],
+    RazonSocial: ['', this.perSA ? [Validators.required] : []],
+    DireccionFiscalDomicilioSA: ['', this.perSA ? [Validators.required] : []],
+    DireccionFiscalDomicilioPN: ['', this.perPN ? [Validators.required] : []],
+    Nombre: ['', this.perPN ? [Validators.required] : []],
+    ApellidoPaterno: ['', this.perPN ? [Validators.required] : []],
+    ApellidoMaterno: ['', this.perPN ? [Validators.required] : []],
+    TieneRuc: ['', this.perPN ? [Validators.required] : []],
     IdDepartamentoPer: ['', [Validators.required]],
-    IdProvinciaPer: ['', ],
-    IdDistritoPer: ['', ],
+    IdProvinciaPer: ['', [Validators.required]],
+    IdDistritoPer: ['', [Validators.required]],
     IdTipoExplotacion: ['', [Validators.required]],
     Telefono: ['', [Validators.required]],
     Celular: ['', [Validators.required]],
     CorreoElectronico: ['', [Validators.required, Validators.email]],
     PaginaWeb: ['', [Validators.required]],
-    NombreRepLegal: ['', this.perSA ? [Validators.required]:[]],
-    CelularRepLegal: ['', this.perSA ? [Validators.required]:[]],
-    CorreoRepLegal: ['', this.perSA ? [Validators.required, Validators.email]:[]],
+    NombreRepLegal: ['', this.perSA ? [Validators.required] : []],
+    CelularRepLegal: ['', this.perSA ? [Validators.required] : []],
+    CorreoRepLegal: ['', this.perSA ? [Validators.required, Validators.email] : []],
     Direccion: ['', [Validators.required]],
     IdDepartamento: ['', [Validators.required]],
   });
   private marcolistaServiceProxy: MarcoListaServiceProxy;
+  private ubigeoServiceProxy: UbigeoServiceProxy;
   constructor(_injector: Injector
     , private formBuilder: FormBuilder
     , private confirmationService: ConfirmationService
     , private spinner: NgxSpinnerService
     , private toastr: ToastrService) {
     this.marcolistaServiceProxy = _injector.get(MarcoListaServiceProxy);
+    this.ubigeoServiceProxy = _injector.get(UbigeoServiceProxy);
   }
   get IdCondicionJuridica() { return this.modalForm.controls['IdCondicionJuridica']; }
   get IdCondicionJuridicaOtros() { return this.modalForm.controls['IdCondicionJuridicaOtros']; }
@@ -81,7 +84,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
   get NombreRepLegal() { return this.modalForm.controls['NombreRepLegal']; }
   get CelularRepLegal() { return this.modalForm.controls['CelularRepLegal']; }
   get CorreoRepLegal() { return this.modalForm.controls['CorreoRepLegal']; }
-  get Direccion() { return this.modalForm.controls['CorreoRepLegal']; }
+  get Direccion() { return this.modalForm.controls['Direccion']; }
   get IdDepartamento() { return this.modalForm.controls['IdDepartamento']; }
   ngOnInit(): void {
     this.spinner.show();
@@ -91,18 +94,50 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
-            console.log(result);
+
             if (this.objRegistro.Id > 0) {
               this.modalForm.controls['IdDepartamento'].setValue(this.objRegistro.IdDepartamento.toString());
+              this.modalForm.controls['IdCondicionJuridica'].setValue(this.objRegistro.IdCondicionJuridica.toString());
+              this.modalForm.controls['IdCondicionJuridicaOtros'].setValue(this.objRegistro.IdCondicionJuridicaOtros==null?null:this.objRegistro.IdCondicionJuridicaOtros.toString());
+              this.selCondicionJuridica(null);
+              this.modalForm.controls['IdTipoDocumento'].setValue(this.objRegistro.IdTipoDocumento.toString());
+              this.modalForm.controls['IdDepartamentoPer'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 2));
+              this.modalForm.controls['IdProvinciaPer'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 4));
+              this.modalForm.controls['IdDistritoPer'].setValue(this.objRegistro.IdUbigeo.toString());
+              this.modalForm.controls['IdTipoExplotacion'].setValue(this.objRegistro.IdTipoExplotacion.toString());
+              this.modalForm.controls['Telefono'].setValue(this.objRegistro.Telefono.toString());
+              this.modalForm.controls['Celular'].setValue(this.objRegistro.Celular.toString());
+              this.modalForm.controls['CorreoElectronico'].setValue(this.objRegistro.CorreoElectronico.toString());
+              this.modalForm.controls['PaginaWeb'].setValue(this.objRegistro.PaginaWeb.toString());
+              this.modalForm.controls['Direccion'].setValue(this.objRegistro.Direccion==null?null:this.objRegistro.Direccion.toString());
+              this.modalForm.controls['IdDepartamento'].setValue(this.objRegistro.IdDepartamento.toString());
+              if (this.perSA) {
+                this.modalForm.controls['NumeroDocumentoSA'].setValue(this.objRegistro.NumeroDocumento.toString());
+                this.modalForm.controls['RazonSocial'].setValue(this.objRegistro.RazonSocial==null?null:this.objRegistro.RazonSocial.toString());
+                this.modalForm.controls['DireccionFiscalDomicilioSA'].setValue(this.objRegistro.DireccionFiscalDomicilio.toString());
+                this.modalForm.controls['NombreRepLegal'].setValue(this.objRegistro.NombreRepLegal==null?null:this.objRegistro.NombreRepLegal.toString());
+                this.modalForm.controls['CelularRepLegal'].setValue(this.objRegistro.CelularRepLegal==null?null:this.objRegistro.CelularRepLegal.toString());
+                this.modalForm.controls['CorreoRepLegal'].setValue(this.objRegistro.CorreoRepLegal==null?null:this.objRegistro.CorreoRepLegal.toString());
+              }
+              else if (this.perPN) {
+                this.modalForm.controls['NumeroDocumentoPN'].setValue(this.objRegistro.NumeroDocumento.toString());
+                this.modalForm.controls['DireccionFiscalDomicilioPN'].setValue(this.objRegistro.DireccionFiscalDomicilio.toString());
+                this.modalForm.controls['Nombre'].setValue(this.objRegistro.Nombre.toString());
+                this.modalForm.controls['ApellidoPaterno'].setValue(this.objRegistro.ApellidoPaterno.toString());
+                this.modalForm.controls['ApellidoMaterno'].setValue(this.objRegistro.ApellidoMaterno.toString());
+                this.modalForm.controls['TieneRuc'].setValue(this.objRegistro.TieneRuc.toString());
+              }
             }
           }
           else {
             this.toastr.error(result.message.toString(), 'Error');
           }
+          if (!this.modalActivo) {
+            this.modalForm.disable();  
+          }
         }
       });
   }
-
 
   onFocusOutEvent(event: any, nombreControl: string) {
     this.modalForm.controls[nombreControl].setValue(event.target.value.trim());
@@ -123,6 +158,34 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
 
 
       accept: () => {
+        this.objRegistro.IdCondicionJuridica = Number.parseInt(this.IdCondicionJuridica.value);
+        if (this.perSAOtro) { this.objRegistro.IdCondicionJuridicaOtros = Number.parseInt(this.IdCondicionJuridicaOtros.value); }
+        if (this.perSA) {
+          this.objRegistro.NumeroDocumento = this.NumeroDocumentoSA.value;
+          this.objRegistro.IdTipoDocumento = Number.parseInt(this.objRegistro.ListTipoDocumento.find(x => x.codigo == "RUC").value);
+          this.objRegistro.RazonSocial = this.RazonSocial.value;
+          this.objRegistro.DireccionFiscalDomicilio = this.DireccionFiscalDomicilioSA.value;
+          this.objRegistro.NombreRepLegal = this.NombreRepLegal.value;
+          this.objRegistro.CelularRepLegal = this.CelularRepLegal.value;
+          this.objRegistro.CorreoRepLegal = this.CorreoRepLegal.value;
+        }
+        else if (this.perPN) {
+          this.objRegistro.NumeroDocumento = this.NumeroDocumentoPN.value;
+          this.objRegistro.IdTipoDocumento = Number.parseInt(this.IdTipoDocumento.value);
+          this.objRegistro.DireccionFiscalDomicilio = this.DireccionFiscalDomicilioPN.value;
+          this.objRegistro.Nombre = this.Nombre.value;
+          this.objRegistro.ApellidoPaterno = this.ApellidoPaterno.value;
+          this.objRegistro.ApellidoMaterno = this.ApellidoMaterno.value;
+          this.objRegistro.TieneRuc = this.TieneRuc.value;
+          
+        }
+        this.objRegistro.IdUbigeo = this.IdDistritoPer.value;
+        this.objRegistro.IdTipoExplotacion = Number.parseInt(this.IdTipoExplotacion.value);
+        this.objRegistro.Telefono = this.Telefono.value;
+        this.objRegistro.Celular = this.Celular.value;
+        this.objRegistro.CorreoElectronico = this.CorreoElectronico.value;
+        this.objRegistro.PaginaWeb = this.PaginaWeb.value;
+        this.objRegistro.Direccion = this.Direccion.value;
         this.objRegistro.IdDepartamento = this.IdDepartamento.value;
 
         this.spinner.show();
@@ -133,6 +196,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
               if (result.success) {
                 this.toastr.success(result.message.toString(), 'Información');
                 this.idRegistro = Number.parseInt(result.datos.toString());
+                this.close();
               }
               else {
                 this.toastr.warning(result.message.toString(), 'Aviso');
@@ -147,44 +211,74 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
 
   }
   selCondicionJuridica(event: any) {
-    var codCondJur=this.objRegistro.ListCondicionJuridica.find(x => x.value==this.IdCondicionJuridica.value).codigo;
-    switch(codCondJur){
-      case "PN": { 
-        this.perSA=false;
-        this.perPN=true;
-        this.perSAOtro=false;
-        break; 
+    var codCondJur = this.objRegistro.ListCondicionJuridica.find(x => x.value == this.IdCondicionJuridica.value).codigo;
+    switch (codCondJur) {
+      case "PN": {
+        this.perSA = false;
+        this.perPN = true;
+        this.perSAOtro = false;
+        break;
       }
       case "SAC":
       case "SAA":
-        case "SRL":
-        case "EIRL":
-        case "CA":
-        case "SA": { 
-        this.perSA=true;
-        this.perPN=false;
-        this.perSAOtro=false;
-        break; 
+      case "SRL":
+      case "EIRL":
+      case "CA":
+      case "SA": {
+        this.perSA = true;
+        this.perPN = false;
+        this.perSAOtro = false;
+        break;
       }
-      case "OTRO": { 
-        this.perSA=true;
-        this.perPN=false;
-        this.perSAOtro=true;
-        break; 
+      case "OTRO": {
+        this.perSA = true;
+        this.perPN = false;
+        this.perSAOtro = true;
+        break;
       }
-      default: { 
-        this.perSA=false;
-        this.perPN=false;
-        this.perSAOtro=false;
-        break; 
-     } 
+      default: {
+        this.perSA = false;
+        this.perPN = false;
+        this.perSAOtro = false;
+        break;
+      }
     }
-    
+
   }
   show() {
 
   }
   close() {
     this.exitModal();
+  }
+  selDepartamento(event: any) {
+    this.spinner.show();
+    this.ubigeoServiceProxy.getProvincias(this.IdDepartamentoPer.value)
+      .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+      .subscribe({
+        next: (result) => {
+          if (result.success) {
+            this.objRegistro.ListProvincia = result.datos;
+          }
+          else {
+            this.toastr.warning(result.message.toString(), 'Aviso');
+          }
+        }
+      });
+  }
+  selProvincia(event: any) {
+    this.spinner.show();
+    this.ubigeoServiceProxy.getDistritos(this.IdProvinciaPer.value)
+      .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+      .subscribe({
+        next: (result) => {
+          if (result.success) {
+            this.objRegistro.ListDistrito = result.datos;
+          }
+          else {
+            this.toastr.warning(result.message.toString(), 'Aviso');
+          }
+        }
+      });
   }
 }

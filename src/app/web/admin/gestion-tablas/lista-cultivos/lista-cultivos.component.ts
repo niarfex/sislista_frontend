@@ -1,5 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Login } from 'src/app/models/login';
+import { LoginService } from 'src/auth/services/login.service';
 
 @Component({
   selector: 'lista-cultivos',
@@ -11,10 +13,13 @@ export class ListaCultivosComponent implements OnInit {
   modalRef?: BsModalRef;
   txt_busqueda:string="";
   lista_resultados:string[]=[];
-
-  constructor(private modalService: BsModalService) { }
+  usuario:Login; 
+  constructor(private modalService: BsModalService
+    ,private loginService: LoginService
+  ) { }
 
   ngOnInit(): void {
+    this.usuario=this.loginService.getCurrentUserValue;
   }
 
   getData(){}

@@ -16,10 +16,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Denominación</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="ProgramacionRegistro">Denominación</label>
+                        <input formControlName="ProgramacionRegistro" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'ProgramacionRegistro')" required>
+                        <div *ngIf="ProgramacionRegistro.invalid && (ProgramacionRegistro.dirty || ProgramacionRegistro.touched)" class="text-danger">
+                            <div *ngIf="ProgramacionRegistro.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -27,12 +27,17 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Periodo</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">                                          
+                        <label for="IdAnio">Periodo</label>
+                        <select formControlName="IdAnio" id="IdAnio" name="IdAnio"
+                            class="form-select">   
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListPeriodos"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>                                        
                         </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="IdAnio.invalid && (IdAnio.dirty || IdAnio.touched)" class="text-danger">
+                            <div *ngIf="IdAnio.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -42,10 +47,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Fecha de inicio</label>
-                        <input formControlName="campo" type="date" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="FechaInicio">Fecha de inicio</label>
+                        <input formControlName="FechaInicio" type="date" class="form-control" (focusout)="onFocusOutEvent($event,'FechaInicio')" required>
+                        <div *ngIf="FechaInicio.invalid && (FechaInicio.dirty || FechaInicio.touched)" class="text-danger">
+                            <div *ngIf="FechaInicio.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -53,34 +58,10 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Fecha de cierre</label>
-                        <input formControlName="campo" type="date" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es obligatorio
-                            </div>
-                        </div>
-                    </div>   
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="campo">Documento normativo</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es obligatorio
-                            </div>
-                        </div>
-                    </div>   
-                </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="campo">Objetivo</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="FechaFin">Fecha de cierre</label>
+                        <input formControlName="FechaFin" type="date" class="form-control" (focusout)="onFocusOutEvent($event,'FechaFin')" required>
+                        <div *ngIf="FechaFin.invalid && (FechaFin.dirty || FechaFin.touched)" class="text-danger">
+                            <div *ngIf="FechaFin.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -90,10 +71,34 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Ente rector</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="DecretoNorma">Documento normativo</label>
+                        <input formControlName="DecretoNorma" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'DecretoNorma')" required>
+                        <div *ngIf="DecretoNorma.invalid && (DecretoNorma.dirty || DecretoNorma.touched)" class="text-danger">
+                            <div *ngIf="DecretoNorma.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Objetivo">Objetivo</label>
+                        <input formControlName="campo" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Objetivo')" required>
+                        <div *ngIf="Objetivo.invalid && (Objetivo.dirty || Objetivo.touched)" class="text-danger">
+                            <div *ngIf="Objetivo.errors?.['required']">
+                                El campo es obligatorio
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="EnteRector">Ente rector</label>
+                        <input formControlName="EnteRector" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'EnteRector')" required>
+                        <div *ngIf="EnteRector.invalid && (EnteRector.dirty || EnteRector.touched)" class="text-danger">
+                            <div *ngIf="EnteRector.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -110,12 +115,17 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Plantilla</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">                                          
+                        <label for="IdPlantilla">Plantilla</label>
+                        <select formControlName="IdPlantilla" id="IdPlantilla" name="IdPlantilla"
+                            class="form-select">    
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListPlantillasActivas"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>                                       
                         </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="IdPlantilla.invalid && (IdPlantilla.dirty || IdPlantilla.touched)" class="text-danger">
+                            <div *ngIf="IdPlantilla.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>

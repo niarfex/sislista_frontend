@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { CondicionJuridicaListDto } from 'src/app/models/CondicionJuridica';
+import { Login } from 'src/app/models/login';
+import { LoginService } from 'src/auth/services/login.service';
 import { CondicionJuridicaServiceProxy } from 'src/shared/service-proxies/condicionjuridica-proxies';
 
 @Component({
@@ -18,16 +20,19 @@ export class ListaCondicionJuridicaComponent implements OnInit {
   txt_busqueda:string="";
   lista_resultados: CondicionJuridicaListDto[];
   idRegistro: number;
+  usuario:Login; 
   private condicionjuridicaServiceProxy: CondicionJuridicaServiceProxy;
   constructor(_injector: Injector
     , private confirmationService: ConfirmationService
     , private modalService: BsModalService
     , private spinner: NgxSpinnerService
-    , private toastr: ToastrService) { 
+    , private toastr: ToastrService
+    ,private loginService: LoginService) { 
       this.condicionjuridicaServiceProxy = _injector.get(CondicionJuridicaServiceProxy);
     }
 
   ngOnInit(): void {
+    this.usuario=this.loginService.getCurrentUserValue;
     this.getData();
   }
 

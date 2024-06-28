@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { MarcoListaListDto } from 'src/app/models/MarcoLista';
+import { Login } from 'src/app/models/login';
+import { LoginService } from 'src/auth/services/login.service';
 import { MarcoListaServiceProxy } from 'src/shared/service-proxies/marcolista-proxies';
 
 
@@ -16,43 +18,54 @@ import { MarcoListaServiceProxy } from 'src/shared/service-proxies/marcolista-pr
 })
 export class ListaMarcoListaComponent implements OnInit {
   modalRef?: BsModalRef;
-  txt_busqueda:string="";
+  txt_busqueda: string = "";
   lista_resultados: MarcoListaListDto[];
   idRegistro: number;
+  modalActivo: boolean;
+  usuario:Login;  
   private marcolistaServiceProxy: MarcoListaServiceProxy;
   constructor(_injector: Injector
     , private confirmationService: ConfirmationService
     , private modalService: BsModalService
     , private spinner: NgxSpinnerService
-    , private toastr: ToastrService) { 
-      this.marcolistaServiceProxy = _injector.get(MarcoListaServiceProxy);
-    }
+    , private toastr: ToastrService
+    ,private loginService: LoginService) {
+    this.marcolistaServiceProxy = _injector.get(MarcoListaServiceProxy);
+  }
 
-    ngOnInit(): void {
-      this.getData();
-    }
-  
-    getData(event?: LazyLoadEvent) {
-      this.spinner.show();
-      this.marcolistaServiceProxy.getAll(this.txt_busqueda)
-        .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
-        .subscribe({
-          next: (result) => {
-            if (result.success) {
-              this.lista_resultados = result.datos
-            }
+  ngOnInit(): void {
+    this.usuario=this.loginService.getCurrentUserValue;
+    this.getData();
+  }
+
+  getData(event?: LazyLoadEvent) {
+    this.spinner.show();
+    this.marcolistaServiceProxy.getAll(this.txt_busqueda)
+      .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+      .subscribe({
+        next: (result) => {
+          if (result.success) {
+            this.lista_resultados = result.datos
           }
-        });
-    }
-  
-    agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
-      this.idRegistro = id;
-      this.modalRef = this.modalService.show(viewUserTemplate, {
-        backdrop: 'static',
-        keyboard: false,
-        class: 'modal-m'
+        }
       });
-    }
+  }
+
+  abrirModal(viewUserTemplate: TemplateRef<any>, id: number, activo: boolean) {
+    this.idRegistro = id;
+    this.modalActivo = activo;
+    this.modalRef = this.modalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-m'
+    });
+  }
+  agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
+    this.abrirModal(viewUserTemplate, id, true);
+  }
+  verRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
+    this.abrirModal(viewUserTemplate, id, false);
+  }
   desactivarRegistro(id: number) {
     this.confirmationService.confirm({
       message: '¿Estás seguro que desea deshabilitar el registro?',
@@ -155,11 +168,9 @@ export class ListaMarcoListaComponent implements OnInit {
       }
     });
   }
-  verRegistro(id:number){
-    
-  }
   exitModal = (): void => {
     this.modalRef?.hide();
+    this.getData();
   };
 
 }

@@ -5,6 +5,8 @@ import { finalize } from 'rxjs';
 import { UbigeoListDto } from 'src/app/models/Ubigeo';
 import { UbigeoServiceProxy } from 'src/shared/service-proxies/ubigeo-proxies';
 import { NgxSpinnerService } from "ngx-spinner";
+import { LoginService } from 'src/auth/services/login.service';
+import { Login } from 'src/app/models/login';
 
 @Component({
   selector: 'lista-ubigeos',
@@ -16,12 +18,17 @@ export class ListaUbigeosComponent implements OnInit {
   modalRef?: BsModalRef;
   txt_busqueda:String="";
   lista_resultados:UbigeoListDto[];
+  usuario:Login; 
   private ubigeoServiceProxy: UbigeoServiceProxy;
-  constructor(_injector: Injector,private modalService: BsModalService,private spinner: NgxSpinnerService) { 
+  constructor(_injector: Injector
+    ,private modalService: BsModalService
+    ,private spinner: NgxSpinnerService
+    ,private loginService: LoginService) { 
     this.ubigeoServiceProxy = _injector.get(UbigeoServiceProxy); 
   }
 
   ngOnInit(): void {
+    this.usuario=this.loginService.getCurrentUserValue;
     this.getData();    
   }
 

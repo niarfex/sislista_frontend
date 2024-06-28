@@ -9,7 +9,7 @@ import { LineaProduccionServiceProxy } from './lineaproduccion-proxies';
 import { MarcoListaServiceProxy } from './marcolista-proxies';
 import { NotificacionServiceProxy } from './notificacion-proxies';
 import { OrganizacionServiceProxy } from './organizacion-proxies';
-import { PanelregistroServiceProxy } from './panelregistro-proxies';
+import { PanelRegistroServiceProxy } from './panelregistro-proxies';
 import { PlantillaServiceProxy } from './plantilla-proxies';
 import { TipoExplotacionServiceProxy } from './tipoexplotacion-proxies';
 import { UbigeoServiceProxy } from './ubigeo-proxies';
@@ -27,7 +27,7 @@ import { EventService } from '../services/event.service';
         MarcoListaServiceProxy,
         NotificacionServiceProxy,
         OrganizacionServiceProxy,
-        PanelregistroServiceProxy,
+        PanelRegistroServiceProxy,
         PlantillaServiceProxy,
         TipoExplotacionServiceProxy,
         UbigeoServiceProxy,

@@ -8,14 +8,14 @@
         <div class="col-sm-12">
             <div class="input-group">            
                 <input class="form-control m-input" maxlength="50" type="text" [(ngModel)]="txt_busqueda" [ngModelOptions]="{standalone: true}"/>
-                <button class="btn btn-primary" style="background-color: green; border-color: green;" type="button" (click)="getData()"><i class="bi bi-search"></i></button>                                            
+                <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="getData()"><i class="bi bi-search"></i></button>                                            
             </div>
         </div>  
     </div>
     <div class="row mb-3">
         <div class="col-sm-10">
-            <button class="btn btn-primary" style="min-width: 100px;background-color: green; border-color: green;" type="button" (click)="agregarRegistro(viewUserTemplate,'')">Nuevo</button>
-            <button class="btn btn-primary" style="min-width: 100px;background-color: green; border-color: green;" type="button">Exportar</button>
+            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px;background-color: #008F49; border-color: #008F49; margin-right: 10px;" type="button" (click)="agregarRegistro(viewUserTemplate,'')">Nuevo</button>
+            <button *ngIf="usuario.isEspecialista" class="btn btn-primary" style="min-width: 100px;background-color: #008F49; border-color: #008F49;" type="button">Exportar</button>
         </div>        
         <div class="col-sm-2 text-end">
             Filtro<select>
@@ -44,23 +44,68 @@
                     <td style="width: 15%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
                     <td style="width: 30%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td> 
                     <td style="width: 15%; flex: none; padding: 5px;">{{ item.CorreoElectronico }}</td> 
-                    <td  style="width: 15%; flex: none; padding: 5px;">
-                        <button *ngIf="item.Estado==1" type="button" class="btn btn-primary" style="background-color: darkblue; border-color: darkblue;" (click)="desactivarRegistro(item.CodigoUUIDUsuario)">Activo</button>
-                        <button *ngIf="item.Estado==0" type="button" class="btn btn-primary" style="background-color: red; border-color: red;" (click)="activarRegistro(item.CodigoUUIDUsuario)">Inactivo</button>
+                    <td style="width: 10%; flex: none; padding: 5px;">
+                        <span *ngIf="item.Estado==1">Activo</span><span *ngIf="item.Estado==0">Inactivo</span>
                     </td>
                     <td style="width: 15%; flex: none; padding: 5px;">
-                        <div class="input-group">
-                            <button *ngIf="item.Estado==1" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="agregarRegistro(viewUserTemplate,item.CodigoUUIDUsuario)"><i class="bi bi-pencil-square"></i></button>
-                            <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49; margin-left: 10px;" type="button" (click)="eliminarRegistro(item.CodigoUUIDUsuario)"><i class="bi bi-trash3"></i></button>
-                            <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49; margin-left: 10px;" type="button" (click)="verRegistro(item.CodigoUUIDUsuario)"><i class="bi bi-eye"></i></button>
+                        <div class="dropdown" dropdown>
+                            <button type="button" class="btn" dropdownToggle id="page-header-user-dropdown">
+                                <span class="d-none d-xl-inline-block ms-1">SELECCIONE </span>
+                                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                            </button>
+                            <div class="dropdown-menu" *dropdownMenu style="overflow-y: scroll; width: 200px; height: 200px;">
+                                <div *ngIf="item.Estado==1 && usuario.isAdministrador">
+                                    <button  class="btn btn-primary"
+                                    style="background-color: red; border-color: red; margin-left: 10px; margin-bottom: 5px;" type="button"
+                                    (click)="desactivarRegistro(item.CodigoUUIDUsuario)"><i class="bi bi-lightbulb-off"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Deshabilitar</span>
+                                </div>
+                                <div *ngIf="item.Estado==0 && usuario.isAdministrador">
+                                    <button  class="btn btn-primary"
+                                    style="background-color: darkblue; border-color: darkblue; margin-left: 10px; margin-bottom: 5px;" type="button"
+                                    (click)="activarRegistro(item.CodigoUUIDUsuario)"><i class="bi bi-lightbulb-fill"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Habilitar</span>
+                                </div>
+                                <div *ngIf="usuario.isAdministrador">
+                                    <button  class="btn btn-primary"
+                                    style="background-color: darkblue; border-color: darkblue; margin-left: 10px; margin-bottom: 5px;" type="button"
+                                    ><i class="bi bi-gem"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Permisos</span>
+                                </div>                                
+                                <div *ngIf="item.Estado==1 && usuario.isAdministrador">
+                                    <button  class="btn btn-primary"
+                                    style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;" type="button"
+                                    (click)="agregarRegistro(viewUserTemplate,item.CodigoUUIDUsuario)"><i class="bi bi-pencil-square"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Editar</span>
+                                </div>
+                                <div *ngIf="usuario.isAdministrador">
+                                    <button  class="btn btn-primary"
+                                    style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
+                                    type="button" (click)="eliminarRegistro(item.CodigoUUIDUsuario)"><i class="bi bi-trash3"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Eliminar</span>
+                                </div>
+                                <div *ngIf="usuario.isAdministrador">
+                                    <button  class="btn btn-primary"
+                                    style="background-color: darkblue; border-color: darkblue; margin-left: 10px; margin-bottom: 5px;" 
+                                    type="button" (click)="enviarCredenciales(item.CodigoUUIDUsuario)"
+                                    ><i class="bi bi-send"></i>
+                                    </button><span class="ms-1" style="font-size: medium; word-break: Normal; font-size: medium;">Enviar Credenciales</span>
+                                </div>
+                                <div *ngIf="usuario.isAdministrador || usuario.isEspecialista" >
+                                    <button class="btn btn-primary"
+                                    style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
+                                    type="button" (click)="verRegistro(viewUserTemplate,item.CodigoUUIDUsuario)"><i class="bi bi-eye"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Visualizar</span>
+                                </div>         
+                            </div>
                         </div>
-                    </td>                    
+                    </td>                   
                 </tr>
             </ng-template>
         </p-table> 
     </div>
     <p-confirmDialog></p-confirmDialog>
     <ng-template #viewUserTemplate >
-        <modal-registro-usuarios [exitModal]="exitModal" [uuidRegistro]="uuidRegistro"></modal-registro-usuarios> 
+        <modal-registro-usuarios [exitModal]="exitModal" [uuidRegistro]="uuidRegistro" [modalActivo]="modalActivo"></modal-registro-usuarios> 
     </ng-template>
 </div>

@@ -37,7 +37,7 @@
                         <label for="NumeroDocumento">RUC</label>
                         <div class="input-group">
                             <input formControlName="NumeroDocumento" onkeypress="return '0123456789'.includes(event.key)" maxlength="11" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'NumeroDocumento')" required>
-                            <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button"><i class="bi bi-search"></i></button>
+                            <button *ngIf="modalActivo" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button"><i class="bi bi-search"></i></button>
                         </div>                        
                         <div *ngIf="NumeroDocumento.invalid && (NumeroDocumento.dirty || NumeroDocumento.touched)" class="text-danger">
                             <div *ngIf="NumeroDocumento.errors?.['required']">El campo es obligatorio</div>
@@ -50,7 +50,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="Organizacion">Nombre</label>
-                        <input formControlName="Organizacion" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Organizacion')" required>
+                        <input formControlName="Organizacion" type="text" maxlength="200" class="form-control" (focusout)="onFocusOutEvent($event,'Organizacion')" required>
                         <div *ngIf="Organizacion.invalid && (Organizacion.dirty || Organizacion.touched)" class="text-danger">
                             <div *ngIf="Organizacion.errors?.['required']">
                                 El campo es obligatorio
@@ -61,7 +61,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="DireccionFiscal">Dirección fiscal</label>
-                        <input formControlName="DireccionFiscal" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'DireccionFiscal')" required>
+                        <input formControlName="DireccionFiscal" maxlength="100" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'DireccionFiscal')" required>
                         <div *ngIf="DireccionFiscal.invalid && (DireccionFiscal.dirty || DireccionFiscal.touched)" class="text-danger">
                             <div *ngIf="DireccionFiscal.errors?.['required']">
                                 El campo es obligatorio
@@ -81,12 +81,7 @@
                                 [value]="item.value">
                                 {{ item.label }}
                             </option>                                       
-                        </select>
-                        <div *ngIf="IdDepartamento.invalid && (IdDepartamento.dirty || IdDepartamento.touched)" class="text-danger">
-                            <div *ngIf="IdDepartamento.errors?.['required']">
-                                El campo es obligatorio
-                            </div>
-                        </div>
+                        </select>                        
                     </div> 
                 </div>
                 <div class="col-sm-6">
@@ -102,7 +97,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="Telefono">Telefono</label>
-                        <input formControlName="Telefono" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Telefono')" required>
+                        <input formControlName="Telefono" type="text" maxlength="9" class="form-control" (focusout)="onFocusOutEvent($event,'Telefono')" required>
                         <div *ngIf="Telefono.invalid && (Telefono.dirty || Telefono.touched)" class="text-danger">
                             <div *ngIf="Telefono.errors?.['required']">
                                 El campo es obligatorio
@@ -113,7 +108,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="PaginaWeb">Página web</label>
-                        <input formControlName="PaginaWeb" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'PaginaWeb')" required>
+                        <input formControlName="PaginaWeb" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'PaginaWeb')" required>
                         <div *ngIf="PaginaWeb.invalid && (PaginaWeb.dirty || PaginaWeb.touched)" class="text-danger">
                             <div *ngIf="PaginaWeb.errors?.['required']">
                                 El campo es obligatorio
@@ -126,7 +121,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="CorreoElectronico">Correo electrónico</label>
-                        <input formControlName="CorreoElectronico" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
+                        <input formControlName="CorreoElectronico" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
                         <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)" class="text-danger">
                             <div *ngIf="CorreoElectronico.errors?.['required']">El campo es obligatorio</div>
                             <div *ngIf="CorreoElectronico.errors?.['email']">El campo no cumple con el formato requerido</div>
@@ -140,7 +135,7 @@
         </div>
         <div class="modal-footer text-end" style="display: block;">
             <p-confirmDialog></p-confirmDialog>
-            <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
+            <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
                 style="background-color: #008F49; border-color: #008F49;">Registrar</button>
         </div>
     </form>

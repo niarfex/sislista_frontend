@@ -237,6 +237,64 @@ export class UsuarioServiceProxy {
         }));
     }
 
+    EnviarCredencialesxUUID(uuid:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/usuario/EnviarCredencialesxUUID?";
+        if (uuid!== undefined && uuid!== null)
+            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+
+    GetDatosRENIEC(dni:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/usuario/GetDatosRENIEC?";
+        if (dni!== undefined && dni!== null)
+            url_ += "dni=" + encodeURIComponent("" + dni) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+
     protected processguardarRegistro(response: HttpResponseBase): Observable<Respuesta> {
         const status = response.status;
         const responseBlob =

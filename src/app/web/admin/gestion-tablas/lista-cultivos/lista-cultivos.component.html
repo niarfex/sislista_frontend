@@ -12,6 +12,7 @@
             </div>
         </div>  
     </div>
+    <!--
     <div class="row mb-3">
         <div class="col-sm-10">
             <button class="btn btn-primary" style="min-width: 100px; background-color: green; border-color: green;" type="button" (click)="agregarRegistro(viewUserTemplate)">Nuevo</button>
@@ -24,7 +25,7 @@
                 <option value="2">Estado</option>          
             </select>
         </div>
-    </div>
+    </div>-->
     <div class="row mb-3" >    
         <!--<p-confirmDialog></p-confirmDialog>-->
         <p-table [value]="lista_resultados" [paginator]="true" [rows]="8">
@@ -33,10 +34,7 @@
                     <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>ID recurso</th>
                     <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Descripción recurso</th>
                     <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Enlace recurso</th>  
-                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Tipo recurso</th> 
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Publicar</th>          
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Editar</th>
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Eliminar</th>
+                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Tipo recurso</th>   
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item>
@@ -44,10 +42,7 @@
                     <td style="width: 10%; flex: none; padding: 5px;">{{ item.idrecursoapoyo }}</td>
                     <td style="width: 30%; flex: none; padding: 5px;">{{ item.titulorecursoapoyo }}</td>
                     <td style="width: 30%; flex: none; padding: 5px;">{{ item.enlacerecursoapoyo }}</td> 
-                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.nombretiporecursoapoyo }}</td> 
-                    <td style="width: 5%; flex: none; padding: 5px;">{{ item.publicar=='1'?'Si':'No' }}</td> 
-                    <td style="width: 5%; flex: none; padding: 5px;"><button class="btn btn-primary" style="background-color: green; border-color: green;" type="button"><i class="bi bi-pencil-square"></i></button></td>
-                    <td style="width: 5%; flex: none; padding: 5px;"><button class="btn btn-primary" style="background-color: green; border-color: green; padding-left: 10px;" type="button"><i class="bi bi-trash3"></i></button></td>
+                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.nombretiporecursoapoyo }}</td>                     
                 </tr>
             </ng-template>
         </p-table> 

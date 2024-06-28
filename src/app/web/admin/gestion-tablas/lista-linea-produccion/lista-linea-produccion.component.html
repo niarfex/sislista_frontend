@@ -8,14 +8,14 @@
         <div class="col-sm-12">
             <div class="input-group">            
                 <input class="form-control m-input" maxlength="50" type="text" [(ngModel)]="txt_busqueda" [ngModelOptions]="{standalone: true}"/>
-                <button class="btn btn-primary" style="background-color: green; border-color: green;" type="button" (click)="getData()"><i class="bi bi-search"></i></button>                                            
+                <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="getData()"><i class="bi bi-search"></i></button>                                            
             </div>
         </div>  
     </div>
     <div class="row mb-3">
         <div class="col-sm-10">
-            <button class="btn btn-primary" style="min-width: 100px; background-color: green; border-color: green;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nuevo</button>
-            <button class="btn btn-primary" style="min-width: 100px; background-color: green; border-color: green;" type="button">Exportar</button>
+            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nuevo</button>
+            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49;" type="button">Exportar</button>
         </div>        
         <div class="col-sm-2 text-end">
             Filtro<select>
@@ -42,14 +42,41 @@
                     <td style="width: 10%; flex: none; padding: 5px;">{{ item.CodigoLineaProduccion }}</td>
                     <td style="width: 30%; flex: none; padding: 5px;">{{ item.LineaProduccion }}</td>
                     <td style="width: 30%; flex: none; padding: 5px;">{{ item.DescripcionLineaProduccion }}</td> 
-                    <td  style="width: 15%; flex: none; padding: 5px;">
-                        <button *ngIf="item.Estado==1" type="button" class="btn btn-primary" style="background-color: darkblue; border-color: darkblue;" (click)="desactivarRegistro(item.Id)">Activo</button>
-                        <button *ngIf="item.Estado==0" type="button" class="btn btn-primary" style="background-color: red; border-color: red;" (click)="activarRegistro(item.Id)">Inactivo</button>
+                    <td style="width: 10%; flex: none; padding: 5px;">
+                        <span *ngIf="item.Estado==1">Activo</span><span *ngIf="item.Estado==0">Inactivo</span>
                     </td>
                     <td style="width: 15%; flex: none; padding: 5px;">
-                        <div class="input-group">
-                            <button *ngIf="item.Estado==1" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="agregarRegistro(viewUserTemplate,item.Id)"><i class="bi bi-pencil-square"></i></button>
-                            <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49; margin-left: 10px;" type="button" (click)="eliminarRegistro(item.Id)"><i class="bi bi-trash3"></i></button>
+                        <div class="dropdown" dropdown>
+                            <button type="button" class="btn" dropdownToggle id="page-header-user-dropdown">
+                                <span class="d-none d-xl-inline-block ms-1">SELECCIONE </span>
+                                <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                            </button>
+                            <div class="dropdown-menu" *dropdownMenu>
+                                <div *ngIf="item.Estado==1 && usuario.isAdministrador">
+                                    <button  class="btn btn-primary"
+                                    style="background-color: red; border-color: red; margin-left: 10px; margin-bottom: 5px;" type="button"
+                                    (click)="desactivarRegistro(item.Id)"><i class="bi bi-lightbulb-off"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Deshabilitar</span>
+                                </div>
+                                <div *ngIf="item.Estado==0 && usuario.isAdministrador">
+                                    <button  class="btn btn-primary"
+                                    style="background-color: darkblue; border-color: darkblue; margin-left: 10px; margin-bottom: 5px;" type="button"
+                                    (click)="activarRegistro(item.Id)"><i class="bi bi-lightbulb-fill"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Habilitar</span>
+                                </div>
+                                <div *ngIf="item.Estado==1 && usuario.isAdministrador">
+                                    <button  class="btn btn-primary"
+                                    style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;" type="button"
+                                    (click)="agregarRegistro(viewUserTemplate,item.Id)"><i class="bi bi-pencil-square"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Editar</span>
+                                </div>
+                                <div *ngIf="usuario.isAdministrador">
+                                    <button class="btn btn-primary"
+                                    style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
+                                    type="button" (click)="eliminarRegistro(item.Id)"><i class="bi bi-trash3"></i>
+                                    </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Eliminar</span>
+                                </div>                                        
+                            </div>
                         </div>
                     </td>
                 </tr>

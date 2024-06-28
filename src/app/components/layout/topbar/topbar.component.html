@@ -37,8 +37,9 @@
 			</div>
 
 			<div class="dropdown d-inline-block" dropdown>
-				<button type="button" class="btn header-item" dropdownToggle id="page-header-user-dropdown">					
-					<span class="d-none d-xl-inline-block ms-1">Usuario</span>
+				<button type="button" class="btn header-item" dropdownToggle id="page-header-user-dropdown" style=" text-align: left;width: 200px;">					
+					<span class="d-none d-xl-inline-block ms-1">Usuario: {{user}} </span> 
+					<span class="d-none d-xl-inline-block ms-1">Perfil: {{perfil}} </span>
 					<i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
 				</button>
 				<div class="dropdown-menu dropdown-menu-end" *dropdownMenu>

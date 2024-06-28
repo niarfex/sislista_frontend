@@ -1,3 +1,4 @@
+import { MarcoListaListDto } from "./MarcoLista";
 import { SelectTipoDto } from "./SelectTipo";
 
 export interface IResponseUsuarioListDto {
@@ -156,6 +157,7 @@ export interface IUsuarioGetDto {
     ListPerfil: SelectTipoDto[];
     ListOrganizacion: SelectTipoDto[];
     ListDepartamento: SelectTipoDto[];
+    ListMarcoListaAsignados: MarcoListaListDto[];
 }
 export class UsuarioGetDto implements IUsuarioGetDto {
     CodigoUUIDUsuario: String;
@@ -175,6 +177,7 @@ export class UsuarioGetDto implements IUsuarioGetDto {
     ListPerfil: SelectTipoDto[];
     ListOrganizacion: SelectTipoDto[];
     ListDepartamento: SelectTipoDto[];
+    ListMarcoListaAsignados: MarcoListaListDto[]=[];
     constructor(data?: IUsuarioGetDto) {
         if (data) {
             for (var property in data) {
@@ -185,7 +188,7 @@ export class UsuarioGetDto implements IUsuarioGetDto {
     }
     init(_data?: any) {
         if (_data) {
-            this.CodigoUUIDUsuario = _data["ICodigoUUIDUsuario"];
+            this.CodigoUUIDUsuario = _data["CodigoUUIDUsuario"];
             this.IdPerfil = _data["IdPerfil"];
             this.IdTipoDocumento = _data["IdTipoDocumento"];
             this.CodigoUUIDPersona = _data["CodigoUUIDPersona"];
@@ -218,7 +221,12 @@ export class UsuarioGetDto implements IUsuarioGetDto {
                 this.ListDepartamento = [] as any;
                 for (let item of _data["ListDepartamento"])
                     this.ListDepartamento!.push(SelectTipoDto.fromJS(item));
-            }    
+            }   
+            if (Array.isArray(_data["ListMarcoListaAsignados"]) && _data["ListMarcoListaAsignados"].length > 0) {
+                this.ListMarcoListaAsignados = [] as any;
+                for (let item of _data["ListMarcoListaAsignados"])
+                    this.ListMarcoListaAsignados!.push(MarcoListaListDto.fromJS(item));
+            }     
         }
     }
     static fromJS(data: any): UsuarioGetDto {
@@ -242,6 +250,11 @@ export class UsuarioGetDto implements IUsuarioGetDto {
         data["IdOrganizacion"] = this.IdOrganizacion;
         data["Cargo"] = this.Cargo;
         data["OficinaArea"] = this.OficinaArea;
+        if (Array.isArray(this.ListMarcoListaAsignados)) {
+            data["ListMarcoListaAsignados"] = [];
+            for (let item of this.ListMarcoListaAsignados)
+                data["ListMarcoListaAsignados"].push(item.toJSON());
+        }
         return data;
     }
 }

@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { TipoExplotacionListDto } from 'src/app/models/TipoExplotacion';
+import { Login } from 'src/app/models/login';
+import { LoginService } from 'src/auth/services/login.service';
 import { TipoExplotacionServiceProxy } from 'src/shared/service-proxies/tipoexplotacion-proxies';
 
 @Component({
@@ -18,16 +20,19 @@ export class ListaTipoExplotacionComponent implements OnInit {
   txt_busqueda:string="";
   lista_resultados: TipoExplotacionListDto[];
   idRegistro: number;
+  usuario:Login; 
   private tipoexplotacionServiceProxy: TipoExplotacionServiceProxy;
   constructor(_injector: Injector
     , private confirmationService: ConfirmationService
     , private modalService: BsModalService
     , private spinner: NgxSpinnerService
-    , private toastr: ToastrService) {
+    , private toastr: ToastrService
+    ,private loginService: LoginService) {
       this.tipoexplotacionServiceProxy = _injector.get(TipoExplotacionServiceProxy);
      }
 
   ngOnInit(): void {
+    this.usuario=this.loginService.getCurrentUserValue;
     this.getData();
   }
 

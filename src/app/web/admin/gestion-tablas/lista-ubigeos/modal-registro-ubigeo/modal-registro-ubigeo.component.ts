@@ -25,7 +25,7 @@ export class ModalRegistroUbigeoComponent implements OnInit {
   }
 
   onClickSubmit(data) {
-    alert("Entered Email id : " + data.campo);
+    //alert("Entered Email id : " + data.campo);
  }
 
   show(){

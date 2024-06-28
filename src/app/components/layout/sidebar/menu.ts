@@ -78,7 +78,25 @@ export const MENU: MenuItem[] = [
                 label: 'Lineas de Producción',
                 link: '/app/admin/gestion-tablas/lista-linea-produccion',
                 parentId: 10
-            },            
+            },                 
+            {
+                id: 19,
+                label: 'Especies',
+                link: '/app/admin/gestion-tablas/lista-especies',
+                parentId: 10
+            },
+            {
+                id: 20,
+                label: 'Cultivos',
+                link: '/app/admin/gestion-tablas/lista-cultivos',
+                parentId: 10
+            },
+            {
+                id: 21,
+                label: 'Ubigeo',
+                link: '/app/admin/gestion-tablas/lista-ubigeos',
+                parentId: 10
+            }    
         ]
     },
     {

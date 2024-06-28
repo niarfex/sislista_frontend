@@ -14,10 +14,6 @@ import { RightsidebarComponent } from './components/layout/rightsidebar/rightsid
 import { HorizontaltopbarComponent } from './components/layout/horizontaltopbar/horizontaltopbar.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { InicioComponent } from './web/inicio/inicio.component';
-import { PlantillaUnoComponent } from './web/shared/plantilla-uno/plantilla-uno.component';
-import { PlantillaDosComponent } from './web/shared/plantilla-dos/plantilla-dos.component';
-import { ListaCamposPlantillaComponent } from './web/shared/lista-campos-plantilla/lista-campos-plantilla.component';
-import { ListaInformantesComponent } from './web/shared/lista-informantes/lista-informantes.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BasicAuthInterceptor } from 'src/auth/services';
 import { ErrorInterceptor } from 'src/auth/services';
@@ -31,6 +27,10 @@ import { SimplebarAngularModule } from 'simplebar-angular';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { PlantillaUnoComponent } from './web/shared/plantilla-uno/plantilla-uno.component';
+import { PlantillaDosComponent } from './web/shared/plantilla-dos/plantilla-dos.component';
+import { ListaCamposPlantillaComponent } from './web/shared/lista-campos-plantilla/lista-campos-plantilla.component';
+import { ListaInformantesComponent } from './web/shared/lista-informantes/lista-informantes.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -43,11 +43,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
         RightsidebarComponent,
         HorizontaltopbarComponent,        
         FooterComponent,
-        InicioComponent,
-        PlantillaUnoComponent,
-        PlantillaDosComponent,
-        ListaCamposPlantillaComponent,
-        ListaInformantesComponent
+        InicioComponent
     ],
     
     imports: [AppRoutingModule,     
@@ -61,7 +57,12 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
         NgSelectModule,
         BsDropdownModule.forRoot(),
         StoreModule.forRoot(rootReducer),
-        ToastrModule.forRoot()], 
+        ToastrModule.forRoot(),
+        PlantillaUnoComponent,
+        PlantillaDosComponent,
+        ListaCamposPlantillaComponent,
+        ListaInformantesComponent],     
+    exports:      [  ],
     providers: [LocaleService,
         //{provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},//Con este provider hace la consulta mediante Bearer
         //{ provide: APP_INITIALIZER, useFactory: initCommonConfig, deps: [Const], multi: true},

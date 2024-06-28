@@ -32,7 +32,7 @@ export class LoginService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public get getCurrentUserValue(): Login {
+    public get getCurrentUserValue(): Login { 
         return this.currentUserSubject.value;
     }
 
@@ -60,21 +60,35 @@ export class LoginService {
                 map((response: any) => {
                     //console.log(response);
                     if(response.body.success==true){
-                        const usuario = response.body.usuario.username;
-                    sessionStorage.setItem('currentUser', usuario);//almacenamos temporalmente el string, luego esto debe volver desde el back
-                    this.currentUserSubject.next({
-                        numeroDocumento: Number(usuario),
-                        token: response.body.usuario.accessToken,
+                        const usuario = response.body.usuario.Usuario;
+                        var usuarioActual=response.body.usuario;
+                        usuarioActual.isAdministrador=usuarioActual.CodigoPerfil=="PERFILADM"?true:false;
+                        usuarioActual.isEmpadronador=usuarioActual.CodigoPerfil=="PERFILEMP"?true:false;
+                        usuarioActual.isSupervidor=usuarioActual.CodigoPerfil=="PERFILSUP"?true:false;
+                        usuarioActual.isEspecialista=usuarioActual.CodigoPerfil=="PERFILESP"?true:false;
+                        usuarioActual.isConsulta=usuarioActual.CodigoPerfil=="PERFILCON"?true:false;
+                        sessionStorage.setItem('currentUser', JSON.stringify(usuarioActual));
+                        this.currentUserSubject.next({
+                        Usuario: response.body.usuario.Usuario,
+                        Nombre: response.body.usuario.Nombre,
+                        NumeroDocumento: response.body.usuario.NumeroDocumento,
+                        CodigoPerfil: response.body.usuario.CodigoPerfil,
+                        Perfil: response.body.usuario.Perfil,
+                        AccesToken: response.body.usuario.AccessToken,
+                        isAdministrador:usuarioActual.isAdministrador,
+                        isEmpadronador:usuarioActual.isEmpadronador,
+                        isSupervidor:usuarioActual.isSupervidor,
+                        isEspecialista:usuarioActual.isEspecialista,
+                        isConsulta:usuarioActual.isConsulta
                     });
+                    //console.log("jwt");
+                    //console.log(this.jwtHelper.decodeToken(response.body.usuario.AccessToken));
+                    sessionStorage.setItem('token', response.body.usuario.AccessToken);
+                    sessionStorage.setItem('userId',this.jwtHelper.decodeToken(response.body.usuario.AccessToken).Usuario);
+                    sessionStorage.setItem('CodigoPerfil',this.jwtHelper.decodeToken(response.body.usuario.AccessToken).CodigoPerfil);
+                    sessionStorage.setItem('Perfil',this.jwtHelper.decodeToken(response.body.usuario.AccessToken).Perfil);
                     
-                    sessionStorage.setItem('token', response.body.usuario.accessToken);
-                    /*sessionStorage.setItem(
-                        'userId',
-                        this.jwtHelper.decodeToken(response.body.usuario.accessToken)
-                            .usuario.usuarioId
-                    );*/
-                    
-                    this.valToken = response.body.usuario.accessToken;
+                    this.valToken = response.body.usuario.AccessToken;
                     return response;
                     }
                     else{
@@ -110,7 +124,7 @@ export class LoginService {
             console.error('Servicio retornó el código de estado ', error);
         }*/
         return throwError(() => new Error('Algo falló. Por favor intente nuevamente.'));
-    }
+    }    
     get userToken(): String {
         return sessionStorage.getItem('token');
     }

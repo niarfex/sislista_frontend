@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
@@ -31,6 +31,11 @@ import { ModalRegistroLineaProduccionComponent } from './gestion-tablas/lista-li
 import { ModalRegistroEspeciesComponent } from './gestion-tablas/lista-especies/modal-registro-especies/modal-registro-especies.component';
 import { ListaMarcoListaAsignadoComponent } from './gestion-usuarios/lista-usuarios/modal-registro-usuarios/lista-marco-lista-asignado/lista-marco-lista-asignado.component';
 import { ModalConsultaElementosComponent } from './gestion-usuarios/lista-usuarios/modal-registro-usuarios/modal-consulta-elementos/modal-consulta-elementos.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { PlantillaUnoComponent } from '../shared/plantilla-uno/plantilla-uno.component';
+import { PlantillaDosComponent } from '../shared/plantilla-dos/plantilla-dos.component';
+import { ListaInformantesComponent } from '../shared/lista-informantes/lista-informantes.component';
+import { ListaCamposPlantillaComponent } from '../shared/lista-campos-plantilla/lista-campos-plantilla.component';
 
 @NgModule({
   declarations: [
@@ -67,8 +72,16 @@ import { ModalConsultaElementosComponent } from './gestion-usuarios/lista-usuari
     ReactiveFormsModule,
     TableModule,
     ModalModule,
+    BsDropdownModule.forRoot(),
     ConfirmDialogModule,
-    AdminRoutingModule
-  ]
+    AdminRoutingModule,
+    PlantillaUnoComponent,
+        PlantillaDosComponent,
+        ListaCamposPlantillaComponent,
+        ListaInformantesComponent
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
 })
 export class AdminModule { }

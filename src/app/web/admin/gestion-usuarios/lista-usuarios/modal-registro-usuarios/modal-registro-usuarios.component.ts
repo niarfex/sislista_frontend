@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
 import { finalize } from 'rxjs';
+import { MarcoListaListDto } from 'src/app/models/MarcoLista';
 import { UsuarioGetDto } from 'src/app/models/Usuario';
 import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies';
 
@@ -17,12 +18,14 @@ import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies'
 export class ModalRegistroUsuariosComponent implements OnInit {
   @Input() exitModal = (): void => { };
   @Input() uuidRegistro: String;
+  @Input() modalActivo: boolean = true;
   SubmodalRef?: BsModalRef;
   objRegistro: UsuarioGetDto = new UsuarioGetDto();
   txt_campo: string = "";
   active: boolean = true;
   contacto: boolean = false;
   contactoMarco: boolean = false;
+  selDNI:boolean=false;
   modalForm = this.formBuilder.group({
     IdPerfil: ['', [Validators.required]],
     IdTipoDocumento: ['', [Validators.required]],
@@ -31,11 +34,11 @@ export class ModalRegistroUsuariosComponent implements OnInit {
     ApellidoPaterno: ['', [Validators.required]],
     ApellidoMaterno: ['', [Validators.required]],
     Celular: ['', [Validators.required]],
-    CorreoElectronico: ['', [Validators.required]],
-    IdOrganizacion: ['', this.contacto?  [Validators.required]:[]],
-    Cargo: ['', this.contacto ? [Validators.required]:[]],
-    OficinaArea: ['', this.contacto ? [Validators.required]:[]],
-    IdDepartamento:['']
+    CorreoElectronico: ['', [Validators.required,Validators.email]],
+    IdOrganizacion: ['', this.contacto ? [Validators.required] : []],
+    Cargo: ['', this.contacto ? [Validators.required] : []],
+    OficinaArea: ['', this.contacto ? [Validators.required] : []],
+    IdDepartamento: ['']
   });
   private usuarioServiceProxy: UsuarioServiceProxy;
   constructor(_injector: Injector
@@ -67,9 +70,10 @@ export class ModalRegistroUsuariosComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
-            console.log(result);
+            //console.log(result);
             if (this.objRegistro.CodigoUUIDUsuario != null) {
               this.modalForm.controls['IdPerfil'].setValue(this.objRegistro.IdPerfil.toString());
+              this.selPerfil(null);
               this.modalForm.controls['IdTipoDocumento'].setValue(this.objRegistro.IdTipoDocumento.toString());
               this.modalForm.controls['NumeroDocumento'].setValue(this.objRegistro.NumeroDocumento.toString());
               this.modalForm.controls['Nombre'].setValue(this.objRegistro.Nombre.toString());
@@ -77,13 +81,16 @@ export class ModalRegistroUsuariosComponent implements OnInit {
               this.modalForm.controls['ApellidoMaterno'].setValue(this.objRegistro.ApellidoMaterno.toString());
               this.modalForm.controls['Celular'].setValue(this.objRegistro.Celular.toString());
               this.modalForm.controls['CorreoElectronico'].setValue(this.objRegistro.CorreoElectronico.toString());
-              this.modalForm.controls['IdOrganizacion'].setValue(this.objRegistro.IdOrganizacion.toString());
-              this.modalForm.controls['Cargo'].setValue(this.objRegistro.Cargo.toString());
-              this.modalForm.controls['OficinaArea'].setValue(this.objRegistro.OficinaArea.toString());
+              this.modalForm.controls['IdOrganizacion'].setValue(this.objRegistro.IdOrganizacion == null ? null : this.objRegistro.IdOrganizacion.toString());
+              this.modalForm.controls['Cargo'].setValue(this.objRegistro.Cargo == null ? null : this.objRegistro.Cargo.toString());
+              this.modalForm.controls['OficinaArea'].setValue(this.objRegistro.OficinaArea == null ? null : this.objRegistro.OficinaArea.toString());
             }
           }
           else {
             this.toastr.error(result.message.toString(), 'Error');
+          }
+          if (!this.modalActivo) {
+            this.modalForm.disable();  
           }
         }
       });
@@ -131,6 +138,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
               if (result.success) {
                 this.toastr.success(result.message.toString(), 'Información');
                 this.uuidRegistro = result.datos.toString();
+                this.close();
               }
               else {
                 this.toastr.warning(result.message.toString(), 'Aviso');
@@ -143,17 +151,16 @@ export class ModalRegistroUsuariosComponent implements OnInit {
       }
     });
 
-  }
-  show() {
-
-  }
+  }  
   close() {
     this.exitModal();
   }
   consultarElementos(viewUserTemplate: TemplateRef<any>) {
+    if(this.IdDepartamento.value==""){this.toastr.warning("Debe Seleccionar un departamento", 'Aviso');return;}
     this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
       backdrop: 'static',
-      keyboard: false
+      keyboard: false,
+      class: 'modal-lg'
     });
   }
 
@@ -186,5 +193,41 @@ export class ModalRegistroUsuariosComponent implements OnInit {
     }
 
   }
+  actualizarAsignados(lista: MarcoListaListDto[]){
+    this.objRegistro.ListMarcoListaAsignados=lista;
+  }
+  agregarAsignados(lista: MarcoListaListDto[]) {
+    lista.forEach((currentValue, index) => {
+      this.objRegistro.ListMarcoListaAsignados.push(currentValue);
+    });
 
+  }
+  getDatosRENIEC(){
+    if(this.NumeroDocumento.value.length==8){
+    this.spinner.show();
+        this.usuarioServiceProxy.GetDatosRENIEC(this.NumeroDocumento.value)
+          .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+          .subscribe({
+            next: (result) => {
+              if (result.success) {
+                var reniec = JSON.parse(result.datos.toString());
+                this.Nombre.setValue(reniec.datos.prenombres);
+                this.ApellidoPaterno.setValue(reniec.datos.apPrimer);
+                this.ApellidoMaterno.setValue(reniec.datos.apSegundo);
+                this.toastr.success(result.message.toString(), 'Información');
+              }
+              else {
+                this.toastr.error(result.message.toString(), 'Error');
+              }
+            }
+          });
+        }
+        else{
+          this.toastr.error("El DNI debe tener 8 dígitos", 'Error');
+        }
+  }
+  selTipoDocumento(){
+    var tipoDoc = this.objRegistro.ListTipoDocumento.find(x => x.value == this.IdTipoDocumento.value).codigo;
+    if(tipoDoc=="DNI"){this.selDNI=true;}else{this.selDNI=false;}
+  }
 }

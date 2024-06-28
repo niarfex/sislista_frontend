@@ -16,10 +16,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Asunto</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="Asunto">Asunto</label>
+                        <input formControlName="Asunto" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Asunto')" required>
+                        <div *ngIf="Asunto.invalid && (Asunto.dirty || Asunto.touched)" class="text-danger">
+                            <div *ngIf="Asunto.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -27,12 +27,17 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Frecuencia</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">                                          
+                        <label for="IdFrecuencia">Frecuencia</label>
+                        <select formControlName="IdFrecuencia" id="IdFrecuencia" name="IdFrecuencia"
+                            class="form-select">   
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListFrecuencias"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>                                          
                         </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="IdFrecuencia.invalid && (IdFrecuencia.dirty || IdFrecuencia.touched)" class="text-danger">
+                            <div *ngIf="IdFrecuencia.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -42,12 +47,17 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Seleccione registro</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">                                          
+                        <label for="IdProgramacionRegistro">Seleccione registro</label>
+                        <select formControlName="IdProgramacionRegistro" id="IdProgramacionRegistro" name="IdProgramacionRegistro"
+                            class="form-select"> 
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListProgramacionesVigentes"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>                                            
                         </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="IdProgramacionRegistro.invalid && (IdProgramacionRegistro.dirty || IdProgramacionRegistro.touched)" class="text-danger">
+                            <div *ngIf="IdProgramacionRegistro.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -55,12 +65,17 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Etapa</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">                                          
+                        <label for="IdEtapa">Etapa</label>
+                        <select formControlName="IdEtapa" id="IdEtapa" name="IdEtapa"
+                            class="form-select">  
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListProgramacionesVigentes"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>                                           
                         </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="IdEtapa.invalid && (IdEtapa.dirty || IdEtapa.touched)" class="text-danger">
+                            <div *ngIf="IdEtapa.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -70,10 +85,10 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label for="campo">Descripción</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="Descripcion">Descripción</label>
+                        <input formControlName="Descripcion" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Descripcion')" required>
+                        <div *ngIf="Descripcion.invalid && (Descripcion.dirty || Descripcion.touched)" class="text-danger">
+                            <div *ngIf="Descripcion.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -88,12 +103,17 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Seleccione perfil</label>
-                        <select formControlName="campo" id="DocumentType" name="DocumentType"
-                            class="form-select">                                          
+                        <label for="IdPerfil">Seleccione perfil</label>
+                        <select formControlName="IdPerfil" id="IdPerfil" name="IdPerfil"
+                            class="form-select">  
+                            <option value="" disabled selected>-- Seleccionar --</option> 
+                            <option *ngFor="let item of objRegistro.ListPerfiles"
+                                [value]="item.value">
+                                {{ item.label }}
+                            </option>                                           
                         </select>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="IdPerfil.invalid && (IdPerfil.dirty || IdPerfil.touched)" class="text-danger">
+                            <div *ngIf="IdPerfil.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>

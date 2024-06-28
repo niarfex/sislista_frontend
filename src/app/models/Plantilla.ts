@@ -1,13 +1,15 @@
-export interface IResponseEspecieListDto {
+import { SelectTipoDto } from "./SelectTipo";
+
+export interface IResponsePlantillaListDto {
     success: boolean;
     message: String;
-    datos: EspecieListDto[];
+    datos: PlantillaListDto[];
 }
-export class ResponseEspecieListDto implements IResponseEspecieListDto {
+export class ResponsePlantillaListDto implements IResponsePlantillaListDto {
     success: boolean;
     message: String;
-    datos: EspecieListDto[];
-    constructor(data?: IResponseEspecieListDto) {
+    datos: PlantillaListDto[];
+    constructor(data?: IResponsePlantillaListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -22,13 +24,13 @@ export class ResponseEspecieListDto implements IResponseEspecieListDto {
             if (Array.isArray(_data["data"])) {
                 this.datos = [] as any;
                 for (let item of _data["data"])
-                    this.datos!.push(EspecieListDto.fromJS(item));
+                    this.datos!.push(PlantillaListDto.fromJS(item));
             }
         }
     }
-    static fromJS(data: any): ResponseEspecieListDto {
+    static fromJS(data: any): ResponsePlantillaListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ResponseEspecieListDto();
+        let result = new ResponsePlantillaListDto();
         result.init(data);
         return result;
     }
@@ -45,20 +47,24 @@ export class ResponseEspecieListDto implements IResponseEspecieListDto {
     }
 }
 
-export interface IEspecieListDto {
+export interface IPlantillaListDto {
     Id: number;
-    CodigoEspecie: String;
-    Especie: String;
-    DescripcionEspecie: String;
+    Plantilla: String;
     Estado: number;
+    FechaRegistro: String;
+    UsuarioCreacion: String;
+    FechaActualizacion: String;
+    UsuarioActualizacion: String;
 }
-export class EspecieListDto implements IEspecieListDto {
+export class PlantillaListDto implements IPlantillaListDto {
     Id: number;
-    CodigoEspecie: String;
-    Especie: String;
-    DescripcionEspecie: String;
+    Plantilla: String;
     Estado: number;
-    constructor(data?: IEspecieListDto) {
+    FechaRegistro: String;
+    UsuarioCreacion: String;
+    FechaActualizacion: String;
+    UsuarioActualizacion: String;
+    constructor(data?: IPlantillaListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -69,15 +75,17 @@ export class EspecieListDto implements IEspecieListDto {
     init(_data?: any) {
         if (_data) {
             this.Id = _data["Id"];
-            this.CodigoEspecie = _data["CodigoEspecie"];
-            this.Especie = _data["Especie"];
-            this.DescripcionEspecie = _data["DescripcionEspecie"];  
+            this.Plantilla = _data["Plantilla"];
             this.Estado = _data["Estado"];
+            this.FechaRegistro = _data["FechaRegistro"];
+            this.UsuarioCreacion = _data["UsuarioCreacion"];
+            this.FechaActualizacion = _data["FechaActualizacion"];
+            this.UsuarioActualizacion = _data["UsuarioActualizacion"];
         }
     }
-    static fromJS(data: any): EspecieListDto {
+    static fromJS(data: any): PlantillaListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new EspecieListDto();
+        let result = new PlantillaListDto();
         result.init(data);
         return result;
     }
@@ -88,16 +96,16 @@ export class EspecieListDto implements IEspecieListDto {
     }
 }
 
-export interface IResponseEspecieGetDto {
+export interface IResponsePlantillaGetDto {
     success: boolean;
     message: String;
-    datos: EspecieGetDto;
+    datos: PlantillaGetDto;
 }
-export class ResponseEspecieGetDto implements IResponseEspecieGetDto {
+export class ResponsePlantillaGetDto implements IResponsePlantillaGetDto {
     success: boolean;
     message: String;
-    datos: EspecieGetDto;
-    constructor(data?: IResponseEspecieGetDto) {
+    datos: PlantillaGetDto;
+    constructor(data?: IResponsePlantillaGetDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -109,12 +117,12 @@ export class ResponseEspecieGetDto implements IResponseEspecieGetDto {
         if (_data) {
             this.success = _data["success"];
             this.message = _data["message"];
-            this.datos = EspecieGetDto.fromJS(_data["data"]);
+            this.datos = PlantillaGetDto.fromJS(_data["data"]);
         }
     }
-    static fromJS(data: any): ResponseEspecieGetDto {
+    static fromJS(data: any): ResponsePlantillaGetDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ResponseEspecieGetDto();
+        let result = new ResponsePlantillaGetDto();
         result.init(data);
         return result;
     }
@@ -128,18 +136,18 @@ export class ResponseEspecieGetDto implements IResponseEspecieGetDto {
 }
 
 
-export interface IEspecieGetDto {
+export interface IPlantillaGetDto {
     Id: number;
-    CodigoEspecie: String;
-    Especie: String;
-    DescripcionEspecie: String;
+    Plantilla: String;
+    Descripcion: String;
+    NumCuestionario: number;
 }
-export class EspecieGetDto implements IEspecieGetDto {
+export class PlantillaGetDto implements IPlantillaGetDto {
     Id: number;
-    CodigoEspecie: String;
-    Especie: String;
-    DescripcionEspecie: String;
-    constructor(data?: IEspecieGetDto) {
+    Plantilla: String;
+    Descripcion: String;
+    NumCuestionario: number;
+    constructor(data?: IPlantillaGetDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -150,23 +158,23 @@ export class EspecieGetDto implements IEspecieGetDto {
     init(_data?: any) {
         if (_data) {
             this.Id = _data["Id"];
-            this.CodigoEspecie= _data["CodigoEspecie"];
-            this.Especie= _data["Especie"];
-            this.DescripcionEspecie= _data["DescripcionEspecie"];
+            this.Plantilla = _data["Plantilla"];
+            this.Descripcion = _data["Descripcion"];
+            this.NumCuestionario = _data["NumCuestionario"];                  
         }
     }
-    static fromJS(data: any): EspecieGetDto {
+    static fromJS(data: any): PlantillaGetDto {
         data = typeof data === 'object' ? data : {};
-        let result = new EspecieGetDto();
+        let result = new PlantillaGetDto();
         result.init(data);
         return result;
     }
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.Id;
-        data["CodigoEspecie"] = this.CodigoEspecie;
-        data["Especie"] = this.Especie;
-        data["DescripcionEspecie"] = this.DescripcionEspecie;
+        data["Plantilla"] = this.Id;
+        data["Descripcion"] = this.Id;
+        data["NumCuestionario"] = this.Id;
         return data;
     }
 }

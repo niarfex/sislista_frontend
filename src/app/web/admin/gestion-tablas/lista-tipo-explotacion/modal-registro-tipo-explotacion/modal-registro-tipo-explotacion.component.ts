@@ -87,7 +87,8 @@ export class ModalRegistroTipoExplotacionComponent implements OnInit {
             next: (result) => {
               if (result.success) {
                 this.toastr.success(result.message.toString(), 'Información');   
-                this.idRegistro=Number.parseInt(result.datos.toString());          
+                this.idRegistro=Number.parseInt(result.datos.toString());   
+                this.close();       
               }
               else {
                 this.toastr.warning(result.message.toString(), 'Aviso');

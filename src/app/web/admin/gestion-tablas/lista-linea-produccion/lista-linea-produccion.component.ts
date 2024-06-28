@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { LineaProduccionListDto } from 'src/app/models/LineaProduccion';
+import { Login } from 'src/app/models/login';
+import { LoginService } from 'src/auth/services/login.service';
 import { LineaProduccionServiceProxy } from 'src/shared/service-proxies/lineaproduccion-proxies';
 
 @Component({
@@ -18,16 +20,19 @@ export class ListaLineaProduccionComponent implements OnInit {
   txt_busqueda:string="";
   lista_resultados: LineaProduccionListDto[];
   idRegistro: number;
+  usuario:Login; 
   private lineaproduccionServiceProxy: LineaProduccionServiceProxy;
   constructor(_injector: Injector
     , private confirmationService: ConfirmationService
     , private modalService: BsModalService
     , private spinner: NgxSpinnerService
-    , private toastr: ToastrService) {
+    , private toastr: ToastrService
+    ,private loginService: LoginService) {
       this.lineaproduccionServiceProxy = _injector.get(LineaProduccionServiceProxy);
      }
 
   ngOnInit(): void {
+    this.usuario=this.loginService.getCurrentUserValue;
     this.getData();
   }
 

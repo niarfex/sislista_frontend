@@ -53,7 +53,10 @@ export interface IMarcoListaListDto {
     NombreCompleto: String;
     CondicionJuridica: String;
     RepresentanteLegal: String;
+    IdDepartamento: String;
+    Departamento: String;
     Estado: number;
+    Seleccionado: boolean;
 }
 export class MarcoListaListDto implements IMarcoListaListDto {
     Id: number;
@@ -61,7 +64,10 @@ export class MarcoListaListDto implements IMarcoListaListDto {
     NombreCompleto: String;
     CondicionJuridica: String;
     RepresentanteLegal: String;
+    IdDepartamento: String;
+    Departamento: String;
     Estado: number;
+    Seleccionado: boolean=false;
     constructor(data?: IMarcoListaListDto) {
         if (data) {
             for (var property in data) {
@@ -77,6 +83,8 @@ export class MarcoListaListDto implements IMarcoListaListDto {
             this.NombreCompleto= _data["NombreCompleto"];
             this.CondicionJuridica= _data["CondicionJuridica"];
             this.RepresentanteLegal= _data["RepresentanteLegal"];
+            this.IdDepartamento= _data["IdDepartamento"];
+            this.Departamento= _data["Departamento"];
             this.Estado = _data["Estado"];
         }
     }

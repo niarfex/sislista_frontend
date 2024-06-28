@@ -60,7 +60,8 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
         NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
         JwtModule.forRoot({ config: { tokenGetter } })
     ],
-    declarations: [RootComponent],
+    declarations: [RootComponent
+    ],
     providers: [provideHttpClient(withFetch()), { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: APP_INITIALIZER, useFactory: initCommonConfig, deps: [AppConsts], multi: true }    
     ],

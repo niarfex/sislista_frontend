@@ -1,15 +1,15 @@
 <div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
     <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
         <div class="modal-header"
-            style="background-color: green; color: white; text-align: center; align-items: center;">
+            style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
             <span style="font-size: large; font-weight: bold;">
-                Registro de Organización
+                Registro de Usuario
             </span>
             <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col-sm-12" style="color:green">
+                <div class="col-sm-12" style="color: #008F49">
                     <h3>Datos Personales</h3>
                 </div>
             </div>
@@ -18,14 +18,14 @@
                     <div class="form-group">
                         <label for="IdTipoDocumento">Tipo de documento</label>
                         <select formControlName="IdTipoDocumento" id="IdTipoDocumento" name="IdTipoDocumento"
-                            class="form-select">
-                            <option value="" disabled selected>-- Seleccionar --</option> 
-                            <option *ngFor="let item of objRegistro.ListTipoDocumento"
-                                [value]="item.value">
+                            class="form-select" (change)="selTipoDocumento()">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of objRegistro.ListTipoDocumento" [value]="item.value">
                                 {{ item.label }}
-                            </option>   
+                            </option>
                         </select>
-                        <div *ngIf="IdTipoDocumento.invalid && (IdTipoDocumento.dirty || IdTipoDocumento.touched)" class="text-danger">
+                        <div *ngIf="IdTipoDocumento.invalid && (IdTipoDocumento.dirty || IdTipoDocumento.touched)"
+                            class="text-danger">
                             <div *ngIf="IdTipoDocumento.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -35,8 +35,16 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="NumeroDocumento">Número de documento</label>
-                        <input formControlName="NumeroDocumento" onkeypress="return '0123456789'.includes(event.key)" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'NumeroDocumento')" required>
-                        <div *ngIf="NumeroDocumento.invalid && (NumeroDocumento.dirty || NumeroDocumento.touched)" class="text-danger">
+                        <div class="input-group">
+                            <input formControlName="NumeroDocumento" maxlength="11"
+                                onkeypress="return '0123456789'.includes(event.key)" type="text" class="form-control"
+                                (focusout)="onFocusOutEvent($event,'NumeroDocumento')" required>
+                            <button *ngIf="modalActivo && selDNI" class="btn btn-primary" (click)="getDatosRENIEC()"
+                                style="background-color: #008F49; border-color: #008F49;" type="button"><i
+                                    class="bi bi-search"></i></button>
+                        </div>
+                        <div *ngIf="NumeroDocumento.invalid && (NumeroDocumento.dirty || NumeroDocumento.touched)"
+                            class="text-danger">
                             <div *ngIf="NumeroDocumento.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -48,7 +56,8 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="Nombre">Nombres</label>
-                        <input formControlName="Nombre" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Nombre')" required>
+                        <input formControlName="Nombre" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'Nombre')" required>
                         <div *ngIf="Nombre.invalid && (Nombre.dirty || Nombre.touched)" class="text-danger">
                             <div *ngIf="Nombre.errors?.['required']">
                                 El campo es requerido.
@@ -59,8 +68,10 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="ApellidoPaterno">Apellido paterno</label>
-                        <input formControlName="ApellidoPaterno" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'ApellidoPaterno')" required>
-                        <div *ngIf="ApellidoPaterno.invalid && (ApellidoPaterno.dirty || ApellidoPaterno.touched)" class="text-danger">
+                        <input formControlName="ApellidoPaterno" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'ApellidoPaterno')" required>
+                        <div *ngIf="ApellidoPaterno.invalid && (ApellidoPaterno.dirty || ApellidoPaterno.touched)"
+                            class="text-danger">
                             <div *ngIf="ApellidoPaterno.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -72,8 +83,10 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="ApellidoMaterno">Apellido materno</label>
-                        <input formControlName="ApellidoMaterno" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'ApellidoMaterno')" required>
-                        <div *ngIf="ApellidoMaterno.invalid && (ApellidoMaterno.dirty || ApellidoMaterno.touched)" class="text-danger">
+                        <input formControlName="ApellidoMaterno" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'ApellidoMaterno')" required>
+                        <div *ngIf="ApellidoMaterno.invalid && (ApellidoMaterno.dirty || ApellidoMaterno.touched)"
+                            class="text-danger">
                             <div *ngIf="ApellidoMaterno.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -84,12 +97,11 @@
                     <div class="form-group">
                         <label for="IdPerfil">Perfil</label>
                         <select formControlName="IdPerfil" id="IdPerfil" name="IdPerfil" (change)="selPerfil($event)"
-                            class="form-select"> 
-                            <option value="" disabled selected>-- Seleccionar --</option> 
-                            <option *ngFor="let item of objRegistro.ListPerfil"
-                                [value]="item.value">
+                            class="form-select">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of objRegistro.ListPerfil" [value]="item.value">
                                 {{ item.label }}
-                            </option>                                            
+                            </option>
                         </select>
                         <div *ngIf="IdPerfil.invalid && (IdPerfil.dirty || IdPerfil.touched)" class="text-danger">
                             <div *ngIf="IdPerfil.errors?.['required']">
@@ -109,14 +121,14 @@
                     <div class="form-group">
                         <label for="IdOrganizacion">Organización</label>
                         <select formControlName="IdOrganizacion" id="IdOrganizacion" name="IdOrganizacion"
-                            class="form-select"> 
-                            <option value="" disabled selected>-- Seleccionar --</option> 
-                            <option *ngFor="let item of objRegistro.ListOrganizacion"
-                                [value]="item.value">
+                            class="form-select">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of objRegistro.ListOrganizacion" [value]="item.value">
                                 {{ item.label }}
-                            </option>                                            
+                            </option>
                         </select>
-                        <div *ngIf="IdOrganizacion.invalid && (IdOrganizacion.dirty || IdOrganizacion.touched)" class="text-danger">
+                        <div *ngIf="IdOrganizacion.invalid && (IdOrganizacion.dirty || IdOrganizacion.touched)"
+                            class="text-danger">
                             <div *ngIf="IdOrganizacion.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -126,8 +138,10 @@
                 <div *ngIf="contacto" class="col-sm-6">
                     <div class="form-group">
                         <label for="OficinaArea">Oficina o área</label>
-                        <input formControlName="OficinaArea" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'OficinaArea')" required>
-                        <div *ngIf="OficinaArea.invalid && (OficinaArea.dirty || OficinaArea.touched)" class="text-danger">
+                        <input formControlName="OficinaArea" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'OficinaArea')" required>
+                        <div *ngIf="OficinaArea.invalid && (OficinaArea.dirty || OficinaArea.touched)"
+                            class="text-danger">
                             <div *ngIf="OficinaArea.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -135,11 +149,12 @@
                     </div>
                 </div>
             </div>
-            <div  class="row">
+            <div class="row">
                 <div *ngIf="contacto" class="col-sm-6">
                     <div class="form-group">
                         <label for="Cargo">Cargo</label>
-                        <input formControlName="Cargo" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Cargo')" required>
+                        <input formControlName="Cargo" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'Cargo')" required>
                         <div *ngIf="Cargo.invalid && (Cargo.dirty || Cargo.touched)" class="text-danger">
                             <div *ngIf="Cargo.errors?.['required']">
                                 El campo es requerido.
@@ -150,7 +165,9 @@
                 <div *ngIf="contacto || contactoMarco" class="col-sm-6">
                     <div class="form-group">
                         <label for="Celular">Celular</label>
-                        <input formControlName="Celular" onkeypress="return '0123456789'.includes(event.key)" maxlength="10" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Celular')" required>
+                        <input formControlName="Celular" onkeypress="return '0123456789'.includes(event.key)"
+                            maxlength="10" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'Celular')" required>
                         <div *ngIf="Celular.invalid && (Celular.dirty || Celular.touched)" class="text-danger">
                             <div *ngIf="Celular.errors?.['required']">
                                 El campo es requerido.
@@ -161,51 +178,64 @@
                 <div *ngIf="contacto || contactoMarco" class="col-sm-6">
                     <div class="form-group">
                         <label for="CorreoElectronico">Correo electrónico</label>
-                        <input formControlName="CorreoElectronico" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
-                        <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)" class="text-danger">
-                            <div *ngIf="CorreoElectronico.errors?.['required']">
-                                El campo es requerido.
-                            </div>
+                        <input formControlName="CorreoElectronico" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
+                        <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)"
+                            class="text-danger">
+                            <div *ngIf="CorreoElectronico.errors?.['required']">El campo es requerido.</div>
+                            <div *ngIf="CorreoElectronico.errors?.['email']">El campo no cumple con el formato requerido</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">                    
+                <div class="col-sm-6">
                 </div>
             </div>
             <div *ngIf="contactoMarco" class="row">
-                <div class="col-sm-12" style="color:green">
+                <div class="col-sm-12" style="color:#008F49">
                     <h3>Marco de Lista asignado</h3>
                 </div>
             </div>
             <div *ngIf="contactoMarco" class="row">
                 <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="IdDepartamento">Seleccione departamento</label>
-                        <select formControlName="IdDepartamento" id="IdDepartamento" name="IdDepartamento"
-                            class="form-select">   
-                            <option value="" disabled selected>-- Seleccionar --</option> 
-                            <option *ngFor="let item of objRegistro.ListDepartamento"
-                                [value]="item.value">
-                                {{ item.label }}
-                            </option>                                         
-                        </select>                       
-                    </div>
+                    <label for="IdDepartamento">Seleccione departamento</label>
                 </div>
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary" (click)="consultarElementos(viewUserTemplate)">Consultar</button>
                 </div>
             </div>
             <div *ngIf="contactoMarco" class="row">
-                <lista-marco-lista-asignado></lista-marco-lista-asignado>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <select formControlName="IdDepartamento" id="IdDepartamento" name="IdDepartamento"
+                            class="form-select">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of objRegistro.ListDepartamento" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-primary"
+                        style="background-color:  #008F49; border-color:  #008F49;"
+                        (click)="consultarElementos(viewUserTemplate)">Consultar</button>
+                </div>
+            </div>
+            <div *ngIf="contactoMarco" class="row">
+                <lista-marco-lista-asignado [lista_asignados]="objRegistro.ListMarcoListaAsignados"
+                (enviarAsignados)="actualizarAsignados($event)"
+                ></lista-marco-lista-asignado>
             </div>
         </div>
         <div class="modal-footer text-end" style="display: block;">
-            <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
-                style="background-color: green; border-color: green;">Registrar</button>
+            <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
+                style="background-color: #008F49; border-color: #008F49;">Registrar</button>
         </div>
     </form>
     <p-confirmDialog></p-confirmDialog>
-    <ng-template #viewUserTemplate >
-        <modal-consulta-elementos [exitSubModal]="exitSubModal"></modal-consulta-elementos> 
+    <ng-template #viewUserTemplate>
+        <modal-consulta-elementos [exitSubModal]="exitSubModal"
+        [idDepartamento]="IdDepartamento.value"
+        [lista_asignados]="objRegistro.ListMarcoListaAsignados"
+        (enviarAsignados)="agregarAsignados($event)"></modal-consulta-elementos>
     </ng-template>
 </div>

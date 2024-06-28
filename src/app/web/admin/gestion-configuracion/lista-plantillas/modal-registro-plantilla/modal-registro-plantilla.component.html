@@ -1,23 +1,68 @@
 <div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
     <form [formGroup]="modalForm" (ngSubmit) = "onClickSubmit(modalForm.value)">
         <div class="modal-header"
-            style="background-color: green; color: white; text-align: center; align-items: center;">
+            style="background-color: #008F49; color: white; text-align: center; align-items: center;">
             <span style="font-size: large; font-weight: bold;">
-                Registro de Organización
-            </span>
+                Plantilla de Cuestionario
+            </span>            
+            <div style="padding-left: 20px;">
+                <button [disabled]="indiceCuestionario==1?true:false" class="btn" type="button" (click)="slideLeft()" style="color: white; font-weight: bold; border-color: #008F49;"><i class="pi pi-chevron-circle-left" style="font-size: xx-large;"></i></button>
+                <span style="font-size:x-large;">{{ "0"+indiceCuestionario.toString() }} de {{ "0"+totalCuestionario.toString() }}</span>
+                <button [disabled]="indiceCuestionario==totalCuestionario?true:false" class="btn" type="button" (click)="slideRight()" style="color: white; font-weight: bold; border-color: #008F49;"><i class="pi pi-chevron-circle-right" style="font-size: xx-large;"></i></button>
+            </div>
             <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
         </div>
         <div class="modal-body">
-            <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-            <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                <div *ngIf="campo.errors?.['required']">
-                    El campo es requerido.
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="Plantilla">Nombre de plantilla</label>
+                        <input formControlName="Plantilla" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Plantilla')" required>
+                        <div *ngIf="Plantilla.invalid && (Plantilla.dirty || Plantilla.touched)" class="text-danger">
+                            <div *ngIf="Plantilla.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>  
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="Descripcion">Descripción</label>
+                        <input formControlName="Descripcion" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Descripcion')" required>
+                        <div *ngIf="Descripcion.invalid && (Descripcion.dirty || Descripcion.touched)" class="text-danger">
+                            <div *ngIf="Descripcion.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div *ngIf="indiceCuestionario==1">
+                        <plantilla-uno></plantilla-uno>
+                    </div>
+                    <div *ngIf="indiceCuestionario==2">
+                        <plantilla-dos></plantilla-dos>
+                    </div>     
+                </div>
+            </div>
+            
         </div>
         <div class="modal-footer text-end" style="display: block;">
-            <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
-                style="background-color: green; border-color: green;">Registrar</button>
+            <div class="row">
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid"
+                    style="background-color: green; border-color: green;">Previsualizar</button>
+                </div>
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
+                    style="background-color: green; border-color: green;">Registrar</button>
+                </div>
+            </div>
+            
         </div>
     </form>
 </div>

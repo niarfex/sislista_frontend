@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, Validators,ReactiveFormsModule } from '@angular/forms';
+import { ListaInformantesComponent } from '../lista-informantes/lista-informantes.component';
+import { ListaCamposPlantillaComponent } from '../lista-campos-plantilla/lista-campos-plantilla.component';
 
 @Component({
+  standalone: true,
   selector: 'plantilla-uno',
   templateUrl: './plantilla-uno.component.html',
-  styleUrl: './plantilla-uno.component.scss'
+  styleUrl: './plantilla-uno.component.scss',
+  imports: [CommonModule,ReactiveFormsModule,ListaInformantesComponent,ListaCamposPlantillaComponent]
 })
 export class PlantillaUnoComponent implements OnInit {
   plantillaForm=this.formBuilder.group({
