@@ -45,7 +45,13 @@ export class NotificacionServiceProxy {
                 return <Observable<ResponseNotificacionListDto>><any>_observableThrow(response_);
         }));
     }
-
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/notificacion/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
     protected processgetAll(response: HttpResponseBase): Observable<ResponseNotificacionListDto> {
         const status = response.status;
         const responseBlob =
@@ -152,6 +158,34 @@ export class NotificacionServiceProxy {
 
     DeleteNotificacionxId(id:number): Observable<Respuesta> {
         let url_ = AppConsts.urlHost + "v1/notificacion/DeleteNotificacionxId?";
+        if (id!== undefined && id!== null)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }    
+    NotificarNotificacionxId(id:number): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/notificacion/NotificarNotificacionxId?";
         if (id!== undefined && id!== null)
             url_ += "id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");

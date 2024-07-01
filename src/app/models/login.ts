@@ -4,7 +4,8 @@ export class Login {
     NumeroDocumento:String;
     CodigoPerfil:String;
     Perfil:String;
-    AccesToken:String;
+    AccessToken:String;
+    RefreshToken:String;
     isAdministrador:boolean=false;
     isEmpadronador:boolean=false;
     isSupervidor:boolean=false;

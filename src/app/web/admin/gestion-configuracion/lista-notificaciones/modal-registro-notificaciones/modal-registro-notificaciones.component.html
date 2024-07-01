@@ -3,7 +3,7 @@
         <div class="modal-header"
             style="background-color: green; color: white; text-align: center; align-items: center;">
             <span style="font-size: large; font-weight: bold;">
-                Registro de Organización
+                Datos de la Notificación
             </span>
             <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
         </div>
@@ -17,7 +17,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="Asunto">Asunto</label>
-                        <input formControlName="Asunto" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Asunto')" required>
+                        <input formControlName="Asunto" maxlength="200" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Asunto')" required>
                         <div *ngIf="Asunto.invalid && (Asunto.dirty || Asunto.touched)" class="text-danger">
                             <div *ngIf="Asunto.errors?.['required']">
                                 El campo es obligatorio
@@ -69,7 +69,7 @@
                         <select formControlName="IdEtapa" id="IdEtapa" name="IdEtapa"
                             class="form-select">  
                             <option value="" disabled selected>-- Seleccionar --</option> 
-                            <option *ngFor="let item of objRegistro.ListProgramacionesVigentes"
+                            <option *ngFor="let item of objRegistro.ListEtapas"
                                 [value]="item.value">
                                 {{ item.label }}
                             </option>                                           
@@ -86,7 +86,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label for="Descripcion">Descripción</label>
-                        <input formControlName="Descripcion" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Descripcion')" required>
+                        <input formControlName="Descripcion" type="text" maxlength="500" class="form-control" (focusout)="onFocusOutEvent($event,'Descripcion')" required>
                         <div *ngIf="Descripcion.invalid && (Descripcion.dirty || Descripcion.touched)" class="text-danger">
                             <div *ngIf="Descripcion.errors?.['required']">
                                 El campo es obligatorio
@@ -125,7 +125,7 @@
             </div>
         </div>
         <div class="modal-footer text-end" style="display: block;">
-            <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
+            <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
                 style="background-color: green; border-color: green;">Registrar</button>
         </div>
     </form>

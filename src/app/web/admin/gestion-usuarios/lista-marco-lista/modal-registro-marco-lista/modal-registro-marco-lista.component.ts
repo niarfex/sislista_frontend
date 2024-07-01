@@ -7,6 +7,7 @@ import { finalize } from 'rxjs/operators';
 import { MarcoListaGetDto } from 'src/app/models/MarcoLista';
 import { MarcoListaServiceProxy } from 'src/shared/service-proxies/marcolista-proxies';
 import { UbigeoServiceProxy } from 'src/shared/service-proxies/ubigeo-proxies';
+import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies';
 
 @Component({
   selector: 'modal-registro-marco-lista',
@@ -41,16 +42,18 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
     IdProvinciaPer: ['', [Validators.required]],
     IdDistritoPer: ['', [Validators.required]],
     IdTipoExplotacion: ['', [Validators.required]],
-    Telefono: ['', [Validators.required]],
+    Telefono: [''],
     Celular: ['', [Validators.required]],
     CorreoElectronico: ['', [Validators.required, Validators.email]],
-    PaginaWeb: ['', [Validators.required]],
+    PaginaWeb: [''],
     NombreRepLegal: ['', this.perSA ? [Validators.required] : []],
     CelularRepLegal: ['', this.perSA ? [Validators.required] : []],
     CorreoRepLegal: ['', this.perSA ? [Validators.required, Validators.email] : []],
     Direccion: ['', [Validators.required]],
     IdDepartamento: ['', [Validators.required]],
+    IdAnio: ['', [Validators.required]],
   });
+  private usuarioServiceProxy: UsuarioServiceProxy;
   private marcolistaServiceProxy: MarcoListaServiceProxy;
   private ubigeoServiceProxy: UbigeoServiceProxy;
   constructor(_injector: Injector
@@ -60,6 +63,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
     , private toastr: ToastrService) {
     this.marcolistaServiceProxy = _injector.get(MarcoListaServiceProxy);
     this.ubigeoServiceProxy = _injector.get(UbigeoServiceProxy);
+    this.usuarioServiceProxy = _injector.get(UsuarioServiceProxy);
   }
   get IdCondicionJuridica() { return this.modalForm.controls['IdCondicionJuridica']; }
   get IdCondicionJuridicaOtros() { return this.modalForm.controls['IdCondicionJuridicaOtros']; }
@@ -86,6 +90,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
   get CorreoRepLegal() { return this.modalForm.controls['CorreoRepLegal']; }
   get Direccion() { return this.modalForm.controls['Direccion']; }
   get IdDepartamento() { return this.modalForm.controls['IdDepartamento']; }
+  get IdAnio() { return this.modalForm.controls['IdAnio']; }
   ngOnInit(): void {
     this.spinner.show();
     this.marcolistaServiceProxy.getMarcoListaxId(this.idRegistro)
@@ -111,6 +116,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
               this.modalForm.controls['PaginaWeb'].setValue(this.objRegistro.PaginaWeb.toString());
               this.modalForm.controls['Direccion'].setValue(this.objRegistro.Direccion==null?null:this.objRegistro.Direccion.toString());
               this.modalForm.controls['IdDepartamento'].setValue(this.objRegistro.IdDepartamento.toString());
+              this.modalForm.controls['IdAnio'].setValue(this.objRegistro.IdAnio==null?null:this.objRegistro.IdAnio.toString());
               if (this.perSA) {
                 this.modalForm.controls['NumeroDocumentoSA'].setValue(this.objRegistro.NumeroDocumento.toString());
                 this.modalForm.controls['RazonSocial'].setValue(this.objRegistro.RazonSocial==null?null:this.objRegistro.RazonSocial.toString());
@@ -140,7 +146,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
   }
 
   onFocusOutEvent(event: any, nombreControl: string) {
-    this.modalForm.controls[nombreControl].setValue(event.target.value.trim());
+    this.modalForm.controls[nombreControl].setValue(event.target.value.trim().toUpperCase());
   }
 
   onClickSubmit(data) {
@@ -187,7 +193,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
         this.objRegistro.PaginaWeb = this.PaginaWeb.value;
         this.objRegistro.Direccion = this.Direccion.value;
         this.objRegistro.IdDepartamento = this.IdDepartamento.value;
-
+        this.objRegistro.IdAnio = Number.parseInt(this.IdAnio.value);
         this.spinner.show();
         this.marcolistaServiceProxy.CreateMarcoLista(this.objRegistro)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
@@ -280,5 +286,51 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
           }
         }
       });
+  }
+  getDatosRENIEC(){
+    if(this.NumeroDocumentoPN.value.length==8){
+    this.spinner.show();
+        this.usuarioServiceProxy.GetDatosRENIEC(this.NumeroDocumentoPN.value)
+          .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+          .subscribe({
+            next: (result) => {
+              if (result.success) {
+                var reniec = JSON.parse(result.datos.toString());
+                this.Nombre.setValue(reniec.datos.prenombres);
+                this.ApellidoPaterno.setValue(reniec.datos.apPrimer);
+                this.ApellidoMaterno.setValue(reniec.datos.apSegundo);
+                this.toastr.success(result.message.toString(), 'Información');
+              }
+              else {
+                this.toastr.error(result.message.toString(), 'Error');
+              }
+            }
+          });
+        }
+        else{
+          this.toastr.error("El DNI debe tener 8 dígitos", 'Error');
+        }
+  }
+  getDatosSUNAT(){
+    if(this.NumeroDocumentoSA.value.length==11){
+    this.spinner.show();
+        this.usuarioServiceProxy.GetDatosSUNAT(this.NumeroDocumentoSA.value)
+          .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+          .subscribe({
+            next: (result) => {
+              if (result.success) {
+                var sunat= JSON.parse(result.datos.toString());
+                this.RazonSocial.setValue(sunat.datos.ddp_nombre);
+                this.toastr.success(result.message.toString(), 'Información');
+              }
+              else {
+                this.toastr.error(result.message.toString(), 'Error');
+              }
+            }
+          });
+        }
+        else{
+          this.toastr.error("El RUC debe tener 11 dígitos", 'Error');
+        }
   }
 }

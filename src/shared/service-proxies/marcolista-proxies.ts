@@ -45,7 +45,13 @@ export class MarcoListaServiceProxy {
                 return <Observable<ResponseMarcoListaListDto>><any>_observableThrow(response_);
         }));
     }
-
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/marcolista/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
     protected processgetAll(response: HttpResponseBase): Observable<ResponseMarcoListaListDto> {
         const status = response.status;
         const responseBlob =

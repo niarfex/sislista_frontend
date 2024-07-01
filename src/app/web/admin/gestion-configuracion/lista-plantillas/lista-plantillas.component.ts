@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, Injector, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -21,6 +22,7 @@ export class ListaPlantillasComponent implements OnInit {
   txt_busqueda: string = "";
   lista_resultados: PlantillaListDto[];
   idRegistro: number;
+  modalActivo:boolean;
   usuario:Login; 
   private plantillaServiceProxy: PlantillaServiceProxy;
   constructor(_injector: Injector
@@ -50,13 +52,20 @@ export class ListaPlantillasComponent implements OnInit {
       });
   }
 
-  agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
+  abrirModal(viewUserTemplate: TemplateRef<any>, id: number,activo:boolean){
     this.idRegistro = id;
+    this.modalActivo=activo;
     this.modalRef = this.modalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
-      class: 'modal-m'
+      class: 'modal-lg'
     });
+  }
+  agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
+    this.abrirModal(viewUserTemplate,id,true);
+  }
+  verRegistro(viewUserTemplate: TemplateRef<any>, id: number){
+    this.abrirModal(viewUserTemplate,id,false);
   }
   desactivarRegistro(id: number) {
     this.confirmationService.confirm({
@@ -159,13 +168,27 @@ export class ListaPlantillasComponent implements OnInit {
 
       }
     });
-  }
-  verRegistro(id:number){
-
-  }
+  } 
   exitModal = (): void => {
     this.modalRef?.hide();
     this.getData();
   };
-
+  exportar(){
+    this.plantillaServiceProxy.getAllToExcel(this.txt_busqueda).subscribe(async (event) => {
+      let data = event as HttpResponse < Blob > ;
+            const downloadedFile = new Blob([data.body as BlobPart], {
+                type: data.body?.type
+            });         
+        if (downloadedFile.type != "") {
+          const a = document.createElement('a');
+          a.setAttribute('style', 'display:none;');
+          document.body.appendChild(a);
+          a.download = "plantillas.xlsx";
+          a.href = URL.createObjectURL(downloadedFile);
+          a.target = '_blank';
+          a.click();
+          document.body.removeChild(a);
+        }
+    });
+}
 }

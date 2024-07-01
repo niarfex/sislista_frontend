@@ -11,10 +11,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Código</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="CodigoEspecie">Código</label>
+                        <input formControlName="CodigoEspecie" type="text" class="form-control" required>
+                        <div *ngIf="CodigoEspecie.invalid && (CodigoEspecie.dirty || CodigoEspecie.touched)" class="text-danger">
+                            <div *ngIf="CodigoEspecie.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -22,10 +22,10 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Nombre</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="Especie">Especie</label>
+                        <input formControlName="Especie" type="text" class="form-control" required>
+                        <div *ngIf="Especie.invalid && (Especie.dirty || Especie.touched)" class="text-danger">
+                            <div *ngIf="Especie.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>
@@ -35,10 +35,10 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="campo">Descripción</label>
-                        <input formControlName="campo" type="text" class="form-control" [(ngModel)]="txt_campo" required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <label for="DescripcionEspecie">Descripción</label>
+                        <input formControlName="DescripcionEspecie" type="text" class="form-control" required>
+                        <div *ngIf="DescripcionEspecie.invalid && (DescripcionEspecie.dirty || DescripcionEspecie.touched)" class="text-danger">
+                            <div *ngIf="DescripcionEspecie.errors?.['required']">
                                 El campo es obligatorio
                             </div>
                         </div>

@@ -16,6 +16,7 @@ export class ModalProgramacionRegistroComponent implements OnInit {
 
   @Input() exitModal = (): void => {};
   @Input() idRegistro:number;
+  @Input() modalActivo: boolean = true;
   objRegistro:PanelRegistroGetDto = new PanelRegistroGetDto();
   active: boolean = true;
   modalForm=this.formBuilder.group({
@@ -64,9 +65,12 @@ export class ModalProgramacionRegistroComponent implements OnInit {
                 this.modalForm.controls['EnteRector'].setValue(this.objRegistro.EnteRector.toString());
               }
             }
-            else{
+            else {
               this.toastr.error(result.message.toString(), 'Error');
-            }            
+            }
+            if (!this.modalActivo) {
+              this.modalForm.disable();  
+            }           
           }
         });
   }
@@ -77,6 +81,10 @@ export class ModalProgramacionRegistroComponent implements OnInit {
  }
 
   onClickSubmit(data) {
+    if(this.FechaInicio.value>this.FechaFin.value){
+      this.toastr.error("La fecha de cierre debe ser mayor o igual a la fecha de inicio", 'Error');
+      return;
+    }
     this.confirmationService.confirm({
       message: '¿Estás seguro de guardar los datos ingresados?',
       header: 'Guardar',

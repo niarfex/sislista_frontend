@@ -8,14 +8,14 @@
         <div class="col-sm-12">
             <div class="input-group">            
                 <input class="form-control m-input" maxlength="50" type="text" [(ngModel)]="txt_busqueda" [ngModelOptions]="{standalone: true}"/>
-                <button class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49;" type="button" (click)="getData()"><i class="bi bi-search"></i></button>                                            
+                <button class="btn btn-primary" style=" background-color: #008F49; border-color: #008F49;" type="button" (click)="getData()"><i class="bi bi-search"></i></button>                                            
             </div>
         </div>  
     </div>
     <div class="row mb-3">
         <div class="col-sm-10">
-            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nuevo</button>
-            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49;" type="button">Exportar</button>
+            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49; margin-right: 10px;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nuevo</button>
+            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49;" type="button" (click)="exportar()">Exportar</button>
         </div>        
         <div class="col-sm-2 text-end">
             Filtro<select>

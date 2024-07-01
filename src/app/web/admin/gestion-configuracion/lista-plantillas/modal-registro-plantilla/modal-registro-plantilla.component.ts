@@ -15,9 +15,11 @@ import { PlantillaServiceProxy } from 'src/shared/service-proxies/plantilla-prox
 export class ModalRegistroPlantillaComponent implements OnInit {
 
   @Input() exitModal = (): void => { };
+  @Input() idRegistro:number;
+  @Input() modalActivo: boolean = true;
   indiceCuestionario: number = 1;
   totalCuestionario: number=2;
-  @Input() idRegistro:number;
+  
   objRegistro:PlantillaGetDto = new PlantillaGetDto();
   active: boolean = true;
   modalForm=this.formBuilder.group({
@@ -49,9 +51,12 @@ export class ModalRegistroPlantillaComponent implements OnInit {
                 this.indiceCuestionario=this.objRegistro.Id==0?1:this.objRegistro.NumCuestionario; 
               }
             }
-            else{
+            else {
               this.toastr.error(result.message.toString(), 'Error');
-            }            
+            }
+            if (!this.modalActivo) {
+              this.modalForm.disable();  
+            }           
           }
         });
   }

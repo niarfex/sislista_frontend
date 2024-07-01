@@ -164,9 +164,9 @@ export class TipoExplotacionGetDto implements ITipoExplotacionGetDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.Id;
-        data["CodigoTipoExplotacion"] = this.Id;
-        data["TipoExplotacion"] = this.Id;
-        data["DescripcionTipoExplotacion"] = this.Id;
+        data["CodigoTipoExplotacion"] = this.CodigoTipoExplotacion;
+        data["TipoExplotacion"] = this.TipoExplotacion;
+        data["DescripcionTipoExplotacion"] = this.DescripcionTipoExplotacion;
         return data;
     }
 }

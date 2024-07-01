@@ -45,9 +45,8 @@
                         </div>
                         <div *ngIf="NumeroDocumento.invalid && (NumeroDocumento.dirty || NumeroDocumento.touched)"
                             class="text-danger">
-                            <div *ngIf="NumeroDocumento.errors?.['required']">
-                                El campo es requerido.
-                            </div>
+                            <div *ngIf="NumeroDocumento.errors?.['required']">El campo es requerido.</div>
+                            <div *ngIf="NumeroDocumento.errors?.['min']">el DNI debe tener 8 dígitos</div>
                         </div>
                     </div>
                 </div>

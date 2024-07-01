@@ -48,10 +48,12 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   toggleMenu(event) {
+    console.log("toggleMenu(event)");
     event.currentTarget.nextElementSibling.classList.toggle('mm-show');
   }
 
   ngOnChanges() {
+    console.log("ngOnChanges()");
     if (!this.isCondensed && this.sideMenu || this.isCondensed) {
       setTimeout(() => {
         this.menu = new MetisMenu(this.sideMenu.nativeElement);
@@ -61,6 +63,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
   _scrollElement() {
+    console.log("_scrollElement()");
     setTimeout(() => {
       if (document.getElementsByClassName("mm-active").length > 0) {
         const currentPosition = document.getElementsByClassName("mm-active")[0]['offsetTop'];
@@ -86,6 +89,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
    * Activate the parent dropdown
    */
   _activateMenuDropdown() {
+    console.log("_activateMenuDropdown()");
     this._removeAllClass('mm-active');
     this._removeAllClass('mm-show');
     const links = document.getElementsByClassName('side-nav-link-ref');

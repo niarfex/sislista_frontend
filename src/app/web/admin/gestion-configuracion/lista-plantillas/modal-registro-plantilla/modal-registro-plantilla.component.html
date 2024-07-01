@@ -17,7 +17,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label for="Plantilla">Nombre de plantilla</label>
-                        <input formControlName="Plantilla" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Plantilla')" required>
+                        <input formControlName="Plantilla" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'Plantilla')" required>
                         <div *ngIf="Plantilla.invalid && (Plantilla.dirty || Plantilla.touched)" class="text-danger">
                             <div *ngIf="Plantilla.errors?.['required']">
                                 El campo es requerido.
@@ -30,7 +30,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label for="Descripcion">Descripción</label>
-                        <input formControlName="Descripcion" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Descripcion')" required>
+                        <input formControlName="Descripcion" type="text" maxlength="500" class="form-control" (focusout)="onFocusOutEvent($event,'Descripcion')" required>
                         <div *ngIf="Descripcion.invalid && (Descripcion.dirty || Descripcion.touched)" class="text-danger">
                             <div *ngIf="Descripcion.errors?.['required']">
                                 El campo es requerido.
@@ -57,8 +57,8 @@
                     <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid"
                     style="background-color: green; border-color: green;">Previsualizar</button>
                 </div>
-                <div class="col-sm-6">
-                    <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
+                <div class="col-sm-6 text-end">
+                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
                     style="background-color: green; border-color: green;">Registrar</button>
                 </div>
             </div>

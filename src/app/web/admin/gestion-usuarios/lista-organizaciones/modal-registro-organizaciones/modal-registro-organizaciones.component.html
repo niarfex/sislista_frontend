@@ -37,11 +37,11 @@
                         <label for="NumeroDocumento">RUC</label>
                         <div class="input-group">
                             <input formControlName="NumeroDocumento" onkeypress="return '0123456789'.includes(event.key)" maxlength="11" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'NumeroDocumento')" required>
-                            <button *ngIf="modalActivo" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button"><i class="bi bi-search"></i></button>
+                            <button *ngIf="modalActivo" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="getDatosSUNAT()"><i class="bi bi-search"></i></button>
                         </div>                        
                         <div *ngIf="NumeroDocumento.invalid && (NumeroDocumento.dirty || NumeroDocumento.touched)" class="text-danger">
                             <div *ngIf="NumeroDocumento.errors?.['required']">El campo es obligatorio</div>
-                            <div *ngIf="NumeroDocumento.errors?.['minLenght']">el campo debe tener 11 caracteres como mínimo</div>
+                            <div *ngIf="NumeroDocumento.errors?.['minLenght']">el campo debe tener 11 dígitos</div>
                         </div>
                     </div>   
                 </div>
@@ -97,23 +97,13 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="Telefono">Telefono</label>
-                        <input formControlName="Telefono" type="text" maxlength="9" class="form-control" (focusout)="onFocusOutEvent($event,'Telefono')" required>
-                        <div *ngIf="Telefono.invalid && (Telefono.dirty || Telefono.touched)" class="text-danger">
-                            <div *ngIf="Telefono.errors?.['required']">
-                                El campo es obligatorio
-                            </div>
-                        </div>
+                        <input formControlName="Telefono" type="text" maxlength="9" class="form-control" (focusout)="onFocusOutEvent($event,'Telefono')" >                        
                     </div> 
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="PaginaWeb">Página web</label>
-                        <input formControlName="PaginaWeb" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'PaginaWeb')" required>
-                        <div *ngIf="PaginaWeb.invalid && (PaginaWeb.dirty || PaginaWeb.touched)" class="text-danger">
-                            <div *ngIf="PaginaWeb.errors?.['required']">
-                                El campo es obligatorio
-                            </div>
-                        </div>
+                        <input formControlName="PaginaWeb" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'PaginaWeb')" >                      
                     </div> 
                 </div>
             </div> 
@@ -121,11 +111,8 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="CorreoElectronico">Correo electrónico</label>
-                        <input formControlName="CorreoElectronico" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
-                        <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)" class="text-danger">
-                            <div *ngIf="CorreoElectronico.errors?.['required']">El campo es obligatorio</div>
-                            <div *ngIf="CorreoElectronico.errors?.['email']">El campo no cumple con el formato requerido</div>
-                        </div>
+                        <input formControlName="CorreoElectronico" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'CorreoElectronico')" >
+                        
                     </div> 
                 </div>
                 <div class="col-sm-6">

@@ -16,6 +16,7 @@ export class ModalRegistroNotificacionesComponent implements OnInit {
 
   @Input() exitModal = (): void => {};
   @Input() idRegistro:number;
+  @Input() modalActivo: boolean = true;
   objRegistro:NotificacionGetDto = new NotificacionGetDto();
   active: boolean = true;
   modalForm=this.formBuilder.group({
@@ -50,7 +51,7 @@ export class ModalRegistroNotificacionesComponent implements OnInit {
             if(result.success){
               this.objRegistro = result.datos;
               if(this.objRegistro.Id>0){
-                this.modalForm.controls['Asunto'].setValue(this.objRegistro.Asunto.toString());
+                this.modalForm.controls['Asunto'].setValue(this.objRegistro.Asunto==null?null:this.objRegistro.Asunto.toString());
                 this.modalForm.controls['IdFrecuencia'].setValue(this.objRegistro.IdFrecuencia.toString());
                 this.modalForm.controls['IdProgramacionRegistro'].setValue(this.objRegistro.IdProgramacionRegistro.toString());
                 this.modalForm.controls['IdEtapa'].setValue(this.objRegistro.IdEtapa.toString());
@@ -58,9 +59,12 @@ export class ModalRegistroNotificacionesComponent implements OnInit {
                 this.modalForm.controls['IdPerfil'].setValue(this.objRegistro.IdPerfil.toString());
               }
             }
-            else{
+            else {
               this.toastr.error(result.message.toString(), 'Error');
-            }            
+            }
+            if (!this.modalActivo) {
+              this.modalForm.disable();  
+            }           
           }
         });
   }
@@ -90,6 +94,7 @@ export class ModalRegistroNotificacionesComponent implements OnInit {
         this.objRegistro.IdEtapa=Number.parseInt(this.IdEtapa.value);
         this.objRegistro.IdPerfil=Number.parseInt(this.IdPerfil.value);
         this.objRegistro.Descripcion=this.Descripcion.value;     
+        this.objRegistro.Asunto=this.Asunto.value;
         this.spinner.show();
         this.organizacionServiceProxy.CreateNotificacion(this.objRegistro)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))

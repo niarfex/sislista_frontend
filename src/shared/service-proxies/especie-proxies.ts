@@ -45,7 +45,13 @@ export class EspecieServiceProxy {
                 return <Observable<ResponseEspecieListDto>><any>_observableThrow(response_);
         }));
     }
-
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/especie/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
     protected processgetAll(response: HttpResponseBase): Observable<ResponseEspecieListDto> {
         const status = response.status;
         const responseBlob =

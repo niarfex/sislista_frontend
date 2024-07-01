@@ -70,6 +70,14 @@ export class OrganizacionServiceProxy {
         return _observableOf<ResponseOrganizacionListDto>(<any>null);
     }
 
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/organizacion/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
+
     getOrganizacionxId(id:number): Observable<ResponseOrganizacionGetDto> {
         let url_ = AppConsts.urlHost + "v1/organizacion/GetOrganizacionxId?";   
         if (id!== undefined && id!== null)

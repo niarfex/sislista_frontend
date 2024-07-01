@@ -45,7 +45,13 @@ export class CondicionJuridicaServiceProxy {
                 return <Observable<ResponseCondicionJuridicaListDto>><any>_observableThrow(response_);
         }));
     }
-
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/condicionjuridica/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
     protected processgetAll(response: HttpResponseBase): Observable<ResponseCondicionJuridicaListDto> {
         const status = response.status;
         const responseBlob =

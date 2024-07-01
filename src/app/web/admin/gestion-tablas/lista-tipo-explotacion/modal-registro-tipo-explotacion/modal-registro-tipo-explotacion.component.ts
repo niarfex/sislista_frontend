@@ -21,9 +21,9 @@ export class ModalRegistroTipoExplotacionComponent implements OnInit {
   txt_campo:string="";
   active: boolean = true;
   modalForm=this.formBuilder.group({
-    CodigoCondicionJuridica:['',[Validators.required]],
-    CondicionJuridica:['',[Validators.required]],
-    DescripcionCondicionJuridica:['',[Validators.required]]
+    CodigoTipoExplotacion:['',[Validators.required]],
+    TipoExplotacion:['',[Validators.required]],
+    DescripcionTipoExplotacion:['',[Validators.required]]
   });
   private tipoexplotacionServiceProxy: TipoExplotacionServiceProxy;
   constructor(_injector: Injector
@@ -45,9 +45,9 @@ export class ModalRegistroTipoExplotacionComponent implements OnInit {
             if(result.success){
               this.objRegistro = result.datos;
               if(this.objRegistro.Id>0){
-                this.modalForm.controls['CodigoTipoExplotacion'].setValue(this.objRegistro.CodigoTipoExplotacion.toString());
+                this.modalForm.controls['CodigoTipoExplotacion'].setValue(this.objRegistro.CodigoTipoExplotacion==null?null:this.objRegistro.CodigoTipoExplotacion.toString());
                 this.modalForm.controls['TipoExplotacion'].setValue(this.objRegistro.TipoExplotacion.toString());
-                this.modalForm.controls['DescripcionTipoExplotacion'].setValue(this.objRegistro.DescripcionTipoExplotacion.toString());               
+                this.modalForm.controls['DescripcionTipoExplotacion'].setValue(this.objRegistro.DescripcionTipoExplotacion==null?null:this.objRegistro.DescripcionTipoExplotacion.toString());               
               }
             }
             else{

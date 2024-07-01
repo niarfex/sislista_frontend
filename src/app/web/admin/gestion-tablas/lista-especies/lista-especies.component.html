@@ -14,8 +14,8 @@
     </div>
     <div class="row mb-3">
         <div class="col-sm-10">
-            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: green; border-color: green;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nuevo</button>
-            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: green; border-color: green;" type="button">Exportar</button>
+            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: green; border-color: green; margin-right: 10px;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nuevo</button>
+            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: green; border-color: green;" type="button" (click)="exportar()">Exportar</button>
         </div>        
         <div class="col-sm-2 text-end">
             Filtro<select>
@@ -30,21 +30,18 @@
         <p-table [value]="lista_resultados" [paginator]="true" [rows]="8">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>ID recurso</th>
-                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Descripción recurso</th>
-                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Enlace recurso</th>  
-                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Tipo recurso</th> 
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Publicar</th>          
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Editar</th>
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Eliminar</th>
+                    <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Código</th>
+                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Especie</th>
+                    <th style="width: 35%; flex: none; padding: 5px;" pResizableColumn>Descripción</th>  
+                    <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Estado</th>          
+                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item>
                 <tr>
-                    <td style="width: 10%; flex: none; padding: 5px;">{{ item.idrecursoapoyo }}</td>
-                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.titulorecursoapoyo }}</td>
-                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.enlacerecursoapoyo }}</td> 
-                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.nombretiporecursoapoyo }}</td> 
+                    <td style="width: 10%; flex: none; padding: 5px;">{{ item.CodigoEspecie }}</td>
+                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.Especie }}</td>
+                    <td style="width: 35%; flex: none; padding: 5px;">{{ item.DescripcionEspecie }}</td> 
                     <td style="width: 10%; flex: none; padding: 5px;">
                         <span *ngIf="item.Estado==1">Activo</span><span *ngIf="item.Estado==0">Inactivo</span>
                     </td>
@@ -78,7 +75,7 @@
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
                                     type="button" (click)="eliminarRegistro(item.Id)"><i class="bi bi-trash3"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Eliminar</span>
-                                </div>                                         
+                                </div>                                      
                             </div>
                         </div>
                     </td>

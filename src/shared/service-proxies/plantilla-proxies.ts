@@ -46,6 +46,13 @@ export class PlantillaServiceProxy {
         }));
     }
 
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/plantilla/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
     protected processgetAll(response: HttpResponseBase): Observable<ResponsePlantillaListDto> {
         const status = response.status;
         const responseBlob =

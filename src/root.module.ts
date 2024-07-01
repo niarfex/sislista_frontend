@@ -18,6 +18,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { rootReducer } from './app/store/index';
+import { StoreModule } from '@ngrx/store';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     // Change this to your upload POST address:
@@ -57,6 +59,7 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
         ServiceProxyModule,
         ServerModule,
         DropzoneModule,
+        StoreModule.forRoot(rootReducer),
         NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
         JwtModule.forRoot({ config: { tokenGetter } })
     ],

@@ -7,6 +7,7 @@ import { UbigeoServiceProxy } from 'src/shared/service-proxies/ubigeo-proxies';
 import { NgxSpinnerService } from "ngx-spinner";
 import { LoginService } from 'src/auth/services/login.service';
 import { Login } from 'src/app/models/login';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'lista-ubigeos',
@@ -16,7 +17,7 @@ import { Login } from 'src/app/models/login';
 })
 export class ListaUbigeosComponent implements OnInit {
   modalRef?: BsModalRef;
-  txt_busqueda:String="";
+  txt_busqueda:string="";
   lista_resultados:UbigeoListDto[];
   usuario:Login; 
   private ubigeoServiceProxy: UbigeoServiceProxy;
@@ -55,6 +56,24 @@ export class ListaUbigeosComponent implements OnInit {
   }
   exitModal = (): void => {
     this.modalRef?.hide();
+    this.getData();
   };
-
+  exportar(){
+    this.ubigeoServiceProxy.getAllToExcel(this.txt_busqueda).subscribe(async (event) => {
+      let data = event as HttpResponse < Blob > ;
+            const downloadedFile = new Blob([data.body as BlobPart], {
+                type: data.body?.type
+            });         
+        if (downloadedFile.type != "") {
+          const a = document.createElement('a');
+          a.setAttribute('style', 'display:none;');
+          document.body.appendChild(a);
+          a.download = "ubigeos.xlsx";
+          a.href = URL.createObjectURL(downloadedFile);
+          a.target = '_blank';
+          a.click();
+          document.body.removeChild(a);
+        }
+    });
+}
 }

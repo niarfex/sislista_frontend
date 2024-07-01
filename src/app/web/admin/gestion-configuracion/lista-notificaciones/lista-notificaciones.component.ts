@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, Injector, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -20,6 +21,7 @@ export class ListaNotificacionesComponent implements OnInit {
   txt_busqueda: string = "";
   lista_resultados: NotificacionListDto[];
   idRegistro: number;
+  modalActivo:boolean;
   usuario:Login; 
   private notificacionServiceProxy: NotificacionServiceProxy;
   constructor(_injector: Injector
@@ -49,18 +51,25 @@ export class ListaNotificacionesComponent implements OnInit {
       });
   }
 
-  agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
+  abrirModal(viewUserTemplate: TemplateRef<any>, id: number,activo:boolean){
     this.idRegistro = id;
+    this.modalActivo=activo;
     this.modalRef = this.modalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
       class: 'modal-m'
     });
-  }  
+  }
+  agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
+    this.abrirModal(viewUserTemplate,id,true);
+  }
+  verRegistro(viewUserTemplate: TemplateRef<any>, id: number){
+    this.abrirModal(viewUserTemplate,id,false);
+  }
   eliminarRegistro(id: number) {
     this.confirmationService.confirm({
-      message: '¿Estás seguro de eliminar el registro?',
-      header: 'Eliminar',
+      message: '¿Estás seguro que deseas cancelar la notificación?',
+      header: 'Cancelar',
       icon: 'none',
 
       acceptButtonStyleClass: "p-button-danger p-button-text",
@@ -90,13 +99,61 @@ export class ListaNotificacionesComponent implements OnInit {
 
       }
     });
-  }
-  verRegistro(id:number){
+  }  
+  notificarRegistro(id: number) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro que deseas enviar la notificación?',
+      header: 'Notificar',
+      icon: 'none',
 
-  }
+      acceptButtonStyleClass: "p-button-danger p-button-text",
+      rejectButtonStyleClass: "p-button-text p-button-text",
+      acceptLabel: "Si, estoy seguro",
+      rejectLabel: "Cancelar",
+      acceptIcon: "none",
+      rejectIcon: "none",
+
+      accept: () => {
+        this.spinner.show();
+        this.notificacionServiceProxy.NotificarNotificacionxId(id)
+          .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+          .subscribe({
+            next: (result) => {
+              if (result.success) {
+                this.getData();
+                this.toastr.success(result.message.toString(), 'Información');
+              }
+              else {
+                this.toastr.error(result.message.toString(), 'Error');
+              }
+            }
+          });
+      },
+      reject: () => {
+
+      }
+    });
+  }  
   exitModal = (): void => {
     this.modalRef?.hide();
     this.getData();
   };
-
+  exportar(){
+    this.notificacionServiceProxy.getAllToExcel(this.txt_busqueda).subscribe(async (event) => {
+      let data = event as HttpResponse < Blob > ;
+            const downloadedFile = new Blob([data.body as BlobPart], {
+                type: data.body?.type
+            });         
+        if (downloadedFile.type != "") {
+          const a = document.createElement('a');
+          a.setAttribute('style', 'display:none;');
+          document.body.appendChild(a);
+          a.download = "notificaciones.xlsx";
+          a.href = URL.createObjectURL(downloadedFile);
+          a.target = '_blank';
+          a.click();
+          document.body.removeChild(a);
+        }
+    });
+}
 }

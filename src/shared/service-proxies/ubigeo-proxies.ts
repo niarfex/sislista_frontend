@@ -45,6 +45,13 @@ export class UbigeoServiceProxy {
                 return <Observable<ResponseUbigeoListDto>><any>_observableThrow(response_);
         }));
     }
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/ubigeo/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
 
     protected processgetAll(response: HttpResponseBase): Observable<ResponseUbigeoListDto> {
         const status = response.status;

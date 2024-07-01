@@ -9,6 +9,7 @@ import { OrganizacionServiceProxy } from 'src/shared/service-proxies/organizacio
 import { ViewEncapsulation } from '@angular/core'
 import { LoginService } from 'src/auth/services/login.service';
 import { Login } from 'src/app/models/login';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'lista-organizaciones',
@@ -173,5 +174,24 @@ export class ListaOrganizacionesComponent implements OnInit {
     this.modalRef?.hide();
     this.getData();
   };
+
+  exportar(){
+    this.organizacionServiceProxy.getAllToExcel(this.txt_busqueda).subscribe(async (event) => {
+      let data = event as HttpResponse < Blob > ;
+            const downloadedFile = new Blob([data.body as BlobPart], {
+                type: data.body?.type
+            });         
+        if (downloadedFile.type != "") {
+          const a = document.createElement('a');
+          a.setAttribute('style', 'display:none;');
+          document.body.appendChild(a);
+          a.download = "organizaciones.xlsx";
+          a.href = URL.createObjectURL(downloadedFile);
+          a.target = '_blank';
+          a.click();
+          document.body.removeChild(a);
+        }
+    });
+}
 
 }

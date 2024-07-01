@@ -3,7 +3,7 @@
         <div class="modal-header"
             style="background-color: green; color: white; text-align: center; align-items: center;">
             <span style="font-size: large; font-weight: bold;">
-                Registro de Organización
+                Programación de registro
             </span>
             <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
         </div>
@@ -17,7 +17,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="ProgramacionRegistro">Denominación</label>
-                        <input formControlName="ProgramacionRegistro" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'ProgramacionRegistro')" required>
+                        <input formControlName="ProgramacionRegistro" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'ProgramacionRegistro')" required>
                         <div *ngIf="ProgramacionRegistro.invalid && (ProgramacionRegistro.dirty || ProgramacionRegistro.touched)" class="text-danger">
                             <div *ngIf="ProgramacionRegistro.errors?.['required']">
                                 El campo es obligatorio
@@ -72,7 +72,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="DecretoNorma">Documento normativo</label>
-                        <input formControlName="DecretoNorma" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'DecretoNorma')" required>
+                        <input formControlName="DecretoNorma" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'DecretoNorma')" required>
                         <div *ngIf="DecretoNorma.invalid && (DecretoNorma.dirty || DecretoNorma.touched)" class="text-danger">
                             <div *ngIf="DecretoNorma.errors?.['required']">
                                 El campo es obligatorio
@@ -83,7 +83,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="Objetivo">Objetivo</label>
-                        <input formControlName="campo" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'Objetivo')" required>
+                        <input formControlName="Objetivo" type="text" maxlength="200" class="form-control" (focusout)="onFocusOutEvent($event,'Objetivo')" required>
                         <div *ngIf="Objetivo.invalid && (Objetivo.dirty || Objetivo.touched)" class="text-danger">
                             <div *ngIf="Objetivo.errors?.['required']">
                                 El campo es obligatorio
@@ -96,7 +96,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="EnteRector">Ente rector</label>
-                        <input formControlName="EnteRector" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'EnteRector')" required>
+                        <input formControlName="EnteRector" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'EnteRector')" required>
                         <div *ngIf="EnteRector.invalid && (EnteRector.dirty || EnteRector.touched)" class="text-danger">
                             <div *ngIf="EnteRector.errors?.['required']">
                                 El campo es obligatorio
@@ -137,7 +137,7 @@
             </div>
         </div>
         <div class="modal-footer text-end" style="display: block;">
-            <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
+            <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
                 style="background-color: green; border-color: green;">Registrar</button>
         </div>
     </form>

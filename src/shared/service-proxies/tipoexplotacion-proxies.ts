@@ -45,7 +45,13 @@ export class TipoExplotacionServiceProxy {
                 return <Observable<ResponseTipoExplotacionListDto>><any>_observableThrow(response_);
         }));
     }
-
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/tipoexplotacion/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
     protected processgetAll(response: HttpResponseBase): Observable<ResponseTipoExplotacionListDto> {
         const status = response.status;
         const responseBlob =

@@ -5,7 +5,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './components/layout/layout/layout.component';
-import { MenuComponent } from './components/menu/menu.component';
 import { VerticalComponent } from './components/layout/vertical/vertical.component';
 import { HorizontalComponent } from './components/layout/horizontal/horizontal.component';
 import { TopbarComponent } from './components/layout/topbar/topbar.component';
@@ -21,8 +20,7 @@ import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
 import { LocaleService } from 'src/shared/services/locale.service';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { rootReducer } from '../app/store/index';
-import { StoreModule } from '@ngrx/store';
+
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { LightboxModule } from 'ngx-lightbox';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -35,7 +33,6 @@ import { ListaInformantesComponent } from './web/shared/lista-informantes/lista-
 @NgModule({ declarations: [
         AppComponent,
         LayoutComponent,
-        MenuComponent,
         VerticalComponent,
         HorizontalComponent,
         TopbarComponent,
@@ -56,7 +53,7 @@ import { ListaInformantesComponent } from './web/shared/lista-informantes/lista-
         LightboxModule,
         NgSelectModule,
         BsDropdownModule.forRoot(),
-        StoreModule.forRoot(rootReducer),
+        
         ToastrModule.forRoot(),
         PlantillaUnoComponent,
         PlantillaDosComponent,

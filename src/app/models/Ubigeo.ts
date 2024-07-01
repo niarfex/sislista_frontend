@@ -82,11 +82,7 @@ export class UbigeoListDto implements IUbigeoListDto {
         return result;
     }
     toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["Id"] = this.Id;
-        data["Departamento"] = this.Departamento;
-        data["Provincia"] = this.Provincia;
-        data["Distrito"] = this.Distrito;        
+        data = typeof data === 'object' ? data : {};     
         return data;
     }
 }

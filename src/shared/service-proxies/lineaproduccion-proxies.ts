@@ -45,7 +45,13 @@ export class LineaProduccionServiceProxy {
                 return <Observable<ResponseLineaProduccionListDto>><any>_observableThrow(response_);
         }));
     }
-
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/lineaproduccion/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
     protected processgetAll(response: HttpResponseBase): Observable<ResponseLineaProduccionListDto> {
         const status = response.status;
         const responseBlob =

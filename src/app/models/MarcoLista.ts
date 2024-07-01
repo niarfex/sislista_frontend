@@ -52,7 +52,7 @@ export interface IMarcoListaListDto {
     NumeroDocumento: String;
     NombreCompleto: String;
     CondicionJuridica: String;
-    RepresentanteLegal: String;
+    NombreRepLegal: String;
     IdDepartamento: String;
     Departamento: String;
     Estado: number;
@@ -63,7 +63,7 @@ export class MarcoListaListDto implements IMarcoListaListDto {
     NumeroDocumento: String;
     NombreCompleto: String;
     CondicionJuridica: String;
-    RepresentanteLegal: String;
+    NombreRepLegal: String;
     IdDepartamento: String;
     Departamento: String;
     Estado: number;
@@ -82,7 +82,7 @@ export class MarcoListaListDto implements IMarcoListaListDto {
             this.NumeroDocumento= _data["NumeroDocumento"];
             this.NombreCompleto= _data["NombreCompleto"];
             this.CondicionJuridica= _data["CondicionJuridica"];
-            this.RepresentanteLegal= _data["RepresentanteLegal"];
+            this.NombreRepLegal= _data["NombreRepLegal"];
             this.IdDepartamento= _data["IdDepartamento"];
             this.Departamento= _data["Departamento"];
             this.Estado = _data["Estado"];
@@ -150,6 +150,7 @@ export interface IMarcoListaGetDto {
     IdCondicionJuridica: number;
     IdCondicionJuridicaOtros: number;
     IdUbigeo: String;
+    IdAnio: number;
     CodigoUUIDPersona: String;
     NumeroDocumento: String;
     Nombre: String;
@@ -172,6 +173,7 @@ export interface IMarcoListaGetDto {
     ListProvincia: SelectTipoDto[];
     ListDistrito: SelectTipoDto[];
     ListTipoExplotacion: SelectTipoDto[];    
+    ListPeriodos: SelectTipoDto[];  
 }
 export class MarcoListaGetDto implements IMarcoListaGetDto {
     Id: number;
@@ -182,6 +184,7 @@ export class MarcoListaGetDto implements IMarcoListaGetDto {
     IdCondicionJuridica: number;
     IdCondicionJuridicaOtros: number;
     IdUbigeo: String;
+    IdAnio: number;
     CodigoUUIDPersona: String;
     NumeroDocumento: String;
     Nombre: String;
@@ -204,6 +207,7 @@ export class MarcoListaGetDto implements IMarcoListaGetDto {
     ListProvincia: SelectTipoDto[];
     ListDistrito: SelectTipoDto[];
     ListTipoExplotacion: SelectTipoDto[]; 
+    ListPeriodos: SelectTipoDto[];  
     constructor(data?: IMarcoListaGetDto) {
         if (data) {
             for (var property in data) {
@@ -222,6 +226,7 @@ export class MarcoListaGetDto implements IMarcoListaGetDto {
             this.IdCondicionJuridica = _data["IdCondicionJuridica"];
             this.IdCondicionJuridicaOtros = _data["IdCondicionJuridicaOtros"];
             this.IdUbigeo = _data["IdUbigeo"];
+            this.IdAnio = _data["IdAnio"];
             this.CodigoUUIDPersona = _data["CodigoUUIDPersona"];
             this.NumeroDocumento = _data["NumeroDocumento"];
             this.Nombre = _data["Nombre"];
@@ -272,6 +277,11 @@ export class MarcoListaGetDto implements IMarcoListaGetDto {
                 for (let item of _data["ListTipoExplotacion"])
                     this.ListTipoExplotacion!.push(SelectTipoDto.fromJS(item));
             }
+            if (Array.isArray(_data["ListPeriodos"]) && _data["ListPeriodos"].length > 0) {
+                this.ListPeriodos = [] as any;
+                for (let item of _data["ListPeriodos"])
+                    this.ListPeriodos!.push(SelectTipoDto.fromJS(item));
+            }
         }
     }
     static fromJS(data: any): MarcoListaGetDto {
@@ -290,6 +300,7 @@ export class MarcoListaGetDto implements IMarcoListaGetDto {
         data["IdCondicionJuridica"] = this.IdCondicionJuridica;
         data["IdCondicionJuridicaOtros"] = this.IdCondicionJuridicaOtros;
         data["IdUbigeo"] = this.IdUbigeo;
+        data["IdAnio"] = this.IdAnio;
         data["CodigoUUIDPersona"] = this.CodigoUUIDPersona;
         data["NumeroDocumento"] = this.NumeroDocumento;
         data["Nombre"] = this.Nombre;

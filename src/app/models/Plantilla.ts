@@ -172,9 +172,9 @@ export class PlantillaGetDto implements IPlantillaGetDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.Id;
-        data["Plantilla"] = this.Id;
-        data["Descripcion"] = this.Id;
-        data["NumCuestionario"] = this.Id;
+        data["Plantilla"] = this.Plantilla;
+        data["Descripcion"] = this.Descripcion;
+        data["NumCuestionario"] = this.NumCuestionario;
         return data;
     }
 }

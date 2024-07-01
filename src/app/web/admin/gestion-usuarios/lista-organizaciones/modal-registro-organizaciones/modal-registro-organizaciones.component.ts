@@ -6,6 +6,7 @@ import { ConfirmationService } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { OrganizacionGetDto } from 'src/app/models/Organizacion';
 import { OrganizacionServiceProxy } from 'src/shared/service-proxies/organizacion-proxies';
+import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies';
 
 @Component({
   selector: 'modal-registro-organizaciones',
@@ -26,10 +27,11 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
     NumeroDocumento: ['', [Validators.required, Validators.minLength(11)]],
     Organizacion: ['', [Validators.required]],
     DireccionFiscal: ['', [Validators.required]],
-    Telefono: ['', [Validators.required]],
-    PaginaWeb: ['', [Validators.required]],
-    CorreoElectronico: ['', [Validators.required, Validators.email]],
+    Telefono: [''],
+    PaginaWeb: [''],
+    CorreoElectronico: [''],
   });
+  private usuarioServiceProxy: UsuarioServiceProxy;
   private organizacionServiceProxy: OrganizacionServiceProxy;
   constructor(_injector: Injector
     , private formBuilder: FormBuilder
@@ -37,6 +39,7 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
     , private spinner: NgxSpinnerService
     , private toastr: ToastrService) {
     this.organizacionServiceProxy = _injector.get(OrganizacionServiceProxy);
+    this.usuarioServiceProxy = _injector.get(UsuarioServiceProxy);
   }
   get IdTipoOrganizacion() { return this.modalForm.controls['IdTipoOrganizacion']; }
   get IdDepartamento() { return this.modalForm.controls['IdDepartamento']; }
@@ -79,7 +82,7 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
 
 
   onFocusOutEvent(event: any, nombreControl: string) {
-    this.modalForm.controls[nombreControl].setValue(event.target.value.trim());
+    this.modalForm.controls[nombreControl].setValue(event.target.value.trim().toUpperCase());
   }
 
   onClickSubmit(data) {
@@ -134,5 +137,26 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
   close() {
     this.exitModal();
   }
-
+  getDatosSUNAT(){
+    if(this.NumeroDocumento.value.length==11){
+    this.spinner.show();
+        this.usuarioServiceProxy.GetDatosSUNAT(this.NumeroDocumento.value)
+          .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+          .subscribe({
+            next: (result) => {
+              if (result.success) {
+                var sunat= JSON.parse(result.datos.toString());
+                this.Organizacion.setValue(sunat.datos.ddp_nombre);
+                this.toastr.success(result.message.toString(), 'Información');
+              }
+              else {
+                this.toastr.error(result.message.toString(), 'Error');
+              }
+            }
+          });
+        }
+        else{
+          this.toastr.error("El RUC debe tener 11 dígitos", 'Error');
+        }
+  }
 }

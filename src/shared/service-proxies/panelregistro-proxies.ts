@@ -45,7 +45,13 @@ export class PanelRegistroServiceProxy {
                 return <Observable<ResponsePanelRegistroListDto>><any>_observableThrow(response_);
         }));
     }
-
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/panelregistro/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
     protected processgetAll(response: HttpResponseBase): Observable<ResponsePanelRegistroListDto> {
         const status = response.status;
         const responseBlob =
@@ -177,8 +183,91 @@ export class PanelRegistroServiceProxy {
             } else
                 return <Observable<Respuesta>><any>_observableThrow(response_);
         }));
-    }    
+    }
+    PublicarPanelRegistroxId(id:number): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/panelregistro/PublicarPanelRegistroxId?";
+        if (id!== undefined && id!== null)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
 
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+    PausarPanelRegistroxId(id:number): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/panelregistro/PausarPanelRegistroxId?";
+        if (id!== undefined && id!== null)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+    ReiniciarPanelRegistroxId(id:number): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/panelregistro/ReiniciarPanelRegistroxId?";
+        if (id!== undefined && id!== null)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
     protected processguardarRegistro(response: HttpResponseBase): Observable<Respuesta> {
         const status = response.status;
         const responseBlob =

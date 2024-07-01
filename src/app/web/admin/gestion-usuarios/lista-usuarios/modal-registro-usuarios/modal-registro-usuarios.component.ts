@@ -29,7 +29,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
   modalForm = this.formBuilder.group({
     IdPerfil: ['', [Validators.required]],
     IdTipoDocumento: ['', [Validators.required]],
-    NumeroDocumento: ['', [Validators.required]],
+    NumeroDocumento: ['', this.selDNI?Validators.compose([Validators.required, Validators.min(8)]): [Validators.required]],
     Nombre: ['', [Validators.required]],
     ApellidoPaterno: ['', [Validators.required]],
     ApellidoMaterno: ['', [Validators.required]],
@@ -102,6 +102,13 @@ export class ModalRegistroUsuariosComponent implements OnInit {
   }
 
   onClickSubmit(data) {
+    if(this.selDNI){
+      if(this.NumeroDocumento.value.length!=8){
+        this.toastr.error("El número de DNI debe tener 8 dígitios", 'Error');
+        return;
+      }
+    }
+    
     this.confirmationService.confirm({
       message: '¿Estás seguro de guardar los datos ingresados?',
       header: 'Guardar',

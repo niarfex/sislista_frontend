@@ -45,6 +45,13 @@ export class UsuarioServiceProxy {
                 return <Observable<ResponseUsuarioListDto>><any>_observableThrow(response_);
         }));
     }
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/usuario/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+      }
 
     protected processgetAll(response: HttpResponseBase): Observable<ResponseUsuarioListDto> {
         const status = response.status;
@@ -270,6 +277,35 @@ export class UsuarioServiceProxy {
         let url_ = AppConsts.urlHost + "v1/usuario/GetDatosRENIEC?";
         if (dni!== undefined && dni!== null)
             url_ += "dni=" + encodeURIComponent("" + dni) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+
+    GetDatosSUNAT(ruc:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/usuario/GetDatosSUNAT?";
+        if (ruc!== undefined && ruc!== null)
+            url_ += "ruc=" + encodeURIComponent("" + ruc) + "&";
         url_ = url_.replace(/[?&]$/, "");
         
         let options_: any = {

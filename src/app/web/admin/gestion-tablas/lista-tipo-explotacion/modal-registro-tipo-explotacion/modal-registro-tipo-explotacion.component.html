@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="CodigoTipoExplotacion">Código</label>
-                        <input formControlName="CodigoCondicionJuridica" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'CodigoTipoExplotacion')" required>
+                        <input formControlName="CodigoTipoExplotacion" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'CodigoTipoExplotacion')" required>
                         <div *ngIf="CodigoTipoExplotacion.invalid && (CodigoTipoExplotacion.dirty || CodigoTipoExplotacion.touched)" class="text-danger">
                             <div *ngIf="CodigoTipoExplotacion.errors?.['required']">
                                 El campo es obligatorio
