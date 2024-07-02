@@ -70,6 +70,7 @@ export class LoginService {
                         sessionStorage.setItem('currentUser', JSON.stringify(usuarioActual));
                         this.currentUserSubject.next({
                         Usuario: response.body.usuario.Usuario,
+                        CodigoUUID: response.body.usuario.CodigoUUID,
                         Nombre: response.body.usuario.Nombre,
                         NumeroDocumento: response.body.usuario.NumeroDocumento,
                         CodigoPerfil: response.body.usuario.CodigoPerfil,

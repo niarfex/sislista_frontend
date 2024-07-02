@@ -36,6 +36,10 @@ import { PlantillaUnoComponent } from '../shared/plantilla-uno/plantilla-uno.com
 import { PlantillaDosComponent } from '../shared/plantilla-dos/plantilla-dos.component';
 import { ListaInformantesComponent } from '../shared/lista-informantes/lista-informantes.component';
 import { ListaCamposPlantillaComponent } from '../shared/lista-campos-plantilla/lista-campos-plantilla.component';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { BasicAuthInterceptor } from 'src/auth/services';
+import { ErrorInterceptor } from 'src/auth/services';
+import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
 
 @NgModule({
   declarations: [
@@ -83,5 +87,10 @@ import { ListaCamposPlantillaComponent } from '../shared/lista-campos-plantilla/
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
+  providers:[
+        { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true, },
+  ]
 })
 export class AdminModule { }

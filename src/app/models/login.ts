@@ -1,4 +1,5 @@
 export class Login {
+    CodigoUUID:String;
     Usuario:String;
     Nombre:String;
     NumeroDocumento:String;

@@ -4,7 +4,7 @@ import { ServiceProxy } from './service-proxies';
 import { CondicionJuridicaServiceProxy } from './condicionjuridica-proxies';
 import { CultivoServiceProxy } from './cultivo-proxies';
 import { EspecieServiceProxy } from './especie-proxies';
-import { GestionregistroServiceProxy } from './gestionregistro-proxies';
+import { GestionRegistroServiceProxy } from './gestionregistro-proxies';
 import { LineaProduccionServiceProxy } from './lineaproduccion-proxies';
 import { MarcoListaServiceProxy } from './marcolista-proxies';
 import { NotificacionServiceProxy } from './notificacion-proxies';
@@ -22,7 +22,7 @@ import { EventService } from '../services/event.service';
         CondicionJuridicaServiceProxy,
         CultivoServiceProxy,
         EspecieServiceProxy,
-        GestionregistroServiceProxy,
+        GestionRegistroServiceProxy,
         LineaProduccionServiceProxy,
         MarcoListaServiceProxy,
         NotificacionServiceProxy,
