@@ -33,7 +33,6 @@ import { ListaMarcoListaAsignadoComponent } from './gestion-usuarios/lista-usuar
 import { ModalConsultaElementosComponent } from './gestion-usuarios/lista-usuarios/modal-registro-usuarios/modal-consulta-elementos/modal-consulta-elementos.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PlantillaUnoComponent } from '../shared/plantilla-uno/plantilla-uno.component';
-import { PlantillaDosComponent } from '../shared/plantilla-dos/plantilla-dos.component';
 import { ListaInformantesComponent } from '../shared/lista-informantes/lista-informantes.component';
 import { ListaCamposPlantillaComponent } from '../shared/lista-campos-plantilla/lista-campos-plantilla.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -80,7 +79,6 @@ import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
     ConfirmDialogModule,
     AdminRoutingModule,
     PlantillaUnoComponent,
-        PlantillaDosComponent,
         ListaCamposPlantillaComponent,
         ListaInformantesComponent
   ],

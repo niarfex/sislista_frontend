@@ -26,7 +26,6 @@ import { LightboxModule } from 'ngx-lightbox';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PlantillaUnoComponent } from './web/shared/plantilla-uno/plantilla-uno.component';
-import { PlantillaDosComponent } from './web/shared/plantilla-dos/plantilla-dos.component';
 import { ListaCamposPlantillaComponent } from './web/shared/lista-campos-plantilla/lista-campos-plantilla.component';
 import { ListaInformantesComponent } from './web/shared/lista-informantes/lista-informantes.component';
 
@@ -56,7 +55,6 @@ import { ListaInformantesComponent } from './web/shared/lista-informantes/lista-
         
         ToastrModule.forRoot(),
         PlantillaUnoComponent,
-        PlantillaDosComponent,
         ListaCamposPlantillaComponent,
         ListaInformantesComponent],     
     exports:      [  ],

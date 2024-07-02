@@ -10,8 +10,11 @@
             <div class="col-sm-3">
                 <button class="btn btn-primary"
                 style="background-color: #008F49; border-color: #008F49; margin-bottom: 5px;"
-                type="button"><i class="bi bi-pencil-square"></i></button>
+                type="button" (click)="mostrarCuestionario(viewUserTemplate)"><i class="bi bi-pencil-square"></i></button>
             </div>
         </div>   
     </div>
 </div>
+<ng-template #viewUserTemplate >
+    <plantilla-uno [exitModal]="exitModal" [numDoc]="numDoc" [modalActivo]="modalActivo"></plantilla-uno> 
+</ng-template>

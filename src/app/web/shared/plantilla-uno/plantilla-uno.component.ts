@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators,ReactiveFormsModule } from '@angular/forms';
 import { ListaInformantesComponent } from '../lista-informantes/lista-informantes.component';
@@ -12,6 +12,9 @@ import { ListaCamposPlantillaComponent } from '../lista-campos-plantilla/lista-c
   imports: [CommonModule,ReactiveFormsModule,ListaInformantesComponent,ListaCamposPlantillaComponent]
 })
 export class PlantillaUnoComponent implements OnInit {
+  @Input() exitModal = (): void => { };
+  @Input() numDoc:String;
+  @Input() modalActivo: boolean = true;
   plantillaForm=this.formBuilder.group({
     campo:['',[Validators.required]]
   });

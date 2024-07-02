@@ -7,7 +7,7 @@ import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { PlantillaListDto } from 'src/app/models/Plantilla';
 import { Login } from 'src/app/models/login';
-import { PlantillaUnoComponent } from 'src/app/web/shared/plantilla-uno/plantilla-uno.component';
+
 import { LoginService } from 'src/auth/services/login.service';
 import { PlantillaServiceProxy } from 'src/shared/service-proxies/plantilla-proxies';
 

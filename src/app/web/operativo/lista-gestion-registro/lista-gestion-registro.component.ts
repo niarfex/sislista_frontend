@@ -51,7 +51,8 @@ export class ListaGestionRegistroComponent implements OnInit {
   }
 
   agregarRegistro(uuid:String){
-    this.router.navigate(['/app/reportes/reporte-mapa']);
+    var numDoc=this.lista_resultados.find(x=>x.CodigoUUID==uuid).NumeroDocumento;
+    this.router.navigate(['app','reportes','reporte-mapa',numDoc],{} );
   }
 
   verRegistro(uuid:String){}

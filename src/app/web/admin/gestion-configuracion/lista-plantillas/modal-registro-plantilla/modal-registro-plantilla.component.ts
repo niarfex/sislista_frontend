@@ -18,7 +18,7 @@ export class ModalRegistroPlantillaComponent implements OnInit {
   @Input() idRegistro:number;
   @Input() modalActivo: boolean = true;
   indiceCuestionario: number = 1;
-  totalCuestionario: number=2;
+  totalCuestionario: number=1;
   
   objRegistro:PlantillaGetDto = new PlantillaGetDto();
   active: boolean = true;
