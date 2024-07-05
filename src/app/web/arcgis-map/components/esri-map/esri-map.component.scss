@@ -1,0 +1,173 @@
+
+
+div.container-map {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+  
+  div.container-map>.map {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+  }
+  
+  div.container-map>.type-map {
+    position: absolute;
+    top: 15px;
+    left: 55px;
+  }
+  
+  div.container-map>.button-curtain {
+    position: absolute;
+    top: 280px;
+    right: 0px;
+    border-radius: 200px 40px 40px 200px;
+    -moz-border-radius: 200px 40px 40px 200px;
+    -webkit-border-radius: 200px 40px 40px 200px;
+    padding-left: 18px;
+  }
+  
+  div.container-map>.window-display-data {
+    position: absolute;
+    bottom: 26px;
+    right: 10px;
+  }
+  
+  div.container-map>.toolbar-map {
+    position: absolute;
+    top: 270px;
+    left: 15px;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  
+  div.container-map>.status-map {
+    position: absolute;
+    bottom: 0px;
+    height: 25px;
+    width: 100%;
+    z-index: 0;
+    background-color: rgba(11, 199, 224, 0.5);
+    color: #1e85be;
+    font-size: 9px;
+    font-weight: 700;
+    text-shadow: rgb(255, 255, 255) 1px 0px 0px, rgb(255, 255, 255) 0.540302px 0.841471px 0px, rgb(255, 255, 255) -0.416147px 0.909297px 0px, rgb(255, 255, 255) -0.989992px 0.14112px 0px, rgb(255, 255, 255) -0.653644px -0.756802px 0px, rgb(255, 255, 255) 0.283662px -0.958924px 0px, rgb(255, 255, 255) 0.96017px -0.279415px 0px;
+  }
+  
+  div.container-map>.coord-conver-map {
+    position: absolute;
+    bottom: 45px;
+    left: 6px;
+    width: 300px;
+  }
+  
+  div.container-map>.scalebar-map {
+    position: absolute;
+    bottom: 4px;
+    left: 5px;
+  }
+  
+  .esri-widget--button.button-esri-modify {
+    border: none;
+  }
+  
+  .esri-widget--button.button-esri-modify.active {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #1e85be;
+  }
+  
+  .esri-component>.esri-popup>.esri-popup--is-docked {
+    margin: 15px 15px 50px 15px;
+  }
+  
+  .esri-custom-icon-street-view {
+    background-image: url('../../../../../assets/images/maps/icons/streetview_24.png');
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    vertical-align: middle;
+  }
+  
+  .esri-custom-icon-popup-view {
+    background-image: url('../../../../../assets/images/maps/icons/popupview_24.png');
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    vertical-align: middle;
+  }
+  
+  .esri-custom-icon-download {
+    background-image: url('../../../../../assets/images/maps/icons/download_24.png');
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    vertical-align: middle;
+  }
+  
+  .esri-custom-icon-measure-line {
+    background-image: url('../../../../../assets/images/maps/icons/measure_line_24.png');
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    vertical-align: middle;
+  }
+  
+  .esri-custom-icon-measure-area {
+    background-image: url('../../../../../assets/images/maps/icons/measure_area_24.png');
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    vertical-align: middle;
+  }
+  
+  .esri-custom-icon-trash {
+    background-image: url('../../../../../assets/images/maps/icons/trash_24.png');
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    vertical-align: middle;
+  }
+  
+  .esri-custom-icon-printer {
+    background-image: url('../../../../../assets/images/maps/icons/printer_24.png');
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    vertical-align: middle;
+  }
+  
+  .esri-custom-icon-wms {
+    background-image: url('../../../../../assets/images/maps/icons/wms_24.png');
+    background-repeat: no-repeat;
+    background-position: 4px 4px;
+    vertical-align: middle;
+  }
+  
+  .esri-icon-non-visible::before {
+    content: "\e610";
+  }
+  
+  .esri-icon-visible::before {
+    content: "\e611";
+  }
+  
+  .toolbar-widget-map {
+    border: 1px solid #1e85be;
+  }
+  
+  .separator-button {
+    background-color:#1e85be;
+    height: 1px;
+    width: 1px;
+    border: none;
+  }
+  
+  ngui-map {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .esri-icon {
+    font-size: 20px;
+  }
+  .esri-ui-top-left .esri-component {
+    margin-bottom: 5px !important;
+  }
