@@ -48,9 +48,9 @@
             </ng-template>
             <ng-template pTemplate="body" let-item>
                 <tr>
-                    <td style="width: 10%; flex: none; padding: 5px;">{{ item.Id }}</td>
-                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
-                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td> 
+                    <td style="width: 10%; flex: none; padding: 5px;">{{ item.Periodo }}</td>
+                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td>
+                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td> 
                     <td style="width: 15%; flex: none; padding: 5px;">{{ item.CondicionJuridica }}</td> 
                     <td style="width: 15%; flex: none; padding: 5px;">{{ item.NombreRepLegal }}</td> 
                     <td style="width: 15%; flex: none; padding: 5px;">{{ item.NombreRepLegal }}</td> 
@@ -71,7 +71,7 @@
                                 <div>
                                     <button  class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;" type="button"
-                                    (click)="agregarRegistro(item.CodigoUUID)"><i class="bi bi-pencil-square"></i>
+                                    (click)="agregarRegistro(item.NumeroDocumento,item.IdPeriodo)"><i class="bi bi-pencil-square"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Editar</span>
                                 </div>                               
                                 <div>

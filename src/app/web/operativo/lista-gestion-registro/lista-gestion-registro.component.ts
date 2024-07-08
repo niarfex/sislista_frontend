@@ -45,14 +45,17 @@ export class ListaGestionRegistroComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.lista_resultados = result.datos
+            console.log(this.lista_resultados);
           }
         }
       });
   }
 
-  agregarRegistro(uuid:String){
-    var numDoc=this.lista_resultados.find(x=>x.CodigoUUID==uuid).NumeroDocumento;
-    this.router.navigate(['app','reportes','reporte-mapa',numDoc],{} );
+  agregarRegistro(numDoc:String,idPeriodo:number){
+    console.log(numDoc);
+    console.log(idPeriodo);
+    var CodigoUUID=this.lista_resultados.find(x=>x.NumeroDocumento==numDoc && x.IdPeriodo==idPeriodo).CodigoUUID;
+    this.router.navigate(['app','reportes','reporte-mapa',numDoc,idPeriodo],{} );
   }
 
   verRegistro(uuid:String){}

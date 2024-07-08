@@ -12,11 +12,13 @@ import { ConfirmationService } from 'primeng/api';
 export class ReporteMapaComponent implements OnInit {
   modalRef?: BsModalRef;
   numDoc: String;
+  idPeriodo: number;
   modalActivo:boolean;
   constructor(private _route: ActivatedRoute,private modalService: BsModalService) { }
 
   ngOnInit(): void {
     this.numDoc = this._route.snapshot.paramMap.get('numDoc');
+    this.idPeriodo =  Number.parseInt(this._route.snapshot.paramMap.get('idPeriodo'));
   }
   mostrarCuestionario(viewUserTemplate: TemplateRef<any>){
     this.numDoc = this.numDoc;

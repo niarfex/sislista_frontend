@@ -1,3 +1,4 @@
+import { FundoGetDto } from "./Fundo";
 import { SelectTipoDto } from "./SelectTipo";
 
 export interface IResponseGestionRegistroListDto {
@@ -55,6 +56,7 @@ export interface IGestionRegistroListDto {
     UsuarioCreacion: String;
     FechaActualizacion: Date;
     UsuarioActualizacion: String;
+    IdPeriodo: number;
     Periodo: String;
     NombreCompleto: String;
     TipoExplotacion: String;
@@ -72,6 +74,7 @@ export class GestionRegistroListDto implements IGestionRegistroListDto {
     UsuarioCreacion: String;
     FechaActualizacion: Date;
     UsuarioActualizacion: String;
+    IdPeriodo: number;
     Periodo: String;
     NombreCompleto: String;
     TipoExplotacion: String;
@@ -97,6 +100,7 @@ export class GestionRegistroListDto implements IGestionRegistroListDto {
             this.UsuarioCreacion = _data["UsuarioCreacion"];
             this.FechaActualizacion = _data["FechaActualizacion"];
             this.UsuarioActualizacion = _data["UsuarioActualizacion"];
+            this.IdPeriodo = _data["IdPeriodo"];
             this.Periodo = _data["Periodo"];
             this.NombreCompleto = _data["NombreCompleto"];
             this.TipoExplotacion = _data["TipoExplotacion"];
@@ -115,7 +119,7 @@ export class GestionRegistroListDto implements IGestionRegistroListDto {
     }
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["IdMarcoLista"] = this.IdMarcoLista;        
+        data["IdMarcoLista"] = this.IdMarcoLista;
         return data;
     }
 }
@@ -162,11 +166,88 @@ export class ResponseGestionRegistroGetDto implements IResponseGestionRegistroGe
 
 export interface IGestionRegistroGetDto {
     Id: number;
-  
+    CodigoUUID: String;
+    IdPPA: number;
+    IdMarcoLista: number;
+    IdCondicionJuridica: number;
+    IdCondicionJuridicaOtros: number;
+    IdTipoDocumento: number;
+    CodigoIdentificacion: String;
+    NumeroDocumento: String;
+    Nombre: String;
+    ApellidoPaterno: String;
+    ApellidoMaterno: String;
+    RazonSocial: String;
+    DireccionFiscalDomicilio: String;
+    IdUbigeo: String;
+    IdTipoExplotacion: number;
+    TieneRuc: String;
+    Telefono: String;
+    Celular: String;
+    CorreoElectronico: String;
+    PaginaWeb: String;
+    NombreRepLegal: String;
+    CorreoRepLegal: String;
+    CelularRepLegal: String;
+    CantidadFundo: String;
+    EstadoEntrevista: number;
+    ListCondicionJuridica: SelectTipoDto[];
+    ListCondicionJuridicaOtros: SelectTipoDto[];
+    ListTipoDocumento: SelectTipoDto[];
+    ListDepartamento: SelectTipoDto[];
+    ListProvincia: SelectTipoDto[];
+    ListDistrito: SelectTipoDto[];
+    ListTipoExplotacion: SelectTipoDto[];
+    ListFundos: FundoGetDto[];
+    ListTenencia: SelectTipoDto[];
+    ListUsoTierra: SelectTipoDto[];
+    ListCultivo: SelectTipoDto[];
+    ListUsoNoAgricola: SelectTipoDto[];
+    ListEstadoEntrevista: SelectTipoDto[];
+    ListTipoInformacion: SelectTipoDto[];
 }
 export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     Id: number;
-   
+    CodigoUUID: String;
+    IdPPA: number;
+    IdMarcoLista: number;
+    IdCondicionJuridica: number;
+    IdCondicionJuridicaOtros: number;
+    IdTipoDocumento: number;
+    CodigoIdentificacion: String;
+    NumeroDocumento: String;
+    Nombre: String;
+    ApellidoPaterno: String;
+    ApellidoMaterno: String;
+    RazonSocial: String;
+    DireccionFiscalDomicilio: String;
+    IdUbigeo: String;
+    IdTipoExplotacion: number;
+    TieneRuc: String;
+    Telefono: String;
+    Celular: String;
+    CorreoElectronico: String;
+    PaginaWeb: String;
+    NombreRepLegal: String;
+    CorreoRepLegal: String;
+    CelularRepLegal: String;
+    CantidadFundo: String;
+    EstadoEntrevista: number;
+    ListCondicionJuridica: SelectTipoDto[];
+    ListCondicionJuridicaOtros: SelectTipoDto[];
+    ListTipoDocumento: SelectTipoDto[];
+    ListDepartamento: SelectTipoDto[];
+    ListProvincia: SelectTipoDto[];
+    ListDistrito: SelectTipoDto[];
+    ListTipoExplotacion: SelectTipoDto[];
+    ListFundos: FundoGetDto[];
+    ListTenencia: SelectTipoDto[];
+    ListUsoTierra: SelectTipoDto[];
+    ListCultivo: SelectTipoDto[];
+    ListUsoNoAgricola: SelectTipoDto[];
+    ListEstadoEntrevista: SelectTipoDto[];
+    ListTipoInformacion: SelectTipoDto[];
+
     constructor(data?: IGestionRegistroGetDto) {
         if (data) {
             for (var property in data) {
@@ -178,7 +259,101 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     init(_data?: any) {
         if (_data) {
             this.Id = _data["Id"];
-          
+            this.CodigoUUID = _data["CodigoUUID"];
+            this.IdPPA = _data["IdPPA"];
+            this.IdMarcoLista = _data["IdMarcoLista"];
+            this.IdCondicionJuridica = _data["IdCondicionJuridica"];
+            this.IdCondicionJuridicaOtros = _data["IdCondicionJuridicaOtros"];
+            this.IdTipoDocumento = _data["IdTipoDocumento"];
+            this.CodigoIdentificacion = _data["CodigoIdentificacion"];
+            this.NumeroDocumento = _data["NumeroDocumento"];
+            this.Nombre = _data["Nombre"];
+            this.ApellidoPaterno = _data["ApellidoPaterno"];
+            this.ApellidoMaterno = _data["ApellidoMaterno"];
+            this.RazonSocial = _data["RazonSocial"];
+            this.DireccionFiscalDomicilio = _data["DireccionFiscalDomicilio"];
+            this.IdUbigeo = _data["IdUbigeo"];
+            this.IdTipoExplotacion = _data["IdTipoExplotacion"];
+            this.TieneRuc = _data["TieneRuc"];
+            this.Telefono = _data["Telefono"];
+            this.Celular = _data["Celular"];
+            this.CorreoElectronico = _data["CorreoElectronico"];
+            this.PaginaWeb = _data["PaginaWeb"];
+            this.NombreRepLegal = _data["NombreRepLegal"];
+            this.CorreoRepLegal = _data["CorreoRepLegal"];
+            this.CelularRepLegal = _data["CelularRepLegal"];
+            this.CantidadFundo = _data["CantidadFundo"];
+            this.EstadoEntrevista = _data["EstadoEntrevista"];
+            if (Array.isArray(_data["ListCondicionJuridica"]) && _data["ListCondicionJuridica"].length > 0) {
+                this.ListCondicionJuridica = [] as any;
+                for (let item of _data["ListCondicionJuridica"])
+                    this.ListCondicionJuridica!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListCondicionJuridicaOtros"]) && _data["ListCondicionJuridicaOtros"].length > 0) {
+                this.ListCondicionJuridicaOtros = [] as any;
+                for (let item of _data["ListCondicionJuridicaOtros"])
+                    this.ListCondicionJuridicaOtros!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListTipoDocumento"]) && _data["ListTipoDocumento"].length > 0) {
+                this.ListTipoDocumento = [] as any;
+                for (let item of _data["ListTipoDocumento"])
+                    this.ListTipoDocumento!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListDepartamento"]) && _data["ListDepartamento"].length > 0) {
+                this.ListDepartamento = [] as any;
+                for (let item of _data["ListDepartamento"])
+                    this.ListDepartamento!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListProvincia"]) && _data["ListProvincia"].length > 0) {
+                this.ListProvincia = [] as any;
+                for (let item of _data["ListProvincia"])
+                    this.ListProvincia!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListDistrito"]) && _data["ListDistrito"].length > 0) {
+                this.ListDistrito = [] as any;
+                for (let item of _data["ListDistrito"])
+                    this.ListDistrito!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListTipoExplotacion"]) && _data["ListTipoExplotacion"].length > 0) {
+                this.ListTipoExplotacion = [] as any;
+                for (let item of _data["ListTipoExplotacion"])
+                    this.ListTipoExplotacion!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListFundos"]) && _data["ListFundos"].length > 0) {
+                this.ListFundos = [] as any;
+                for (let item of _data["ListFundos"])
+                    this.ListFundos!.push(FundoGetDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListTenencia"]) && _data["ListTenencia"].length > 0) {
+                this.ListTenencia = [] as any;
+                for (let item of _data["ListTenencia"])
+                    this.ListTenencia!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListUsoTierra"]) && _data["ListUsoTierra"].length > 0) {
+                this.ListUsoTierra = [] as any;
+                for (let item of _data["ListUsoTierra"])
+                    this.ListUsoTierra!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListCultivo"]) && _data["ListCultivo"].length > 0) {
+                this.ListCultivo = [] as any;
+                for (let item of _data["ListCultivo"])
+                    this.ListCultivo!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListUsoNoAgricola"]) && _data["ListUsoNoAgricola"].length > 0) {
+                this.ListUsoNoAgricola = [] as any;
+                for (let item of _data["ListUsoNoAgricola"])
+                    this.ListUsoNoAgricola!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListEstadoEntrevista"]) && _data["ListEstadoEntrevista"].length > 0) {
+                this.ListEstadoEntrevista = [] as any;
+                for (let item of _data["ListEstadoEntrevista"])
+                    this.ListEstadoEntrevista!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListTipoInformacion"]) && _data["ListTipoInformacion"].length > 0) {
+                this.ListTipoInformacion = [] as any;
+                for (let item of _data["ListTipoInformacion"])
+                    this.ListTipoInformacion!.push(SelectTipoDto.fromJS(item));
+            }
         }
     }
     static fromJS(data: any): GestionRegistroGetDto {
@@ -190,7 +365,101 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.Id;
-       
+        data["CodigoUUID"] = this.CodigoUUID;
+        data["IdPPA"] = this.IdPPA;
+        data["IdMarcoLista"] = this.IdMarcoLista;
+        data["IdCondicionJuridica"] = this.IdCondicionJuridica;
+        data["IdCondicionJuridicaOtros"] = this.IdCondicionJuridicaOtros;
+        data["IdTipoDocumento"] = this.IdTipoDocumento;
+        data["CodigoIdentificacion"] = this.CodigoIdentificacion;
+        data["NumeroDocumento"] = this.NumeroDocumento;
+        data["Nombre"] = this.Nombre;
+        data["ApellidoPaterno"] = this.ApellidoPaterno;
+        data["ApellidoMaterno"] = this.ApellidoMaterno;
+        data["RazonSocial"] = this.RazonSocial;
+        data["DireccionFiscalDomicilio"] = this.DireccionFiscalDomicilio;
+        data["IdUbigeo"] = this.IdUbigeo;
+        data["IdTipoExplotacion"] = this.IdTipoExplotacion;
+        data["TieneRuc"] = this.TieneRuc;
+        data["Telefono"] = this.Telefono;
+        data["Celular"] = this.Celular;
+        data["CorreoElectronico"] = this.CorreoElectronico;
+        data["PaginaWeb"] = this.PaginaWeb;
+        data["NombreRepLegal"] = this.NombreRepLegal;
+        data["CorreoRepLegal"] = this.CorreoRepLegal;
+        data["CelularRepLegal"] = this.CelularRepLegal;
+        data["CantidadFundo"] = this.CantidadFundo;
+        data["EstadoEntrevista"] = this.EstadoEntrevista;
+        if (Array.isArray(this.ListCondicionJuridica)) {
+            data["ListCondicionJuridica"] = [];
+            for (let item of this.ListCondicionJuridica)
+                data["ListCondicionJuridica"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListCondicionJuridicaOtros)) {
+            data["ListCondicionJuridicaOtros"] = [];
+            for (let item of this.ListCondicionJuridicaOtros)
+                data["ListCondicionJuridicaOtros"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListTipoDocumento)) {
+            data["ListTipoDocumento"] = [];
+            for (let item of this.ListTipoDocumento)
+                data["ListTipoDocumento"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListDepartamento)) {
+            data["ListDepartamento"] = [];
+            for (let item of this.ListDepartamento)
+                data["ListDepartamento"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListProvincia)) {
+            data["ListProvincia"] = [];
+            for (let item of this.ListProvincia)
+                data["ListProvincia"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListDistrito)) {
+            data["ListDistrito"] = [];
+            for (let item of this.ListDistrito)
+                data["ListDistrito"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListTipoExplotacion)) {
+            data["ListTipoExplotacion"] = [];
+            for (let item of this.ListTipoExplotacion)
+                data["ListTipoExplotacion"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListFundos)) {
+            data["ListFundos"] = [];
+            for (let item of this.ListFundos)
+                data["ListFundos"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListTenencia)) {
+            data["ListTenencia"] = [];
+            for (let item of this.ListTenencia)
+                data["ListTenencia"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListUsoTierra)) {
+            data["ListUsoTierra"] = [];
+            for (let item of this.ListUsoTierra)
+                data["ListUsoTierra"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListCultivo)) {
+            data["ListCultivo"] = [];
+            for (let item of this.ListCultivo)
+                data["ListCultivo"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListUsoNoAgricola)) {
+            data["ListUsoNoAgricola"] = [];
+            for (let item of this.ListUsoNoAgricola)
+                data["ListUsoNoAgricola"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListEstadoEntrevista)) {
+            data["ListEstadoEntrevista"] = [];
+            for (let item of this.ListEstadoEntrevista)
+                data["ListEstadoEntrevista"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListTipoInformacion)) {
+            data["ListTipoInformacion"] = [];
+            for (let item of this.ListTipoInformacion)
+                data["ListTipoInformacion"].push(item.toJSON());
+        }
         return data;
     }
 }
