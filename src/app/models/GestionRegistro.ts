@@ -192,6 +192,7 @@ export interface IGestionRegistroGetDto {
     CantidadFundo: String;
     EstadoEntrevista: number;
     IdPeriodo: number;
+    FechaActualizacion:Date;
     ListPeriodos: SelectTipoDto[];  
     ListCondicionJuridica: SelectTipoDto[];
     ListCondicionJuridicaOtros: SelectTipoDto[];
@@ -236,6 +237,7 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     CantidadFundo: String;
     EstadoEntrevista: number;
     IdPeriodo: number;
+    FechaActualizacion:Date;
     ListPeriodos: SelectTipoDto[];  
     ListCondicionJuridica: SelectTipoDto[];
     ListCondicionJuridicaOtros: SelectTipoDto[];
@@ -289,6 +291,7 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
             this.CantidadFundo = _data["CantidadFundo"];
             this.EstadoEntrevista = _data["EstadoEntrevista"];
             this.IdPeriodo = _data["IdPeriodo"];
+            this.FechaActualizacion = _data["FechaActualizacion"];
             if (Array.isArray(_data["ListPeriodos"]) && _data["ListPeriodos"].length > 0) {
                 this.ListPeriodos = [] as any;
                 for (let item of _data["ListPeriodos"])

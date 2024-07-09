@@ -543,8 +543,18 @@
                 </div>
             </div> 
         </div>
-        <div class="modal-footer text-end" style="display: block;">
-           
+        <div class="modal-footer" style="display: block;">
+            <div class="row">
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-primary" [disabled]="!plantillaForm.valid"
+                    style="background-color: green; border-color: green;">Previsualizar</button>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!plantillaForm.valid"
+                    style="background-color: green; border-color: green;">Grabar</button>
+                </div>
+            </div>
+            
         </div>
     </form>
 </div>
