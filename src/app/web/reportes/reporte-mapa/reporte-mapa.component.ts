@@ -7,6 +7,7 @@ import { ConfirmationService } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { GestionRegistroGetDto } from 'src/app/models/GestionRegistro';
 import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionregistro-proxies';
+import { MapService } from '../../arcgis-map/services/map.service';
 
 @Component({
   selector: 'reporte-mapa',
@@ -23,6 +24,16 @@ export class ReporteMapaComponent implements OnInit {
   condicionJuridica:String;
   tipoExplotacion:String;
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
+  /*GIS*/
+  title = '';
+  screenActive = 0;
+  isFullViewMap = false;
+  visible = false;
+  isCollapsed = false;
+  showMap = true;
+  showData = true;
+  MapElement:MapService;
+
   private gestionregistroServiceProxy: GestionRegistroServiceProxy;
   constructor(_injector: Injector
     ,private _route: ActivatedRoute
@@ -64,4 +75,22 @@ export class ReporteMapaComponent implements OnInit {
   exitModal = (): void => {
     this.modalRef?.hide();
   };
+
+  setMapElement(oMapElement:any){
+    this.MapElement=oMapElement;
+  }
+
+  onChangeSelect(value:any) {
+    //console.log(value);
+    this.screenActive = value;
+    this.showMap = value === 0 || value === 1;
+    this.showData = value === 0 || value === 2;
+    this.isFullViewMap = value === 1;
+  }
+  onChangeFullView(value: any) {
+    this.isFullViewMap = value;
+    this.showMap = true;
+    this.showData = !value;
+    this.screenActive = value ? 1: 0;
+  }
 }

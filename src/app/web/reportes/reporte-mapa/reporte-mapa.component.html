@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-10">
-        <span>¡Aqui deberia ir el mapa!</span>
+        <app-esri-map [isFullView]="isFullViewMap" (changeFullView)="onChangeFullView($event)" (MapElement)="setMapElement($event)"></app-esri-map>   
     </div>
     <div class="col-sm-2">
         <div class="row">

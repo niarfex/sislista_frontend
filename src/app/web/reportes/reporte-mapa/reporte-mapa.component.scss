@@ -1,0 +1,128 @@
+@import '../../arcgis-map/components/esri-map/esri-map.component.scss';
+
+// globals
+$color-main: #ffffff;
+$time-transition: 0.5s;
+$color-title: $color-main;
+$height-logo-img: 40px;
+$height-nav: 50px;
+$sidebar-size: 350px;
+$bg-nav-head: #141615;
+;
+
+//bootstrap
+$body-bg: #fcfcfc;
+$theme-colors: (
+  "primary": $color-main,
+);
+
+$modal-xl: 1980px;
+$modal-lg: 1366px;
+$modal-md: 1280px;
+$modal-sm: 800px;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: $modal-sm,
+  md: $modal-md,
+  lg: $modal-lg,
+  xl: $modal-xl
+);
+
+$container-max-widths: (
+  sm: $modal-sm,
+  md: $modal-md,
+  lg: $modal-lg,
+  xl: $modal-xl
+);
+
+.map-style {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+.h-70 {
+    height: 70%;
+  }
+  .h-60 {
+    height: 60%;
+  }
+  .h-40 {
+    height: 40%;
+  }
+  .h-30 {
+    height: 30%;
+  }
+  .toast {
+    max-width: 600px;
+  }
+  
+.main {
+    height: calc(100% - #{$height-nav});
+  }
+  
+  .h-main {
+      height: calc(100% - #{$height-nav});
+  }
+  
+  .data-card-map{
+      height: 80vh;
+      box-sizing: border-box;
+      position: relative;
+      grid-area: map;
+      @media screen and (min-width: 768px) {
+          height: auto;
+      }
+  }
+  
+  .main-card-arrange{
+      padding: 15px;
+      grid-area: charts;
+      /*overflow-y: auto;*/
+      /*overflow-x: auto;*/
+  }
+  .card-arrange{
+      display: grid;
+      grid-gap: 15px;
+      grid-auto-rows: max-content;
+  
+      @media screen and (min-width: 768px) {
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  
+          @for $i from 1 through 4 {
+              [data-grid-column-span="#{$i}"]{
+                  grid-column: auto / span $i
+              }
+          }
+      }
+  }
+  
+  .overlay {
+      display: none;
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 998;
+      opacity: 0;
+      transition: all $time-transition ease-in-out;
+  }
+  
+  .overlay.active {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      display: block;
+      opacity: 1;
+  }
+  
+  #content {
+      width: 100%;
+      padding: 0px;
+      min-height: 100vh;
+      transition: all $time-transition;
+      position: absolute;
+      top: 0;
+      right: 0;
+  }
