@@ -21,7 +21,7 @@
     "@angular/platform-server": "^17.1.0",
     "@angular/router": "^17.1.0",
     "@angular/ssr": "^17.1.0",
-    "@arcgis/core": "^4.30.6",
+    "@arcgis/core": "^4.30.7",
     "@auth0/angular-jwt": "^5.2.0",
     "@metismenu/angular": "^0.0.2",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
