@@ -191,6 +191,8 @@ export interface IGestionRegistroGetDto {
     CelularRepLegal: String;
     CantidadFundo: String;
     EstadoEntrevista: number;
+    IdPeriodo: number;
+    ListPeriodos: SelectTipoDto[];  
     ListCondicionJuridica: SelectTipoDto[];
     ListCondicionJuridicaOtros: SelectTipoDto[];
     ListTipoDocumento: SelectTipoDto[];
@@ -233,6 +235,8 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     CelularRepLegal: String;
     CantidadFundo: String;
     EstadoEntrevista: number;
+    IdPeriodo: number;
+    ListPeriodos: SelectTipoDto[];  
     ListCondicionJuridica: SelectTipoDto[];
     ListCondicionJuridicaOtros: SelectTipoDto[];
     ListTipoDocumento: SelectTipoDto[];
@@ -284,6 +288,12 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
             this.CelularRepLegal = _data["CelularRepLegal"];
             this.CantidadFundo = _data["CantidadFundo"];
             this.EstadoEntrevista = _data["EstadoEntrevista"];
+            this.IdPeriodo = _data["IdPeriodo"];
+            if (Array.isArray(_data["ListPeriodos"]) && _data["ListPeriodos"].length > 0) {
+                this.ListPeriodos = [] as any;
+                for (let item of _data["ListPeriodos"])
+                    this.ListPeriodos!.push(SelectTipoDto.fromJS(item));
+            }
             if (Array.isArray(_data["ListCondicionJuridica"]) && _data["ListCondicionJuridica"].length > 0) {
                 this.ListCondicionJuridica = [] as any;
                 for (let item of _data["ListCondicionJuridica"])
@@ -390,6 +400,7 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
         data["CelularRepLegal"] = this.CelularRepLegal;
         data["CantidadFundo"] = this.CantidadFundo;
         data["EstadoEntrevista"] = this.EstadoEntrevista;
+        data["IdPeriodo"] = this.IdPeriodo;
         if (Array.isArray(this.ListCondicionJuridica)) {
             data["ListCondicionJuridica"] = [];
             for (let item of this.ListCondicionJuridica)

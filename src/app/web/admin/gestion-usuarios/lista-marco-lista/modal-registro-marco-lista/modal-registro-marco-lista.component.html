@@ -314,9 +314,7 @@
                             (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
                         <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)"
                             class="text-danger">
-                            <div *ngIf="CorreoElectronico.errors?.['required']">El campo es requerido.</div>
-                            <div *ngIf="CorreoElectronico.errors?.['email']">El campo no cumple con el formato requerido
-                            </div>
+                            <div *ngIf="CorreoElectronico.errors?.['required']">El campo es requerido.</div>                            
                         </div>
                     </div>
                 </div>
@@ -370,9 +368,7 @@
                             (focusout)="onFocusOutEvent($event,'CorreoRepLegal')" required>
                         <div *ngIf="CorreoRepLegal.invalid && (CorreoRepLegal.dirty || CorreoRepLegal.touched)"
                             class="text-danger">
-                            <div *ngIf="CorreoRepLegal.errors?.['required']"> El campo es requerido.</div>
-                            <div *ngIf="CorreoRepLegal.errors?.['email']">El campo no cumple con el formato requerido
-                            </div>
+                            <div *ngIf="CorreoRepLegal.errors?.['required']"> El campo es requerido.</div>                           
                         </div>
                     </div>
                 </div>
