@@ -101,29 +101,32 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
             this.objRegistro = result.datos;
 
             if (this.objRegistro.Id > 0) {
-              this.modalForm.controls['IdDepartamento'].setValue(this.objRegistro.IdDepartamento.toString());
               this.modalForm.controls['IdCondicionJuridica'].setValue(this.objRegistro.IdCondicionJuridica.toString());
               this.modalForm.controls['IdCondicionJuridicaOtros'].setValue(this.objRegistro.IdCondicionJuridicaOtros==null?null:this.objRegistro.IdCondicionJuridicaOtros.toString());
+              this.IdCondicionJuridica.disable();
               this.selCondicionJuridica(null);
               this.modalForm.controls['IdTipoDocumento'].setValue(this.objRegistro.IdTipoDocumento.toString());
-              this.modalForm.controls['IdDepartamentoPer'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 2));
-              this.modalForm.controls['IdProvinciaPer'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 4));
-              this.modalForm.controls['IdDistritoPer'].setValue(this.objRegistro.IdUbigeo.toString());
-              this.modalForm.controls['IdTipoExplotacion'].setValue(this.objRegistro.IdTipoExplotacion.toString());
-              this.modalForm.controls['Telefono'].setValue(this.objRegistro.Telefono.toString());
-              this.modalForm.controls['Celular'].setValue(this.objRegistro.Celular.toString());
-              this.modalForm.controls['CorreoElectronico'].setValue(this.objRegistro.CorreoElectronico.toString());
-              this.modalForm.controls['PaginaWeb'].setValue(this.objRegistro.PaginaWeb.toString());
+              if(this.objRegistro.IdUbigeo!=null){
+                this.modalForm.controls['IdDepartamentoPer'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 2));
+                this.modalForm.controls['IdProvinciaPer'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 4));
+                this.modalForm.controls['IdDistritoPer'].setValue(this.objRegistro.IdUbigeo.toString());
+              }              
+              this.modalForm.controls['IdTipoExplotacion'].setValue(this.objRegistro.IdTipoExplotacion==null?"":this.objRegistro.IdTipoExplotacion.toString());
+              this.modalForm.controls['Telefono'].setValue(this.objRegistro.Telefono==null?null:this.objRegistro.Telefono.toString());
+              this.modalForm.controls['Celular'].setValue(this.objRegistro.Celular==null?null:this.objRegistro.Celular.toString());
+              this.modalForm.controls['CorreoElectronico'].setValue(this.objRegistro.CorreoElectronico==null?null:this.objRegistro.CorreoElectronico.toString());
+              this.modalForm.controls['PaginaWeb'].setValue(this.objRegistro.PaginaWeb==null?null:this.objRegistro.PaginaWeb.toString());
               this.modalForm.controls['Direccion'].setValue(this.objRegistro.Direccion==null?null:this.objRegistro.Direccion.toString());
-              this.modalForm.controls['IdDepartamento'].setValue(this.objRegistro.IdDepartamento.toString());
-              this.modalForm.controls['IdAnio'].setValue(this.objRegistro.IdAnio==null?null:this.objRegistro.IdAnio.toString());
+              this.modalForm.controls['IdDepartamento'].setValue(this.objRegistro.IdDepartamento==null?"":this.objRegistro.IdDepartamento.toString());
+              this.modalForm.controls['IdAnio'].setValue(this.objRegistro.IdAnio==null?"":this.objRegistro.IdAnio.toString());
               if (this.perSA) {
                 this.modalForm.controls['NumeroDocumentoSA'].setValue(this.objRegistro.NumeroDocumento.toString());
                 this.modalForm.controls['RazonSocial'].setValue(this.objRegistro.RazonSocial==null?null:this.objRegistro.RazonSocial.toString());
-                this.modalForm.controls['DireccionFiscalDomicilioSA'].setValue(this.objRegistro.DireccionFiscalDomicilio.toString());
+                this.modalForm.controls['DireccionFiscalDomicilioSA'].setValue(this.objRegistro.DireccionFiscalDomicilio==null?null:this.objRegistro.DireccionFiscalDomicilio.toString());
                 this.modalForm.controls['NombreRepLegal'].setValue(this.objRegistro.NombreRepLegal==null?null:this.objRegistro.NombreRepLegal.toString());
                 this.modalForm.controls['CelularRepLegal'].setValue(this.objRegistro.CelularRepLegal==null?null:this.objRegistro.CelularRepLegal.toString());
                 this.modalForm.controls['CorreoRepLegal'].setValue(this.objRegistro.CorreoRepLegal==null?null:this.objRegistro.CorreoRepLegal.toString());
+                this.NumeroDocumentoSA.disable();
               }
               else if (this.perPN) {
                 this.modalForm.controls['NumeroDocumentoPN'].setValue(this.objRegistro.NumeroDocumento.toString());
@@ -132,6 +135,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
                 this.modalForm.controls['ApellidoPaterno'].setValue(this.objRegistro.ApellidoPaterno.toString());
                 this.modalForm.controls['ApellidoMaterno'].setValue(this.objRegistro.ApellidoMaterno.toString());
                 this.modalForm.controls['TieneRuc'].setValue(this.objRegistro.TieneRuc.toString());
+                this.NumeroDocumentoPN.disable();
               }
             }
           }
@@ -299,6 +303,9 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
                 this.Nombre.setValue(reniec.datos.prenombres);
                 this.ApellidoPaterno.setValue(reniec.datos.apPrimer);
                 this.ApellidoMaterno.setValue(reniec.datos.apSegundo);
+                this.Nombre.disable();
+                this.ApellidoPaterno.disable();
+                this.ApellidoMaterno.disable();
                 this.toastr.success(result.message.toString(), 'Información');
               }
               else {
@@ -318,10 +325,19 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {
-              if (result.success) {
+              if (result.success) {                
                 var sunat= JSON.parse(result.datos.toString());
-                this.RazonSocial.setValue(sunat.datos.ddp_nombre);
-                this.toastr.success(result.message.toString(), 'Información');
+                console.log(sunat);
+                if(sunat.datos!=null && sunat.datos!=undefined){
+                  this.RazonSocial.setValue(sunat.datos.ddp_nombre);
+                  this.DireccionFiscalDomicilioSA.setValue(sunat.datos.ddp_nomvia+" "+sunat.ddp_numer1);
+                  this.RazonSocial.disable();
+                  this.toastr.success(result.message.toString(), 'Información');
+                }
+                else{
+                  console.log(sunat);
+                  this.toastr.error("Hay un error en la consulta del RUC: "+this.NumeroDocumentoSA.value, 'Error');
+                }
               }
               else {
                 this.toastr.error(result.message.toString(), 'Error');

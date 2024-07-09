@@ -14,8 +14,8 @@
                     <ng-template pTemplate="header">
                         <tr>
                             <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
-                            <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Número Doc.</th>
-                            <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Razón Social/Nombre completo</th>
+                            <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Número Doc.</th>
+                            <th style="width: 50%; flex: none; padding: 5px;" pResizableColumn>Razón Social/Nombre completo</th>
                             <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Departamento</th>                            
                         </tr>
                     </ng-template>
@@ -23,8 +23,8 @@
                         <tr>
                             <td style="width: 5%; flex: none; padding: 5px;">
                                 <input type="checkbox" [(ngModel)]="item.Seleccionado" class="form-check-input" [ngModelOptions]="{standalone: true}"></td>
-                            <td style="width: 10%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
-                            <td style="width: 30%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td>
+                            <td style="width: 15%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
+                            <td style="width: 50%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td>
                             <td style="width: 30%; flex: none; padding: 5px;">{{ item.Departamento }}</td>                            
                         </tr>
                     </ng-template>

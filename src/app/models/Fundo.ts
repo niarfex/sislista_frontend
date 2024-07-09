@@ -1,4 +1,5 @@
 import { CampoGetDto } from "./Campo";
+import { SelectTipoDto } from "./SelectTipo";
 
 export interface IResponseFundoGetDto {
     success: boolean;
@@ -48,6 +49,9 @@ export interface IFundoGetDto {
     SuperficieAgricola: number;
     IdUbigeo: String;
     Observacion: String;
+    ListDepartamento: SelectTipoDto[];
+    ListProvincia: SelectTipoDto[];
+    ListDistrito: SelectTipoDto[];
     ListCampos: CampoGetDto[];
 }
 export class FundoGetDto implements IFundoGetDto {
@@ -58,6 +62,9 @@ export class FundoGetDto implements IFundoGetDto {
     SuperficieAgricola: number;
     IdUbigeo: String;
     Observacion: String;
+    ListDepartamento: SelectTipoDto[];
+    ListProvincia: SelectTipoDto[];
+    ListDistrito: SelectTipoDto[];
     ListCampos: CampoGetDto[];
     constructor(data?: IFundoGetDto) {
         if (data) {
@@ -76,6 +83,21 @@ export class FundoGetDto implements IFundoGetDto {
             this.SuperficieAgricola = _data["SuperficieAgricola"];
             this.IdUbigeo = _data["IdUbigeo"];
             this.Observacion = _data["Observacion"];
+            if (Array.isArray(_data["ListDepartamento"]) && _data["ListDepartamento"].length > 0) {
+                this.ListDepartamento = [] as any;
+                for (let item of _data["ListDepartamento"])
+                    this.ListDepartamento!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListProvincia"]) && _data["ListProvincia"].length > 0) {
+                this.ListProvincia = [] as any;
+                for (let item of _data["ListProvincia"])
+                    this.ListProvincia!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListDistrito"]) && _data["ListDistrito"].length > 0) {
+                this.ListDistrito = [] as any;
+                for (let item of _data["ListDistrito"])
+                    this.ListDistrito!.push(SelectTipoDto.fromJS(item));
+            }
             if (Array.isArray(_data["ListCampos"]) && _data["ListCampos"].length > 0) {
                 this.ListCampos = [] as any;
                 for (let item of _data["ListCampos"])

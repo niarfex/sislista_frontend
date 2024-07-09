@@ -12,7 +12,53 @@
                 style="background-color: #008F49; border-color: #008F49; margin-bottom: 5px;"
                 type="button" (click)="mostrarCuestionario(viewUserTemplate)"><i class="bi bi-pencil-square"></i></button>
             </div>
-        </div>   
+        </div>  
+        <div class="row"></div>
+        <div class="row">
+            <div class="col-sm-12" style="color: #008F49;">
+                <span>Datos de la empresa:</span>
+            </div>            
+        </div> 
+        <div class="row">         
+            <div class="col-sm-12" style="margin-left: 5px; margin-right: 5px; ">
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Condición jurídica</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{condicionJuridica}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>RUC</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.NumeroDocumento}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Razón social</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.RazonSocial}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Dirección fiscal</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.DireccionFiscalDomicilio}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Tipo de Explotación</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{tipoExplotacion}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Teléfono fijo</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.Telefono}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Celular</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.Celular}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Correo electrónico</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.CorreoElectronico}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Página web</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.PaginaWeb}}</span></div>
+            </div>
+        </div>
+        <div class="row" style="color: #008F49;">
+            <span>Datos del representante legal:</span>
+        </div> 
+        <div class="row">   
+            <div class="col-sm-12" style="margin-left: 5px; margin-right: 5px;">
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Nombres y apellidos</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.NombreRepLegal}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Celular</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.Celular}}</span></div>
+                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Correo electrónico</span></div>
+                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.CorreoRepLegal}}</span></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-end">
+                <span>Última actualización: </span>
+            </div>
+        </div>
     </div>
 </div>
 <ng-template #viewUserTemplate >

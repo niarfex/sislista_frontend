@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Injector, OnInit, TemplateRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -24,20 +25,24 @@ export class ListaMarcoListaComponent implements OnInit {
   lista_resultados: MarcoListaListDto[];
   idRegistro: number;
   modalActivo: boolean;
-  usuario:Login;  
-
+  usuario: Login;
+  bArchivoOk:boolean;
+  fileForm = this.formBuilder.group({
+    file: new FormControl(null, [])
+  });
   private marcolistaServiceProxy: MarcoListaServiceProxy;
   constructor(_injector: Injector
+    , private formBuilder: FormBuilder
     , private confirmationService: ConfirmationService
     , private modalService: BsModalService
     , private spinner: NgxSpinnerService
     , private toastr: ToastrService
-    ,private loginService: LoginService) {
+    , private loginService: LoginService) {
     this.marcolistaServiceProxy = _injector.get(MarcoListaServiceProxy);
   }
 
   ngOnInit(): void {
-    this.usuario=this.loginService.getCurrentUserValue;
+    this.usuario = this.loginService.getCurrentUserValue;
     this.getData();
   }
 
@@ -175,22 +180,58 @@ export class ListaMarcoListaComponent implements OnInit {
     this.modalRef?.hide();
     this.getData();
   };
-  exportar(){
+  exportar() {
     this.marcolistaServiceProxy.getAllToExcel(this.txt_busqueda).subscribe(async (event) => {
-      let data = event as HttpResponse < Blob > ;
-            const downloadedFile = new Blob([data.body as BlobPart], {
-                type: data.body?.type
-            });         
-        if (downloadedFile.type != "") {
-          const a = document.createElement('a');
-          a.setAttribute('style', 'display:none;');
-          document.body.appendChild(a);
-          a.download = "marcolistas.xlsx";
-          a.href = URL.createObjectURL(downloadedFile);
-          a.target = '_blank';
-          a.click();
-          document.body.removeChild(a);
-        }
+      let data = event as HttpResponse<Blob>;
+      const downloadedFile = new Blob([data.body as BlobPart], {
+        type: data.body?.type
+      });
+      if (downloadedFile.type != "") {
+        const a = document.createElement('a');
+        a.setAttribute('style', 'display:none;');
+        document.body.appendChild(a);
+        a.download = "marcolistas.xlsx";
+        a.href = URL.createObjectURL(downloadedFile);
+        a.target = '_blank';
+        a.click();
+        document.body.removeChild(a);
+      }
     });
-}
+  }
+  importar($event:any){
+    this.bArchivoOk=false;
+    //if($event.target.files[0].size>5242880){
+    //    this.notify.error('El archivo no debe exceder los 5 MB.')
+    ///    return;
+    //  }  
+    this.fileForm.patchValue({
+      file: $event.target.files[0]
+    })
+    //this.nameFile = $event.target.files[0].name;    
+    this.saveFile();
+  }
+
+ 
+  saveFile(){
+//
+    //if(this.fileForm.invalid){
+    //  this.notify.error('Debe seleccionar un archivo')
+    //  return;
+    //}        
+    const formData = new FormData();
+    formData.append('file', this.fileForm.get('file')?.value);
+    //this.toastr.success("Se subio el archivo correctamente", 'Información');
+    
+    this.marcolistaServiceProxy.subirArchivo(formData).subscribe(async (res:any)=>{
+      this.toastr.success(res.partialText, 'Información');
+      
+        if (res.status === 200) {        
+        this.bArchivoOk=true;
+        this.getData();
+        }
+      },
+      (err:any)=>{
+        this.bArchivoOk=false;
+      });
+  }
 }

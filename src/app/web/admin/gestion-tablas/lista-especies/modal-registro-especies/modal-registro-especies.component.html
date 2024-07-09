@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="CodigoEspecie">Código</label>
-                        <input formControlName="CodigoEspecie" type="text" class="form-control" required>
+                        <input formControlName="CodigoEspecie" maxlength="10" type="text" class="form-control" required>
                         <div *ngIf="CodigoEspecie.invalid && (CodigoEspecie.dirty || CodigoEspecie.touched)" class="text-danger">
                             <div *ngIf="CodigoEspecie.errors?.['required']">
                                 El campo es obligatorio
@@ -23,7 +23,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="Especie">Especie</label>
-                        <input formControlName="Especie" type="text" class="form-control" required>
+                        <input formControlName="Especie" maxlength="100" type="text" class="form-control" required>
                         <div *ngIf="Especie.invalid && (Especie.dirty || Especie.touched)" class="text-danger">
                             <div *ngIf="Especie.errors?.['required']">
                                 El campo es obligatorio
@@ -36,7 +36,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="DescripcionEspecie">Descripción</label>
-                        <input formControlName="DescripcionEspecie" type="text" class="form-control" required>
+                        <input formControlName="DescripcionEspecie" maxlength="255" type="text" class="form-control" required>
                         <div *ngIf="DescripcionEspecie.invalid && (DescripcionEspecie.dirty || DescripcionEspecie.touched)" class="text-danger">
                             <div *ngIf="DescripcionEspecie.errors?.['required']">
                                 El campo es obligatorio

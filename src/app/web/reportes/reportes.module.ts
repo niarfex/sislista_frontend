@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportesRoutingModule } from './reportes-routing.module';
 import { ReporteMapaComponent } from './reporte-mapa/reporte-mapa.component';
@@ -17,6 +17,9 @@ import { ReporteMapaGeneralComponent } from './reporte-mapa-general/reporte-mapa
     CommonModule,
     PlantillaUnoComponent,
     ReportesRoutingModule
-  ]
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
 })
 export class ReportesModule { }

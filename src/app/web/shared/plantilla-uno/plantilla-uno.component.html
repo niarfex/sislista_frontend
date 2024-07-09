@@ -1,5 +1,12 @@
 <div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
-    <form [formGroup]="plantillaForm">        
+    <form [formGroup]="plantillaForm">    
+        <div class="modal-header"
+            style="background-color: green; color: white; text-align: center; align-items: center;">
+            <span style="font-size: large; font-weight: bold;">
+                Cuestionario de Marco de Lista
+            </span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+        </div>    
         <div class="modal-body">
             <div class="row">
                 <div class="col-sm-12">
@@ -17,11 +24,11 @@
                 </div>
             </div>       
             <!--Para Persona Natural-->
-            <div *ngIf="perPN" class="row">
+            <div  class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="IdCondicionJuridica">1. Condición jurídica</label>
-                        <select formControlName="IdCondicionJuridica" id="IdCondicionJuridica"
+                        <select formControlName="IdCondicionJuridica" id="IdCondicionJuridicaPN"
                             name="IdCondicionJuridica" class="form-select" (change)="selCondicionJuridica($event)">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListCondicionJuridica" [value]="item.value">
@@ -36,7 +43,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="IdTipoDocumento">2. Tipo de documento</label>
                         <select formControlName="IdTipoDocumento" id="IdTipoDocumento" name="IdTipoDocumento"
@@ -54,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="NumeroDocumentoPN">3. Número de documento</label>                        
                         <div class="input-group">
@@ -69,10 +76,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div *ngIf="perPN" class="row">
-                <div class="col-sm-4">
+                </div>      
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="Nombre">4. Nombres</label>
                         <input formControlName="Nombre" maxlength="25" type="text" class="form-control"
@@ -84,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="ApellidoPaterno">5. Apellido paterno</label>
                         <input formControlName="ApellidoPaterno" maxlength="25" type="text" class="form-control"
@@ -97,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="ApellidoMaterno">6. Apellido materno</label>
                         <input formControlName="ApellidoMaterno" maxlength="25" type="text" class="form-control"
@@ -109,10 +114,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div *ngIf="perPN" class="row">
-                <div class="col-sm-4">
+                </div>      
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="TieneRuc">¿Tiene RUC?</label>
                         <input formControlName="TieneRuc" maxlength="11" type="text"
@@ -120,7 +123,7 @@
                             (focusout)="onFocusOutEvent($event,'TieneRuc')" required>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="DireccionFiscalDomicilioPN">7. Domicilio</label>
                         <input formControlName="DireccionFiscalDomicilioPN" type="text" class="form-control"
@@ -133,309 +136,277 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
-                        <label for="IdDepartamentoPer">8. Departamento</label>
-                        <select formControlName="IdDepartamentoPer" id="IdDepartamentoPer" name="IdDepartamentoPer"
+                        <label for="IdDepartamentoPerPN">8. Departamento</label>
+                        <select formControlName="IdDepartamentoPerPN" id="IdDepartamentoPerPN" name="IdDepartamentoPerPN"
                             class="form-select" (change)="selDepartamento($event)">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListDepartamento" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
-                        <div *ngIf="IdDepartamentoPer.invalid && (IdDepartamentoPer.dirty || IdDepartamentoPer.touched)"
+                        <div *ngIf="IdDepartamentoPerPN.invalid && (IdDepartamentoPerPN.dirty || IdDepartamentoPerPN.touched)"
                             class="text-danger">
-                            <div *ngIf="IdDepartamentoPer.errors?.['required']">
+                            <div *ngIf="IdDepartamentoPerPN.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div *ngIf="perPN" class="row">
-                <div class="col-sm-4">
+                </div> 
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
-                        <label for="IdProvinciaPer">9. Provincia</label>
-                        <select formControlName="IdProvinciaPer" id="IdProvinciaPer" name="IdProvinciaPer"
+                        <label for="IdProvinciaPerPN">9. Provincia</label>
+                        <select formControlName="IdProvinciaPerPN" id="IdProvinciaPerPN" name="IdProvinciaPerPN"
                             class="form-select" (change)="selProvincia($event)">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListProvincia" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
-                        <div *ngIf="IdProvinciaPer.invalid && (IdProvinciaPer.dirty || IdProvinciaPer.touched)"
+                        <div *ngIf="IdProvinciaPerPN.invalid && (IdProvinciaPerPN.dirty || IdProvinciaPerPN.touched)"
                             class="text-danger">
-                            <div *ngIf="IdProvinciaPer.errors?.['required']">
+                            <div *ngIf="IdProvinciaPerPN.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
-                        <label for="IdDistritoPer">10. Distrito</label>
-                        <select formControlName="IdDistritoPer" id="IdDistritoPer" name="IdDistritoPer"
+                        <label for="IdDistritoPerPN">10. Distrito</label>
+                        <select formControlName="IdDistritoPerPN" id="IdDistritoPerPN" name="IdDistritoPerPN"
                             class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListDistrito" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
-                        <div *ngIf="IdDistritoPer.invalid && (IdDistritoPer.dirty || IdDistritoPer.touched)"
+                        <div *ngIf="IdDistritoPerPN.invalid && (IdDistritoPerPN.dirty || IdDistritoPerPN.touched)"
                             class="text-danger">
-                            <div *ngIf="IdDistritoPer.errors?.['required']">
+                            <div *ngIf="IdDistritoPerPN.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
-                        <label for="IdTipoExplotacion">11. Tipo de explotación</label>
-                        <select formControlName="IdTipoExplotacion" id="IdTipoExplotacion" name="IdTipoExplotacion"
+                        <label for="IdTipoExplotacionPN">11. Tipo de explotación</label>
+                        <select formControlName="IdTipoExplotacionPN" id="IdTipoExplotacionPN" name="IdTipoExplotacionPN"
                             class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListTipoExplotacion" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
-                        <div *ngIf="IdTipoExplotacion.invalid && (IdTipoExplotacion.dirty || IdTipoExplotacion.touched)"
+                        <div *ngIf="IdTipoExplotacionPN.invalid && (IdTipoExplotacionPN.dirty || IdTipoExplotacionPN.touched)"
                             class="text-danger">
-                            <div *ngIf="IdTipoExplotacion.errors?.['required']">
+                            <div *ngIf="IdTipoExplotacionPN.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="perPN" class="row">
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
-                        <label for="Telefono">12. Teléfono fijo</label>
-                        <input formControlName="Telefono" maxlength="9" type="text" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'Telefono')">                       
+                        <label for="TelefonoPN">12. Teléfono fijo</label>
+                        <input formControlName="TelefonoPN" maxlength="9" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'TelefonoPN')">                       
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
-                        <label for="Celular">13. Celular</label>
-                        <input formControlName="Celular" maxlength="9" type="text"
+                        <label for="CelularPN">13. Celular</label>
+                        <input formControlName="CelularPN" maxlength="9" type="text"
                             onkeypress="return '0123456789'.includes(event.key)" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'Celular')" required>
-                        <div *ngIf="Celular.invalid && (Celular.dirty || Celular.touched)" class="text-danger">
-                            <div *ngIf="Celular.errors?.['required']">
+                            (focusout)="onFocusOutEvent($event,'CelularPN')" required>
+                        <div *ngIf="CelularPN.invalid && (CelularPN.dirty || CelularPN.touched)" class="text-danger">
+                            <div *ngIf="CelularPN.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
-                        <label for="CorreoElectronico">14. Correo electrónico</label>
-                        <input formControlName="CorreoElectronico" maxlength="50" type="text" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
-                        <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)"
+                        <label for="CorreoElectronicoPN">14. Correo electrónico</label>
+                        <input formControlName="CorreoElectronicoPN" maxlength="50" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'CorreoElectronicoPN')" required>
+                        <div *ngIf="CorreoElectronicoPN.invalid && (CorreoElectronicoPN.dirty || CorreoElectronicoPN.touched)"
                             class="text-danger">
-                            <div *ngIf="CorreoElectronico.errors?.['required']">El campo es requerido.</div>
-                            <div *ngIf="CorreoElectronico.errors?.['email']">El campo no cumple con el formato requerido
+                            <div *ngIf="CorreoElectronicoPN.errors?.['required']">El campo es requerido.</div>
+                            <div *ngIf="CorreoElectronicoPN.errors?.['email']">El campo no cumple con el formato requerido
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="perPN" class="row">
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
-                        <label for="PaginaWeb">15. Página web</label>
-                        <input formControlName="PaginaWeb" maxlength="100" type="text" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'PaginaWeb')">                       
+                        <label for="PaginaWebPN">15. Página web</label>
+                        <input formControlName="PaginaWebPN" maxlength="100" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'PaginaWebPN')">                       
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perPN" class="col-sm-4">
                     
-                </div>
-            </div>
+                </div>         
             <!--Para Persona Natural-->
-            <!--Para persona jurídica-->
-            <div *ngIf="perSA" class="row">
-                <div class="col-sm-4">
+            <!--Para persona jurídica-->                   
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="IdCondicionJuridica">1. Condición jurídica</label>
-                        <select formControlName="IdCondicionJuridica" id="IdCondicionJuridica"
-                            name="IdCondicionJuridica" class="form-select" (change)="selCondicionJuridica($event)">
-                            <option value="" disabled selected>-- Seleccionar --</option>
-                            <option *ngFor="let item of objRegistro.ListCondicionJuridica" [value]="item.value">
-                                {{ item.label }}
-                            </option>
-                        </select>
-                        <div *ngIf="IdCondicionJuridica.invalid && (IdCondicionJuridica.dirty || IdCondicionJuridica.touched)"
-                            class="text-danger">
-                            <div *ngIf="IdCondicionJuridica.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="campo">2. RUC</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="NumeroDocumentoSA">2. RUC</label>
+                        <input formControlName="NumeroDocumentoSA" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="NumeroDocumentoSA.invalid && (NumeroDocumentoSA.dirty || NumeroDocumentoSA.touched)" class="text-danger">
+                            <div *ngIf="NumeroDocumentoSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">3. Razón Social</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="RazonSocial">3. Razón Social</label>
+                        <input formControlName="RazonSocial" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="RazonSocial.invalid && (RazonSocial.dirty || RazonSocial.touched)" class="text-danger">
+                            <div *ngIf="RazonSocial.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div *ngIf="perSA" class="row">
-                <div class="col-sm-4">
+                </div>  
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">4. Dirección fiscal</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="DireccionFiscalDomicilioSA">4. Dirección fiscal</label>
+                        <input formControlName="DireccionFiscalDomicilioSA" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="DireccionFiscalDomicilioSA.invalid && (DireccionFiscalDomicilioSA.dirty || DireccionFiscalDomicilioSA.touched)" class="text-danger">
+                            <div *ngIf="DireccionFiscalDomicilioSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="IdDepartamentoPer">5. Departamento</label>
-                        <select formControlName="IdDepartamentoPer" id="IdDepartamentoPer" name="IdDepartamentoPer"
+                        <label for="IdDepartamentoPerSA">5. Departamento</label>
+                        <select formControlName="IdDepartamentoPerSA" id="IdDepartamentoPerSA" name="IdDepartamentoPerSA"
                             class="form-select" (change)="selDepartamento($event)">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListDepartamento" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
-                        <div *ngIf="IdDepartamentoPer.invalid && (IdDepartamentoPer.dirty || IdDepartamentoPer.touched)"
+                        <div *ngIf="IdDepartamentoPerSA.invalid && (IdDepartamentoPerSA.dirty || IdDepartamentoPerSA.touched)"
                             class="text-danger">
-                            <div *ngIf="IdDepartamentoPer.errors?.['required']">
+                            <div *ngIf="IdDepartamentoPerSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="IdProvinciaPer">6. Provincia</label>
-                        <select formControlName="IdProvinciaPer" id="IdProvinciaPer" name="IdProvinciaPer"
+                        <label for="IdProvinciaPerSA">6. Provincia</label>
+                        <select formControlName="IdProvinciaPerSA" id="IdProvinciaPerSA" name="IdProvinciaPerSA"
                             class="form-select" (change)="selProvincia($event)">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListProvincia" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
-                        <div *ngIf="IdProvinciaPer.invalid && (IdProvinciaPer.dirty || IdProvinciaPer.touched)"
+                        <div *ngIf="IdProvinciaPerSA.invalid && (IdProvinciaPerSA.dirty || IdProvinciaPerSA.touched)"
                             class="text-danger">
-                            <div *ngIf="IdProvinciaPer.errors?.['required']">
+                            <div *ngIf="IdProvinciaPerSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="perSA" class="row">
-                <div class="col-sm-4">
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="IdDistritoPer">7. Distrito</label>
-                        <select formControlName="IdDistritoPer" id="IdDistritoPer" name="IdDistritoPer"
+                        <label for="IdDistritoPerSA">7. Distrito</label>
+                        <select formControlName="IdDistritoPerSA" id="IdDistritoPerSA" name="IdDistritoPerSA"
                             class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListDistrito" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
-                        <div *ngIf="IdDistritoPer.invalid && (IdDistritoPer.dirty || IdDistritoPer.touched)"
+                        <div *ngIf="IdDistritoPerSA.invalid && (IdDistritoPerSA.dirty || IdDistritoPerSA.touched)"
                             class="text-danger">
-                            <div *ngIf="IdDistritoPer.errors?.['required']">
+                            <div *ngIf="IdDistritoPerSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="IdTipoExplotacion">8. Tipo de explotación</label>
-                        <select formControlName="IdTipoExplotacion" id="IdTipoExplotacion" name="IdTipoExplotacion"
+                        <label for="IdTipoExplotacionSA">8. Tipo de explotación</label>
+                        <select formControlName="IdTipoExplotacionSA" id="IdTipoExplotacionSA" name="IdTipoExplotacionSA"
                             class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListTipoExplotacion" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
-                        <div *ngIf="IdTipoExplotacion.invalid && (IdTipoExplotacion.dirty || IdTipoExplotacion.touched)"
+                        <div *ngIf="IdTipoExplotacionSA.invalid && (IdTipoExplotacionSA.dirty || IdTipoExplotacionSA.touched)"
                             class="text-danger">
-                            <div *ngIf="IdTipoExplotacion.errors?.['required']">
+                            <div *ngIf="IdTipoExplotacionSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">9. Teléfono fijo</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="TelefonoSA">9. Teléfono fijo</label>
+                        <input formControlName="TelefonoSA" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="TelefonoSA.invalid && (TelefonoSA.dirty || TelefonoSA.touched)" class="text-danger">
+                            <div *ngIf="TelefonoSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="perSA" class="row">
-                <div class="col-sm-4">
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">10. Celular</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="CelularSA">10. Celular</label>
+                        <input formControlName="CelularSA" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="CelularSA.invalid && (CelularSA.dirty || CelularSA.touched)" class="text-danger">
+                            <div *ngIf="CelularSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">11. Correo electrónico institucional</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="CorreoElectronicoSA">11. Correo electrónico institucional</label>
+                        <input formControlName="CorreoElectronicoSA" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="CorreoElectronicoSA.invalid && (CorreoElectronicoSA.dirty || CorreoElectronicoSA.touched)" class="text-danger">
+                            <div *ngIf="CorreoElectronicoSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">12. Página web</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="PaginaWebSA">12. Página web</label>
+                        <input formControlName="PaginaWebSA" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="PaginaWebSA.invalid && (PaginaWebSA.dirty || PaginaWebSA.touched)" class="text-danger">
+                            <div *ngIf="PaginaWebSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
@@ -450,11 +421,11 @@
             <div *ngIf="perSA" class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">13. Nombres y apellidos</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="NombreRepLegal">13. Nombres y apellidos</label>
+                        <input formControlName="NombreRepLegal" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="NombreRepLegal.invalid && (NombreRepLegal.dirty || NombreRepLegal.touched)" class="text-danger">
+                            <div *ngIf="NombreRepLegal.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
@@ -462,11 +433,11 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">14. Celular</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="CelularRepLegal">14. Celular</label>
+                        <input formControlName="CelularRepLegal" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="CelularRepLegal.invalid && (CelularRepLegal.dirty || CelularRepLegal.touched)" class="text-danger">
+                            <div *ngIf="CelularRepLegal.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
@@ -474,11 +445,11 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">15. Correo electrónico</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="CorreoRepLegal">15. Correo electrónico</label>
+                        <input formControlName="CorreoRepLegal" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="CorreoRepLegal.invalid && (CorreoRepLegal.dirty || CorreoRepLegal.touched)" class="text-danger">
+                            <div *ngIf="CorreoRepLegal.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
@@ -495,11 +466,11 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label for="campo">16. ¿Cuántos fundos tiene la empresa?</label>
-                        <input formControlName="campo" type="text" class="form-control"
+                        <label for="CantidadFundo">16. ¿Cuántos fundos tiene la empresa?</label>
+                        <input formControlName="CantidadFundo" type="text" class="form-control"
                             required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
+                        <div *ngIf="CantidadFundo.invalid && (CantidadFundo.dirty || CantidadFundo.touched)" class="text-danger">
+                            <div *ngIf="CantidadFundo.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
@@ -513,97 +484,13 @@
                 <div class="col-sm-12" style="color:darkgray">
                     <h3>17. Caracteristicas de fundos y uso de la tierra por campo</h3>
                 </div>
-            </div>  
-            <div class="row">                
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label for="campo">17.1 Nombre del fundo:</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>              
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="campo">Superficie total (ha)</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="campo">Superficie agrícola (ha)</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="campo">Observaciones</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="campo">Departamento</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="campo">Provincia</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <label for="campo">Distrito</label>
-                        <input formControlName="campo" type="text" class="form-control"
-                            required>
-                        <div *ngIf="campo.invalid && (campo.dirty || campo.touched)" class="text-danger">
-                            <div *ngIf="campo.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div> 
+            <registro-fundo-plantilla *ngFor="let item of objRegistro.ListFundos" [fundo]="item"
+            [listTenencia]="objRegistro.ListTenencia"
+            [listUsoTierra]="objRegistro.ListUsoTierra"
+            [listCultivo]="objRegistro.ListCultivo"
+            [listUsoNoAgricola]="objRegistro.ListUsoNoAgricola"
+            ></registro-fundo-plantilla>             
             <div class="row">
                 
             </div>
@@ -646,7 +533,7 @@
             </div> 
             <div class="row">                
                 <div class="col-sm-4" style="color:darkgray">
-                    <h3>Temporizador: </h3>
+                    <h3>Temporizador:{{time.hours}}:{{time.minutes}}:{{time.seconds}} </h3>
                 </div>
                 <div class="col-sm-4" style="color:darkgray">
                     <h3>Hora: </h3>

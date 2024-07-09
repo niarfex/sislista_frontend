@@ -14,9 +14,14 @@
     </div>
     <div class="row mb-3">
         <div class="col-sm-8">
-            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49; margin-right: 10px;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nuevo</button>
-            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49; margin-right: 10px;" type="button">Importar</button>
-            <button *ngIf="usuario.isEspecialista" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49;" type="button" (click)="exportar()">Exportar</button>
+            <form [formGroup]="fileForm">
+                <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49; margin-right: 10px;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nuevo</button>
+                <input type="file" id="file" class="d-none" accept=".xls, .xlsx" (change)="importar($event)"> 
+                <div *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49; margin-right: 10px;">
+                    <label for="file" style="cursor: pointer; margin-bottom: 0;" >Importar</label>           
+                 </div>  
+                <button *ngIf="usuario.isEspecialista" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49;" type="button" (click)="exportar()">Exportar</button>
+            </form>
         </div>        
         <div class="col-sm-4 text-end">
             Filtro: <select>
@@ -33,26 +38,26 @@
         <p-table [value]="lista_resultados" [paginator]="true" [rows]="8">
             <ng-template pTemplate="header">
                 <tr>
-                    <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Código</th>
-                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Número Doc.</th>
+                    <th style="width: 6%; flex: none; padding: 5px;" pResizableColumn>Código</th>
+                    <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Número Doc.</th>
                     <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Razón social/Nombre completo</th>  
-                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Condición jurídica</th> 
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Representante legal</th>          
+                    <th style="width: 20%; flex: none; padding: 5px;" pResizableColumn>Condición jurídica</th> 
+                    <th style="width: 19%; flex: none; padding: 5px;" pResizableColumn>Representante legal</th>          
                     <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado</th>
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
+                    <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item>
                 <tr>
-                    <td style="width: 10%; flex: none; padding: 5px;">{{ item.Id }}</td>
-                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
+                    <td style="width: 6%; flex: none; padding: 5px;">{{ item.Id }}</td>
+                    <td style="width: 10%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
                     <td style="width: 30%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td> 
-                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.CondicionJuridica }}</td> 
-                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.NombreRepLegal }}</td> 
-                    <td style="width: 10%; flex: none; padding: 5px;">
+                    <td style="width: 20%; flex: none; padding: 5px;">{{ item.CondicionJuridica }}</td> 
+                    <td style="width: 19%; flex: none; padding: 5px;">{{ item.NombreRepLegal }}</td> 
+                    <td style="width: 5%; flex: none; padding: 5px;">
                         <span *ngIf="item.Estado==1">Activo</span><span *ngIf="item.Estado==0">Inactivo</span>
                     </td>
-                    <td style="width: 15%; flex: none; padding: 5px;">
+                    <td style="width: 10%; flex: none; padding: 5px;">
                         <div class="dropdown" dropdown>
                             <button type="button" class="btn" dropdownToggle id="page-header-user-dropdown">
                                 <span class="d-none d-xl-inline-block ms-1">SELECCIONE </span>

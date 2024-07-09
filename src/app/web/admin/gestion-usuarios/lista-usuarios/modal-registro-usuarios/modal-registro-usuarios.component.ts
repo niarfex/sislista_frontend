@@ -29,7 +29,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
   modalForm = this.formBuilder.group({
     IdPerfil: ['', [Validators.required]],
     IdTipoDocumento: ['', [Validators.required]],
-    NumeroDocumento: ['', this.selDNI?Validators.compose([Validators.required, Validators.min(8)]): [Validators.required]],
+    NumeroDocumento: ['', this.selDNI?[Validators.required, Validators.min(8)]: [Validators.required]],
     Nombre: ['', [Validators.required]],
     ApellidoPaterno: ['', [Validators.required]],
     ApellidoMaterno: ['', [Validators.required]],
@@ -75,6 +75,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
               this.modalForm.controls['IdPerfil'].setValue(this.objRegistro.IdPerfil.toString());
               this.selPerfil(null);
               this.modalForm.controls['IdTipoDocumento'].setValue(this.objRegistro.IdTipoDocumento.toString());
+              this.selTipoDocumento();
               this.modalForm.controls['NumeroDocumento'].setValue(this.objRegistro.NumeroDocumento.toString());
               this.modalForm.controls['Nombre'].setValue(this.objRegistro.Nombre.toString());
               this.modalForm.controls['ApellidoPaterno'].setValue(this.objRegistro.ApellidoPaterno.toString());
@@ -84,6 +85,8 @@ export class ModalRegistroUsuariosComponent implements OnInit {
               this.modalForm.controls['IdOrganizacion'].setValue(this.objRegistro.IdOrganizacion == null ? null : this.objRegistro.IdOrganizacion.toString());
               this.modalForm.controls['Cargo'].setValue(this.objRegistro.Cargo == null ? null : this.objRegistro.Cargo.toString());
               this.modalForm.controls['OficinaArea'].setValue(this.objRegistro.OficinaArea == null ? null : this.objRegistro.OficinaArea.toString());
+              this.IdTipoDocumento.disable();
+              this.NumeroDocumento.disable();
             }
           }
           else {
@@ -218,10 +221,19 @@ export class ModalRegistroUsuariosComponent implements OnInit {
             next: (result) => {
               if (result.success) {
                 var reniec = JSON.parse(result.datos.toString());
-                this.Nombre.setValue(reniec.datos.prenombres);
-                this.ApellidoPaterno.setValue(reniec.datos.apPrimer);
-                this.ApellidoMaterno.setValue(reniec.datos.apSegundo);
-                this.toastr.success(result.message.toString(), 'Información');
+                if(reniec.respuesta=="OK"){
+                  this.Nombre.setValue(reniec.datos.prenombres);
+                  this.ApellidoPaterno.setValue(reniec.datos.apPrimer);
+                  this.ApellidoMaterno.setValue(reniec.datos.apSegundo);
+                  this.toastr.success(result.message.toString(), 'Información');
+                  this.Nombre.disable();
+                  this.ApellidoPaterno.disable();
+                  this.ApellidoMaterno.disable();
+                }
+                else{
+                  this.toastr.error(reniec.mensaje, 'Error');
+                }
+                
               }
               else {
                 this.toastr.error(result.message.toString(), 'Error');

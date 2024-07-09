@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
@@ -20,6 +20,9 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     ConfirmDialogModule,
     BsDropdownModule.forRoot(),
     OperativoRoutingModule
-  ]
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
 })
 export class OperativoModule { }
