@@ -19,6 +19,7 @@ export class ReporteMapaComponent implements OnInit {
   numDoc: String;
   idPeriodo: number;
   modalActivo:boolean;
+  cadPeriodo:String;
   condicionJuridica:String;
   tipoExplotacion:String;
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
@@ -43,6 +44,7 @@ export class ReporteMapaComponent implements OnInit {
             this.objRegistro = result.datos;
             this.condicionJuridica=this.objRegistro.ListCondicionJuridica.find(x=>x.value==this.objRegistro.IdCondicionJuridica.toString()).label;
             this.tipoExplotacion=this.objRegistro.ListTipoExplotacion.find(x=>x.value==this.objRegistro.IdTipoExplotacion.toString()).label;
+            this.cadPeriodo=this.objRegistro.ListPeriodos.find(x=>x.value==this.objRegistro.IdPeriodo.toString()).label;
           }
           else {
             this.toastr.error(result.message.toString(), 'Error');

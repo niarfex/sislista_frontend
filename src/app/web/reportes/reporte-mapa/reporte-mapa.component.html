@@ -4,7 +4,7 @@
     </div>
     <div class="col-sm-2">
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-9" style="color:#008F49; font-weight: bold; text-decoration: underline;">
                 <span>Registro de Marco de Lista</span>
             </div>
             <div class="col-sm-3">
@@ -13,9 +13,11 @@
                 type="button" (click)="mostrarCuestionario(viewUserTemplate)"><i class="bi bi-pencil-square"></i></button>
             </div>
         </div>  
-        <div class="row"></div>
         <div class="row">
-            <div class="col-sm-12" style="color: #008F49;">
+            <div class="col-sm-12 text-end">Periodo: {{cadPeriodo}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="color: #008F49; font-weight: bold;">
                 <span>Datos de la empresa:</span>
             </div>            
         </div> 
@@ -41,7 +43,7 @@
                 <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.PaginaWeb}}</span></div>
             </div>
         </div>
-        <div class="row" style="color: #008F49;">
+        <div class="row" style="color: #008F49; font-weight: bold;">
             <span>Datos del representante legal:</span>
         </div> 
         <div class="row">   
