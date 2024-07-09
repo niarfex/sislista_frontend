@@ -16,6 +16,7 @@ export class LayersService {
   searchLayer: any;
   // variables de ESRI
   EsriMapImageLayer: any;
+  EsriFeatureLayer: any;
   EsriGraphicsLayer: any;
   EsriRequest: any;
 
@@ -42,27 +43,41 @@ export class LayersService {
   }
 
   async loadLayers() {
-      /*const validate: boolean = await this.validateLayer(layerService.NOM_SERV, layerService.URL_SERV);
-      console.log(layerService.NOM_SERV + '-' + validate);
-      if (validate) {
-        const layer = new this.EsriMapImageLayer({
-          title: layerService.NOM_SERV,
-          url: layerService.URL_SERV,
-          visible: layerService.VISIBLE === '1' ? true : false
-        });
-        this.layers.push(layer);  
-    }*/
-  }
+    let NOM_SERV = "SISLISTA"
+    let URL_SERV = "https://winlmprap24.midagri.gob.pe/arcgis_server/rest/services/SIG_SISLISTA/SISLISTA/MapServer"
+    let VISIBLE = '1'
+     const validate: boolean = await this.validateLayer(NOM_SERV, URL_SERV);
+     console.log(NOM_SERV + '-' + validate);
+     if (validate) {
+       const layer = new this.EsriMapImageLayer({
+         title: NOM_SERV,
+         url: URL_SERV,
+         visible: VISIBLE === '1' ? true : false
+       });
+      this.layers.push(layer);  
 
-  async validateLayer(nombre: string, url: string) {
-    let validate = true;
-    await this.EsriRequest(url + '?f=json' , {
-      responseType: "json"
-    }).then((response:any) => {
-    }).catch((error:any) => {
-      validate = false;      
-    });
-    return validate;
+     NOM_SERV = "Campos"
+     URL_SERV = "https://winlmprap24.midagri.gob.pe/arcgis_server/rest/services/SIG_SISLISTA/SISLISTA/FeatureServer/2"
+     VISIBLE = '1';
+     const layer2 = new this.EsriFeatureLayer({
+          title: NOM_SERV,
+           url: URL_SERV,
+           visible: VISIBLE === '1' ? true : false
+     });
+     layer2.opacity = 0.5;
+     this.layers.push(layer2); 
+   }
+ }
+
+ async validateLayer(nombre: string, url: string) {
+  let validate = true;
+  await this.EsriRequest(url + '?f=json' , {
+    responseType: "json"
+  }).then((response:any) => {
+  }).catch((error:any) => {
+    validate = false;      
+  });
+  return validate;
   }
 }
 
