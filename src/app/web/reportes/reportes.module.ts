@@ -6,17 +6,22 @@ import { ReporteEstadosComponent } from './reporte-estados/reporte-estados.compo
 import { PlantillaUnoComponent } from '../shared/plantilla-uno/plantilla-uno.component';
 import { ReporteMapaGeneralComponent } from './reporte-mapa-general/reporte-mapa-general.component';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EsriMapComponent } from './../arcgis-map/components/esri-map/esri-map.component';
 
 @NgModule({
   declarations: [
     ReporteMapaComponent,
     ReporteEstadosComponent,
-    ReporteMapaGeneralComponent
+    ReporteMapaGeneralComponent,
+    EsriMapComponent,
   ],
   imports: [
     CommonModule,
     PlantillaUnoComponent,
-    ReportesRoutingModule
+    ReportesRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
