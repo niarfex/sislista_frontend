@@ -20,7 +20,9 @@ import EsriLayerList from "@arcgis/core/widgets/LayerList";
 import EsriLegend from "@arcgis/core/widgets/Legend";
 import EsriTileLayer from "@arcgis/core/layers/TileLayer";
 import EsriMapImageLayer from "@arcgis/core/layers/MapImageLayer";
+import EsriMapFeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import EsriGraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import FeatureService from "@arcgis/core/rest/featureService/FeatureService";
 import EsriCompass from "@arcgis/core/widgets/Compass";
 import EsriRequest from "@arcgis/core/request";
 import EsriLocate from "@arcgis/core/widgets/Locate";
@@ -85,7 +87,9 @@ export class MapService {
   EsriLegend: any;
   EsriTileLayer: any;
   EsriMapImageLayer: any;
+  EsriMapFeatureLayer:any;
   EsriGraphicsLayer: any;
+  FeatureService: any;
   EsriCompass: any;
   EsriRequest: any;
   EsriLocate: any;
@@ -135,7 +139,9 @@ export class MapService {
         this.EsriLegend = EsriLegend;
         this.EsriTileLayer = EsriTileLayer;
         this.EsriMapImageLayer = EsriMapImageLayer;
+        this.EsriMapFeatureLayer = EsriMapFeatureLayer;
         this.EsriGraphicsLayer = EsriGraphicsLayer;
+        this.FeatureService = FeatureService;
         this.EsriCompass = EsriCompass;
         this.EsriRequest = EsriRequest;
         this.EsriLocate = EsriLocate;
@@ -166,6 +172,7 @@ export class MapService {
         this.basemap = this.basemapService.getTopo();
         this.spatialReference = new EsriSpatialReference({ wkid: 102100 });
         this.layersService.EsriMapImageLayer = this.EsriMapImageLayer;
+        this.layersService.EsriFeatureLayer = this.EsriMapFeatureLayer;
         this.layersService.EsriGraphicsLayer = this.EsriGraphicsLayer;
         this.layersService.EsriRequest = this.EsriRequest;
         this.layers = await this.layersService.getLayers();
