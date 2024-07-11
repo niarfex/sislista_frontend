@@ -3,6 +3,8 @@ import { Component, SimpleChanges, Input, Output, EventEmitter, ElementRef, View
 import { MapService } from '../../services/map.service';
 import { GoogleMapPosition, GoogleMapPov } from '../../models/googlemaps.model';
 import { CoordinatesStatusMap } from '../../models/general.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-esri-map',
@@ -15,7 +17,7 @@ export class EsriMapComponent implements OnInit {
   @Output() changeFullView = new EventEmitter<boolean>();
   @Output() MapElement = new EventEmitter<MapService>();
  
-  administradoRuc='';
+  administradoDoc='';
   mapActive = 2;
   activeTools = 1;
   activeStreet = false;
@@ -24,7 +26,7 @@ export class EsriMapComponent implements OnInit {
   position: GoogleMapPosition;
   pov: GoogleMapPov;
 
-  constructor(private elementRef: ElementRef, public mapService: MapService) {
+  constructor(private elementRef: ElementRef, private spinner: NgxSpinnerService, private _route: ActivatedRoute, public mapService: MapService) {
     this.mapService.startMap('divMapView', 'divSceneView');
     this.position = { lat: -12.089592346951877, lng: -77.0581966638565 };
     this.pov = { heading: 35, pitch: 0, zoom: 0 };
@@ -46,6 +48,9 @@ export class EsriMapComponent implements OnInit {
     this.mapService.popupViewButton = document.getElementById('popup_view');
     this.mapService.printButton2D = document.getElementById('print_2D');
     this.mapService.printSeparator2D = document.getElementById('print_separator_2D');
+    //--Datos del Administrado
+    this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
+    this.mapService.SisListaRuc = this.administradoDoc
   }
 
   ngAfterContentInit() {

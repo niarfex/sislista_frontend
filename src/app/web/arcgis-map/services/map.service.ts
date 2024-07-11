@@ -64,6 +64,9 @@ export class MapService {
   spatialReference: any;
   basemapGallery: any;
   coordStatusMap: CoordinatesStatusMap;
+  //--Datos del Administrado
+  SisListaRuc: any;
+  SisListaLayers: any[] = [];
 
   // StreetView
   activeStreet: boolean;
@@ -179,7 +182,7 @@ export class MapService {
         this.layersService.EsriGraphicsLayer = this.EsriGraphicsLayer;
         this.layersService.EsriRequest = this.EsriRequest;
         this.layers = await this.layersService.getLayers();
-        console.log(this.layers);
+        console.log('Layers del Mapa:' + this.layers);
 
         this.coordStatusMap = {zoneUTM: 18, xUTM: 0, yUTM: 0, latitude: 0, longitude: 0, height: 0};
 
@@ -192,18 +195,16 @@ export class MapService {
         this.mapView.on('click', (event) => { this.eventClickMap(event); });
         this.mapView.on('pointer-move', (event) => { this.eventPointerMove(event); });
                
-        //--FCF: Opción para disparar en caso se envie el codigo de Conflicto
-        this.mapView.whenLayerView(this.layers[6]).then((layerView) => {
-          //--Obtenemos los datos del URL para realizar la busqueda de los datos
-          const currentUrl = window.location.search
-          var urlDict = {}
-          currentUrl.substr(1).split("&").forEach(function(item){
-            urlDict[item.split("=")[0].toLowerCase()] = item.split("=")[1]
+        //--FCF: Opción para Filtrar el administrado
+        this.map.layers.items.forEach((itemLayer: any, indexLayer: number) => {
+          itemLayer.when(() => {
+            if (itemLayer.allSublayers === undefined){return}
+            itemLayer.allSublayers.forEach((itemSublayer: any, indexSublayer: number) => {
+              this.SisListaLayers.push(itemSublayer)
+            });
+            //--Filtramos los Layers
+            this.setFilterLayers()
           });
-          if (urlDict.hasOwnProperty('cod')){
-              console.log(urlDict['cod']);
-              this.emissonService.send("CONF", ["5", urlDict['cod']])
-            }    
         });
 
         const sceneViewProperties = this.getViewProperties(divSceneView, this.map);
@@ -591,28 +592,16 @@ export class MapService {
     });
   }
 
-  async Search(where: string, nameLayer: string, geometryType: string) {
+  async Search(where: string, featureLayer:any, geometryType: string) {
     try {
-      //console.log('Search');
-      //console.log(where);
-      // console.log(nameLayer);
-      // console.log(geometryType);
       const symbol = this.getSymbolFeature(geometryType);
-      const featureLayer = this.getFeatureLayer(nameLayer);
+      //const featureLayer = this.getFeatureLayer(nameLayer);
       const layerGraphic = this.getLayerSearch();
-      // console.log(featureLayer);
       const features: any[] = await this.getFeaturesQuery(where, featureLayer, symbol);
-      //console.log(features);
       layerGraphic.addMany(features);
-      // this.mapView.goTo(features, {duration: 0});
-      // console.log('setSearch');
-      // console.log(features);
       return features;
     } catch (e) {
-      //console.log(e);
-      //console.log('Layer: ' + nameLayer + " Where: " + where);
-      //this.alertService.sendMessageDanger('Buscando el mapa', 'No hubo exito en la ejecución de la sentencia ' + where + ' en la capa ' + nameLayer);
-      return [];
+       return [];
     }
   }
 
@@ -1019,4 +1008,50 @@ export class MapService {
   printAddClear(print:any) {
 
   }
-}
+
+  async setFilterLayers(){
+    let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
+    this.SisListaLayers[0].definitionExpression = strQuery
+    this.SisListaLayers[1].definitionExpression = strQuery
+    this.SisListaLayers[2].definitionExpression = strQuery
+
+    const oFeatureLayer = new this.EsriMapFeatureLayer({
+      url: this.SisListaLayers[2].url 
+    });
+
+    const query = oFeatureLayer.createQuery();
+    query.where = strQuery;
+    oFeatureLayer.queryExtent(query).then(results => {
+      this.mapView.goTo(results.extent);  // go to the extent of the results satisfying the query
+    });
+    return
+
+    //--Realizamos un Zoom al area seleccionada
+    this.mapView.goTo(await this.SisListaLayers[2].queryExtent());
+    return
+
+    console.log("ZooomToFiltro")
+    this.cleanSearch();
+    const feactures = await this.Search(strQuery, this.SisListaLayers[2], 'polygon');
+    this.zoomGraphics();
+  }
+
+  async getListField(){
+    let oListaFields = [];
+    let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
+    const features = await this.Search(strQuery, this.SisListaLayers[0], 'polygon');
+    //--Recorremos los Registros
+    features.forEach(f => {
+      let itemField={}
+          itemField['IDE_EMPRESA'] = f.attributes.IDE_EMPRESA
+          itemField['IDE_FUNDO'] = f.attributes.IDE_FUNDO
+          itemField['IDE_CAMPO'] = f.attributes.IDE_CAMPO
+          itemField['NOMBRE_EMPRESA'] = f.attributes.TXT_EMPRESA_NOMBRE
+          itemField['NOMBRE_FUNDO'] = f.attributes.TXT_FUNDO_NOMBRE
+          itemField['NOMRE_CAMPO'] = f.attributes.TXT_CAMPO_NOMBRE
+      oListaFields.push(itemField)
+     });
+    return oListaFields
+  }
+  
+ }
