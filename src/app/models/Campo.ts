@@ -92,15 +92,15 @@ export class CampoGetDto implements ICampoGetDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.Id;
-        data["IdFundo"] = this.Id;
-        data["Campo"] = this.Id;
-        data["IdTenencia"] = this.Id;
-        data["IdUsoTierra"] = this.Id;
-        data["IdCultivo"] = this.Id;
-        data["IdUsoNoAgricola"] = this.Id;
-        data["Observacion"] = this.Id;
-        data["Superficie"] = this.Id;
-        data["SuperficieCultivada"] = this.Id;
+        data["IdFundo"] = this.IdFundo;
+        data["Campo"] = this.Campo;
+        data["IdTenencia"] = this.IdTenencia;
+        data["IdUsoTierra"] = this.IdUsoTierra;
+        data["IdCultivo"] = this.IdCultivo;
+        data["IdUsoNoAgricola"] = this.IdUsoNoAgricola;
+        data["Observacion"] = this.Observacion;
+        data["Superficie"] = this.Superficie;
+        data["SuperficieCultivada"] = this.SuperficieCultivada;
         return data;
     }
 }

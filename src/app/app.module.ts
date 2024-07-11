@@ -29,6 +29,7 @@ import { PlantillaUnoComponent } from './web/shared/plantilla-uno/plantilla-uno.
 import { ListaInformantesComponent } from './web/shared/lista-informantes/lista-informantes.component';
 import { RegistroFundoPlantillaComponent } from './web/shared/registro-fundo-plantilla/registro-fundo-plantilla.component';
 import { ListaCamposPlantillaComponent } from './web/shared/registro-fundo-plantilla/lista-campos-plantilla/lista-campos-plantilla.component';
+import { ModalRegistroInformantesComponent } from './web/shared/modal-registro-informantes/modal-registro-informantes.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -40,7 +41,8 @@ import { ListaCamposPlantillaComponent } from './web/shared/registro-fundo-plant
         RightsidebarComponent,
         HorizontaltopbarComponent,        
         FooterComponent,
-        InicioComponent/*,
+        InicioComponent,
+        ModalRegistroInformantesComponent/*,
         PlantillaUnoComponent,
         ListaInformantesComponent,
         RegistroFundoPlantillaComponent,
