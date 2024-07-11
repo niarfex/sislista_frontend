@@ -14,7 +14,8 @@ export class EsriMapComponent implements OnInit {
   @Input() isFullView: boolean;
   @Output() changeFullView = new EventEmitter<boolean>();
   @Output() MapElement = new EventEmitter<MapService>();
-
+ 
+  administradoRuc='';
   mapActive = 2;
   activeTools = 1;
   activeStreet = false;

@@ -45,6 +45,7 @@ import * as EsriProjectParameters from "@arcgis/core/rest/support/ProjectParamet
 import EsriScaleBar from "@arcgis/core/widgets/ScaleBar";
 import Esriconfig from "@arcgis/core/config";
 import EsriCustomContent from "@arcgis/core/popup/content/CustomContent";
+import EsriEditor from "@arcgis/core/widgets/Editor";
 
 @Injectable({
   providedIn: 'root'
@@ -112,6 +113,7 @@ export class MapService {
   EsriScaleBar: any;
   Esriconfig: any;
   EsriCustomContent:any;
+  EsriEditor:any;
 
   measurement2D: any;
   distanceButton2D: any;
@@ -164,6 +166,7 @@ export class MapService {
         this.EsriScaleBar = EsriScaleBar;
         this.Esriconfig = Esriconfig;
         this.EsriCustomContent = EsriCustomContent;
+        this.EsriEditor = EsriEditor
 
         // iniciar constantes
         this.isAddWMS = false;
@@ -227,6 +230,21 @@ export class MapService {
         //this.addSearch(this.sceneView);
         //this.AddScaleBar(this.sceneView);
         //this.addCoordinateConversion(this.sceneView, 'div-coord-conver-3D');
+
+        const editor = new EsriEditor({
+          view: this.mapView
+        });
+       
+        const EditorExpand = new this.EsriExpand({
+          autoCollapse: true,
+          view: this.mapView,
+          content: editor,
+          expanded: false,
+          label: 'Editor',
+          collapseTooltip: 'Editor',
+          expandTooltip: 'Editor'
+        });
+        this.mapView.ui.add(EditorExpand, 'top-left');
 
         const popup = {
           autoOpenEnabled: false,
