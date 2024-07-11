@@ -1,4 +1,5 @@
 import { FundoGetDto } from "./Fundo";
+import { InformanteGetDto } from "./Informante";
 import { SelectTipoDto } from "./SelectTipo";
 
 export interface IResponseGestionRegistroListDto {
@@ -202,6 +203,7 @@ export interface IGestionRegistroGetDto {
     ListDistrito: SelectTipoDto[];
     ListTipoExplotacion: SelectTipoDto[];
     ListFundos: FundoGetDto[];
+    ListInformantes: InformanteGetDto[];
     ListTenencia: SelectTipoDto[];
     ListUsoTierra: SelectTipoDto[];
     ListCultivo: SelectTipoDto[];
@@ -247,6 +249,7 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     ListDistrito: SelectTipoDto[];
     ListTipoExplotacion: SelectTipoDto[];
     ListFundos: FundoGetDto[];
+    ListInformantes: InformanteGetDto[];
     ListTenencia: SelectTipoDto[];
     ListUsoTierra: SelectTipoDto[];
     ListCultivo: SelectTipoDto[];
@@ -336,6 +339,11 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
                 this.ListFundos = [] as any;
                 for (let item of _data["ListFundos"])
                     this.ListFundos!.push(FundoGetDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListInformantes"]) && _data["ListInformantes"].length > 0) {
+                this.ListInformantes = [] as any;
+                for (let item of _data["ListInformantes"])
+                    this.ListInformantes!.push(InformanteGetDto.fromJS(item));
             }
             if (Array.isArray(_data["ListTenencia"]) && _data["ListTenencia"].length > 0) {
                 this.ListTenencia = [] as any;
@@ -443,6 +451,11 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
             data["ListFundos"] = [];
             for (let item of this.ListFundos)
                 data["ListFundos"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListInformantes)) {
+            data["ListInformantes"] = [];
+            for (let item of this.ListInformantes)
+                data["ListInformantes"].push(item.toJSON());
         }
         if (Array.isArray(this.ListTenencia)) {
             data["ListTenencia"] = [];

@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   constructor(private eventService: EventService, private router: Router, private http: HttpClient) {
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
-        this._activateMenuDropdown();
+        //this._activateMenuDropdown();
         this._scrollElement();
       }
     });
@@ -44,26 +44,25 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngAfterViewInit() {
     this.menu = new MetisMenu(this.sideMenu.nativeElement);
-    this._activateMenuDropdown();
+    //this._activateMenuDropdown();
   }
 
   toggleMenu(event) {
-    console.log("toggleMenu(event)");
+    //console.log("toggleMenu(event)");
     event.currentTarget.nextElementSibling.classList.toggle('mm-show');
   }
 
   ngOnChanges() {
-    console.log("ngOnChanges()");
-    if (!this.isCondensed && this.sideMenu || this.isCondensed) {
+    //console.log("ngOnChanges()");
+    /*if (!this.isCondensed && this.sideMenu || this.isCondensed) {
       setTimeout(() => {
         this.menu = new MetisMenu(this.sideMenu.nativeElement);
       });
     } else if (this.menu) {
       this.menu.dispose();
-    }
+    }*/
   }
   _scrollElement() {
-    console.log("_scrollElement()");
     setTimeout(() => {
       if (document.getElementsByClassName("mm-active").length > 0) {
         const currentPosition = document.getElementsByClassName("mm-active")[0]['offsetTop'];
@@ -78,27 +77,49 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   /**
    * remove active and mm-active class
    */
-  _removeAllClass(className) {
+  /*_removeAllClass(className) {
     const els = document.getElementsByClassName(className);
     while (els[0]) {
       els[0].classList.remove(className);
     }
-  }
+  }*/
 
   /**
    * Activate the parent dropdown
    */
   _activateMenuDropdown() {
-    console.log("_activateMenuDropdown()");
-    this._removeAllClass('mm-active');
-    this._removeAllClass('mm-show');
-    const links = document.getElementsByClassName('side-nav-link-ref');
+/*
+    const enlaces = document.getElementsByClassName('side-nav-link-ref');
+    //console.log(enlaces);
+    console.log(window.location.href);
+    for (let i = 0; i < enlaces.length; i++) {
+      console.log(enlaces[i]['hash']);
+      if(window.location.href.toString().indexOf(enlaces[i]['hash'])>0){
+        console.log("si cumple");
+        console.log(enlaces[i].parentElement.classList);
+        enlaces[i].parentElement.classList.add('mm-active');
+        console.log(enlaces[i].parentElement.classList);
+      }    
+    }*/
+
+    //console.log(activo);
+    //console.log(activo.length);
+    //const padre = activo[0]['parentElement'];
+    //padre.classList.add('mm-active');
+
+/*
+    const links = document.getElementsByClassName('active');
+    //this._removeAllClass('mm-active');
+    //this._removeAllClass('mm-show');
+    
+    console.log(links);
     let menuItemEl = null;
     // tslint:disable-next-line: prefer-for-of
     const paths = [];
     for (let i = 0; i < links.length; i++) {
       paths.push(links[i]['pathname']);
     }
+    console.log(paths);
     var itemIndex = paths.indexOf(window.location.pathname);
     if (itemIndex === -1) {
       const strIndex = window.location.pathname.lastIndexOf('/');
@@ -108,10 +129,10 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
       menuItemEl = links[itemIndex];
     }
     if (menuItemEl) {
-      menuItemEl.classList.add('active');
+      //menuItemEl.classList.add('active');
       const parentEl = menuItemEl.parentElement;
       if (parentEl) {
-        parentEl.classList.add('mm-active');
+        //parentEl.classList.add('mm-active');
         const parent2El = parentEl.parentElement.closest('ul');
         if (parent2El && parent2El.id !== 'side-menu') {
           parent2El.classList.add('mm-show');
@@ -136,7 +157,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
         }
       }
     }
-
+*/
   }
 
   /**
@@ -151,6 +172,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
    * @param item menuItem
    */
   hasItems(item: MenuItem) {
-    return item.subItems !== undefined ? item.subItems.length > 0 : false;
+    return item.subItems !== undefined ? (item.subItems.length > 0) : false;
   }
 }
