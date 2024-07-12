@@ -557,4 +557,10 @@
             
         </div>
     </form>
+    <ng-template #viewUserTemplate>
+        <modal-registro-informantes [exitSubModal]="exitSubModal"
+        [listTipoDocumento]="objRegistro.ListTipoDocumento"
+        [listEstadoEntrevista]="objRegistro.ListEstadoEntrevista"
+        (enviarInformante)="agregarInformante($event)"></modal-registro-informantes>
+    </ng-template>
 </div>
