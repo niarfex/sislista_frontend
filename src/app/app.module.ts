@@ -43,7 +43,7 @@ import { ListaArchivosComponent } from './web/shared/lista-archivos/lista-archiv
         HorizontaltopbarComponent,        
         FooterComponent,
         InicioComponent,
-        ListaArchivosComponent,
+        
         /*ModalRegistroInformantesComponent,
         PlantillaUnoComponent,
         ListaInformantesComponent,
@@ -67,7 +67,8 @@ import { ListaArchivosComponent } from './web/shared/lista-archivos/lista-archiv
         ListaInformantesComponent,
         RegistroFundoPlantillaComponent,
         ListaCamposPlantillaComponent,
-        ModalRegistroInformantesComponent],     
+        ModalRegistroInformantesComponent,
+        ListaArchivosComponent],     
     exports:      [  ],
     providers: [LocaleService,
         //{provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},//Con este provider hace la consulta mediante Bearer
