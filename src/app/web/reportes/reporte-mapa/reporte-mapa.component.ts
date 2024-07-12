@@ -66,12 +66,13 @@ export class ReporteMapaComponent implements OnInit {
         }
       });    
   }
-  mostrarCuestionario(viewUserTemplate: TemplateRef<any>){
+
+  async mostrarCuestionario(viewUserTemplate: TemplateRef<any>){
     //--Trae Listado de Campos
-    let ListaCampos = this.oMapService.getListField();
+    let ListaCampos = await this.oMapService.getListField();
     console.log(ListaCampos);
 
-    
+
     this.numDoc = this.numDoc;
     this.modalActivo=true;
     this.modalRef = this.modalService.show(viewUserTemplate, {
@@ -80,6 +81,7 @@ export class ReporteMapaComponent implements OnInit {
       class: 'modal-xl'
     });
   }
+
   exitModal = (): void => {
     this.modalRef?.hide();
   };

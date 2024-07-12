@@ -4,7 +4,6 @@ import { LayersService } from './layers.service';
 import { MapLayer } from '../models/maplayer.model';
 import { GoogleMapPosition, GoogleMapPov } from '../models/googlemaps.model';
 import { GlobalsService } from './globals.service';
-import { async } from '@angular/core/testing';
 import { Subject, Observable } from 'rxjs';
 import { CoordinatesStatusMap } from '../models/general.model';
 import { EmissionService } from './emission.service';
@@ -1039,7 +1038,9 @@ export class MapService {
   async getListField(){
     let oListaFields = [];
     let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
-    const features = await this.Search(strQuery, this.SisListaLayers[0], 'polygon');
+    let geometryType = "polygon"
+    const symbol = this.getSymbolFeature(geometryType);
+    const features = await this.getFeaturesQuery(strQuery, this.SisListaLayers[0], geometryType);
     //--Recorremos los Registros
     features.forEach(f => {
       let itemField={}
