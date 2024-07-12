@@ -24,6 +24,7 @@ export class ReporteMapaComponent implements OnInit {
   condicionJuridica:String;
   tipoExplotacion:String;
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
+  
   /*GIS*/
   title = '';
   screenActive = 0;
@@ -32,7 +33,7 @@ export class ReporteMapaComponent implements OnInit {
   isCollapsed = false;
   showMap = true;
   showData = true;
-  MapElement:MapService;
+  oMapService:MapService;
 
   private gestionregistroServiceProxy: GestionRegistroServiceProxy;
   constructor(_injector: Injector
@@ -56,14 +57,21 @@ export class ReporteMapaComponent implements OnInit {
             this.condicionJuridica=this.objRegistro.ListCondicionJuridica.find(x=>x.value==this.objRegistro.IdCondicionJuridica.toString()).label;
             this.tipoExplotacion=this.objRegistro.ListTipoExplotacion.find(x=>x.value==this.objRegistro.IdTipoExplotacion.toString()).label;
             this.cadPeriodo=this.objRegistro.ListPeriodos.find(x=>x.value==this.objRegistro.IdPeriodo.toString()).label;
+            //--
+            console.log( 'MapService:'+ this.oMapService)
           }
           else {
             this.toastr.error(result.message.toString(), 'Error');
           }          
         }
-      });
+      });    
   }
   mostrarCuestionario(viewUserTemplate: TemplateRef<any>){
+    //--Trae Listado de Campos
+    let ListaCampos = this.oMapService.getListField();
+    console.log(ListaCampos);
+
+    
     this.numDoc = this.numDoc;
     this.modalActivo=true;
     this.modalRef = this.modalService.show(viewUserTemplate, {
@@ -77,7 +85,7 @@ export class ReporteMapaComponent implements OnInit {
   };
 
   setMapElement(oMapElement:any){
-    this.MapElement=oMapElement;
+    this.oMapService=oMapElement;
   }
 
   onChangeSelect(value:any) {
