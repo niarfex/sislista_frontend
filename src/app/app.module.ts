@@ -30,6 +30,7 @@ import { ListaInformantesComponent } from './web/shared/lista-informantes/lista-
 import { RegistroFundoPlantillaComponent } from './web/shared/registro-fundo-plantilla/registro-fundo-plantilla.component';
 import { ListaCamposPlantillaComponent } from './web/shared/registro-fundo-plantilla/lista-campos-plantilla/lista-campos-plantilla.component';
 import { ModalRegistroInformantesComponent } from './web/shared/modal-registro-informantes/modal-registro-informantes.component';
+import { ListaArchivosComponent } from './web/shared/lista-archivos/lista-archivos.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -42,7 +43,8 @@ import { ModalRegistroInformantesComponent } from './web/shared/modal-registro-i
         HorizontaltopbarComponent,        
         FooterComponent,
         InicioComponent,
-        ModalRegistroInformantesComponent/*,
+        ListaArchivosComponent,
+        /*ModalRegistroInformantesComponent,
         PlantillaUnoComponent,
         ListaInformantesComponent,
         RegistroFundoPlantillaComponent,
@@ -64,7 +66,8 @@ import { ModalRegistroInformantesComponent } from './web/shared/modal-registro-i
         PlantillaUnoComponent,
         ListaInformantesComponent,
         RegistroFundoPlantillaComponent,
-    ListaCamposPlantillaComponent],     
+        ListaCamposPlantillaComponent,
+        ModalRegistroInformantesComponent],     
     exports:      [  ],
     providers: [LocaleService,
         //{provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},//Con este provider hace la consulta mediante Bearer

@@ -1,8 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Injector, Input, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TableModule } from 'primeng/table';
 import { finalize } from 'rxjs';
 import { InformanteGetDto } from 'src/app/models/Informante';
 import { SelectTipoDto } from 'src/app/models/SelectTipo';
@@ -13,7 +16,9 @@ import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies'
   selector: 'modal-registro-informantes',
   templateUrl: './modal-registro-informantes.component.html',
   styleUrl: './modal-registro-informantes.component.scss',
-  providers: [ConfirmationService]
+  providers: [ConfirmationService],
+  imports: [CommonModule,ReactiveFormsModule,TableModule,
+    FormsModule,ConfirmDialogModule]
 })
 export class ModalRegistroInformantesComponent {
   @Input() exitSubModal = (): void => {};
@@ -122,6 +127,22 @@ export class ModalRegistroInformantesComponent {
   
   
         accept: () => {
+          this.objRegistro.NombreCompleto=this.Nombre.value+" "+this.ApellidoPaterno.value+" "+this.ApellidoMaterno.value;
+          this.objRegistro.NumeroDocumento=this.NumeroDocumento.value;
+          this.objRegistro.IdTipoDocumento=Number.parseInt(this.IdTipoDocumento.value);
+          this.objRegistro.Nombre=this.Nombre.value;
+          this.objRegistro.ApellidoPaterno=this.ApellidoPaterno.value;
+          this.objRegistro.ApellidoMaterno=this.ApellidoMaterno.value;
+          this.objRegistro.Cargo=this.Cargo.value;
+          this.objRegistro.Correo=this.CorreoElectronico.value;
+          this.objRegistro.Celular=this.Celular.value;
+          this.objRegistro.Telefono=this.Telefono.value;
+          this.objRegistro.Observacion=this.Observacion.value;
+          this.objRegistro.Direccion=this.Direccion.value;
+          this.objRegistro.CoordenadaEste=this.CoordenadaEste.value;
+          this.objRegistro.CoordenadaNorte=this.CoordenadaNorte.value;
+          this.objRegistro.IdEstado=Number.parseInt(this.IdEstado.value);
+          this.objRegistro.EstadoEntrevista=this.listEstadoEntrevista.find(x=>x.value==this.IdEstado.value).label;
           this.asignarInformante();
          
         },

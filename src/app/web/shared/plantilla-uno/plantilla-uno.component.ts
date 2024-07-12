@@ -1,4 +1,4 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ListaInformantesComponent } from '../lista-informantes/lista-informantes.component';
@@ -14,7 +14,7 @@ import { finalize, interval, map } from 'rxjs';
 import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionregistro-proxies';
 import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies';
 import { InformanteGetDto } from 'src/app/models/Informante';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   standalone: true,
@@ -86,7 +86,8 @@ export class PlantillaUnoComponent implements OnInit {
     , private formBuilder: FormBuilder
     , private confirmationService: ConfirmationService
     , private spinner: NgxSpinnerService
-    , private toastr: ToastrService) {
+    , private toastr: ToastrService
+    , private SubmodalService: BsModalService) {
     this.ubigeoServiceProxy = _injector.get(UbigeoServiceProxy);
     this.gestionregistroServiceProxy = _injector.get(GestionRegistroServiceProxy);
     this.usuarioServiceProxy = _injector.get(UsuarioServiceProxy);
@@ -356,6 +357,17 @@ export class PlantillaUnoComponent implements OnInit {
   };
   agregarInformante(informante: InformanteGetDto) {
     this.objRegistro.ListInformantes.push(informante);
+    console.log(this.objRegistro.ListInformantes);
 
+  }
+  registrarInformante(viewUserTemplate: TemplateRef<any>) {
+    this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-lg'
+    });
+  }
+  adjuntarArchivo(){
+    
   }
 }

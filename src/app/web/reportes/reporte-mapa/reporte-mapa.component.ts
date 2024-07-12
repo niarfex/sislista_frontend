@@ -68,8 +68,8 @@ export class ReporteMapaComponent implements OnInit {
   }
   mostrarCuestionario(viewUserTemplate: TemplateRef<any>){
     //--Trae Listado de Campos
-    let ListaCampos = this.oMapService.getListField();
-    console.log(ListaCampos);
+    //let ListaCampos = this.oMapService.getListField();
+    //console.log(ListaCampos);
 
     
     this.numDoc = this.numDoc;

@@ -519,18 +519,55 @@
                 </div>                
             </div>  
             <div class="row">
-                <div class="col-sm-12" style="color:green">
+                <div class="col-sm-9" style="color:green">
                     <h3>Capítulo IV. Datos de la entrevista</h3>
+                </div>
+                <div class="col-sm-3 text-end">
+                    <button type="button" class="btn btn-primary"
+                        style="background-color:  #008F49; border-color:  #008F49;"
+                        (click)="registrarInformante(viewUserTemplate)">Agregar</button>
                 </div>
             </div>
             <div class="row">
-                <lista-informantes></lista-informantes>
+                <lista-informantes [listaInformantes]="objRegistro.ListInformantes"></lista-informantes>
             </div>
             <div class="row">                
                 <div class="col-sm-12" style="color:darkgray">
-                    <h3>ARCHIVOS PARA GABINETE</h3>
+                    <h3>ARCHIVOS PARA GABINETE;</h3>
                 </div>
             </div> 
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;">
+                        <span>Seleccionar archivo</span>
+                    </div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;">
+                        <span>Tipo de información</span>
+                    </div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-primary"
+                    style="background-color:  #008F49; border-color:  #008F49;"
+                    (click)="adjuntarArchivo()">Adjuntar</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
             <div class="row">                
                 <div class="col-sm-4" style="color:darkgray">
                     <h3>Temporizador:{{time.hours}}:{{time.minutes}}:{{time.seconds}} </h3>
