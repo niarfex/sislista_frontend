@@ -1,9 +1,10 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ListaInformantesComponent } from '../lista-informantes/lista-informantes.component';
 import { RegistroFundoPlantillaComponent } from '../registro-fundo-plantilla/registro-fundo-plantilla.component';
 import { ListaCamposPlantillaComponent } from '../registro-fundo-plantilla/lista-campos-plantilla/lista-campos-plantilla.component';
+import { ModalRegistroInformantesComponent } from '../modal-registro-informantes/modal-registro-informantes.component';
 import { GestionRegistroGetDto } from 'src/app/models/GestionRegistro';
 import { UbigeoServiceProxy } from 'src/shared/service-proxies/ubigeo-proxies';
 import { ConfirmationService } from 'primeng/api';
@@ -12,6 +13,8 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize, interval, map } from 'rxjs';
 import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionregistro-proxies';
 import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies';
+import { InformanteGetDto } from 'src/app/models/Informante';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   standalone: true,
@@ -22,7 +25,8 @@ import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies'
     ReactiveFormsModule,
     ListaInformantesComponent,
     RegistroFundoPlantillaComponent,
-    ListaCamposPlantillaComponent]
+    ListaCamposPlantillaComponent,
+    ModalRegistroInformantesComponent]
 })
 export class PlantillaUnoComponent implements OnInit {
   @Input() exitModal = (): void => { };
@@ -39,6 +43,7 @@ export class PlantillaUnoComponent implements OnInit {
     minutes: number;
     seconds: number;
   };
+  SubmodalRef?: BsModalRef;
   plantillaForm = this.formBuilder.group({
     IdCondicionJuridica: ['', [Validators.required]],
     IdCondicionJuridicaOtrosSA: ['', this.perSAOtro ? [Validators.required] : []],
@@ -81,7 +86,8 @@ export class PlantillaUnoComponent implements OnInit {
     , private formBuilder: FormBuilder
     , private confirmationService: ConfirmationService
     , private spinner: NgxSpinnerService
-    , private toastr: ToastrService) {
+    , private toastr: ToastrService
+    , private SubmodalService: BsModalService) {
     this.ubigeoServiceProxy = _injector.get(UbigeoServiceProxy);
     this.gestionregistroServiceProxy = _injector.get(GestionRegistroServiceProxy);
     this.usuarioServiceProxy = _injector.get(UsuarioServiceProxy);
@@ -345,5 +351,23 @@ export class PlantillaUnoComponent implements OnInit {
   }
   close() {
     this.exitModal();
+  }
+  exitSubModal = (): void => {
+    this.SubmodalRef?.hide();
+  };
+  agregarInformante(informante: InformanteGetDto) {
+    this.objRegistro.ListInformantes.push(informante);
+    console.log(this.objRegistro.ListInformantes);
+
+  }
+  registrarInformante(viewUserTemplate: TemplateRef<any>) {
+    this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-lg'
+    });
+  }
+  adjuntarArchivo(){
+    
   }
 }

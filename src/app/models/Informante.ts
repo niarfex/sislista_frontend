@@ -48,6 +48,11 @@ export interface IInformanteGetDto {
     CoordenadaNorte: String;
     SistemaCoordenada: String;
     NombreCompleto: String;
+    IdTipoDocumento: number;
+    NumeroDocumento: String;
+    Nombre: String;
+    ApellidoPaterno: String;
+    ApellidoMaterno: String;
     Cargo: String;
     Correo: String;
     Celular: String;
@@ -64,6 +69,11 @@ export class InformanteGetDto implements IInformanteGetDto {
     CoordenadaNorte: String;
     SistemaCoordenada: String;
     NombreCompleto: String;
+    IdTipoDocumento: number;
+    NumeroDocumento: String;
+    Nombre: String;
+    ApellidoPaterno: String;
+    ApellidoMaterno: String;
     Cargo: String;
     Correo: String;
     Celular: String;
@@ -88,6 +98,11 @@ export class InformanteGetDto implements IInformanteGetDto {
             this.CoordenadaNorte = _data["CoordenadaNorte"];
             this.SistemaCoordenada = _data["SistemaCoordenada"];
             this.NombreCompleto = _data["NombreCompleto"];
+            this.IdTipoDocumento = _data["IdTipoDocumento"];
+            this.NumeroDocumento = _data["NumeroDocumento"];
+            this.Nombre = _data["Nombre"];
+            this.ApellidoPaterno = _data["ApellidoPaterno"];
+            this.ApellidoMaterno = _data["ApellidoMaterno"];
             this.Cargo = _data["Cargo"];
             this.Correo = _data["Correo"];
             this.Celular = _data["Celular"];
@@ -112,6 +127,11 @@ export class InformanteGetDto implements IInformanteGetDto {
         data["CoordenadaNorte"] = this.CoordenadaNorte;
         data["SistemaCoordenada"] = this.SistemaCoordenada;
         data["NombreCompleto"] = this.NombreCompleto;
+        data["IdTipoDocumento"] = this.IdTipoDocumento;
+        data["NumeroDocumento"] = this.NumeroDocumento;
+        data["Nombre"] = this.Nombre;
+        data["ApellidoPaterno"] = this.ApellidoPaterno;
+        data["ApellidoMaterno"] = this.ApellidoMaterno;
         data["Cargo"] = this.Cargo;
         data["Correo"] = this.Correo;
         data["Celular"] = this.Celular;

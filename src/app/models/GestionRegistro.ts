@@ -248,8 +248,8 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     ListProvincia: SelectTipoDto[];
     ListDistrito: SelectTipoDto[];
     ListTipoExplotacion: SelectTipoDto[];
-    ListFundos: FundoGetDto[];
-    ListInformantes: InformanteGetDto[];
+    ListFundos: FundoGetDto[]=[];
+    ListInformantes: InformanteGetDto[]=[];
     ListTenencia: SelectTipoDto[];
     ListUsoTierra: SelectTipoDto[];
     ListCultivo: SelectTipoDto[];

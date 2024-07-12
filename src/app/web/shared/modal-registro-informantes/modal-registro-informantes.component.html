@@ -1,1 +1,228 @@
-<p>modal-registro-informantes works!</p>
+<div id="modalRegInformantes" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
+        <div class="modal-header"
+            style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
+            <span style="font-size: large; font-weight: bold;">
+                Datos del Informante
+            </span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12" style="color: #008F49">
+                    <h3>Datos del Informante</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IdTipoDocumento">Tipo de documento</label>
+                        <select formControlName="IdTipoDocumento" id="IdTipoDocumento" name="IdTipoDocumento"
+                            class="form-select" (change)="selTipoDocumento()">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of listTipoDocumento" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
+                        <div *ngIf="IdTipoDocumento.invalid && (IdTipoDocumento.dirty || IdTipoDocumento.touched)"
+                            class="text-danger">
+                            <div *ngIf="IdTipoDocumento.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="NumeroDocumento">Número de documento</label>
+                        <div class="input-group">
+                            <input formControlName="NumeroDocumento" maxlength="11"
+                                onkeypress="return '0123456789'.includes(event.key)" type="text" class="form-control"
+                                (focusout)="onFocusOutEvent($event,'NumeroDocumento')" required>
+                            <button class="btn btn-primary" (click)="getDatosRENIEC()"
+                                style="background-color: #008F49; border-color: #008F49;" type="button"><i
+                                    class="bi bi-search"></i></button>
+                        </div>
+                        <div *ngIf="NumeroDocumento.invalid && (NumeroDocumento.dirty || NumeroDocumento.touched)"
+                            class="text-danger">
+                            <div *ngIf="NumeroDocumento.errors?.['required']">El campo es requerido.</div>
+                            <div *ngIf="NumeroDocumento.errors?.['min']">el DNI debe tener 8 dígitos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Nombre">Nombres</label>
+                        <input formControlName="Nombre" maxlength="25" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'Nombre')" required>
+                        <div *ngIf="Nombre.invalid && (Nombre.dirty || Nombre.touched)" class="text-danger">
+                            <div *ngIf="Nombre.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="ApellidoPaterno">Apellido paterno</label>
+                        <input formControlName="ApellidoPaterno" maxlength="25" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'ApellidoPaterno')" required>
+                        <div *ngIf="ApellidoPaterno.invalid && (ApellidoPaterno.dirty || ApellidoPaterno.touched)"
+                            class="text-danger">
+                            <div *ngIf="ApellidoPaterno.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="ApellidoMaterno">Apellido materno</label>
+                        <input formControlName="ApellidoMaterno" maxlength="25" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'ApellidoMaterno')" required>
+                        <div *ngIf="ApellidoMaterno.invalid && (ApellidoMaterno.dirty || ApellidoMaterno.touched)"
+                            class="text-danger">
+                            <div *ngIf="ApellidoMaterno.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Cargo">Cargo</label>
+                        <input formControlName="Cargo" maxlength="100" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'Cargo')" required>
+                        <div *ngIf="Cargo.invalid && (Cargo.dirty || Cargo.touched)" class="text-danger">
+                            <div *ngIf="Cargo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="CorreoElectronico">Correo</label>
+                        <input formControlName="CorreoElectronico" maxlength="50" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
+                        <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)"
+                            class="text-danger">
+                            <div *ngIf="CorreoElectronico.errors?.['required']">El campo es requerido.</div>
+                            <div *ngIf="CorreoElectronico.errors?.['email']">El campo no cumple con el formato requerido</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Celular">Celular</label>
+                        <input formControlName="Celular" maxlength="9" onkeypress="return '0123456789'.includes(event.key)"
+                            maxlength="10" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'Celular')" required>
+                        <div *ngIf="Celular.invalid && (Celular.dirty || Celular.touched)" class="text-danger">
+                            <div *ngIf="Celular.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Telefono">Teléfono fijo</label>
+                        <input formControlName="Telefono" maxlength="9" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'Telefono')">                       
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IdEstado">Estado Entrevista</label>
+                        <select formControlName="IdEstado" id="IdEstado" name="IdEstado"
+                            class="form-select" >
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of listEstadoEntrevista" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
+                        <div *ngIf="IdEstado.invalid && (IdEstado.dirty || IdEstado.touched)"
+                            class="text-danger">
+                            <div *ngIf="IdEstado.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="Observacion">Observacion</label>
+                        <input formControlName="Observacion" maxlength="200" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'Observacion')">                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12" style="color:green">
+                    <h3>Ubicación</h3>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Direccion">Dirección</label>
+                        <div class="input-group">
+                            <input formControlName="Direccion" maxlength="11" type="text" class="form-control"
+                                (focusout)="onFocusOutEvent($event,'Direccion')" required>
+                            <button class="btn btn-primary"
+                                style="background-color: #008F49; border-color: #008F49;" type="button"><i
+                                    class="bi bi-geo-alt-fill"></i></button>
+                        </div>
+                        <div *ngIf="Direccion.invalid && (Direccion.dirty || Direccion.touched)"
+                            class="text-danger">
+                            <div *ngIf="Direccion.errors?.['required']">El campo es requerido.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="CoordenadaEste">Coordenada Este</label>
+                            <input formControlName="CoordenadaEste" maxlength="11" type="text" class="form-control"
+                                (focusout)="onFocusOutEvent($event,'CoordenadaEste')" required>
+                        <div *ngIf="CoordenadaEste.invalid && (CoordenadaEste.dirty || CoordenadaEste.touched)"
+                            class="text-danger">
+                            <div *ngIf="CoordenadaEste.errors?.['required']">El campo es requerido.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="CoordenadaNorte">Coordenada Norte</label>
+                            <input formControlName="CoordenadaNorte" maxlength="11" type="text" class="form-control"
+                                (focusout)="onFocusOutEvent($event,'CoordenadaNorte')" required>    
+                        <div *ngIf="CoordenadaNorte.invalid && (CoordenadaNorte.dirty || CoordenadaNorte.touched)"
+                            class="text-danger">
+                            <div *ngIf="CoordenadaNorte.errors?.['required']">El campo es requerido.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+           
+        </div>
+        <div class="modal-footer text-end" style="display: block;">
+            <button type="submit" class="btn btn-primary"
+                style="background-color: #008F49; border-color: #008F49;">Registrar</button>
+        </div>
+    </form>
+    <p-confirmDialog></p-confirmDialog>    
+</div>
