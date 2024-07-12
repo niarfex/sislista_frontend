@@ -58,6 +58,8 @@ export class EsriMapComponent implements OnInit {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
+    //--Enviar datos del Mapa
+    this.MapElement.emit(this.mapService);
   }
 
   changeSelectMap() {
