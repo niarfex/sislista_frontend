@@ -1041,8 +1041,17 @@ export class MapService {
     let geometryType = "polygon"
     const symbol = this.getSymbolFeature(geometryType);
     const features = await this.getFeaturesQuery(strQuery, this.SisListaLayers[0], geometryType);
+    await Esriprojection.load();
+
     //--Recorremos los Registros
     features.forEach(f => {
+      let outSpatialReference = new EsriSpatialReference({
+        wkid: 32618 //UTM Zona 18 projection
+      });
+      let ProjetShape = Esriprojection.project(f.geometry, outSpatialReference);
+      console.log(ProjetShape)
+      0.0001
+
       let itemField={}
           itemField['IDE_EMPRESA'] = f.attributes.IDE_EMPRESA
           itemField['IDE_FUNDO'] = f.attributes.IDE_FUNDO
@@ -1050,6 +1059,7 @@ export class MapService {
           itemField['NOMBRE_EMPRESA'] = f.attributes.TXT_EMPRESA_NOMBRE
           itemField['NOMBRE_FUNDO'] = f.attributes.TXT_FUNDO_NOMBRE
           itemField['NOMRE_CAMPO'] = f.attributes.TXT_CAMPO_NOMBRE
+          itemField['SUPERFICIE'] = (ProjetShape['extent'].width * 0.0001).toFixed(5); //Hectareas
       oListaFields.push(itemField)
      });
     return oListaFields
