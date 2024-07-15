@@ -477,7 +477,7 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <button type="button" class="btn btn-primary">Insertar</button>
+                    <button type="button" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;">Insertar</button>
                 </div>
             </div>
             <div class="row">
@@ -541,8 +541,13 @@
                     <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;">
                         <span>Seleccionar archivo</span>
                     </div>
-                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;">
-                        <span></span>
+                    <div class="row" style="text-align: center; padding-bottom: 3px;">
+                        <input type="file" id="file" class="d-none" accept=".xls, .xlsx, .shp" (change)="importar($event)"> 
+                        <div class="input-group">
+                            <input formControlName="NombreArchivo" type="text" maxlength="100" readonly class="form-control">
+                            <label for="file" style="cursor: pointer; margin-bottom: 0; color:#008F49; font-size:xx-large;" >
+                                <i style="font-size: xx-large;" class="bi bi-file-earmark-plus"></i></label>  
+                        </div>    
                     </div>
                 </div>
                 <div class="col-sm-1"></div>
@@ -550,8 +555,14 @@
                     <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;">
                         <span>Tipo de información</span>
                     </div>
-                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;">
-                        <span></span>
+                    <div class="row" style="text-align: center; padding-bottom: 3px;">
+                        <select formControlName="IdTipoInformacion" id="IdTipoInformacion"
+                            name="IdTipoInformacion" class="form-select">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of objRegistro.ListTipoInformacion" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-1"></div>
@@ -564,7 +575,7 @@
             <div class="row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
-                    
+                    <lista-archivos [listaArchivos]="objRegistro.ListArchivos"></lista-archivos>
                 </div>
                 <div class="col-sm-2"></div>
             </div>
@@ -583,12 +594,12 @@
         <div class="modal-footer" style="display: block;">
             <div class="row">
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary" [disabled]="!plantillaForm.valid"
-                    style="background-color: green; border-color: green;">Previsualizar</button>
+                    <button type="button" class="btn btn-primary" 
+                    style="background-color: #008F49; border-color: #008F49;">Previsualizar</button>
                 </div>
                 <div class="col-sm-6 text-end">
-                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!plantillaForm.valid"
-                    style="background-color: green; border-color: green;">Grabar</button>
+                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" 
+                    style="background-color: #008F49; border-color: #008F49;">Grabar</button>
                 </div>
             </div>
             

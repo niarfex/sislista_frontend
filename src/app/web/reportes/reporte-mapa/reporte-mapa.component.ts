@@ -34,6 +34,7 @@ export class ReporteMapaComponent implements OnInit {
   showMap = true;
   showData = true;
   oMapService:MapService;
+  listaCampos:any[];
 
   private gestionregistroServiceProxy: GestionRegistroServiceProxy;
   constructor(_injector: Injector
@@ -69,8 +70,8 @@ export class ReporteMapaComponent implements OnInit {
 
   async mostrarCuestionario(viewUserTemplate: TemplateRef<any>){
     //--Trae Listado de Campos
-    let ListaCampos = await this.oMapService.getListField();
-    console.log(ListaCampos);
+    this.listaCampos = await this.oMapService.getListField();
+    console.log(this.listaCampos);
 
 
     this.numDoc = this.numDoc;

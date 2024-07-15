@@ -39,7 +39,7 @@
                         <td style="width: 14%; flex: none; padding: 5px;">{{ item.Campo }}</td>
                         <td style="width: 12%; flex: none; padding: 5px;">
                             <select [(ngModel)]="item.IdTenencia" [ngModelOptions]="{standalone: true}" class="form-select">
-                                <option value="" disabled selected>-- Seleccionar --</option>
+                                <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listTenencia" [value]="item.value">
                                     {{ item.label }}
                                 </option>
@@ -50,7 +50,7 @@
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">
                             <select [(ngModel)]="item.IdUsoTierra" [ngModelOptions]="{standalone: true}" class="form-select">
-                                <option value="" disabled selected>-- Seleccionar --</option>
+                                <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listUsoTierra" [value]="item.value">
                                     {{ item.label }}
                                 </option>
@@ -58,7 +58,7 @@
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">
                             <select [(ngModel)]="item.IdCultivo" [ngModelOptions]="{standalone: true}" class="form-select">
-                                <option value="" disabled selected>-- Seleccionar --</option>
+                                <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listCultivo" [value]="item.value">
                                     {{ item.label }}
                                 </option>
@@ -69,7 +69,7 @@
                         </td>
                         <td style="width: 13%; flex: none; padding: 5px;">
                             <select [(ngModel)]="item.IdUsoNoAgricola" [ngModelOptions]="{standalone: true}" class="form-select">
-                                <option value="" disabled selected>-- Seleccionar --</option>
+                                <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listUsoNoAgricola" [value]="item.value">
                                     {{ item.label }}
                                 </option>

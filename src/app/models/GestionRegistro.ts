@@ -1,3 +1,4 @@
+import { ArchivoGetDto } from "./Archivo";
 import { FundoGetDto } from "./Fundo";
 import { InformanteGetDto } from "./Informante";
 import { SelectTipoDto } from "./SelectTipo";
@@ -62,10 +63,14 @@ export interface IGestionRegistroListDto {
     NombreCompleto: String;
     TipoExplotacion: String;
     Clasificacion: String;
-    EstadoEntrevista: number;
-    EstadoSupervision: number;
-    EstadoValidacion: number;
-    EstadoRegistro: number;
+    CodigoEstadoEntrevista: String;
+    CodigoEstadoSupervision: String;
+    CodigoEstadoValidacion: String;
+    CodigoEstadoRegistro: String;
+    NombreEstadoEntrevista: String;
+    NombreEstadoSupervision: String;
+    NombreEstadoValidacion: String;
+    NombreEstadoRegistro: String;
 }
 export class GestionRegistroListDto implements IGestionRegistroListDto {
     IdMarcoLista: number;
@@ -80,10 +85,14 @@ export class GestionRegistroListDto implements IGestionRegistroListDto {
     NombreCompleto: String;
     TipoExplotacion: String;
     Clasificacion: String;
-    EstadoEntrevista: number;
-    EstadoSupervision: number;
-    EstadoValidacion: number;
-    EstadoRegistro: number;
+    CodigoEstadoEntrevista: String;
+    CodigoEstadoSupervision: String;
+    CodigoEstadoValidacion: String;
+    CodigoEstadoRegistro: String;
+    NombreEstadoEntrevista: String;
+    NombreEstadoSupervision: String;
+    NombreEstadoValidacion: String;
+    NombreEstadoRegistro: String;
     constructor(data?: IGestionRegistroListDto) {
         if (data) {
             for (var property in data) {
@@ -106,10 +115,14 @@ export class GestionRegistroListDto implements IGestionRegistroListDto {
             this.NombreCompleto = _data["NombreCompleto"];
             this.TipoExplotacion = _data["TipoExplotacion"];
             this.Clasificacion = _data["Clasificacion"];
-            this.EstadoEntrevista = _data["EstadoEntrevista"];
-            this.EstadoSupervision = _data["EstadoSupervision"];
-            this.EstadoValidacion = _data["EstadoValidacion"];
-            this.EstadoRegistro = _data["EstadoRegistro"];
+            this.CodigoEstadoEntrevista = _data["CodigoEstadoEntrevista"];
+            this.CodigoEstadoSupervision = _data["CodigoEstadoSupervision"];
+            this.CodigoEstadoValidacion = _data["CodigoEstadoValidacion"];
+            this.CodigoEstadoRegistro = _data["CodigoEstadoRegistro"];
+            this.NombreEstadoEntrevista = _data["NombreEstadoEntrevista"];
+            this.NombreEstadoSupervision = _data["NombreEstadoSupervision"];
+            this.NombreEstadoValidacion = _data["NombreEstadoValidacion"];
+            this.NombreEstadoRegistro = _data["NombreEstadoRegistro"];
         }
     }
     static fromJS(data: any): GestionRegistroListDto {
@@ -193,8 +206,8 @@ export interface IGestionRegistroGetDto {
     CantidadFundo: String;
     EstadoEntrevista: number;
     IdPeriodo: number;
-    FechaActualizacion:Date;
-    ListPeriodos: SelectTipoDto[];  
+    FechaActualizacion: Date;
+    ListPeriodos: SelectTipoDto[];
     ListCondicionJuridica: SelectTipoDto[];
     ListCondicionJuridicaOtros: SelectTipoDto[];
     ListTipoDocumento: SelectTipoDto[];
@@ -203,6 +216,7 @@ export interface IGestionRegistroGetDto {
     ListDistrito: SelectTipoDto[];
     ListTipoExplotacion: SelectTipoDto[];
     ListFundos: FundoGetDto[];
+    ListArchivos:ArchivoGetDto[];
     ListInformantes: InformanteGetDto[];
     ListTenencia: SelectTipoDto[];
     ListUsoTierra: SelectTipoDto[];
@@ -239,8 +253,8 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     CantidadFundo: String;
     EstadoEntrevista: number;
     IdPeriodo: number;
-    FechaActualizacion:Date;
-    ListPeriodos: SelectTipoDto[];  
+    FechaActualizacion: Date;
+    ListPeriodos: SelectTipoDto[];
     ListCondicionJuridica: SelectTipoDto[];
     ListCondicionJuridicaOtros: SelectTipoDto[];
     ListTipoDocumento: SelectTipoDto[];
@@ -248,8 +262,9 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     ListProvincia: SelectTipoDto[];
     ListDistrito: SelectTipoDto[];
     ListTipoExplotacion: SelectTipoDto[];
-    ListFundos: FundoGetDto[]=[];
-    ListInformantes: InformanteGetDto[]=[];
+    ListFundos: FundoGetDto[] = [];
+    ListArchivos:ArchivoGetDto[]= [];
+    ListInformantes: InformanteGetDto[] = [];
     ListTenencia: SelectTipoDto[];
     ListUsoTierra: SelectTipoDto[];
     ListCultivo: SelectTipoDto[];
@@ -339,6 +354,11 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
                 this.ListFundos = [] as any;
                 for (let item of _data["ListFundos"])
                     this.ListFundos!.push(FundoGetDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListArchivos"]) && _data["ListArchivos"].length > 0) {
+                this.ListArchivos = [] as any;
+                for (let item of _data["ListArchivos"])
+                    this.ListArchivos!.push(ArchivoGetDto.fromJS(item));
             }
             if (Array.isArray(_data["ListInformantes"]) && _data["ListInformantes"].length > 0) {
                 this.ListInformantes = [] as any;
@@ -451,6 +471,11 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
             data["ListFundos"] = [];
             for (let item of this.ListFundos)
                 data["ListFundos"].push(item.toJSON());
+        }
+        if (Array.isArray(this.ListArchivos)) {
+            data["ListArchivos"] = [];
+            for (let item of this.ListArchivos)
+                data["ListArchivos"].push(item.toJSON());
         }
         if (Array.isArray(this.ListInformantes)) {
             data["ListInformantes"] = [];
