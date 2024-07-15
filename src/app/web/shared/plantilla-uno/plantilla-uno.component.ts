@@ -457,7 +457,7 @@ export class PlantillaUnoComponent implements OnInit {
         adjunto.DescripcionArchivo = this.NombreArchivo.value;
         adjunto.NombreArchivo = res.partialText;        
         adjunto.TipoInformacion = this.objRegistro.ListTipoInformacion.find(x => x.value == this.IdTipoInformacion.value).label;
-        adjunto.Peso = this.plantillaForm.get('file')?.value.size;
+        adjunto.Peso =  Number.parseFloat((this.plantillaForm.get('file')?.value.size/(1000*1024)).toFixed(4));
         this.objRegistro.ListArchivos.push(adjunto);          
       }
       if (res.status === 200) {
