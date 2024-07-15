@@ -1050,6 +1050,7 @@ export class MapService {
           itemField['NOMBRE_EMPRESA'] = f.attributes.TXT_EMPRESA_NOMBRE
           itemField['NOMBRE_FUNDO'] = f.attributes.TXT_FUNDO_NOMBRE
           itemField['NOMRE_CAMPO'] = f.attributes.TXT_CAMPO_NOMBRE
+          itemField['HECTAREA'] = f.attributes.SHAPE.AREA          
       oListaFields.push(itemField)
      });
     return oListaFields
