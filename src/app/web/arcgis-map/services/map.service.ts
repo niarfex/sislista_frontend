@@ -1,3 +1,19 @@
+/*************************************************************************
+ * Proyecto : MIDAGRI - MARCO DE LISTA                                   *
+ * Fecha    : 16 / 07 / 2024 13:00:00                                    *
+ * Autor    : Francisco Calderon Franco - FRCF                           *
+ * Descripcion    : Componentes de funcionalidades de ArcGIS API JS      *
+ *************************************************************************
+ *                       MODIFICACIONES POSTERIORES                      *
+ *=======================================================================*
+ *=  Fecha   | Persona |           Modificacion Realizada               =*
+ *=======================================================================*
+ *           |         |                                                 *
+ *************************************************************************/
+//--Constantes de configuracion
+import {config } from '../util/config';
+
+ //--Librerias utilizadas
 import { Injectable } from '@angular/core';
 import { BasemapCollectionService } from './BasemapCollection.service';
 import { LayersService } from './layers.service';
@@ -9,6 +25,7 @@ import { CoordinatesStatusMap } from '../models/general.model';
 import { EmissionService } from './emission.service';
 import { url } from 'inspector';
 
+//--Librerias ArcGIS utilizadas
 import EsriMap from "@arcgis/core/Map.js";
 import EsriMapView from "@arcgis/core/views/MapView.js";
 import EsriSceneView from "@arcgis/core/views/SceneView.js";
@@ -51,6 +68,7 @@ import EsriEditor from "@arcgis/core/widgets/Editor";
 })
 
 export class MapService {
+  //--Variables de la clase Publicas
   map: any;
   mapView: any;
   activeView: any;
@@ -63,9 +81,10 @@ export class MapService {
   spatialReference: any;
   basemapGallery: any;
   coordStatusMap: CoordinatesStatusMap;
+
   //--Datos del Administrado
   SisListaRuc: any;
-  SisListaLayers: any[] = [];
+  SislistaLayer: any[] = [];
 
   // StreetView
   activeStreet: boolean;
@@ -128,6 +147,12 @@ export class MapService {
   printButton2D: any;
   printSeparator2D: any;
 
+  /*=======================================================================*
+   *Sección: Variables de rutas del Proxy, Mapas Base y Servicios de GP    *
+   *************************************************************************/
+  private urlProxy: string = config.agsUrlProxy;
+  private urlBasemap: string = config.agsUrlRoot + config.agsUrlBasemap;
+
   constructor(private emissonService: EmissionService, private basemapService: BasemapCollectionService, private layersService: LayersService, private globals: GlobalsService) {
     this.coordStatusMap = {zoneUTM: 18, xUTM: 0, yUTM: 0, latitude: 0, longitude: 0, height: 0};
   }
@@ -180,57 +205,70 @@ export class MapService {
         this.layersService.EsriFeatureLayer = this.EsriMapFeatureLayer;
         this.layersService.EsriGraphicsLayer = this.EsriGraphicsLayer;
         this.layersService.EsriRequest = this.EsriRequest;
-        this.layers = await this.layersService.getLayers();
-        console.log('Layers del Mapa:' + this.layers);
-
+        this.activeView = this.mapView;
         this.coordStatusMap = {zoneUTM: 18, xUTM: 0, yUTM: 0, latitude: 0, longitude: 0, height: 0};
 
+        //--Obtenemos las capas para el mapa
+        this.layers = await this.layersService.getLayers(config.agsNomBasemap,this.urlBasemap,true);
+        console.log('Layers del Mapa:' + this.layers);
+        //-Obtnemos el map
         this.map = new this.EsriMap(this.getMapProperties());
         //console.log('loading map');
         
-
+        /** Configuración del MapView **/
+        //--Obtnemos la Propiedades
         const mapViewProperties = this.getViewProperties(divMapView, this.map);
+        //--Obtnemos el contenedor
         this.mapView = new this.EsriMapView(mapViewProperties);
+        //--Agregamos eventos al contenedor
         this.mapView.on('click', (event) => { this.eventClickMap(event); });
         this.mapView.on('pointer-move', (event) => { this.eventPointerMove(event); });
-               
-        //--FCF: Opción para Filtrar el administrado
-        this.map.layers.items.forEach((itemLayer: any, indexLayer: number) => {
-          itemLayer.when(() => {
-            if (itemLayer.allSublayers === undefined){return}
-            itemLayer.allSublayers.forEach((itemSublayer: any, indexSublayer: number) => {
-              this.SisListaLayers.push(itemSublayer)
-            });
-            //--Filtramos los Layers
-            this.setFilterLayers()
-          });
-        });
-
-        const sceneViewProperties = this.getViewProperties(divSceneView, this.map);
-        this.sceneView = new EsriSceneView(sceneViewProperties);
-        this.sceneView.on('click', (event) => { this.eventClickMap(event); });
-        this.sceneView.on('pointer-move', (event) => { this.eventPointerMove(event); });
-
-        this.activeView = this.mapView;
-
+        //--Agregamos los Widgets
         this.addCompass(this.mapView);
         this.addLocate(this.mapView);
         this.addBasemapGallery(this.mapView);
         this.addListLayers(this.mapView);
-        this.addLegend(this.mapView);
-        //this.addSearch(this.mapView);
+        this.addLegend(this.mapView);        
         this.AddScaleBar(this.mapView);
+        //this.addSearch(this.mapView);
         //this.addCoordinateConversion(this.mapView, 'div-coord-conver-2D');
 
-
+        /** Configuración del SceneView **/
+        //--Obtnemos la Propiedades
+        const sceneViewProperties = this.getViewProperties(divSceneView, this.map);
+        //--Obtnemos el contenedor
+        this.sceneView = new EsriSceneView(sceneViewProperties);
+        //--Agregamos eventos al contenedor
+        this.sceneView.on('click', (event) => { this.eventClickMap(event); });
+        this.sceneView.on('pointer-move', (event) => { this.eventPointerMove(event); });
+        //--Agregamos los Widgets
         this.addLocate(this.sceneView);
         this.addBasemapGallery(this.sceneView);
         this.addListLayers(this.sceneView);
         this.addLegend(this.sceneView);
-        //this.addSearch(this.sceneView);
-        //this.AddScaleBar(this.sceneView);
+        this.AddScaleBar(this.sceneView);
+        //this.addSearch(this.sceneView);      
         //this.addCoordinateConversion(this.sceneView, 'div-coord-conver-3D');
 
+        //--Variable para la Lista de capas de Información
+        this.SislistaLayer = [];
+        this.mapView.when(()=>{
+          this.map.layers.items.forEach((item:any, index:any)=>{
+            //--Nos Aseguremoas que el Layer este Cargado
+             item.when(()=> {
+              if(item.allSublayers===undefined){return}
+                item.allSublayers.forEach((itemLyr:any, index:any)=>{
+                let _lyr:any = {}; 
+                    _lyr.title = itemLyr.title;
+                    _lyr.layer = itemLyr;
+                this.SislistaLayer.push(_lyr)
+              });
+            });
+            //--Filtramos los Layers
+            this.setFilterLayers()
+          });  
+        });
+        
         const editor = new EsriEditor({
           view: this.mapView
         });
@@ -1010,29 +1048,22 @@ export class MapService {
 
   async setFilterLayers(){
     let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
-    this.SisListaLayers[0].definitionExpression = strQuery
-    this.SisListaLayers[1].definitionExpression = strQuery
-    this.SisListaLayers[2].definitionExpression = strQuery
+    this.SislistaLayer[0].layer.definitionExpression = strQuery
+    this.SislistaLayer[1].layer.definitionExpression = strQuery
+    this.SislistaLayer[2].layer.definitionExpression = strQuery
+  }
 
+  async setZoomToExtentLayer(item:any){
+    let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
+    //--Definimos la Visulización de la extensión de la Empresa
     const oFeatureLayer = new this.EsriMapFeatureLayer({
-      url: this.SisListaLayers[2].url 
+      url: this.SislistaLayer[item].layer.url
     });
-
     const query = oFeatureLayer.createQuery();
-    query.where = strQuery;
+          query.where = strQuery;
     oFeatureLayer.queryExtent(query).then(results => {
-      this.mapView.goTo(results.extent);  // go to the extent of the results satisfying the query
-    });
-    return
-
-    //--Realizamos un Zoom al area seleccionada
-    this.mapView.goTo(await this.SisListaLayers[2].queryExtent());
-    return
-
-    console.log("ZooomToFiltro")
-    this.cleanSearch();
-    const feactures = await this.Search(strQuery, this.SisListaLayers[2], 'polygon');
-    this.zoomGraphics();
+      this.mapView.goTo(results.extent);// 
+    }); 
   }
 
   async getListField(){
@@ -1040,7 +1071,7 @@ export class MapService {
     let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
     let geometryType = "polygon"
     const symbol = this.getSymbolFeature(geometryType);
-    const features = await this.getFeaturesQuery(strQuery, this.SisListaLayers[0], geometryType);
+    const features = await this.getFeaturesQuery(strQuery, this.SislistaLayer[0], geometryType);
     await Esriprojection.load();
 
     //--Recorremos los Registros

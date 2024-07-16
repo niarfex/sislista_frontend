@@ -13,7 +13,10 @@ export class LayersService {
   layers: any[]=[];
   private layersService: layerService[] = [];
   streetViewLayer: any;
+  editLayer: any;
   searchLayer: any;
+  mapImageLayer: any;
+
   // variables de ESRI
   EsriMapImageLayer: any;
   EsriFeatureLayer: any;
@@ -23,22 +26,37 @@ export class LayersService {
   constructor() {
   }
 
-  async getLayers() {
-      await this.loadLayers();
-      this.streetViewLayer = new this.EsriGraphicsLayer({
+  async getLayers(lyrTitle: string, lyrUrl: string, lyrVisible: boolean) {
+    const validate: boolean = await this.validateLayer(lyrTitle, lyrUrl);
+    //--Cargamos la Capa Mapa Base --
+    if (validate) {      
+      this.mapImageLayer = new this.EsriMapImageLayer({
+        title: lyrTitle,
+        url: lyrUrl,
+        visible:lyrVisible
+      });
+      this.layers.push(this.mapImageLayer);
+      console.log('01-Base map-' + true); 
+    } 
+    
+    //--Cargamos la Capa de StreetView --
+    this.streetViewLayer = new this.EsriGraphicsLayer({
         title: 'Street View',
         listMode: 'hide',
         visible: false
-      });
-      this.layers.push(this.streetViewLayer);
-      console.log('Street View-' + true);
-      this.searchLayer = new this.EsriGraphicsLayer({
-        title: 'Elementos Encontrados',
-        listMode: 'hide',
-        visible: true
-      });
-      this.layers.push(this.searchLayer);
-      console.log('Elementos Encontrados-' + true);
+    });
+    this.layers.push(this.streetViewLayer);
+    console.log('02-Street View-' + true);
+
+    //--Cargamos la Capa de StreetView --  
+    this.editLayer = new this.EsriGraphicsLayer({
+      title: 'Edit Graphic',
+      listMode: 'hide',
+      visible: true
+    });
+    this.layers.push(this.editLayer);
+    console.log('03-Edit Graphic-' + true);
+    
     return this.layers;
   }
 
@@ -47,7 +65,6 @@ export class LayersService {
     let URL_SERV = "https://winlmprap24.midagri.gob.pe/arcgis_server/rest/services/SIG_SISLISTA/SISLISTA/MapServer"
     let VISIBLE = '1'
      const validate: boolean = await this.validateLayer(NOM_SERV, URL_SERV);
-     console.log(NOM_SERV + '-' + validate);
      if (validate) {
        const layer = new this.EsriMapImageLayer({
          title: NOM_SERV,
