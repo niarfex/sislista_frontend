@@ -50,6 +50,7 @@ export class PlantillaUnoComponent implements OnInit {
   perSAOtro: boolean = false;
   bArchivoOk: boolean;
   cadPeriodo: String;
+  nombreElemento:String="";
   viewUserTemplate1: TemplateRef<any>;
   viewUserTemplate2: TemplateRef<any>;
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
@@ -190,6 +191,7 @@ export class PlantillaUnoComponent implements OnInit {
               this.plantillaForm.controls['CelularRepLegal'].disable();
               this.plantillaForm.controls['CorreoRepLegal'].setValue(this.objRegistro.CorreoRepLegal == null ? null : this.objRegistro.CorreoRepLegal.toString());
               this.plantillaForm.controls['CorreoRepLegal'].disable();
+              this.nombreElemento=this.objRegistro.RazonSocial.toString();
             }
             if (this.perPN) {
               this.plantillaForm.controls['NumeroDocumentoPN'].setValue(this.objRegistro.NumeroDocumento.toString());
@@ -222,6 +224,7 @@ export class PlantillaUnoComponent implements OnInit {
               this.plantillaForm.controls['CorreoElectronicoPN'].disable();
               this.plantillaForm.controls['PaginaWebPN'].setValue(this.objRegistro.PaginaWeb.toString());
               this.plantillaForm.controls['PaginaWebPN'].disable();
+              this.nombreElemento=this.objRegistro.Nombre.toString()+" "+this.objRegistro.ApellidoPaterno.toString()+" "+this.objRegistro.ApellidoMaterno.toString();
             }
             if (this.objRegistro.CodigoUUID != null) {
               //this.modalForm.controls['IdPerfil'].setValue(this.objRegistro.IdPerfil.toString());

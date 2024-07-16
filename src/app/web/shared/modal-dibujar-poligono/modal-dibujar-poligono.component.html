@@ -1,1 +1,71 @@
-<p>modal-dibujar-poligono works!</p>
+<div id="modalRegInformantes" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
+        <div class="modal-header"
+            style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
+            <span style="font-size: large; font-weight: bold;">
+                Dibujar polígono
+            </span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">           
+            <div class="row mb-3">
+                <div class="col-sm-6" style="font-weight: bold; color: darkblue; font-size: medium;">
+                    Nombre de Fundo :
+                </div>
+                <div class="col-sm-6">
+                    <input formControlName="NombreFundo" maxlength="50" type="text" class="form-control"
+                        (focusout)="onFocusOutEvent($event,'NombreFundo')">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-6" style="font-weight: bold; color: darkblue; font-size: medium;">
+                    Nombre de Campo :
+                </div>
+                <div class="col-sm-6">
+                    <input formControlName="NombreCampo" maxlength="50" type="text" class="form-control"
+                        (focusout)="onFocusOutEvent($event,'NombreCampo')">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-6 text-end">
+                    <button type="submit" class="btn btn-primary" (click)="dibujarPoligono()"
+                        style="background-color: #008F49; border-color: #008F49;">Dibujar polígono</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="font-size: medium; color: darkgray;">
+                    Trazar geometria del campo:
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-12" style="height: 300px;">
+                    ¡Aqui deberia ir el mapa!
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    Campos de "{{nombreEmpresa}}":
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    ¡Aqui deberia ir el listado!
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="display: block;">
+            <div class="row">
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-primary" (click)="procesarFundos()"
+                        style="background-color: #008F49; border-color: #008F49;">Procesar fundos</button>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button type="submit" class="btn btn-primary" (click)="grabar()"
+                        style="background-color: #008F49; border-color: #008F49;">Grabar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <p-confirmDialog></p-confirmDialog>
+</div>
