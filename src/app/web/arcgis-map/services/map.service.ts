@@ -263,9 +263,12 @@ export class MapService {
                     _lyr.layer = itemLyr;
                 this.SislistaLayer.push(_lyr)
               });
+              //--Filtramos los Layers
+              this.setFilterLayers()
+              //--Realizamos el Zoom a la Capa de Campos
+              const itemCapa = 2
+              this.setZoomToExtentLayer(itemCapa)
             });
-            //--Filtramos los Layers
-            this.setFilterLayers()
           });  
         });
         
