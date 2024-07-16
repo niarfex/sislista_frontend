@@ -1,0 +1,80 @@
+<div id="modalRegInformantes" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
+        <div class="modal-header"
+            style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
+            <span style="font-size: large; font-weight: bold;">
+                Cargar archivo
+            </span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12" style="color: #008F49;">
+                    <h3>Datos del Informante</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6" style="font-weight: bold; color: darkblue; font-size: medium;">
+                    Seleccione archivo :
+                </div>
+                <div class="col-sm-6 text-end">
+                    
+                    <div class="input-group">
+                        <input type="file" id="file2" class="d-none" accept=".shp,.zip" (change)="importar($event)">
+                        <label for="file2" style="cursor: pointer; margin-bottom: 0; color:#008F49;">
+                            Click aqui para seleccionar archivo</label>
+                        <button class="btn btn-primary" (click)="descargarPlantilla()"
+                            style="background-color: #008F49; border-color: #008F49; margin-left: 10px;"
+                            type="button"><i class="bi bi-file-earmark-arrow-down"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6" style="font-weight: bold; color: darkblue; font-size: medium;">
+                    Información adicional :
+                </div>
+                <div class="col-sm-6">
+                    <input formControlName="InfoAdicional" maxlength="200" type="text" class="form-control"
+                        (focusout)="onFocusOutEvent($event,'InfoAdicional')">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12" style="text-decoration: underline; font-weight: bold; color: darkgray;">
+                    Archivo cargado:
+                </div>
+            </div>
+            <div class="row" style="font-weight: bold;">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4">Nombre del archivo</div>
+                <div class="col-sm-2">Peso (MB)</div>
+                <div class="col-sm-2">Acciones</div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4">{{nombreArchivo}}</div>
+                <div class="col-sm-2">{{peso}}</div>
+                <div class="col-sm-2">
+                    <button class="btn btn-primary"
+                        style="background-color: #008F49; border-color: #008F49; margin-left: 10px;" type="button"
+                        (click)="eliminarArchivo()"><i class="bi bi-trash3"></i></button>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+        </div>
+        <div class="modal-footer" style="display: block;">
+            <div class="row">
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-primary"
+                        style="background-color: #008F49; border-color: #008F49;">Previsualizar</button>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button type="submit" class="btn btn-primary" [disabled]="nombreArchivo==''"
+                        style="background-color: #008F49; border-color: #008F49;">Grabar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <p-confirmDialog></p-confirmDialog>
+</div>

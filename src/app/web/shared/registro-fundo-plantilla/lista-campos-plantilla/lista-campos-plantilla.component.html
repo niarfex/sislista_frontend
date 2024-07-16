@@ -21,9 +21,10 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th style="width: 3%; flex: none; padding: 5px;" pResizableColumn></th>
-                        <th style="width: 14%; flex: none; padding: 5px;" pResizableColumn>Nombre del campo</th>
-                        <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Tenencia</th>
-                        <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Superficie(ha)</th>
+                        <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Nombre del campo</th>
+                        <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Tenencia</th>
+                        <th style="width: 8%; flex: none; padding: 5px;" pResizableColumn>Superficie calculada(ha)</th>
+                        <th style="width: 8%; flex: none; padding: 5px;" pResizableColumn>Superficie reportada(ha)</th>
                         <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Uso de la tierra</th>
                         <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Cultivo</th>
                         <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Sup. cultivada (ha)</th>
@@ -36,8 +37,8 @@
                         <td style="width: 3%; flex: none; padding: 5px;">
                             <input type="checkbox" class="form-check-input">
                         </td>
-                        <td style="width: 14%; flex: none; padding: 5px;">{{ item.Campo }}</td>
-                        <td style="width: 12%; flex: none; padding: 5px;">
+                        <td style="width: 10%; flex: none; padding: 5px;">{{ item.Campo }}</td>
+                        <td style="width: 10%; flex: none; padding: 5px;">
                             <select [(ngModel)]="item.IdTenencia" [ngModelOptions]="{standalone: true}" class="form-select">
                                 <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listTenencia" [value]="item.value">
@@ -45,7 +46,10 @@
                                 </option>
                             </select>
                         </td>
-                        <td style="width: 10%; flex: none; padding: 5px;">
+                        <td style="width: 8%; flex: none; padding: 5px;">
+                            <input [(ngModel)]="item.SuperficieCalc" readonly [ngModelOptions]="{standalone: true}" type="text" class="form-control" required>
+                        </td>
+                        <td style="width: 8%; flex: none; padding: 5px;">
                             <input [(ngModel)]="item.Superficie" [ngModelOptions]="{standalone: true}" type="text" class="form-control" required>
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">

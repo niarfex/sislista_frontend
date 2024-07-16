@@ -1,0 +1,30 @@
+<div id="modalRegInformantes" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
+        <div class="modal-header"
+            style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
+            <span style="font-size: large; font-weight: bold;">
+                Método de inserción
+            </span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IdModoRegistro">Modo de registro</label>
+                        <select formControlName="IdModoRegistro" id="IdModoRegistro" name="IdModoRegistro"
+                            class="form-select">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option value="1" selected>Cargar archivo</option>
+                            <option value="2" selected>Dibujar polígono</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button type="submit" class="btn btn-primary"
+                        style="background-color: #008F49; border-color: #008F49;" (click)="continuarMetodo()">Continuar</button>
+                </div>
+            </div>  
+        </div>
+    </form>
+</div>

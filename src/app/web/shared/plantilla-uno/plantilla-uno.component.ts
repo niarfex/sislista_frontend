@@ -5,6 +5,7 @@ import { ListaInformantesComponent } from '../lista-informantes/lista-informante
 import { RegistroFundoPlantillaComponent } from '../registro-fundo-plantilla/registro-fundo-plantilla.component';
 import { ListaCamposPlantillaComponent } from '../registro-fundo-plantilla/lista-campos-plantilla/lista-campos-plantilla.component';
 import { ModalRegistroInformantesComponent } from '../modal-registro-informantes/modal-registro-informantes.component';
+import { ModalMetodoInsercionComponent } from '../modal-metodo-insercion/modal-metodo-insercion.component';
 import { ListaArchivosComponent } from '../lista-archivos/lista-archivos.component';
 import { GestionRegistroGetDto } from 'src/app/models/GestionRegistro';
 import { UbigeoServiceProxy } from 'src/shared/service-proxies/ubigeo-proxies';
@@ -20,6 +21,8 @@ import { FundoGetDto, ResponseFundoGetDto } from 'src/app/models/Fundo';
 import { SelectTipoDto } from 'src/app/models/SelectTipo';
 import { CampoGetDto } from 'src/app/models/Campo';
 import { ArchivoGetDto } from 'src/app/models/Archivo';
+import { ModalCargarArchivoComponent } from "../modal-cargar-archivo/modal-cargar-archivo.component";
+import { ModalDibujarPoligonoComponent } from "../modal-dibujar-poligono/modal-dibujar-poligono.component";
 
 @Component({
   standalone: true,
@@ -32,7 +35,8 @@ import { ArchivoGetDto } from 'src/app/models/Archivo';
     RegistroFundoPlantillaComponent,
     ListaCamposPlantillaComponent,
     ModalRegistroInformantesComponent,
-    ListaArchivosComponent]
+    ListaArchivosComponent,
+    ModalMetodoInsercionComponent, ModalCargarArchivoComponent, ModalDibujarPoligonoComponent]
 })
 export class PlantillaUnoComponent implements OnInit {
   @Input() exitModal = (): void => { };
@@ -46,6 +50,8 @@ export class PlantillaUnoComponent implements OnInit {
   perSAOtro: boolean = false;
   bArchivoOk: boolean;
   cadPeriodo: String;
+  viewUserTemplate1: TemplateRef<any>;
+  viewUserTemplate2: TemplateRef<any>;
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
   inicio: number = 0;
   time!: {
@@ -222,22 +228,23 @@ export class PlantillaUnoComponent implements OnInit {
 
             }
             if (this.objRegistro.ListFundos.length == 0) {
-              //console.log(this.listFields);
+              console.log(this.listFields);
               let listaFundos = new Set(this.listFields.map(obj => obj["NOMBRE_FUNDO"]));
               listaFundos.forEach(myObject => {
                 this.campos = [];
-                let ListCampos = (new Set(this.listFields.filter(obj => obj["NOMBRE_FUNDO"] == myObject).map(obj => obj["NOMRE_CAMPO"])));
-
+                let ListCampos = (new Set(this.listFields.filter(obj => obj["NOMBRE_FUNDO"] == myObject).map(obj => obj)));
+                  
                 ListCampos.forEach(myObject2 => {
                   this.campos.push(new CampoGetDto({
                     Id: 0,
                     IdFundo: 0,
-                    Campo: myObject2,
+                    Campo: myObject2["NOMRE_CAMPO"],
                     IdTenencia: 0,
                     IdUsoTierra: 0,
                     IdCultivo: 0,
                     IdUsoNoAgricola: 0,
                     Observacion: "",
+                    SuperficieCalc:myObject2["SUPERFICIE"],
                     Superficie: 0,
                     SuperficieCultivada: 0
                   }));
@@ -415,10 +422,41 @@ export class PlantillaUnoComponent implements OnInit {
   };
   agregarInformante(informante: InformanteGetDto) {
     this.objRegistro.ListInformantes.push(informante);
-    console.log(this.objRegistro.ListInformantes);
+    //console.log(this.objRegistro.ListInformantes);
 
   }
   registrarInformante(viewUserTemplate: TemplateRef<any>) {
+    this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-lg'
+    });
+  }
+  selectMetodoInsercion(viewUserTemplate: TemplateRef<any>,viewUserTemplateA: TemplateRef<any>,viewUserTemplateB: TemplateRef<any>){
+    this.viewUserTemplate1=viewUserTemplateA;
+    this.viewUserTemplate2=viewUserTemplateB;
+    this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,      
+      class: 'modal-m'
+    });
+  }
+  mostrarVentanaMetodo(tipo:String){
+    if(tipo=="1"){
+      this.mostrarCargarArchivo(this.viewUserTemplate1);
+    }
+    else if (tipo=="2"){
+      this.mostrarCargarArchivo(this.viewUserTemplate2);
+    }
+  }
+  mostrarCargarArchivo(viewUserTemplate: TemplateRef<any>){
+    this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-lg'
+    });
+  }
+  mostrarDibujarPoligono(viewUserTemplate: TemplateRef<any>){
     this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
@@ -431,7 +469,7 @@ export class PlantillaUnoComponent implements OnInit {
       file: $event.target.files[0]
     })
     //this.saveFile();
-    console.log(this.plantillaForm.get('file')?.value);
+    //console.log(this.plantillaForm.get('file')?.value);
     //const formData = new FormData();
     //formData.append('file', this.plantillaForm.get('file')?.value);    
     this.NombreArchivo.setValue(this.plantillaForm.get('file')?.value.name);
@@ -448,7 +486,7 @@ export class PlantillaUnoComponent implements OnInit {
     formData.append('numdoc', this.numDoc.toString());
     formData.append('periodo', this.cadPeriodo.toString());
     //this.toastr.success("Se subio el archivo correctamente", 'Información');
-    console.log(formData);
+    //console.log(formData);
     this.gestionregistroServiceProxy.subirArchivo(formData).subscribe(async (res: any) => {
       this.toastr.success(res.partialText, 'Información');
       if (res.partialText != "" && !(res.partialText === undefined)) {

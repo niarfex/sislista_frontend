@@ -1,7 +1,7 @@
 <div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
     <form [formGroup]="plantillaForm">    
         <div class="modal-header"
-            style="background-color: green; color: white; text-align: center; align-items: center;">
+            style="background-color: #008F49; color: white; text-align: center; align-items: center;">
             <span style="font-size: large; font-weight: bold;">
                 Cuestionario de Marco de Lista
             </span>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12" style="color:green">
+                <div class="col-sm-12" style="color:#008F49">
                     <h3>Capítulo I. Características de la Empresa</h3>
                 </div>
             </div>       
@@ -477,7 +477,8 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <button type="button" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;">Insertar</button>
+                    <button type="button" class="btn btn-primary" (click)="selectMetodoInsercion(viewUserTemplate2,viewUserTemplate3,viewUserTemplate4)"
+                    style="background-color: #008F49; border-color: #008F49;">Insertar</button>
                 </div>
             </div>
             <div class="row">
@@ -604,11 +605,21 @@
             </div>
             
         </div>
-    </form>
+    
     <ng-template #viewUserTemplate>
         <modal-registro-informantes [exitSubModal]="exitSubModal"
         [listTipoDocumento]="objRegistro.ListTipoDocumento"
         [listEstadoEntrevista]="objRegistro.ListEstadoEntrevista"
         (enviarInformante)="agregarInformante($event)"></modal-registro-informantes>
     </ng-template>
+    <ng-template #viewUserTemplate2>
+        <modal-metodo-insercion [exitSubModal]="exitSubModal" (enviarMetodo)="mostrarVentanaMetodo($event)"></modal-metodo-insercion>
+    </ng-template>
+    <ng-template #viewUserTemplate3>
+        <modal-cargar-archivo [exitSubModal]="exitSubModal" [numDoc]="numDoc" [periodo]="cadPeriodo"></modal-cargar-archivo>
+    </ng-template>
+    <ng-template #viewUserTemplate4>
+        <modal-dibujar-poligono [exitSubModal]="exitSubModal" [numDoc]="numDoc" [periodo]="cadPeriodo"></modal-dibujar-poligono>
+    </ng-template>
+    </form>
 </div>

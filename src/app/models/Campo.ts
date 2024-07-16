@@ -47,6 +47,7 @@ export interface ICampoGetDto {
     IdCultivo: number;
     IdUsoNoAgricola: number;
     Observacion: String;
+    SuperficieCalc: number;
     Superficie: number;
     SuperficieCultivada: number;
 }
@@ -59,6 +60,7 @@ export class CampoGetDto implements ICampoGetDto {
     IdCultivo: number;
     IdUsoNoAgricola: number;
     Observacion: String;
+    SuperficieCalc: number;
     Superficie: number;
     SuperficieCultivada: number;
     constructor(data?: ICampoGetDto) {
