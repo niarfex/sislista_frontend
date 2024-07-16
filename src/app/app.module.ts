@@ -31,6 +31,9 @@ import { RegistroFundoPlantillaComponent } from './web/shared/registro-fundo-pla
 import { ListaCamposPlantillaComponent } from './web/shared/registro-fundo-plantilla/lista-campos-plantilla/lista-campos-plantilla.component';
 import { ModalRegistroInformantesComponent } from './web/shared/modal-registro-informantes/modal-registro-informantes.component';
 import { ListaArchivosComponent } from './web/shared/lista-archivos/lista-archivos.component';
+import { ModalMetodoInsercionComponent } from './web/shared/modal-metodo-insercion/modal-metodo-insercion.component';
+import { ModalCargarArchivoComponent } from './web/shared/modal-cargar-archivo/modal-cargar-archivo.component';
+import { ModalDibujarPoligonoComponent } from './web/shared/modal-dibujar-poligono/modal-dibujar-poligono.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -43,6 +46,7 @@ import { ListaArchivosComponent } from './web/shared/lista-archivos/lista-archiv
         HorizontaltopbarComponent,        
         FooterComponent,
         InicioComponent,
+        
         
         /*ModalRegistroInformantesComponent,
         PlantillaUnoComponent,
@@ -68,7 +72,10 @@ import { ListaArchivosComponent } from './web/shared/lista-archivos/lista-archiv
         RegistroFundoPlantillaComponent,
         ListaCamposPlantillaComponent,
         ModalRegistroInformantesComponent,
-        ListaArchivosComponent],     
+        ListaArchivosComponent,
+        ModalMetodoInsercionComponent,
+        ModalCargarArchivoComponent,
+        ModalDibujarPoligonoComponent],     
     exports:      [  ],
     providers: [LocaleService,
         //{provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},//Con este provider hace la consulta mediante Bearer

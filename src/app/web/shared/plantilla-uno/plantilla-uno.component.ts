@@ -1,10 +1,12 @@
 import { Component, Injector, Input, OnInit, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { ListaInformantesComponent } from '../lista-informantes/lista-informantes.component';
 import { RegistroFundoPlantillaComponent } from '../registro-fundo-plantilla/registro-fundo-plantilla.component';
 import { ListaCamposPlantillaComponent } from '../registro-fundo-plantilla/lista-campos-plantilla/lista-campos-plantilla.component';
 import { ModalRegistroInformantesComponent } from '../modal-registro-informantes/modal-registro-informantes.component';
+import { ModalMetodoInsercionComponent } from '../modal-metodo-insercion/modal-metodo-insercion.component';
+import { ListaArchivosComponent } from '../lista-archivos/lista-archivos.component';
 import { GestionRegistroGetDto } from 'src/app/models/GestionRegistro';
 import { UbigeoServiceProxy } from 'src/shared/service-proxies/ubigeo-proxies';
 import { ConfirmationService } from 'primeng/api';
@@ -15,6 +17,12 @@ import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionr
 import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies';
 import { InformanteGetDto } from 'src/app/models/Informante';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { FundoGetDto, ResponseFundoGetDto } from 'src/app/models/Fundo';
+import { SelectTipoDto } from 'src/app/models/SelectTipo';
+import { CampoGetDto } from 'src/app/models/Campo';
+import { ArchivoGetDto } from 'src/app/models/Archivo';
+import { ModalCargarArchivoComponent } from "../modal-cargar-archivo/modal-cargar-archivo.component";
+import { ModalDibujarPoligonoComponent } from "../modal-dibujar-poligono/modal-dibujar-poligono.component";
 
 @Component({
   standalone: true,
@@ -26,16 +34,24 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
     ListaInformantesComponent,
     RegistroFundoPlantillaComponent,
     ListaCamposPlantillaComponent,
-    ModalRegistroInformantesComponent]
+    ModalRegistroInformantesComponent,
+    ListaArchivosComponent,
+    ModalMetodoInsercionComponent, ModalCargarArchivoComponent, ModalDibujarPoligonoComponent]
 })
 export class PlantillaUnoComponent implements OnInit {
   @Input() exitModal = (): void => { };
   @Input() numDoc: String;
   @Input() idPeriodo: number;
+  @Input() listFields: any[];
   @Input() modalActivo: boolean = true;
+  campos: CampoGetDto[];
   perSA: boolean = false;
   perPN: boolean = false;
   perSAOtro: boolean = false;
+  bArchivoOk: boolean;
+  cadPeriodo: String;
+  viewUserTemplate1: TemplateRef<any>;
+  viewUserTemplate2: TemplateRef<any>;
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
   inicio: number = 0;
   time!: {
@@ -78,6 +94,9 @@ export class PlantillaUnoComponent implements OnInit {
     CelularRepLegal: ['', this.perSA ? [Validators.required] : []],
     CorreoRepLegal: ['', this.perSA ? [Validators.required, Validators.email] : []],
     CantidadFundo: [''],
+    file: new FormControl(null, []),
+    IdTipoInformacion: [''],
+    NombreArchivo: [''],
   });
   private usuarioServiceProxy: UsuarioServiceProxy;
   private ubigeoServiceProxy: UbigeoServiceProxy;
@@ -124,16 +143,20 @@ export class PlantillaUnoComponent implements OnInit {
   get CelularRepLegal() { return this.plantillaForm.controls['CelularRepLegal']; }
   get CorreoRepLegal() { return this.plantillaForm.controls['CorreoRepLegal']; }
   get CantidadFundo() { return this.plantillaForm.controls['CantidadFundo']; }
+  get IdTipoInformacion() { return this.plantillaForm.controls['IdTipoInformacion']; }
+  get NombreArchivo() { return this.plantillaForm.controls['NombreArchivo']; }
   ngOnInit(): void {
     this.time = { hours: 0, minutes: 0, seconds: this.inicio };
     this.start().subscribe();
     this.spinner.show();
+
     this.gestionregistroServiceProxy.getGestionRegistroxDatos(this.numDoc, this.idPeriodo)
       .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
       .subscribe({
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
+            this.cadPeriodo = this.objRegistro.ListPeriodos.find(x => x.value == this.idPeriodo.toString()).label;
             this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
             this.plantillaForm.controls['IdCondicionJuridica'].setValue(this.objRegistro.IdCondicionJuridica.toString());
             this.plantillaForm.controls['IdCondicionJuridica'].disable();
@@ -203,6 +226,48 @@ export class PlantillaUnoComponent implements OnInit {
             if (this.objRegistro.CodigoUUID != null) {
               //this.modalForm.controls['IdPerfil'].setValue(this.objRegistro.IdPerfil.toString());
 
+            }
+            if (this.objRegistro.ListFundos.length == 0) {
+              console.log(this.listFields);
+              let listaFundos = new Set(this.listFields.map(obj => obj["NOMBRE_FUNDO"]));
+              listaFundos.forEach(myObject => {
+                this.campos = [];
+                let ListCampos = (new Set(this.listFields.filter(obj => obj["NOMBRE_FUNDO"] == myObject).map(obj => obj)));
+                  
+                ListCampos.forEach(myObject2 => {
+                  this.campos.push(new CampoGetDto({
+                    Id: 0,
+                    IdFundo: 0,
+                    Campo: myObject2["NOMRE_CAMPO"],
+                    IdTenencia: 0,
+                    IdUsoTierra: 0,
+                    IdCultivo: 0,
+                    IdUsoNoAgricola: 0,
+                    Observacion: "",
+                    SuperficieCalc:myObject2["SUPERFICIE"],
+                    Superficie: 0,
+                    SuperficieCultivada: 0
+                  }));
+                });
+
+
+                this.objRegistro.ListFundos.push(new FundoGetDto({
+                  Id: 0,
+                  IdCuestionario: 0,
+                  Fundo: myObject,
+                  SuperficieTotal: 0,
+                  SuperficieAgricola: 0,
+                  IdUbigeo: "",
+                  Observacion: "",
+                  ListDepartamento: this.objRegistro.ListDepartamento,
+                  ListProvincia: null,
+                  ListDistrito: null,
+                  ListCampos: this.campos
+                }));
+
+              });
+              console.log(listaFundos);
+              this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
             }
           }
           else {
@@ -357,7 +422,7 @@ export class PlantillaUnoComponent implements OnInit {
   };
   agregarInformante(informante: InformanteGetDto) {
     this.objRegistro.ListInformantes.push(informante);
-    console.log(this.objRegistro.ListInformantes);
+    //console.log(this.objRegistro.ListInformantes);
 
   }
   registrarInformante(viewUserTemplate: TemplateRef<any>) {
@@ -367,7 +432,79 @@ export class PlantillaUnoComponent implements OnInit {
       class: 'modal-lg'
     });
   }
-  adjuntarArchivo(){
-    
+  selectMetodoInsercion(viewUserTemplate: TemplateRef<any>,viewUserTemplateA: TemplateRef<any>,viewUserTemplateB: TemplateRef<any>){
+    this.viewUserTemplate1=viewUserTemplateA;
+    this.viewUserTemplate2=viewUserTemplateB;
+    this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,      
+      class: 'modal-m'
+    });
+  }
+  mostrarVentanaMetodo(tipo:String){
+    if(tipo=="1"){
+      this.mostrarCargarArchivo(this.viewUserTemplate1);
+    }
+    else if (tipo=="2"){
+      this.mostrarCargarArchivo(this.viewUserTemplate2);
+    }
+  }
+  mostrarCargarArchivo(viewUserTemplate: TemplateRef<any>){
+    this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-lg'
+    });
+  }
+  mostrarDibujarPoligono(viewUserTemplate: TemplateRef<any>){
+    this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-lg'
+    });
+  }
+  importar($event: any) {
+    this.bArchivoOk = false;
+    this.plantillaForm.patchValue({
+      file: $event.target.files[0]
+    })
+    //this.saveFile();
+    //console.log(this.plantillaForm.get('file')?.value);
+    //const formData = new FormData();
+    //formData.append('file', this.plantillaForm.get('file')?.value);    
+    this.NombreArchivo.setValue(this.plantillaForm.get('file')?.value.name);
+  }
+  adjuntarArchivo() {
+
+    //
+    //if(this.fileForm.invalid){
+    //  this.notify.error('Debe seleccionar un archivo')
+    //  return;
+    //}        
+    const formData = new FormData();
+    formData.append('file', this.plantillaForm.get('file')?.value,);
+    formData.append('numdoc', this.numDoc.toString());
+    formData.append('periodo', this.cadPeriodo.toString());
+    //this.toastr.success("Se subio el archivo correctamente", 'Información');
+    //console.log(formData);
+    this.gestionregistroServiceProxy.subirArchivo(formData).subscribe(async (res: any) => {
+      this.toastr.success(res.partialText, 'Información');
+      if (res.partialText != "" && !(res.partialText === undefined)) {
+        this.bArchivoOk = true;
+        let adjunto: ArchivoGetDto = new ArchivoGetDto();
+        adjunto.DescripcionArchivo = this.NombreArchivo.value;
+        adjunto.NombreArchivo = res.partialText;        
+        adjunto.TipoInformacion = this.objRegistro.ListTipoInformacion.find(x => x.value == this.IdTipoInformacion.value).label;
+        adjunto.Peso =  Number.parseFloat((this.plantillaForm.get('file')?.value.size/(1000*1024)).toFixed(4));
+        this.objRegistro.ListArchivos.push(adjunto);          
+      }
+      if (res.status === 200) {
+        //console.log(res.partialText);  
+        //this.getData();
+      }
+    },
+      (err: any) => {
+        this.bArchivoOk = false;
+      });
   }
 }

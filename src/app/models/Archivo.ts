@@ -40,27 +40,23 @@ export class ResponseArchivoGetDto implements IResponseArchivoGetDto {
 
 export interface IArchivoGetDto {
     Id: number;
-    IdFundo: number;
+    NombreArchivo: String;
     Archivo: String;
-    IdTenencia: number;
-    IdUsoTierra: number;
-    IdCultivo: number;
-    IdUsoNoAgricola: number;
-    Observacion: String;
-    Superficie: number;
-    SuperficieCultivada: number;
+    DescripcionArchivo: String;
+    CuestionarioPrincipal: number;
+    IdTipoInformacion: number;
+    Peso: number;
+    TipoInformacion: String;
 }
 export class ArchivoGetDto implements IArchivoGetDto {
     Id: number;
-    IdFundo: number;
+    NombreArchivo: String;
     Archivo: String;
-    IdTenencia: number;
-    IdUsoTierra: number;
-    IdCultivo: number;
-    IdUsoNoAgricola: number;
-    Observacion: String;
-    Superficie: number;
-    SuperficieCultivada: number;
+    DescripcionArchivo: String;
+    CuestionarioPrincipal: number;
+    IdTipoInformacion: number;
+    Peso: number;
+    TipoInformacion: String;
     constructor(data?: IArchivoGetDto) {
         if (data) {
             for (var property in data) {
@@ -72,15 +68,13 @@ export class ArchivoGetDto implements IArchivoGetDto {
     init(_data?: any) {
         if (_data) {
             this.Id = _data["Id"];
-            this.IdFundo = _data["IdFundo"];
-            this.Archivo = _data["Archivo"];
-            this.IdTenencia = _data["IdTenencia"];
-            this.IdUsoTierra = _data["IdUsoTierra"];
-            this.IdCultivo = _data["IdCultivo"];
-            this.IdUsoNoAgricola = _data["IdUsoNoAgricola"];
-            this.Observacion = _data["Observacion"];
-            this.Superficie = _data["Superficie"];
-            this.SuperficieCultivada = _data["SuperficieCultivada"];
+            this.NombreArchivo= _data["NombreArchivo"];
+            this.Archivo= _data["Archivo"];
+            this.DescripcionArchivo= _data["DescripcionArchivo"];
+            this.CuestionarioPrincipal= _data["CuestionarioPrincipal"];
+            this.IdTipoInformacion= _data["IdTipoInformacion"];
+            this.Peso= _data["Peso"];
+            this.TipoInformacion= _data["TipoInformacion"];
         }
     }
     static fromJS(data: any): ArchivoGetDto {
@@ -92,15 +86,13 @@ export class ArchivoGetDto implements IArchivoGetDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.Id;
-        data["IdFundo"] = this.IdFundo;
+        data["NombreArchivo"] = this.NombreArchivo;
         data["Archivo"] = this.Archivo;
-        data["IdTenencia"] = this.IdTenencia;
-        data["IdUsoTierra"] = this.IdUsoTierra;
-        data["IdCultivo"] = this.IdCultivo;
-        data["IdUsoNoAgricola"] = this.IdUsoNoAgricola;
-        data["Observacion"] = this.Observacion;
-        data["Superficie"] = this.Superficie;
-        data["SuperficieCultivada"] = this.SuperficieCultivada;
+        data["DescripcionArchivo"] = this.DescripcionArchivo;
+        data["CuestionarioPrincipal"] = this.CuestionarioPrincipal;
+        data["IdTipoInformacion"] = this.IdTipoInformacion;
+        data["Peso"] = this.Peso;
+        data["TipoInformacion"] = this.TipoInformacion;
         return data;
     }
 }

@@ -72,6 +72,15 @@ export class GestionRegistroServiceProxy {
         return _observableOf<ResponseGestionRegistroListDto>(<any>null);
     }
 
+    subirArchivo(formData: FormData): Observable<any> {
+        //return this.http.request(new HttpRequest('POST', AppConsts.urlHost + "v1/marcolista/Importar", formData));
+        return <any>this.http.post(AppConsts.urlHost + "v1/gestionregistro/SubirArchivo", formData, {
+            reportProgress: true,
+            observe: 'events',            
+            responseType: 'text'
+        });
+    }
+
     getGestionRegistroxDatos(numDoc:String,idPeriodo:number): Observable<ResponseGestionRegistroGetDto> {
         let url_ = AppConsts.urlHost + "v1/gestionregistro/GetGestionRegistroxDatos?";   
         if (numDoc!== undefined && numDoc!== null)
