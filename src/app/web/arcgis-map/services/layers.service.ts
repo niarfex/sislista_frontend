@@ -13,7 +13,6 @@ export class LayersService {
   layers: any[]=[];
   private layersService: layerService[] = [];
   streetViewLayer: any;
-  editLayer: any;
   searchLayer: any;
   mapImageLayer: any;
 
@@ -22,6 +21,7 @@ export class LayersService {
   EsriFeatureLayer: any;
   EsriGraphicsLayer: any;
   EsriRequest: any;
+  EsriEditGraphicsLayer: any;
 
   constructor() {
   }
@@ -49,12 +49,12 @@ export class LayersService {
     console.log('02-Street View-' + true);
 
     //--Cargamos la Capa de StreetView --  
-    this.editLayer = new this.EsriGraphicsLayer({
+    this.EsriEditGraphicsLayer = new this.EsriGraphicsLayer({
       title: 'Edit Graphic',
       listMode: 'hide',
-      visible: true
+      visible: false
     });
-    this.layers.push(this.editLayer);
+    this.layers.push(this.EsriEditGraphicsLayer);
     console.log('03-Edit Graphic-' + true);
     
     return this.layers;

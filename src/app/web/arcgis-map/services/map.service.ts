@@ -36,7 +36,7 @@ import EsriLayerList from "@arcgis/core/widgets/LayerList";
 import EsriLegend from "@arcgis/core/widgets/Legend";
 import EsriTileLayer from "@arcgis/core/layers/TileLayer";
 import EsriMapImageLayer from "@arcgis/core/layers/MapImageLayer";
-import EsriMapFeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import EsriFeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import EsriGraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureService from "@arcgis/core/rest/featureService/FeatureService";
 import EsriCompass from "@arcgis/core/widgets/Compass";
@@ -62,6 +62,8 @@ import EsriScaleBar from "@arcgis/core/widgets/ScaleBar";
 import Esriconfig from "@arcgis/core/config";
 import EsriCustomContent from "@arcgis/core/popup/content/CustomContent";
 import EsriEditor from "@arcgis/core/widgets/Editor";
+import EsriSketch from "@arcgis/core/widgets/sketch";
+import { AnyARecord } from 'dns';
 
 @Injectable({
   providedIn: 'root'
@@ -86,6 +88,14 @@ export class MapService {
   SisListaRuc: any;
   SislistaLayer: any[] = [];
 
+  //-Datos de Edición
+  editEditor:any
+  editWidget:any;
+  EditFeature:any
+  editSkech:any
+  EditProgress:boolean=false;
+  editGraphic:any;
+
   // StreetView
   activeStreet: boolean;
   positionStreet: GoogleMapPosition;
@@ -109,8 +119,9 @@ export class MapService {
   EsriLegend: any;
   EsriTileLayer: any;
   EsriMapImageLayer: any;
-  EsriMapFeatureLayer:any;
+  EsriFeatureLayer:any;
   EsriGraphicsLayer: any;
+  EsriEditGraphicsLayer: any;
   FeatureService: any;
   EsriCompass: any;
   EsriRequest: any;
@@ -135,6 +146,7 @@ export class MapService {
   Esriconfig: any;
   EsriCustomContent:any;
   EsriEditor:any;
+  EsriSketch:any;
 
   measurement2D: any;
   distanceButton2D: any;
@@ -168,8 +180,9 @@ export class MapService {
         this.EsriLegend = EsriLegend;
         this.EsriTileLayer = EsriTileLayer;
         this.EsriMapImageLayer = EsriMapImageLayer;
-        this.EsriMapFeatureLayer = EsriMapFeatureLayer;
+        this.EsriFeatureLayer = EsriFeatureLayer;
         this.EsriGraphicsLayer = EsriGraphicsLayer;
+        this.EsriEditGraphicsLayer = EsriGraphicsLayer;
         this.FeatureService = FeatureService;
         this.EsriCompass = EsriCompass;
         this.EsriRequest = EsriRequest;
@@ -193,7 +206,8 @@ export class MapService {
         this.EsriScaleBar = EsriScaleBar;
         this.Esriconfig = Esriconfig;
         this.EsriCustomContent = EsriCustomContent;
-        this.EsriEditor = EsriEditor
+        this.EsriEditor = EsriEditor;
+        this.EsriSketch = EsriSketch;
 
         // iniciar constantes
         this.isAddWMS = false;
@@ -202,8 +216,9 @@ export class MapService {
         this.basemap = this.basemapService.getTopo();
         this.spatialReference = new EsriSpatialReference({ wkid: 102100 });
         this.layersService.EsriMapImageLayer = this.EsriMapImageLayer;
-        this.layersService.EsriFeatureLayer = this.EsriMapFeatureLayer;
+        this.layersService.EsriFeatureLayer = this.EsriFeatureLayer;
         this.layersService.EsriGraphicsLayer = this.EsriGraphicsLayer;
+        this.layersService.EsriEditGraphicsLayer = this.EsriEditGraphicsLayer;
         this.layersService.EsriRequest = this.EsriRequest;
         this.activeView = this.mapView;
         this.coordStatusMap = {zoneUTM: 18, xUTM: 0, yUTM: 0, latitude: 0, longitude: 0, height: 0};
@@ -224,15 +239,10 @@ export class MapService {
         this.mapView.on('click', (event) => { this.eventClickMap(event); });
         this.mapView.on('pointer-move', (event) => { this.eventPointerMove(event); });
         //--Agregamos los Widgets
-        this.addCompass(this.mapView);
-        this.addLocate(this.mapView);
-        this.addBasemapGallery(this.mapView);
-        this.addListLayers(this.mapView);
-        this.addLegend(this.mapView);        
-        this.AddScaleBar(this.mapView);
-        //this.addSearch(this.mapView);
-        //this.addCoordinateConversion(this.mapView, 'div-coord-conver-2D');
-
+        this.setAddWidgetMapView()
+        //--Agregamos El Widget de Edición
+        this.setAddEditWidget()
+        
         /** Configuración del SceneView **/
         //--Obtnemos la Propiedades
         const sceneViewProperties = this.getViewProperties(divSceneView, this.map);
@@ -242,13 +252,7 @@ export class MapService {
         this.sceneView.on('click', (event) => { this.eventClickMap(event); });
         this.sceneView.on('pointer-move', (event) => { this.eventPointerMove(event); });
         //--Agregamos los Widgets
-        this.addLocate(this.sceneView);
-        this.addBasemapGallery(this.sceneView);
-        this.addListLayers(this.sceneView);
-        this.addLegend(this.sceneView);
-        this.AddScaleBar(this.sceneView);
-        //this.addSearch(this.sceneView);      
-        //this.addCoordinateConversion(this.sceneView, 'div-coord-conver-3D');
+        this.setAddWidgetSceneView();
 
         //--Variable para la Lista de capas de Información
         this.SislistaLayer = [];
@@ -271,7 +275,7 @@ export class MapService {
             });
           });  
         });
-        
+        /*
         const editor = new EsriEditor({
           view: this.mapView
         });
@@ -286,7 +290,7 @@ export class MapService {
           expandTooltip: 'Editor'
         });
         this.mapView.ui.add(EditorExpand, 'top-left');
-
+*/
         const popup = {
           autoOpenEnabled: false,
           dockEnabled: true,
@@ -296,10 +300,226 @@ export class MapService {
             position: 'bottom-right'
           }
         };
+
         this.mapView.popup = popup;
         this.sceneView.popup = popup;
         this.setPopupLayers();
         this.mapView.popup.on('trigger-action', (event) => { this.eventAction(event); });
+  }
+
+  /*=======================================================================*
+   *Sección: Widgets del MapaView                                          *
+   *************************************************************************/  
+  setAddWidgetMapView(){
+    this.addCompass(this.mapView);
+    this.addLocate(this.mapView);
+    this.addBasemapGallery(this.mapView);
+    this.addListLayers(this.mapView);
+    this.addLegend(this.mapView);        
+    this.AddScaleBar(this.mapView);
+    //this.addSearch(this.mapView);
+    //this.addCoordinateConversion(this.mapView, 'div-coord-conver-2D');
+  }
+  setAddWidgetSceneView(){
+    this.addLocate(this.sceneView);
+    this.addBasemapGallery(this.sceneView);
+    this.addListLayers(this.sceneView);
+    this.addLegend(this.sceneView);
+    this.AddScaleBar(this.sceneView);
+    //this.addSearch(this.sceneView);      
+    //this.addCoordinateConversion(this.sceneView, 'div-coord-conver-3D');
+  }
+  setAddEditWidget(){
+    //----------------------------------------------
+    // Servicio Feature de Edición
+    //----------------------------------------------
+    let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'" 
+    this.EditFeature= new this.EsriFeatureLayer({
+      url: config.agsUrlRoot + config.agsUrlEditLyr,
+      mode: this.EsriFeatureLayer.MODE_SNAPSHOT,
+      where:strQuery,
+      outFields: ["*"],
+      title:"Campos",
+      visible:true
+    })
+  
+    //----------------------------------------------
+    // Widget Expand de Edición
+    //----------------------------------------------  
+    //const sampleInstructions = document.getElementById("Instrucciones");
+    const expandEdit = new this.EsriExpand({
+      view:this.mapView,
+      mode:'floating',
+      expandIconClass: 'esri-icon-cursor-marquee',
+      expandTooltip:'Edición de campos',
+      collapseIconClass:'esri-icon-close',
+    })
+
+    this.editWidget = expandEdit;
+    this.mapView.ui.add(expandEdit, 'top-left');
+    expandEdit.watch('expanded', (expanded:any)=>{
+      const widget = 'direXY';
+      //const oFeatureLayer:any = this.map.layers.getItemAt(2)
+      var isGraphicsVisible = expanded;
+      if (expanded){
+          // Add Services
+          this.map.addMany([this.EditFeature]);
+          this.setRefresh(this.EditFeature.extent);
+      }else{
+       isGraphicsVisible = expanded
+      }
+      if(this.EditFeature !== undefined ){this.EditFeature.visible=!isGraphicsVisible}
+      this.EditFeature.visible = isGraphicsVisible;
+      this.EditProgress = false;
+  })
+
+
+
+
+
+
+
+
+  }
+
+
+  setAddWidgetEdit(){
+    //----------------------------------------------
+    // Servicio Feature de Edición
+    //----------------------------------------------  
+    this.EditFeature= new this.EsriFeatureLayer({
+      url: config.agsNomBasemap + config.agsUrlEditLyr,
+      mode: this.EsriFeatureLayer.MODE_SNAPSHOT,
+      outFields: ["*"]
+    })
+
+    //Tipo: Eventos del Feature de Servicio de Edición
+    //Objetivo: Esta función se activará cada vez que applyEdits () se complete con éxito
+    this.EditFeature.on('edits',async (event:any)=>{
+      console.log('--Edición de Servicio de Consulta - Estado: OK');
+      //this.spinner.hide();
+      var adds:any = event.addedFeatures
+      if (adds.length===0){adds=event.updatedFeatures}
+      if(adds.length>=1){
+        console.log('--Edición de Servicio de Consulta - ObjectID: ', adds[0].objectId);
+        //await this.RealizarAnalisis(Number(adds[0].objectId))
+      }else{
+        console.error('Ocurrio una excepción al grabar la información, intentalo nuevamente');
+      }
+    });
+
+    //----------------------------------------------
+    // Editor widget para Feature Layer
+    //----------------------------------------------  
+    this.editEditor = new this.EsriEditor({view: this.mapView});
+
+    //----------------------------------------------
+    // Widget Expand de Edición
+    //----------------------------------------------  
+    //const sampleInstructions = document.getElementById("Instrucciones");
+    const widgetEdit = new this.EsriExpand({
+      view:this.mapView,
+      mode:'floating',
+      expandIconClass: 'esri-icon-cursor-marquee',
+      expandTooltip:'Edición de campos',
+      collapseIconClass:'esri-icon-close',
+    })
+    this.editWidget = widgetEdit;
+    this.mapView.ui.add(widgetEdit, 'top-left');
+
+    //Tipo: Eventos del widget Edit para
+    //Objetivo: Edición del Grafico
+    widgetEdit.watch('expanded', (expanded:any)=>{
+      const widget = 'direXY';
+      const oFeatureLayer:any = this.map.layers.getItemAt(2)
+      var isGraphicsVisible = expanded;
+      if (expanded){
+       //--Almacenamos el Grafico por si se Cancela la Edición
+       this.editGraphic = this.EsriEditGraphicsLayer.graphics.items[0].clone();
+       this.editSkech.update([this.EsriEditGraphicsLayer.graphics.items[0]], {
+         tool: "reshape",
+         enableRotation: false,
+         enableScaling: false,
+         preserveAspectRatio: true,
+         toggleToolOnClick: false
+       });
+       //this.homeService.setFormName('gis_edicion'); 
+       this.setRefresh(this.EsriEditGraphicsLayer.graphics.items[0].geometry.extent)
+      }else{
+       isGraphicsVisible = expanded
+       //--Activamos el mensaje de Edición
+       if(this.EditProgress ===false){this.editSkech.cancel();}
+      }
+      if(oFeatureLayer !== undefined ){oFeatureLayer.visible=!isGraphicsVisible}
+      this.EsriEditGraphicsLayer.visible = isGraphicsVisible;
+      this.EditProgress = false;
+  })
+
+    //----------------------------------------------
+    // Sckech widget para Graphics Layer
+    //----------------------------------------------  
+    this.editSkech = new this.EsriSketch({
+      view: this.mapView,
+      layer: this.EsriEditGraphicsLayer,
+      creationMode: "update",
+      defaultUpdateOptions:{
+       enableRotation:false,
+       enableScaling: false,
+       toggleToolOnClick: false 
+      }
+    });
+    
+    //Tipo: Eventos del Sckech widget
+    //Objetivo: Edición del Grafico
+    this.editSkech.on("update", (event:any)=>{
+      const eventInfo = event.toolEventInfo;
+      //--Clonamos el Grafico
+      const oGraphic = this.EsriEditGraphicsLayer.graphics.items[0].clone();
+      if (eventInfo && eventInfo.type == "move-stop") {
+        this.editSkech.undo();
+      }
+      if (event.tool == 'transform' || event.tool == 'move'){
+        if (event.state !='complete'){
+          this.editSkech.update([oGraphic],{
+            tool: "reshape",
+            enableScaling: false,
+            toggleToolOnClick: false
+          });
+          //--invocamos al zoom
+          this.setRefresh(oGraphic.geometry.extent)
+        }
+      }else if(event.tool == 'reshape' && event.state =='complete'){
+        //--actualizamos el Poligono del FeatureLayer Temporal
+        let oFeatureLayer:any = this.map?.layers.getItemAt(2)
+        //--Si Cancelo la Edición del Poligono
+        if (event.aborted){
+          //--Si el Poligono fue modificado debe volver a su forma original
+          const oGraphicWeb = this.EsriEditGraphicsLayer.graphics.items[0]
+          oGraphicWeb.geometry = this.editGraphic.geometry;
+          //this.homeService.setFormName('resultado_consulta');
+        }else{
+          //--OBJECTID del Poligono en el servicio de consulta
+          const oObjectID = oGraphic.attributes.OBJECTID;
+          const oSrid_inp = oGraphic.attributes.srid_inp;
+          //--La geometria del Featurelayer temporal y del Servicio es WGS84LL
+          oGraphic.geometry = this.EsriwebMercatorUtils.webMercatorToGeographic(oGraphic.geometry);
+          oGraphic.attributes.OBJECTID=Number(oObjectID);
+          //--activamos el spinner
+          //this.spinner.show();
+          oFeatureLayer.applyEdits({updateFeatures:[oGraphic]});
+          //const srid_inp = this.listSrid.find(item => item.valor == oSrid_inp);
+          //--Agregamos un segundo AppliedEdit por bugs
+          oFeatureLayer.applyEdits({updateFeatures:[oGraphic]})
+          //--Actualizamos el Servicio de Consultas
+          //this.grabarConsulPoligono(oGraphic.geometry,true,srid_inp?.id,{OBJECTID:Number(oObjectID),srid_inp:oSrid_inp});
+          //--Ocultamos ek Spinner
+          //this.spinner.hide()
+          //--Ativamos y Desactivamos capas
+          this.EditProgress = true
+          this.editWidget.expanded = false;
+        }
+      } 
+    })
   }
 
   getMapProperties() {
@@ -1049,6 +1269,17 @@ export class MapService {
 
   }
 
+  async setRefresh(extent:any){
+    var opts = {
+      duration: 2000  // Duration of animation will be 5 seconds
+    };
+    //await this.mapView?.setscale=24000;
+    await this.mapView.goTo({
+      target: extent.center,
+      zoom:this.mapView.zoom-2
+    }, opts);
+  }
+
   async setFilterLayers(){
     let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
     this.SislistaLayer[0].layer.definitionExpression = strQuery
@@ -1059,7 +1290,7 @@ export class MapService {
   async setZoomToExtentLayer(item:any){
     let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
     //--Definimos la Visulización de la extensión de la Empresa
-    const oFeatureLayer = new this.EsriMapFeatureLayer({
+    const oFeatureLayer = new this.EsriFeatureLayer({
       url: this.SislistaLayer[item].layer.url
     });
     const query = oFeatureLayer.createQuery();
@@ -1074,7 +1305,7 @@ export class MapService {
     let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
     let geometryType = "polygon"
     const symbol = this.getSymbolFeature(geometryType);
-    const features = await this.getFeaturesQuery(strQuery, this.SislistaLayer[0], geometryType);
+    const features = await this.getFeaturesQuery(strQuery, this.SislistaLayer[0].layer, geometryType);
     await Esriprojection.load();
 
     //--Recorremos los Registros
