@@ -34,15 +34,16 @@
                     <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Periodo</th>
                     <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Razón social/Nombre completo</th>
                     <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Número Doc.</th>  
-                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Usuario de registro</th> 
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Fecha de registro</th>          
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Usuario de modificación</th>
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Fecha de actualización</th>
-                    <th *ngIf="usuario.isEmpadronador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Clasificación</th> 
-                    <th *ngIf="usuario.isEmpadronador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Supervisión</th>     
-                    <th *ngIf="usuario.isEmpadronador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Validación</th>      
+                    <th *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Usuario de registro</th> 
+                    <th *ngIf="usuario.isAdministrador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Fecha de registro</th>          
+                    <th *ngIf="usuario.isAdministrador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Usuario de modificación</th>
+                    <th *ngIf="usuario.isAdministrador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Fecha de actualización</th>
+                    <th *ngIf="usuario.isEmpadronador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Tipo de explotación</th> 
+                    <th *ngIf="usuario.isSupervidor || usuario.isEspecialista" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Clasificación</th> 
+                    <th *ngIf="usuario.isSupervidor" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Supervisión</th>     
+                    <th *ngIf="usuario.isEmpadronador || usuario.isEspecialista" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Validación</th>      
                     <th *ngIf="usuario.isEmpadronador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Entrevista</th>
-                    <th *ngIf="usuario.isEmpadronador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Registro</th>
+                    <th *ngIf="usuario.isEmpadronador || usuario.isSupervidor || usuario.isEspecialista" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Registro</th>
                     <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
                 </tr>
             </ng-template>
@@ -51,15 +52,16 @@
                     <td style="width: 10%; flex: none; padding: 5px;">{{ item.Periodo }}</td>
                     <td style="width: 30%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td>
                     <td style="width: 30%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
-                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.UsuarioCreacion }}</td>
-                    <td style="width: 15%; flex: none; padding: 5px;"></td>
-                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.UsuarioActualizacion }}</td>
-                    <td style="width: 15%; flex: none; padding: 5px;"></td> 
-                    <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;"></td> 
-                    <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;"></td> 
-                    <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;"></td> 
-                    <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;"></td> 
-                    <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;">Por registrar</td>
+                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.UsuarioCreacion }}</td>
+                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;"></td>
+                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.UsuarioActualizacion }}</td>
+                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{item.Clasificacion}}</td> 
+                    <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;">{{item.TipoExplotacion}}</td> 
+                    <td *ngIf="usuario.isSupervidor || usuario.isEspecialista" style="width: 15%; flex: none; padding: 5px;">{{item.Clasificacion}}</td> 
+                    <td *ngIf="usuario.isSupervidor" style="width: 15%; flex: none; padding: 5px;">{{item.NombreEstadoSupervision}}</td> 
+                    <td *ngIf="usuario.isEmpadronador || usuario.isEspecialista" style="width: 15%; flex: none; padding: 5px;">{{item.NombreEstadoValidacion}}</td> 
+                    <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;">{{item.NombreEstadoEntrevista}}</td> 
+                    <td *ngIf="usuario.isEmpadronador || usuario.isSupervidor || usuario.isEspecialista" style="width: 15%; flex: none; padding: 5px;">{{item.NombreEstadoRegistro}}</td>
                     
                     <td style="width: 15%; flex: none; padding: 5px;">
                         <div class="dropdown" dropdown>
