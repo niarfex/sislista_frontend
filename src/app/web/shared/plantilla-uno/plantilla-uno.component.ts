@@ -23,6 +23,9 @@ import { CampoGetDto } from 'src/app/models/Campo';
 import { ArchivoGetDto } from 'src/app/models/Archivo';
 import { ModalCargarArchivoComponent } from "../modal-cargar-archivo/modal-cargar-archivo.component";
 import { ModalDibujarPoligonoComponent } from "../modal-dibujar-poligono/modal-dibujar-poligono.component";
+import { ListaSistemaPecuarioComponent } from '../lista-sistema-pecuario/lista-sistema-pecuario.component';
+import { ModalSistemaPecuarioComponent } from '../modal-sistema-pecuario/modal-sistema-pecuario.component';
+import { PecuarioGetDto } from 'src/app/models/Pecuario';
 
 @Component({
   standalone: true,
@@ -36,7 +39,11 @@ import { ModalDibujarPoligonoComponent } from "../modal-dibujar-poligono/modal-d
     ListaCamposPlantillaComponent,
     ModalRegistroInformantesComponent,
     ListaArchivosComponent,
-    ModalMetodoInsercionComponent, ModalCargarArchivoComponent, ModalDibujarPoligonoComponent]
+    ModalMetodoInsercionComponent, 
+    ModalCargarArchivoComponent, 
+    ModalDibujarPoligonoComponent,
+    ListaSistemaPecuarioComponent,
+    ModalSistemaPecuarioComponent]
 })
 export class PlantillaUnoComponent implements OnInit {
   @Input() exitModal = (): void => { };
@@ -51,6 +58,8 @@ export class PlantillaUnoComponent implements OnInit {
   bArchivoOk: boolean;
   cadPeriodo: String;
   nombreElemento:String="";
+  listLineaProd:SelectTipoDto[]=[];
+  listEspecie:SelectTipoDto[]=[];
   viewUserTemplate1: TemplateRef<any>;
   viewUserTemplate2: TemplateRef<any>;
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
@@ -233,10 +242,12 @@ export class PlantillaUnoComponent implements OnInit {
             if (this.objRegistro.ListFundos.length == 0) {
               console.log(this.listFields);
               let listaFundos = new Set(this.listFields.map(obj => obj["NOMBRE_FUNDO"]));
+              let contFundos=0;
               listaFundos.forEach(myObject => {
                 this.campos = [];
                 let ListCampos = (new Set(this.listFields.filter(obj => obj["NOMBRE_FUNDO"] == myObject).map(obj => obj)));
                   
+                let contCampos=0;
                 ListCampos.forEach(myObject2 => {
                   this.campos.push(new CampoGetDto({
                     Id: 0,
@@ -249,11 +260,13 @@ export class PlantillaUnoComponent implements OnInit {
                     Observacion: "",
                     SuperficieCalc:myObject2["SUPERFICIE"],
                     Superficie: 0,
-                    SuperficieCultivada: 0
+                    SuperficieCultivada: 0,
+                    Orden:contCampos+1
                   }));
+                  contCampos=contCampos+1;
                 });
 
-
+                
                 this.objRegistro.ListFundos.push(new FundoGetDto({
                   Id: 0,
                   IdCuestionario: 0,
@@ -262,14 +275,14 @@ export class PlantillaUnoComponent implements OnInit {
                   SuperficieAgricola: 0,
                   IdUbigeo: "",
                   Observacion: "",
+                  Orden:contFundos+1,
                   ListDepartamento: this.objRegistro.ListDepartamento,
                   ListProvincia: null,
                   ListDistrito: null,
                   ListCampos: this.campos
                 }));
-
-              });
-              console.log(listaFundos);
+                contFundos=contFundos+1;
+              });              
               this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
             }
           }
@@ -428,7 +441,21 @@ export class PlantillaUnoComponent implements OnInit {
     //console.log(this.objRegistro.ListInformantes);
 
   }
+  agregarPecuario(pecuario: PecuarioGetDto) {
+    this.objRegistro.ListPecuarios.push(pecuario);
+    //console.log(this.objRegistro.ListInformantes);
+
+  }
   registrarInformante(viewUserTemplate: TemplateRef<any>) {
+    this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-lg'
+    });
+  }
+  registrarPecuario(viewUserTemplate: TemplateRef<any>) {
+    this.listLineaProd=this.objRegistro.ListLineaProduccion;
+    this.listEspecie=this.objRegistro.ListEspecies;
     this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,

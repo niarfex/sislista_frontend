@@ -8,6 +8,7 @@ import { ReporteMapaGeneralComponent } from './reporte-mapa-general/reporte-mapa
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EsriMapComponent } from './../arcgis-map/components/esri-map/esri-map.component';
+import { ListaReporteUsuariosComponent } from './reporte-estados/lista-reporte-usuarios/lista-reporte-usuarios.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { EsriMapComponent } from './../arcgis-map/components/esri-map/esri-map.c
     ReporteEstadosComponent,
     ReporteMapaGeneralComponent,
     EsriMapComponent,
+    ListaReporteUsuariosComponent,
   ],
   imports: [
     CommonModule,

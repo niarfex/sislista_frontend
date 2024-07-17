@@ -24,6 +24,7 @@ export class RegistroFundoPlantillaComponent {
   @Input() listUsoTierra: SelectTipoDto[];
   @Input() listCultivo: SelectTipoDto[];
   @Input() listUsoNoAgricola: SelectTipoDto[];
+  idNombre:String="";
   fundoForm = this.formBuilder.group({
     SuperficieTotal: [''],
     SuperficieAgricola: [''],
@@ -47,6 +48,7 @@ export class RegistroFundoPlantillaComponent {
   get IdDistrito() { return this.fundoForm.controls['IdDistrito']; }
 
   ngOnInit(): void {
+    this.idNombre="panelsStayOpen-"+this.fundo.Orden.toString();
     this.SuperficieAgricola.setValue(this.fundo.SuperficieAgricola.toString());
     this.SuperficieTotal.setValue(this.fundo.SuperficieTotal.toString());
     this.Observacion.setValue(this.fundo.Observacion.toString());

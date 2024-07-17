@@ -1,0 +1,94 @@
+<div id="modalRegInformantes" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
+        <div class="modal-header"
+            style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
+            <span style="font-size: large; font-weight: bold;">
+                ¿Cuantos animales tiene?
+            </span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">           
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IdFundo">Fundo</label>
+                        <select formControlName="IdFundo" id="IdFundo" name="IdFundo" class="form-select"
+                            (change)="selFundo($event)">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of listFundos" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IdCampo">Campo</label>
+                        <select formControlName="IdCampo" id="IdCampo" name="IdCampo" class="form-select">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of listCampos" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <label for="IdLineaProd">Selec.</label>
+                        <input type="checkbox" [(ngModel)]="selecLineaProd" class="form-check-input"
+                            (change)="checkLineaprod()" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label for="IdLineaProd">18.1. Línea de Producción</label>
+                        <select formControlName="IdLineaProd" id="IdLineaProd"
+                            name="IdLineaProd" class="form-select">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of listLineaProd" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <label for="IdLineaProd">Selec.</label>
+                    <input type="checkbox" [(ngModel)]="selecEspecie" class="form-check-input" (change)="checkEspecie()"
+                        [ngModelOptions]="{standalone: true}" />
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label for="IdEspecie">18.2. Especie</label>
+                        <select formControlName="IdEspecie" id="IdEspecie" name="IdEspecie"
+                            class="form-select">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of listEspecie" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="Numero">Número</label>
+                        <input formControlName="Numero" maxlength="5"
+                            onkeypress="return '0123456789'.includes(event.key)" type="text" class="form-control"
+                            (focusout)="onFocusOutEvent($event,'Numero')" required>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-end" style="display: block;">
+            <button type="submit" class="btn btn-primary"
+                style="background-color: #008F49; border-color: #008F49;">Registrar</button>
+        </div>
+    </form>
+    <p-confirmDialog></p-confirmDialog>
+</div>

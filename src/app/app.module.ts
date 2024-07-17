@@ -34,6 +34,8 @@ import { ListaArchivosComponent } from './web/shared/lista-archivos/lista-archiv
 import { ModalMetodoInsercionComponent } from './web/shared/modal-metodo-insercion/modal-metodo-insercion.component';
 import { ModalCargarArchivoComponent } from './web/shared/modal-cargar-archivo/modal-cargar-archivo.component';
 import { ModalDibujarPoligonoComponent } from './web/shared/modal-dibujar-poligono/modal-dibujar-poligono.component';
+import { ListaSistemaPecuarioComponent } from './web/shared/lista-sistema-pecuario/lista-sistema-pecuario.component';
+import { ModalSistemaPecuarioComponent } from './web/shared/modal-sistema-pecuario/modal-sistema-pecuario.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -46,6 +48,8 @@ import { ModalDibujarPoligonoComponent } from './web/shared/modal-dibujar-poligo
         HorizontaltopbarComponent,        
         FooterComponent,
         InicioComponent,
+        
+        
         
         
         /*ModalRegistroInformantesComponent,
@@ -75,7 +79,9 @@ import { ModalDibujarPoligonoComponent } from './web/shared/modal-dibujar-poligo
         ListaArchivosComponent,
         ModalMetodoInsercionComponent,
         ModalCargarArchivoComponent,
-        ModalDibujarPoligonoComponent],     
+        ModalDibujarPoligonoComponent,
+        ListaSistemaPecuarioComponent,
+        ModalSistemaPecuarioComponent],             
     exports:      [  ],
     providers: [LocaleService,
         //{provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},//Con este provider hace la consulta mediante Bearer

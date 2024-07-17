@@ -47,10 +47,24 @@ export class ResponseSelectTipoDto implements IResponseSelectTipoDto {
         return data;
     }
 }
+export interface ISelectTipoDto {
+    label: string;
+    value: string;
+    codigo: string;
+}
 export class SelectTipoDto {
     label: string;
     value: string;
     codigo: string;
+
+    constructor(data?: ISelectTipoDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }        
+        }
+    } 
 
     init(_data?: any) {
         if (_data) {
