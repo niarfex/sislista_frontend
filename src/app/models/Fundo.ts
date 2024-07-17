@@ -45,6 +45,7 @@ export interface IFundoGetDto {
     Id: number;
     IdCuestionario: number;
     Fundo: String;
+    SuperficieTotalCalc: number;
     SuperficieTotal: number;
     SuperficieAgricola: number;
     IdUbigeo: String;
@@ -59,6 +60,7 @@ export class FundoGetDto implements IFundoGetDto {
     Id: number;
     IdCuestionario: number;
     Fundo: String;
+    SuperficieTotalCalc: number=0;
     SuperficieTotal: number;
     SuperficieAgricola: number;
     IdUbigeo: String;

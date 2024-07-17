@@ -246,9 +246,10 @@ export class PlantillaUnoComponent implements OnInit {
               listaFundos.forEach(myObject => {
                 this.campos = [];
                 let ListCampos = (new Set(this.listFields.filter(obj => obj["NOMBRE_FUNDO"] == myObject).map(obj => obj)));
-                  
+                let superficieFundo=0;
                 let contCampos=0;
                 ListCampos.forEach(myObject2 => {
+                  superficieFundo=superficieFundo+Number.parseFloat(myObject2["SUPERFICIE"]);
                   this.campos.push(new CampoGetDto({
                     Id: 0,
                     IdFundo: 0,
@@ -271,6 +272,7 @@ export class PlantillaUnoComponent implements OnInit {
                   Id: 0,
                   IdCuestionario: 0,
                   Fundo: myObject,
+                  SuperficieTotalCalc:superficieFundo,
                   SuperficieTotal: 0,
                   SuperficieAgricola: 0,
                   IdUbigeo: "",

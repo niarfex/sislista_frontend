@@ -27,6 +27,7 @@ export class RegistroFundoPlantillaComponent {
   idNombre:String="";
   fundoForm = this.formBuilder.group({
     SuperficieTotal: [''],
+    SuperficieTotalCalc: [''],
     SuperficieAgricola: [''],
     Observacion: [''],
     IdDepartamento: [''],
@@ -40,6 +41,7 @@ export class RegistroFundoPlantillaComponent {
     , private toastr: ToastrService) {
     this.ubigeoServiceProxy = _injector.get(UbigeoServiceProxy);
   }
+  get SuperficieTotalCalc() { return this.fundoForm.controls['SuperficieTotalCalc']; }
   get SuperficieTotal() { return this.fundoForm.controls['SuperficieTotal']; }
   get SuperficieAgricola() { return this.fundoForm.controls['SuperficieAgricola']; }
   get Observacion() { return this.fundoForm.controls['Observacion']; }
@@ -50,6 +52,7 @@ export class RegistroFundoPlantillaComponent {
   ngOnInit(): void {
     this.idNombre="panelsStayOpen-"+this.fundo.Orden.toString();
     this.SuperficieAgricola.setValue(this.fundo.SuperficieAgricola.toString());
+    this.SuperficieTotalCalc.setValue(this.fundo.SuperficieTotalCalc.toString());
     this.SuperficieTotal.setValue(this.fundo.SuperficieTotal.toString());
     this.Observacion.setValue(this.fundo.Observacion.toString());
     this.IdDepartamento.setValue(this.fundo.IdUbigeo.toString().substring(0, 2));
