@@ -10,13 +10,19 @@
           <div [id]=idNombre class="accordion-collapse collapse show" [attr.aria-labelledby]="idNombre">
             <div class="accordion-body">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="form-group">
-                            <label for="SuperficieTotal">Superficie total (ha)</label>
+                            <label for="SuperficieTotalCalc">Superficie total calculada(ha)</label>
+                            <input readonly formControlName="SuperficieTotalCalc" type="text" class="form-control" required>        
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="SuperficieTotal">Superficie total reportada(ha)</label>
                             <input formControlName="SuperficieTotal" type="text" class="form-control" required>        
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
                         <div class="form-group">
                             <label for="SuperficieAgricola">Superficie agrícola (ha)</label>
                             <input formControlName="SuperficieAgricola" type="text" class="form-control" required>        
