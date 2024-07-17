@@ -331,13 +331,20 @@ export class MapService {
   }
   setAddEditWidget(){
     //----------------------------------------------
+    // Editor widget para Feature Layer
+    //----------------------------------------------  
+    this.editEditor = new this.EsriEditor({view: this.mapView});
+
+    //----------------------------------------------
     // Servicio Feature de Edición
     //----------------------------------------------
     let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'" 
     this.EditFeature= new this.EsriFeatureLayer({
       url: config.agsUrlRoot + config.agsUrlEditLyr,
-      mode: this.EsriFeatureLayer.MODE_SNAPSHOT,
-      where:strQuery,
+      legendEnabled:false,
+      opacity:0.5,
+      definitionExpression:strQuery,
+      mode: this.EsriFeatureLayer.MODE_SNAPSHOT, 
       outFields: ["*"],
       title:"Campos",
       visible:true
@@ -349,11 +356,18 @@ export class MapService {
     //const sampleInstructions = document.getElementById("Instrucciones");
     const expandEdit = new this.EsriExpand({
       view:this.mapView,
-      mode:'floating',
-      expandIconClass: 'esri-icon-cursor-marquee',
-      expandTooltip:'Edición de campos',
-      collapseIconClass:'esri-icon-close',
+      //mode:'floating',
+      //expandIconClass: 'esri-icon-cursor-marquee',
+      //expandTooltip:'Edición de campos',
+      //collapseIconClass:'esri-icon-close',
+      autoCollapse: true,
+      content: this.editEditor,
+      expanded: false,
+      label: 'Editor',
+      collapseTooltip: 'Editor',
+      expandTooltip: 'Editor'
     })
+
 
     this.editWidget = expandEdit;
     this.mapView.ui.add(expandEdit, 'top-left');
@@ -1314,9 +1328,6 @@ export class MapService {
         wkid: 32618 //UTM Zona 18 projection
       });
       let ProjetShape = Esriprojection.project(f.geometry, outSpatialReference);
-      console.log(ProjetShape)
-      0.0001
-
       let itemField={}
           itemField['IDE_EMPRESA'] = f.attributes.IDE_EMPRESA
           itemField['IDE_FUNDO'] = f.attributes.IDE_FUNDO
