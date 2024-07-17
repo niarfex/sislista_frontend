@@ -377,13 +377,18 @@ export class MapService {
       var isGraphicsVisible = expanded;
       if (expanded){
           // Add Services
-          this.map.addMany([this.EditFeature]);
-          this.setRefresh(this.EditFeature.extent);
+        this.map.addMany([this.EditFeature]);
+        this.setRefresh(this.EditFeature.extent);
       }else{
-       isGraphicsVisible = expanded
+        isGraphicsVisible = expanded
       }
       if(this.EditFeature !== undefined ){this.EditFeature.visible=!isGraphicsVisible}
+      //--Desactiva las capasa para la edición
       this.EditFeature.visible = isGraphicsVisible;
+      this.SislistaLayer[0].layer.visible = !isGraphicsVisible
+      this.SislistaLayer[1].layer.visible = !isGraphicsVisible
+      this.SislistaLayer[2].layer.visible = !isGraphicsVisible
+
       this.EditProgress = false;
   })
 
