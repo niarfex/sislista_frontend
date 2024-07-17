@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
+import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionregistro-proxies';
 
 @Component({
   standalone: true,
@@ -17,17 +18,21 @@ import { TableModule } from 'primeng/table';
 export class ModalDibujarPoligonoComponent {
   @Input() exitSubModal = (): void => {};
   @Input() numDoc: String;
+  @Input() nombreEmpresa: String;
   @Input() periodo: String;
   modalForm = this.formBuilder.group({
-    IdModoRegistro: ['', []]
+    NombreFundo: ['', []],
+    NombreCampo: ['', []]
   });
-
+  private gestionregistroServiceProxy: GestionRegistroServiceProxy;
   constructor(_injector: Injector
     , private formBuilder: FormBuilder
     , private spinner: NgxSpinnerService
     , private toastr: ToastrService) {
+      this.gestionregistroServiceProxy = _injector.get(GestionRegistroServiceProxy);
   }
-  get IdModoRegistro() { return this.modalForm.controls['IdModoRegistro']; }
+  get NombreFundo() { return this.modalForm.controls['NombreFundo']; }
+  get NombreCampo() { return this.modalForm.controls['NombreCampo']; }
   ngOnInit(): void {
 
   }
@@ -37,5 +42,16 @@ export class ModalDibujarPoligonoComponent {
   close() {
     this.exitSubModal();
   }
+  onFocusOutEvent(event: any, nombreControl: string) {
+    this.modalForm.controls[nombreControl].setValue(event.target.value.trim().toUpperCase());
+  }
+  dibujarPoligono(){
 
+  }
+  procesarFundos(){
+
+  }
+  grabar(){
+
+  }
 }

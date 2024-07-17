@@ -8,14 +8,14 @@
             <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
         </div>    
         <div class="modal-body">
-            <div class="row">
-                <div class="col-sm-12">
-                    Información confidencial amparada por Decreto Supremo Nº 043-2001-PCM del Decreto Estadístico
+            <div class="row" style="text-align: center;">
+                <div class="col-sm-12" style="text-align: center;">
+                    <span style="font-weight: bold;">Información confidencial amparada por Decreto Supremo Nº 043-2001-PCM del Decreto Estadístico</span>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    Objetivo: “Contar con información georreferenciada de los datos recolectados a través del soporte de un sistema de información geográfica”.
+                <div class="col-sm-12" style="text-align: center;">
+                    <span style="font-weight: bold;">Objetivo: </span>“Contar con información georreferenciada de los datos recolectados a través del soporte de un sistema de información geográfica”.
                 </div>
             </div>
             <div class="row">
@@ -500,24 +500,22 @@
                     <h3>Capítulo III. Existencia de aves, ganado, búfalo y camélidos sudamericanos</h3>
                 </div>
             </div>
-            <div class="row">                
-                <div class="col-sm-12" style="color:darkgray">
+            <div class="row mb-3">                
+                <div class="col-sm-9" style="color:darkgray">
                     <h3>18. ¿Cuantos animales tiene?</h3>
+                </div>
+                <div class="col-sm-3 text-end">
+                    <button type="button" class="btn btn-primary"
+                        style="background-color:  #008F49; border-color:  #008F49;"
+                        (click)="registrarPecuario(viewUserTemplate5)">Agregar</button>
                 </div>
             </div>  
             <div class="row">
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-sm-6">18.1. Línea de producción</div>
-                        <div class="col-sm-6">Número</div>
-                    </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <lista-sistema-pecuario [listaPecuarios]="objRegistro.ListPecuarios"></lista-sistema-pecuario>
                 </div>
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-sm-6">18.2. Especie</div>
-                        <div class="col-sm-6">Número</div>
-                    </div>
-                </div>                
+                <div class="col-sm-1"></div>
             </div>  
             <div class="row">
                 <div class="col-sm-9" style="color:green">
@@ -529,7 +527,7 @@
                         (click)="registrarInformante(viewUserTemplate)">Agregar</button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row">                
                 <lista-informantes [listaInformantes]="objRegistro.ListInformantes"></lista-informantes>
             </div>
             <div class="row">                
@@ -619,7 +617,12 @@
         <modal-cargar-archivo [exitSubModal]="exitSubModal" [numDoc]="numDoc" [periodo]="cadPeriodo"></modal-cargar-archivo>
     </ng-template>
     <ng-template #viewUserTemplate4>
-        <modal-dibujar-poligono [exitSubModal]="exitSubModal" [numDoc]="numDoc" [periodo]="cadPeriodo"></modal-dibujar-poligono>
+        <modal-dibujar-poligono [exitSubModal]="exitSubModal" [numDoc]="numDoc" [nombreEmpresa]="nombreElemento" [periodo]="cadPeriodo"></modal-dibujar-poligono>
+    </ng-template>
+    <ng-template #viewUserTemplate5>
+        <modal-sistema-pecuario [exitSubModal]="exitSubModal" [listLineaProd]="listLineaProd" 
+        [listEspecie]="listEspecie" [objCuestionario]="objRegistro"
+        (enviarPecuario)="agregarPecuario($event)"></modal-sistema-pecuario>
     </ng-template>
     </form>
 </div>

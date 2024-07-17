@@ -1,74 +1,83 @@
 <form [formGroup]="fundoForm">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="form-group">
-                <label for="campo">17.1 Nombre del fundo: "{{fundo.Fundo}}"</label>                
+
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" [id]=idNombre>
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+idNombre" aria-expanded="true" [attr.aria-controls]="idNombre">
+                17.1 Nombre del fundo: "{{fundo.Fundo}}"
+            </button>
+          </h2>
+          <div [id]=idNombre class="accordion-collapse collapse show" [attr.aria-labelledby]="idNombre">
+            <div class="accordion-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="SuperficieTotal">Superficie total (ha)</label>
+                            <input formControlName="SuperficieTotal" type="text" class="form-control" required>        
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="SuperficieAgricola">Superficie agrícola (ha)</label>
+                            <input formControlName="SuperficieAgricola" type="text" class="form-control" required>        
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="Observacion">Observaciones</label>
+                            <input formControlName="Observacion" type="text" class="form-control" required>  
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="IdDepartamento">Departamento</label>
+                            <select formControlName="IdDepartamento" id="IdDepartamento" name="IdDepartamento"
+                                class="form-select" (change)="selDepartamento($event)">
+                                <option value="" disabled selected>-- Seleccionar --</option>
+                                <option *ngFor="let item of fundo.ListDepartamento" [value]="item.value">
+                                    {{ item.label }}
+                                </option>
+                            </select>               
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="IdProvincia">Provincia</label>
+                            <select formControlName="IdProvincia" id="IdProvincia" name="IdProvincia"
+                                class="form-select" (change)="selProvincia($event)">
+                                <option value="" disabled selected>-- Seleccionar --</option>
+                                <option *ngFor="let item of fundo.ListProvincia" [value]="item.value">
+                                    {{ item.label }}
+                                </option>
+                            </select>              
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="IdDistrito">Distrito</label>
+                            <select formControlName="IdDistrito" id="IdDistrito" name="IdDistrito"
+                                class="form-select">
+                                <option value="" disabled selected>-- Seleccionar --</option>
+                                <option *ngFor="let item of fundo.ListDistrito" [value]="item.value">
+                                    {{ item.label }}
+                                </option>
+                            </select>              
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px;">
+                    <lista-campos-plantilla [listaCampos]="fundo.ListCampos"
+                    [listTenencia]="listTenencia"
+                    [listUsoTierra]="listUsoTierra"
+                    [listCultivo]="listCultivo"
+                    [listUsoNoAgricola]="listUsoNoAgricola"></lista-campos-plantilla>
+                </div>
             </div>
+          </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label for="SuperficieTotal">Superficie total (ha)</label>
-                <input formControlName="SuperficieTotal" type="text" class="form-control" required>        
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label for="SuperficieAgricola">Superficie agrícola (ha)</label>
-                <input formControlName="SuperficieAgricola" type="text" class="form-control" required>        
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label for="Observacion">Observaciones</label>
-                <input formControlName="Observacion" type="text" class="form-control" required>  
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label for="IdDepartamento">Departamento</label>
-                <select formControlName="IdDepartamento" id="IdDepartamento" name="IdDepartamento"
-                    class="form-select" (change)="selDepartamento($event)">
-                    <option value="" disabled selected>-- Seleccionar --</option>
-                    <option *ngFor="let item of fundo.ListDepartamento" [value]="item.value">
-                        {{ item.label }}
-                    </option>
-                </select>               
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label for="IdProvincia">Provincia</label>
-                <select formControlName="IdProvincia" id="IdProvincia" name="IdProvincia"
-                    class="form-select" (change)="selProvincia($event)">
-                    <option value="" disabled selected>-- Seleccionar --</option>
-                    <option *ngFor="let item of fundo.ListProvincia" [value]="item.value">
-                        {{ item.label }}
-                    </option>
-                </select>              
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label for="IdDistrito">Distrito</label>
-                <select formControlName="IdDistrito" id="IdDistrito" name="IdDistrito"
-                    class="form-select">
-                    <option value="" disabled selected>-- Seleccionar --</option>
-                    <option *ngFor="let item of fundo.ListDistrito" [value]="item.value">
-                        {{ item.label }}
-                    </option>
-                </select>              
-            </div>
-        </div>
-    </div>
-    <div class="row" style="margin-top: 5px;">
-        <lista-campos-plantilla [listaCampos]="fundo.ListCampos"
-        [listTenencia]="listTenencia"
-        [listUsoTierra]="listUsoTierra"
-        [listCultivo]="listCultivo"
-        [listUsoNoAgricola]="listUsoNoAgricola"></lista-campos-plantilla>
-    </div>
+      </div>
+
+    
 </form>

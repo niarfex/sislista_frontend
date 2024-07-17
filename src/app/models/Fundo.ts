@@ -49,6 +49,7 @@ export interface IFundoGetDto {
     SuperficieAgricola: number;
     IdUbigeo: String;
     Observacion: String;
+    Orden:number;
     ListDepartamento: SelectTipoDto[];
     ListProvincia: SelectTipoDto[];
     ListDistrito: SelectTipoDto[];
@@ -62,6 +63,7 @@ export class FundoGetDto implements IFundoGetDto {
     SuperficieAgricola: number;
     IdUbigeo: String;
     Observacion: String;
+    Orden:number;
     ListDepartamento: SelectTipoDto[];
     ListProvincia: SelectTipoDto[];
     ListDistrito: SelectTipoDto[];
@@ -83,6 +85,7 @@ export class FundoGetDto implements IFundoGetDto {
             this.SuperficieAgricola = _data["SuperficieAgricola"];
             this.IdUbigeo = _data["IdUbigeo"];
             this.Observacion = _data["Observacion"];
+            this.Orden = _data["Orden"];
             if (Array.isArray(_data["ListDepartamento"]) && _data["ListDepartamento"].length > 0) {
                 this.ListDepartamento = [] as any;
                 for (let item of _data["ListDepartamento"])
@@ -120,6 +123,7 @@ export class FundoGetDto implements IFundoGetDto {
         data["SuperficieAgricola"] = this.SuperficieAgricola;
         data["IdUbigeo"] = this.IdUbigeo;
         data["Observacion"] = this.Observacion;
+        data["Orden"] = this.Orden;
         if (Array.isArray(this.ListCampos)) {
             data["ListCampos"] = [];
             for (let item of this.ListCampos)

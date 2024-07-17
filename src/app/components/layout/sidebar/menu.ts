@@ -120,7 +120,7 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 17,
-                label: 'Gestión de Registro',
+                label: 'Reporte de Mapa',
                 link: '/app/reportes/reporte-mapa',
                 parentId: 16
             },
