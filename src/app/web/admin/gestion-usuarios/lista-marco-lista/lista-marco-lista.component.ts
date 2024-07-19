@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Injector, OnInit, TemplateRef } from '@angular/core';
+import { Component, Injector, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -17,7 +17,8 @@ import { MarcoListaServiceProxy } from 'src/shared/service-proxies/marcolista-pr
   selector: 'lista-marco-lista',
   templateUrl: './lista-marco-lista.component.html',
   styleUrls: ['./lista-marco-lista.component.scss'],
-  providers: [BsModalService, ConfirmationService]
+  providers: [BsModalService, ConfirmationService],
+  encapsulation : ViewEncapsulation.None
 })
 export class ListaMarcoListaComponent implements OnInit {
   modalRef?: BsModalRef;

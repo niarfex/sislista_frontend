@@ -25,7 +25,11 @@ import { ModalCargarArchivoComponent } from "../modal-cargar-archivo/modal-carga
 import { ModalDibujarPoligonoComponent } from "../modal-dibujar-poligono/modal-dibujar-poligono.component";
 import { ListaSistemaPecuarioComponent } from '../lista-sistema-pecuario/lista-sistema-pecuario.component';
 import { ModalSistemaPecuarioComponent } from '../modal-sistema-pecuario/modal-sistema-pecuario.component';
+import { ModalSelecEstadoComponent } from '../modal-selec-estado/modal-selec-estado.component';
+import { ModalRegistroObservacionComponent } from '../modal-registro-observacion/modal-registro-observacion.component';
 import { PecuarioGetDto } from 'src/app/models/Pecuario';
+import { LoginService } from 'src/auth/services/login.service';
+import { Login } from 'src/app/models/login';
 
 @Component({
   standalone: true,
@@ -43,7 +47,9 @@ import { PecuarioGetDto } from 'src/app/models/Pecuario';
     ModalCargarArchivoComponent, 
     ModalDibujarPoligonoComponent,
     ListaSistemaPecuarioComponent,
-    ModalSistemaPecuarioComponent]
+    ModalSistemaPecuarioComponent,
+    ModalSelecEstadoComponent,
+    ModalRegistroObservacionComponent]
 })
 export class PlantillaUnoComponent implements OnInit {
   @Input() exitModal = (): void => { };
@@ -62,6 +68,7 @@ export class PlantillaUnoComponent implements OnInit {
   listEspecie:SelectTipoDto[]=[];
   viewUserTemplate1: TemplateRef<any>;
   viewUserTemplate2: TemplateRef<any>;
+  usuario:Login; 
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
   inicio: number = 0;
   time!: {
@@ -116,7 +123,8 @@ export class PlantillaUnoComponent implements OnInit {
     , private confirmationService: ConfirmationService
     , private spinner: NgxSpinnerService
     , private toastr: ToastrService
-    , private SubmodalService: BsModalService) {
+    , private SubmodalService: BsModalService
+    , private loginService: LoginService) {
     this.ubigeoServiceProxy = _injector.get(UbigeoServiceProxy);
     this.gestionregistroServiceProxy = _injector.get(GestionRegistroServiceProxy);
     this.usuarioServiceProxy = _injector.get(UsuarioServiceProxy);
@@ -156,6 +164,7 @@ export class PlantillaUnoComponent implements OnInit {
   get IdTipoInformacion() { return this.plantillaForm.controls['IdTipoInformacion']; }
   get NombreArchivo() { return this.plantillaForm.controls['NombreArchivo']; }
   ngOnInit(): void {
+    this.usuario=this.loginService.getCurrentUserValue;
     this.time = { hours: 0, minutes: 0, seconds: this.inicio };
     this.start().subscribe();
     this.spinner.show();
@@ -175,64 +184,64 @@ export class PlantillaUnoComponent implements OnInit {
               this.plantillaForm.controls['NumeroDocumentoSA'].setValue(this.objRegistro.NumeroDocumento.toString());
               this.plantillaForm.controls['NumeroDocumentoSA'].disable();
               this.plantillaForm.controls['RazonSocial'].setValue(this.objRegistro.RazonSocial.toString());
-              this.plantillaForm.controls['RazonSocial'].disable();
+              //this.plantillaForm.controls['RazonSocial'].disable();
               this.plantillaForm.controls['DireccionFiscalDomicilioSA'].setValue(this.objRegistro.DireccionFiscalDomicilio.toString());
-              this.plantillaForm.controls['DireccionFiscalDomicilioSA'].disable();
+              //this.plantillaForm.controls['DireccionFiscalDomicilioSA'].disable();
               this.plantillaForm.controls['IdDepartamentoPerSA'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 2));
-              this.plantillaForm.controls['IdDepartamentoPerSA'].disable();
+              //this.plantillaForm.controls['IdDepartamentoPerSA'].disable();
               this.plantillaForm.controls['IdProvinciaPerSA'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 4));
-              this.plantillaForm.controls['IdProvinciaPerSA'].disable();
+              //this.plantillaForm.controls['IdProvinciaPerSA'].disable();
               this.plantillaForm.controls['IdDistritoPerSA'].setValue(this.objRegistro.IdUbigeo.toString());
-              this.plantillaForm.controls['IdDistritoPerSA'].disable();
+              //this.plantillaForm.controls['IdDistritoPerSA'].disable();
               this.plantillaForm.controls['IdTipoExplotacionSA'].setValue(this.objRegistro.IdTipoExplotacion.toString());
-              this.plantillaForm.controls['IdTipoExplotacionSA'].disable();
+              //this.plantillaForm.controls['IdTipoExplotacionSA'].disable();
               this.plantillaForm.controls['TelefonoSA'].setValue(this.objRegistro.Telefono.toString());
-              this.plantillaForm.controls['TelefonoSA'].disable();
+              //this.plantillaForm.controls['TelefonoSA'].disable();
               this.plantillaForm.controls['CelularSA'].setValue(this.objRegistro.Celular.toString());
-              this.plantillaForm.controls['CelularSA'].disable();
+              //this.plantillaForm.controls['CelularSA'].disable();
               this.plantillaForm.controls['CorreoElectronicoSA'].setValue(this.objRegistro.CorreoElectronico.toString());
-              this.plantillaForm.controls['CorreoElectronicoSA'].disable();
+              //this.plantillaForm.controls['CorreoElectronicoSA'].disable();
               this.plantillaForm.controls['PaginaWebSA'].setValue(this.objRegistro.PaginaWeb.toString());
-              this.plantillaForm.controls['PaginaWebSA'].disable();
+              //this.plantillaForm.controls['PaginaWebSA'].disable();
               this.plantillaForm.controls['NombreRepLegal'].setValue(this.objRegistro.NombreRepLegal == null ? null : this.objRegistro.NombreRepLegal.toString());
-              this.plantillaForm.controls['NombreRepLegal'].disable();
+              //this.plantillaForm.controls['NombreRepLegal'].disable();
               this.plantillaForm.controls['CelularRepLegal'].setValue(this.objRegistro.CelularRepLegal == null ? null : this.objRegistro.CelularRepLegal.toString());
-              this.plantillaForm.controls['CelularRepLegal'].disable();
+              //this.plantillaForm.controls['CelularRepLegal'].disable();
               this.plantillaForm.controls['CorreoRepLegal'].setValue(this.objRegistro.CorreoRepLegal == null ? null : this.objRegistro.CorreoRepLegal.toString());
-              this.plantillaForm.controls['CorreoRepLegal'].disable();
+              //this.plantillaForm.controls['CorreoRepLegal'].disable();
               this.nombreElemento=this.objRegistro.RazonSocial.toString();
             }
             if (this.perPN) {
               this.plantillaForm.controls['NumeroDocumentoPN'].setValue(this.objRegistro.NumeroDocumento.toString());
               this.plantillaForm.controls['NumeroDocumentoPN'].disable();
               this.plantillaForm.controls['Nombre'].setValue(this.objRegistro.Nombre.toString());
-              this.plantillaForm.controls['Nombre'].disable();
+              //this.plantillaForm.controls['Nombre'].disable();
               this.plantillaForm.controls['ApellidoPaterno'].setValue(this.objRegistro.ApellidoPaterno.toString());
-              this.plantillaForm.controls['ApellidoPaterno'].disable();
+              //this.plantillaForm.controls['ApellidoPaterno'].disable();
               this.plantillaForm.controls['ApellidoMaterno'].setValue(this.objRegistro.ApellidoMaterno.toString());
-              this.plantillaForm.controls['ApellidoMaterno'].disable();
+              //this.plantillaForm.controls['ApellidoMaterno'].disable();
               this.plantillaForm.controls['TieneRuc'].setValue(this.objRegistro.TieneRuc.toString());
-              this.plantillaForm.controls['TieneRuc'].disable();
+              //this.plantillaForm.controls['TieneRuc'].disable();
               this.plantillaForm.controls['IdTipoDocumento'].setValue(this.objRegistro.IdTipoDocumento.toString());
               this.plantillaForm.controls['IdTipoDocumento'].disable();
               this.plantillaForm.controls['DireccionFiscalDomicilioSA'].setValue(this.objRegistro.DireccionFiscalDomicilio.toString());
-              this.plantillaForm.controls['DireccionFiscalDomicilioSA'].disable();
+              //this.plantillaForm.controls['DireccionFiscalDomicilioSA'].disable();
               this.plantillaForm.controls['IdDepartamentoPerPN'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 2));
-              this.plantillaForm.controls['IdDepartamentoPerPN'].disable();
+              //this.plantillaForm.controls['IdDepartamentoPerPN'].disable();
               this.plantillaForm.controls['IdProvinciaPerPN'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 4));
-              this.plantillaForm.controls['IdProvinciaPerPN'].disable();
+              //this.plantillaForm.controls['IdProvinciaPerPN'].disable();
               this.plantillaForm.controls['IdDistritoPerPN'].setValue(this.objRegistro.IdUbigeo.toString());
-              this.plantillaForm.controls['IdDistritoPerPN'].disable();
+              //this.plantillaForm.controls['IdDistritoPerPN'].disable();
               this.plantillaForm.controls['IdTipoExplotacionPN'].setValue(this.objRegistro.IdTipoExplotacion.toString());
-              this.plantillaForm.controls['IdTipoExplotacionPN'].disable();
+              //this.plantillaForm.controls['IdTipoExplotacionPN'].disable();
               this.plantillaForm.controls['TelefonoPN'].setValue(this.objRegistro.Telefono.toString());
-              this.plantillaForm.controls['TelefonoPN'].disable();
+              //this.plantillaForm.controls['TelefonoPN'].disable();
               this.plantillaForm.controls['CelularPN'].setValue(this.objRegistro.Celular.toString());
-              this.plantillaForm.controls['CelularPN'].disable();
+              //this.plantillaForm.controls['CelularPN'].disable();
               this.plantillaForm.controls['CorreoElectronicoPN'].setValue(this.objRegistro.CorreoElectronico.toString());
-              this.plantillaForm.controls['CorreoElectronicoPN'].disable();
+              //this.plantillaForm.controls['CorreoElectronicoPN'].disable();
               this.plantillaForm.controls['PaginaWebPN'].setValue(this.objRegistro.PaginaWeb.toString());
-              this.plantillaForm.controls['PaginaWebPN'].disable();
+              //this.plantillaForm.controls['PaginaWebPN'].disable();
               this.nombreElemento=this.objRegistro.Nombre.toString()+" "+this.objRegistro.ApellidoPaterno.toString()+" "+this.objRegistro.ApellidoMaterno.toString();
             }
             if (this.objRegistro.CodigoUUID != null) {
@@ -538,5 +547,17 @@ export class PlantillaUnoComponent implements OnInit {
       (err: any) => {
         this.bArchivoOk = false;
       });
+  }
+  previsualizarCuestionario(){
+
+  }
+  grabarCuestionario(){
+
+  }
+  supervisarCuestionario(){
+
+  }
+  validarCuestionario(){
+
   }
 }

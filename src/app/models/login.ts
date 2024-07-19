@@ -9,7 +9,7 @@ export class Login {
     RefreshToken:String;
     isAdministrador:boolean=false;
     isEmpadronador:boolean=false;
-    isSupervidor:boolean=false;
+    isSupervisor:boolean=false;
     isEspecialista:boolean=false;
     isConsulta:boolean=false;
   }

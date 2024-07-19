@@ -5,10 +5,13 @@ import { ReporteMapaComponent } from './reporte-mapa/reporte-mapa.component';
 import { ReporteEstadosComponent } from './reporte-estados/reporte-estados.component';
 import { PlantillaUnoComponent } from '../shared/plantilla-uno/plantilla-uno.component';
 import { ReporteMapaGeneralComponent } from './reporte-mapa-general/reporte-mapa-general.component';
-
+import { TableModule } from 'primeng/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EsriMapComponent } from './../arcgis-map/components/esri-map/esri-map.component';
 import { ListaReporteUsuariosComponent } from './reporte-estados/lista-reporte-usuarios/lista-reporte-usuarios.component';
+import { BasicAuthInterceptor, ErrorInterceptor } from 'src/auth/services';
+import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,9 +27,15 @@ import { ListaReporteUsuariosComponent } from './reporte-estados/lista-reporte-u
     ReportesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    TableModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
+  providers:[
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true, },
+  ]
 })
 export class ReportesModule { }

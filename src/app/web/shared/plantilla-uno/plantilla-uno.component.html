@@ -591,17 +591,32 @@
             </div> 
         </div>
         <div class="modal-footer" style="display: block;">
-            <div class="row">
+            <div *ngIf="usuario.isEmpadronador" class="row">
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary" 
+                    <button *ngIf="modalActivo" type="button" class="btn btn-primary" (click)="previsualizarCuestionario()"
                     style="background-color: #008F49; border-color: #008F49;">Previsualizar</button>
                 </div>
                 <div class="col-sm-6 text-end">
-                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" 
+                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" (click)="grabarCuestionario()"
                     style="background-color: #008F49; border-color: #008F49;">Grabar</button>
                 </div>
             </div>
-            
+            <div *ngIf="usuario.isSupervisor" class="row">
+                <div class="col-sm-6">              
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" (click)="supervisarCuestionario()"
+                    style="background-color: #008F49; border-color: #008F49;">Supervisar</button>
+                </div>
+            </div>
+            <div *ngIf="usuario.isEspecialista" class="row">
+                <div class="col-sm-6">              
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" (click)="validarCuestionario()"
+                    style="background-color: #008F49; border-color: #008F49;">Validar</button>
+                </div>
+            </div>
         </div>
     
     <ng-template #viewUserTemplate>

@@ -4,21 +4,199 @@
             <span>Reporte de Estados de Registro</span>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-sm-8">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-sm-12">
-                    
+                    <div class="row" *ngIf="usuario.isAdministrador">
+                        <div class="col-sm-4">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantEmpadronadores}}</div>
+                                <div style="font-size: medium;">Empadronadores</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantSupervisores}}</div>
+                                <div style="font-size: medium;">Supervisores</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantEspecialistas}}</div>
+                                <div style="font-size: medium;">Especialistas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="usuario.isEmpadronador">
+                        <div class="col-sm-4">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantParaRevisar}}</div>
+                                <div style="font-size: medium;">Con Estado: PARA REVISAR</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantTrabajoGabinete}}</div>
+                                <div style="font-size: medium;">Con Estado: TRABAJO EN GABINETE</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantEnAlerta}}</div>
+                                <div style="font-size: medium;">Con Estado: EN ALERTA</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="usuario.isSupervisor">
+                        <div class="col-sm-3">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantParaValidar}}</div>
+                                <div style="font-size: medium;">Con Estado: PARA VALIDAR</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantObservadoSupervisor}}</div>
+                                <div style="font-size: medium;">Con Estado: OBSERVADO POR SUPERVISOR</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantParaRegistrar}}</div>
+                                <div style="font-size: medium;">Con Estado: PARA REGISTRAR (2)</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantArbitraje}}</div>
+                                <div style="font-size: medium;">Con Estado: ARBITRAJE</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="usuario.isEspecialista">
+                        <div class="col-sm-3">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantCerrado}}</div>
+                                <div style="font-size: medium;">Con Estado: CERRADO</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantObservadoEspecialista}}</div>
+                                <div style="font-size: medium;">Con Estado: OBSERVADO POR ESPECIALISTA</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantReemplazado}}</div>
+                                <div style="font-size: medium;">Con Estado: REEEMPLAZADO</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="cajaCantidad">
+                                <div style="font-size: xx-large;">{{reporte.CantEliminado}}</div>
+                                <div style="font-size: medium;">Con Estado: ELIMINADO</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <lista-reporte-usuarios></lista-reporte-usuarios>
+                    <lista-reporte-usuarios [listaUsuarios]="reporte.ListReporteUsuarios"></lista-reporte-usuarios>
                 </div>
             </div>
         </div>
         <div class="col-sm-4">
+            <div *ngIf="usuario.isAdministrador" class="row mb-3">
+                <div class="col-sm-12">
+                    <div style="background-color: lightgreen; text-align: center; min-height: 250px; border-radius: 5px; ">
+                        <div style="padding-top: 10px;">
+                            <span style="font-weight: bold;">Mejores tiempos del Flujo de Validación</span>
+                        </div>
+                        <div style="height: 170px">
+                            <div class="row" *ngFor="let item of reporte.ListFlujoValidacion">
+                                <div class="col-sm-6">{{item.Empresa}}</div>
+                                <div class="col-sm-6">{{item.Tiempo}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5"></div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
+                                border-color: #008F49;" type="button">Ver todos</button>
+                            </div>
+                            <div class="col-sm-5"></div>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
+            <div *ngIf="usuario.isEmpadronador || usuario.isSupervisor || usuario.isEspecialista" class="row mb-3">
+                <div class="col-sm-12">
+                    <div style="background-color: lightgreen; text-align: center; min-height: 250px; border-radius: 5px; ">
+                        <div style="padding-top: 10px;">
+                            <span style="font-weight: bold;" *ngIf="usuario.isEmpadronador">Ranking Empadronadores con Registros cerrados</span>
+                            <span style="font-weight: bold;" *ngIf="usuario.isSupervisor">Ranking Supervisores con Registros cerrados</span>
+                            <span style="font-weight: bold;" *ngIf="usuario.isEspecialista">Ranking Especialistas con Registros cerrados</span>
+                        </div>
+                        <div style="height: 170px">
+                            <div class="row" *ngFor="let item of reporte.ListRegCerrados">
+                                <div class="col-sm-4">{{item.Usuario}}</div>
+                                <div class="col-sm-4">{{item.CantMarcoLista}}</div>
+                                <div class="col-sm-4">{{item.Tiempo}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5"></div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
+                                border-color: #008F49;" type="button">Ver todos</button>
+                            </div>
+                            <div class="col-sm-5"></div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            <div *ngIf="usuario.isAdministrador" class="row">
+                <div class="col-sm-12">
+                    <div style="text-align: center; min-height: 350px; border-radius: 5px; border: thin solid lightgray ">
+                        <div style="padding-top: 10px;">
+                            <span style="font-weight: bold;">Clasificación (Actualizado al)</span>
+                        </div>                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div *ngIf="usuario.isEmpadronador || usuario.isSupervisor || usuario.isEspecialista" class="row">
+                <div class="col-sm-12">
+                    <div style="text-align: center; min-height: 350px; border-radius: 5px;">
+                        <div style="padding-top: 10px;">
+                            <span *ngIf="usuario.isEmpadronador">Mejores tiempos de Registro</span>
+                            <span *ngIf="usuario.isSupervisor">Mejores tiempos de Supervisión</span>
+                            <span *ngIf="usuario.isEspecialista">Mejores tiempos de Validación</span>
+                        </div>
+                        <div style="height: 270px">
+                            <div class="row" *ngFor="let item of reporte.ListMejorTiempo">
+                                <div class="col-sm-4">{{item.Empresa}}</div>
+                                <div class="col-sm-4">{{item.Usuario}}</div>
+                                <div class="col-sm-4">{{item.Tiempo}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5"></div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
+                                border-color: #008F49;" type="button">Ver todos</button>
+                            </div>
+                            <div class="col-sm-5"></div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
         </div>
     </div>
 </div>
