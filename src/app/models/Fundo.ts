@@ -69,7 +69,7 @@ export class FundoGetDto implements IFundoGetDto {
     ListDepartamento: SelectTipoDto[];
     ListProvincia: SelectTipoDto[];
     ListDistrito: SelectTipoDto[];
-    ListCampos: CampoGetDto[];
+    ListCampos: CampoGetDto[]=[];
     constructor(data?: IFundoGetDto) {
         if (data) {
             for (var property in data) {

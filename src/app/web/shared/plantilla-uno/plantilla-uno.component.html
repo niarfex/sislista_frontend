@@ -618,7 +618,7 @@
                 </div>
             </div>
         </div>
-    
+    <p-confirmDialog></p-confirmDialog>
     <ng-template #viewUserTemplate>
         <modal-registro-informantes [exitSubModal]="exitSubModal"
         [listTipoDocumento]="objRegistro.ListTipoDocumento"
@@ -638,6 +638,12 @@
         <modal-sistema-pecuario [exitSubModal]="exitSubModal" [listLineaProd]="listLineaProd" 
         [listEspecie]="listEspecie" [objCuestionario]="objRegistro"
         (enviarPecuario)="agregarPecuario($event)"></modal-sistema-pecuario>
+    </ng-template>
+    <ng-template #viewUserTemplate6>
+        <modal-selec-estado [exitSubModal]="exitSubModal" [tipo]="tipoPerfil" [listaEstado]="listEstados"></modal-selec-estado>
+    </ng-template>
+    <ng-template #viewUserTemplate7>
+        <modal-registro-observacion [estadoResultado]="estadoResultado" [perfil]="tipoPerfil" [exitSubModal]="exitSubModal" [listaSecciones]="objRegistro.ListSecciones"></modal-registro-observacion>
     </ng-template>
     </form>
 </div>

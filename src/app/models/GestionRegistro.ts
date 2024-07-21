@@ -3,6 +3,7 @@ import { FundoGetDto } from "./Fundo";
 import { InformanteGetDto } from "./Informante";
 import { PecuarioGetDto } from "./Pecuario";
 import { SelectTipoDto } from "./SelectTipo";
+import { TrazabilidadGetDto } from "./Trazabilidad";
 
 export interface IResponseGestionRegistroListDto {
     success: boolean;
@@ -178,9 +179,7 @@ export class ResponseGestionRegistroGetDto implements IResponseGestionRegistroGe
     }
 }
 
-
 export interface IGestionRegistroGetDto {
-    Id: number;
     CodigoUUID: String;
     IdPPA: number;
     IdMarcoLista: number;
@@ -220,6 +219,8 @@ export interface IGestionRegistroGetDto {
     ListPecuarios: PecuarioGetDto[];
     ListArchivos:ArchivoGetDto[];
     ListInformantes: InformanteGetDto[];
+    ListObservaciones: TrazabilidadGetDto[];
+    ListSecciones: SelectTipoDto[];
     ListTenencia: SelectTipoDto[];
     ListUsoTierra: SelectTipoDto[];
     ListCultivo: SelectTipoDto[];
@@ -228,9 +229,9 @@ export interface IGestionRegistroGetDto {
     ListTipoInformacion: SelectTipoDto[];
     ListLineaProduccion: SelectTipoDto[];
     ListEspecies: SelectTipoDto[];
+    ListEstadosCuestionario: SelectTipoDto[];
 }
 export class GestionRegistroGetDto implements IGestionRegistroGetDto {
-    Id: number;
     CodigoUUID: String;
     IdPPA: number;
     IdMarcoLista: number;
@@ -270,6 +271,8 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     ListPecuarios: PecuarioGetDto[] = [];
     ListArchivos:ArchivoGetDto[]= [];
     ListInformantes: InformanteGetDto[] = [];
+    ListObservaciones: TrazabilidadGetDto[]=[];
+    ListSecciones: SelectTipoDto[];
     ListTenencia: SelectTipoDto[];
     ListUsoTierra: SelectTipoDto[];
     ListCultivo: SelectTipoDto[];
@@ -278,6 +281,7 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     ListTipoInformacion: SelectTipoDto[];
     ListLineaProduccion: SelectTipoDto[];
     ListEspecies: SelectTipoDto[];
+    ListEstadosCuestionario: SelectTipoDto[];
 
     constructor(data?: IGestionRegistroGetDto) {
         if (data) {
@@ -289,7 +293,6 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     }
     init(_data?: any) {
         if (_data) {
-            this.Id = _data["Id"];
             this.CodigoUUID = _data["CodigoUUID"];
             this.IdPPA = _data["IdPPA"];
             this.IdMarcoLista = _data["IdMarcoLista"];
@@ -377,6 +380,16 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
                 for (let item of _data["ListInformantes"])
                     this.ListInformantes!.push(InformanteGetDto.fromJS(item));
             }
+            if (Array.isArray(_data["ListObservaciones"]) && _data["ListObservaciones"].length > 0) {
+                this.ListObservaciones = [] as any;
+                for (let item of _data["ListObservaciones"])
+                    this.ListObservaciones!.push(TrazabilidadGetDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListSecciones"]) && _data["ListSecciones"].length > 0) {
+                this.ListSecciones = [] as any;
+                for (let item of _data["ListSecciones"])
+                    this.ListSecciones!.push(SelectTipoDto.fromJS(item));
+            }
             if (Array.isArray(_data["ListTenencia"]) && _data["ListTenencia"].length > 0) {
                 this.ListTenencia = [] as any;
                 for (let item of _data["ListTenencia"])
@@ -417,6 +430,11 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
                 for (let item of _data["ListEspecies"])
                     this.ListEspecies!.push(SelectTipoDto.fromJS(item));
             }
+            if (Array.isArray(_data["ListEstadosCuestionario"]) && _data["ListEstadosCuestionario"].length > 0) {
+                this.ListEstadosCuestionario = [] as any;
+                for (let item of _data["ListEstadosCuestionario"])
+                    this.ListEstadosCuestionario!.push(SelectTipoDto.fromJS(item));
+            }
         }
     }
     static fromJS(data: any): GestionRegistroGetDto {
@@ -427,7 +445,6 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     }
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["Id"] = this.Id;
         data["CodigoUUID"] = this.CodigoUUID;
         data["IdPPA"] = this.IdPPA;
         data["IdMarcoLista"] = this.IdMarcoLista;
@@ -454,41 +471,6 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
         data["CantidadFundo"] = this.CantidadFundo;
         data["EstadoEntrevista"] = this.EstadoEntrevista;
         data["IdPeriodo"] = this.IdPeriodo;
-        if (Array.isArray(this.ListCondicionJuridica)) {
-            data["ListCondicionJuridica"] = [];
-            for (let item of this.ListCondicionJuridica)
-                data["ListCondicionJuridica"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListCondicionJuridicaOtros)) {
-            data["ListCondicionJuridicaOtros"] = [];
-            for (let item of this.ListCondicionJuridicaOtros)
-                data["ListCondicionJuridicaOtros"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListTipoDocumento)) {
-            data["ListTipoDocumento"] = [];
-            for (let item of this.ListTipoDocumento)
-                data["ListTipoDocumento"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListDepartamento)) {
-            data["ListDepartamento"] = [];
-            for (let item of this.ListDepartamento)
-                data["ListDepartamento"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListProvincia)) {
-            data["ListProvincia"] = [];
-            for (let item of this.ListProvincia)
-                data["ListProvincia"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListDistrito)) {
-            data["ListDistrito"] = [];
-            for (let item of this.ListDistrito)
-                data["ListDistrito"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListTipoExplotacion)) {
-            data["ListTipoExplotacion"] = [];
-            for (let item of this.ListTipoExplotacion)
-                data["ListTipoExplotacion"].push(item.toJSON());
-        }
         if (Array.isArray(this.ListFundos)) {
             data["ListFundos"] = [];
             for (let item of this.ListFundos)
@@ -509,35 +491,10 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
             for (let item of this.ListInformantes)
                 data["ListInformantes"].push(item.toJSON());
         }
-        if (Array.isArray(this.ListTenencia)) {
-            data["ListTenencia"] = [];
-            for (let item of this.ListTenencia)
-                data["ListTenencia"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListUsoTierra)) {
-            data["ListUsoTierra"] = [];
-            for (let item of this.ListUsoTierra)
-                data["ListUsoTierra"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListCultivo)) {
-            data["ListCultivo"] = [];
-            for (let item of this.ListCultivo)
-                data["ListCultivo"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListUsoNoAgricola)) {
-            data["ListUsoNoAgricola"] = [];
-            for (let item of this.ListUsoNoAgricola)
-                data["ListUsoNoAgricola"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListEstadoEntrevista)) {
-            data["ListEstadoEntrevista"] = [];
-            for (let item of this.ListEstadoEntrevista)
-                data["ListEstadoEntrevista"].push(item.toJSON());
-        }
-        if (Array.isArray(this.ListTipoInformacion)) {
-            data["ListTipoInformacion"] = [];
-            for (let item of this.ListTipoInformacion)
-                data["ListTipoInformacion"].push(item.toJSON());
+        if (Array.isArray(this.ListObservaciones)) {
+            data["ListObservaciones"] = [];
+            for (let item of this.ListObservaciones)
+                data["ListObservaciones"].push(item.toJSON());
         }
         return data;
     }

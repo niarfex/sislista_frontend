@@ -30,13 +30,16 @@ import { ModalRegistroObservacionComponent } from '../modal-registro-observacion
 import { PecuarioGetDto } from 'src/app/models/Pecuario';
 import { LoginService } from 'src/auth/services/login.service';
 import { Login } from 'src/app/models/login';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   standalone: true,
   selector: 'plantilla-uno',
   templateUrl: './plantilla-uno.component.html',
   styleUrl: './plantilla-uno.component.scss',
+  providers: [ConfirmationService],
   imports: [CommonModule,
+    ConfirmDialogModule,
     ReactiveFormsModule,
     ListaInformantesComponent,
     RegistroFundoPlantillaComponent,
@@ -66,9 +69,12 @@ export class PlantillaUnoComponent implements OnInit {
   nombreElemento:String="";
   listLineaProd:SelectTipoDto[]=[];
   listEspecie:SelectTipoDto[]=[];
+  listEstados:SelectTipoDto[]=[];
   viewUserTemplate1: TemplateRef<any>;
   viewUserTemplate2: TemplateRef<any>;
   usuario:Login; 
+  estadoResultado:number=0;
+  tipoPerfil:String="";
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
   inicio: number = 0;
   time!: {
@@ -269,8 +275,8 @@ export class PlantillaUnoComponent implements OnInit {
                     IdUsoNoAgricola: 0,
                     Observacion: "",
                     SuperficieCalc:myObject2["SUPERFICIE"],
-                    Superficie: 0,
-                    SuperficieCultivada: 0,
+                    Superficie: 0.00,
+                    SuperficieCultivada: 0.00,
                     Orden:contCampos+1
                   }));
                   contCampos=contCampos+1;
@@ -282,8 +288,8 @@ export class PlantillaUnoComponent implements OnInit {
                   IdCuestionario: 0,
                   Fundo: myObject,
                   SuperficieTotalCalc:superficieFundo,
-                  SuperficieTotal: 0,
-                  SuperficieAgricola: 0,
+                  SuperficieTotal: 0.00,
+                  SuperficieAgricola: 0.00,
                   IdUbigeo: "",
                   Observacion: "",
                   Orden:contFundos+1,
@@ -552,7 +558,42 @@ export class PlantillaUnoComponent implements OnInit {
 
   }
   grabarCuestionario(){
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de guardar los datos ingresados?',
+      header: 'Guardar',
+      icon: 'none',
 
+      acceptButtonStyleClass: "p-button-danger p-button-text",
+      rejectButtonStyleClass: "p-button-text p-button-text",
+      acceptLabel: "Si, estoy seguro",
+      rejectLabel: "Cancelar",
+      acceptIcon: "none",
+      rejectIcon: "none",
+
+
+      accept: () => {   
+
+        this.spinner.show();
+        this.gestionregistroServiceProxy.CreateCuestionario(this.objRegistro)
+          .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+          .subscribe({
+            next: (result) => {
+              if (result.success) {
+                console.log(result);
+                this.toastr.success(result.message.toString(), 'Información');
+                this.objRegistro.CodigoUUID = result.datos.toString();
+                this.close();
+              }
+              else {
+                this.toastr.warning(result.message.toString(), 'Aviso');
+              }
+            }
+          });
+      },
+      reject: () => {
+
+      }
+    });
   }
   supervisarCuestionario(){
 

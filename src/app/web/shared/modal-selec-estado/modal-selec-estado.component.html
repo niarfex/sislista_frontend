@@ -1,1 +1,31 @@
-<p>modal-selec-estado works!</p>
+<div id="modalRegInformantes" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+    <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
+        <div class="modal-header"
+            style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
+            <span style="font-size: large; font-weight: bold;">
+                {{titulo}}
+            </span>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="IdEstado">{{etiqueta}}</label>
+                        <select formControlName="IdEstado" id="IdEstado" name="IdEstado"
+                            class="form-select">
+                            <option value="" disabled selected>-- Seleccionar --</option>
+                            <option *ngFor="let item of listaEstado" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button type="submit" class="btn btn-primary"
+                        style="background-color: #008F49; border-color: #008F49;" (click)="continuarObservacion()">Continuar</button>
+                </div>
+            </div>  
+        </div>
+    </form>
+</div>
