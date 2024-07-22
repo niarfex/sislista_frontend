@@ -14,6 +14,7 @@ import { PlantillaServiceProxy } from './plantilla-proxies';
 import { TipoExplotacionServiceProxy } from './tipoexplotacion-proxies';
 import { UbigeoServiceProxy } from './ubigeo-proxies';
 import { UsuarioServiceProxy } from './usuario-proxies';
+import { ReporteServiceProxy } from './reporte-proxies';
 import { EventService } from '../services/event.service';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { EventService } from '../services/event.service';
         TipoExplotacionServiceProxy,
         UbigeoServiceProxy,
         UsuarioServiceProxy,
+        ReporteServiceProxy,
         EventService
     ],
 })

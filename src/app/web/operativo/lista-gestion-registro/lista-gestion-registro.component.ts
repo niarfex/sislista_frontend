@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +14,8 @@ import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionr
   selector: 'lista-gestion-registro',
   templateUrl: './lista-gestion-registro.component.html',
   styleUrls: ['./lista-gestion-registro.component.scss'],
-  providers: [ConfirmationService]
+  providers: [ConfirmationService],
+  encapsulation : ViewEncapsulation.None
 })
 export class ListaGestionRegistroComponent implements OnInit {
   txt_busqueda:string="";

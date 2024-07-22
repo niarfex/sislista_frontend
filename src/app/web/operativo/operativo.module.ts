@@ -6,6 +6,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { OperativoRoutingModule } from './operativo-routing.module';
 import { ListaGestionRegistroComponent } from './lista-gestion-registro/lista-gestion-registro.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BasicAuthInterceptor, ErrorInterceptor } from 'src/auth/services';
+import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 @NgModule({
@@ -24,5 +27,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
+  providers:[
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true, },
+  ]
 })
 export class OperativoModule { }

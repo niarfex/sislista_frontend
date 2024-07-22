@@ -79,7 +79,7 @@ export class LoginService {
                         RefreshToken: response.body.usuario.RefreshToken,
                         isAdministrador:usuarioActual.isAdministrador,
                         isEmpadronador:usuarioActual.isEmpadronador,
-                        isSupervidor:usuarioActual.isSupervidor,
+                        isSupervisor:usuarioActual.isSupervidor,
                         isEspecialista:usuarioActual.isEspecialista,
                         isConsulta:usuarioActual.isConsulta
                     });
