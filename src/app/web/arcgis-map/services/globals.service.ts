@@ -10,6 +10,22 @@ export class GlobalsService {
   styleBG = 'bg-sislista';
   colorSelectMapFill = [255, 33, 33, 0.2];
   colorSelectMap = [255, 33, 33];
+  symbolEditFill = {  type: 'simple-fill',
+                      style: 'solid',
+                      color: [38,115,0,0.2], //--Verde #267300
+                      outline: { 
+                        color: [85,231,13], //--Verde #55e70d
+                        width: 1.5
+                      }
+                    };
+  symbolSelectFill = {type: 'simple-fill',
+                      style: 'solid',
+                      color: [12,254,254,0.2], //--Celeste
+                      outline: { 
+                        color: [12,254,254], //--Celeste
+                        width: 1.5
+                      }
+                    };
   colorSets: ColorSet[] = [
     {
       name: 'vivid',

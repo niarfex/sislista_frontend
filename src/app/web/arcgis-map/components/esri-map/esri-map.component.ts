@@ -17,6 +17,9 @@ export class EsriMapComponent implements OnInit {
   @Output() changeFullView = new EventEmitter<boolean>();
   @Output() MapElement = new EventEmitter<MapService>();
  
+  items:any[] = [];
+  contextMenu:any;
+
   administradoDoc='';
   mapActive = 2;
   activeTools = 1;
@@ -39,7 +42,10 @@ export class EsriMapComponent implements OnInit {
   }
 
   ngOnInit() {
+    //--
+    this.contextMenu = document.getElementById('contextMenu');
     //buttons masurement
+    this.mapService.editcontexMenu = document.getElementById('contextMenu');   
     this.mapService.distanceButton2D = document.getElementById('measurement_distance_2D');
     this.mapService.areaButton2D = document.getElementById('measurement_area_2D');
     this.mapService.distanceButton3D = document.getElementById('measurement_distance_3D');
@@ -48,9 +54,16 @@ export class EsriMapComponent implements OnInit {
     this.mapService.popupViewButton = document.getElementById('popup_view');
     this.mapService.printButton2D = document.getElementById('print_2D');
     this.mapService.printSeparator2D = document.getElementById('print_separator_2D');
+
     //--Datos del Administrado
     this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
     this.mapService.SisListaRuc = this.administradoDoc
+
+    this.items = [
+      { label: 'Copy', icon: 'pi pi-copy' },
+      { label: 'Rename', icon: 'pi pi-file-edit' }
+    ];
+
   }
 
   ngAfterContentInit() {
@@ -166,5 +179,22 @@ export class EsriMapComponent implements OnInit {
     this.closeWindow('addWMS');
     this.mapService.setActiveWidget('print');
   }
+
+  onSelectGraphic(){
+    this.mapService.ptEditTool.name="select";
+    this.mapService.ptSelectGeometry();
+  }
+  onEditGraphic(){
+    this.mapService.ptEditTool.name="Edit";
+    this.mapService.ptEditGeometry();
+  }
+  onCreateLineGraphic(evt:any){
+    this.mapService.ptEditTool.name="Create Line";
+    this.mapService.ptCreateGeometry(evt);
+ }
+
+ async onSaveChanges(){
+  await this.mapService.setDeleteFeature()
+ }  
 }
 

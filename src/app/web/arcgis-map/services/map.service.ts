@@ -24,46 +24,8 @@ import { Subject, Observable } from 'rxjs';
 import { CoordinatesStatusMap } from '../models/general.model';
 import { EmissionService } from './emission.service';
 import { url } from 'inspector';
-
-//--Librerias ArcGIS utilizadas
-import EsriMap from "@arcgis/core/Map.js";
-import EsriMapView from "@arcgis/core/views/MapView.js";
-import EsriSceneView from "@arcgis/core/views/SceneView.js";
-import EsriSpatialReference from "@arcgis/core/geometry/SpatialReference";
-import EsriExpand from "@arcgis/core/widgets/Expand";
-import EsriBasemapGallery from "@arcgis/core/widgets/BasemapGallery";
-import EsriLayerList from "@arcgis/core/widgets/LayerList";
-import EsriLegend from "@arcgis/core/widgets/Legend";
-import EsriTileLayer from "@arcgis/core/layers/TileLayer";
-import EsriMapImageLayer from "@arcgis/core/layers/MapImageLayer";
-import EsriFeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import EsriGraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import FeatureService from "@arcgis/core/rest/featureService/FeatureService";
-import EsriCompass from "@arcgis/core/widgets/Compass";
-import EsriRequest from "@arcgis/core/request";
-import EsriLocate from "@arcgis/core/widgets/Locate";
-import EsriDistanceMeasurement2D from "@arcgis/core/widgets/DistanceMeasurement2D";
-import EsriAreaMeasurement2D from "@arcgis/core/widgets/AreaMeasurement2D";
-import EsriDirectLineMeasurement3D from "@arcgis/core/widgets/DirectLineMeasurement3D";
-import EsriAreaMeasurement3D from "@arcgis/core/widgets/AreaMeasurement3D";
-import EsriGraphic from "@arcgis/core/Graphic";
-import EsriWMSLayer from "@arcgis/core/layers/WMSLayer";
-import EsriCoordinateConversion from "@arcgis/core/widgets/CoordinateConversion";
-import EsriFormat from "@arcgis/core/widgets/CoordinateConversion/support/Format";
-import EsriConversion from "@arcgis/core/widgets/CoordinateConversion";
-import EsriwebMercatorUtils from "@arcgis/core/widgets/CoordinateConversion/support/Conversion";
-import EsriPoint from "@arcgis/core/geometry/Point";
-import * as Esriprojection from "@arcgis/core/geometry/projection";
-import EsriPrint from "@arcgis/core/widgets/Print";
-import EsriSearch from "@arcgis/core/widgets/Search";
-import * as EsriGeometryService from "@arcgis/core/rest/geometryService";
-import * as EsriProjectParameters from "@arcgis/core/rest/support/ProjectParameters";
-import EsriScaleBar from "@arcgis/core/widgets/ScaleBar";
-import Esriconfig from "@arcgis/core/config";
-import EsriCustomContent from "@arcgis/core/popup/content/CustomContent";
-import EsriEditor from "@arcgis/core/widgets/Editor";
-import EsriSketch from "@arcgis/core/widgets/sketch";
-import { AnyARecord } from 'dns';
+import { AnyARecord, AnyCnameRecord } from 'dns';
+import * as arcgis from '../util/arcgis-libraries';
 
 @Injectable({
   providedIn: 'root'
@@ -89,12 +51,21 @@ export class MapService {
   SislistaLayer: any[] = [];
 
   //-Datos de Edición
+  editcontexMenu:any;
   editEditor:any
   editWidget:any;
-  EditFeature:any
-  editSkech:any
+  editSketch:any
   EditProgress:boolean=false;
-  editGraphic:any;
+
+  ptEditTool:any; 
+  ptGraphicEdit:any;
+  ptGraphicSelect:any;
+
+  //--Layers para opción de Edición
+  ptFeatureLayerEdit:any
+  ptGraphicsLayerEdit:any;
+  ptGraphicLayerSelect:any;
+  
 
   // StreetView
   activeStreet: boolean;
@@ -121,7 +92,7 @@ export class MapService {
   EsriMapImageLayer: any;
   EsriFeatureLayer:any;
   EsriGraphicsLayer: any;
-  EsriEditGraphicsLayer: any;
+  EsriGraphicsLayerEdit: any;
   FeatureService: any;
   EsriCompass: any;
   EsriRequest: any;
@@ -147,6 +118,7 @@ export class MapService {
   EsriCustomContent:any;
   EsriEditor:any;
   EsriSketch:any;
+  EsriGeometryEngine:any;
 
   measurement2D: any;
   distanceButton2D: any;
@@ -170,61 +142,64 @@ export class MapService {
   }
 
   async startMap(divMapView: any, divSceneView: any) {    
-        this.EsriMap = EsriMap;
-        this.EsriMapView = EsriMapView;
-        this.EsriSceneView = EsriSceneView;
-        this.EsriSpatialReference = EsriSpatialReference;
-        this.EsriExpand = EsriExpand;
-        this.EsriBasemapGallery = EsriBasemapGallery;
-        this.EsriLayerList = EsriLayerList;
-        this.EsriLegend = EsriLegend;
-        this.EsriTileLayer = EsriTileLayer;
-        this.EsriMapImageLayer = EsriMapImageLayer;
-        this.EsriFeatureLayer = EsriFeatureLayer;
-        this.EsriGraphicsLayer = EsriGraphicsLayer;
-        this.EsriEditGraphicsLayer = EsriGraphicsLayer;
-        this.FeatureService = FeatureService;
-        this.EsriCompass = EsriCompass;
-        this.EsriRequest = EsriRequest;
-        this.EsriLocate = EsriLocate;
-        this.EsriDistanceMeasurement2D = EsriDistanceMeasurement2D;
-        this.EsriAreaMeasurement2D = EsriAreaMeasurement2D;
-        this.EsriDirectLineMeasurement3D = EsriDirectLineMeasurement3D;
-        this.EsriAreaMeasurement3D = EsriAreaMeasurement3D;
-        this.EsriGraphic = EsriGraphic;
-        this.EsriWMSLayer = EsriWMSLayer;
-        this.EsriCoordinateConversion = EsriCoordinateConversion;
-        this.EsriFormat = EsriFormat;
-        this.EsriConversion = EsriConversion;
-        this.EsriwebMercatorUtils = EsriwebMercatorUtils;
-        this.EsriPoint = EsriPoint;
-        this.Esriprojection = Esriprojection;
-        this.EsriPrint = EsriPrint;
-        this.EsriSearch = EsriSearch;
-        this.EsriGeometryService = EsriGeometryService;
-        this.EsriProjectParameters = EsriProjectParameters;
-        this.EsriScaleBar = EsriScaleBar;
-        this.Esriconfig = Esriconfig;
-        this.EsriCustomContent = EsriCustomContent;
-        this.EsriEditor = EsriEditor;
-        this.EsriSketch = EsriSketch;
+        this.EsriMap = arcgis.Map;
+        this.EsriMapView = arcgis.MapView;
+        this.EsriSceneView = arcgis.SceneView;
+        this.EsriSpatialReference = arcgis.SpatialReference;
+        this.EsriExpand = arcgis.Expand;
+        this.EsriBasemapGallery = arcgis.BasemapGallery;
+        this.EsriLayerList = arcgis.LayerList;
+        this.EsriLegend = arcgis.Legend;
+        this.EsriTileLayer = arcgis.TileLayer;
+        this.EsriMapImageLayer = arcgis.MapImageLayer;
+        this.EsriFeatureLayer = arcgis.FeatureLayer;
+        this.EsriGraphicsLayer = arcgis.GraphicsLayer;
+        this.FeatureService = arcgis.FeatureService;
+        this.EsriCompass = arcgis.Compass;
+        this.EsriRequest = arcgis.Request;
+        this.EsriLocate = arcgis.Locate;
+        this.EsriDistanceMeasurement2D = arcgis.DistanceMeasurement2D;
+        this.EsriAreaMeasurement2D = arcgis.AreaMeasurement2D;
+        this.EsriDirectLineMeasurement3D = arcgis.DirectLineMeasurement3D;
+        this.EsriAreaMeasurement3D = arcgis.AreaMeasurement3D;
+        this.EsriGraphic = arcgis.Graphic;
+        this.EsriWMSLayer = arcgis.WMSLayer;
+        this.EsriCoordinateConversion =  arcgis.CoordinateConversion;
+        this.EsriFormat =  arcgis.Format;
+        this.EsriConversion =  arcgis.Conversion;
+        this.EsriwebMercatorUtils =  arcgis.webMercatorUtils;
+        this.EsriPoint =  arcgis.Point;
+        this.Esriprojection =  arcgis.Projection;
+        this.EsriPrint =  arcgis.Print;
+        this.EsriSearch =  arcgis.Search;
+        this.EsriGeometryService =  arcgis.GeometryService;
+        this.EsriProjectParameters =  arcgis.ProjectParameters;
+        this.EsriScaleBar =  arcgis.ScaleBar;
+        this.Esriconfig =  arcgis.Config;
+        this.EsriCustomContent =  arcgis.CustomContent;
+        this.EsriEditor =  arcgis.Editor;
+        this.EsriSketch =  arcgis.Sketch;
+        this.EsriGeometryEngine =  arcgis.GeometryEngine;
 
         // iniciar constantes
+        this.ptEditTool = {name:'', disabled:false}
         this.isAddWMS = false;
         this.activePopup = false;
         this.activeStreet = false;
         this.basemap = this.basemapService.getTopo();
-        this.spatialReference = new EsriSpatialReference({ wkid: 102100 });
+        this.spatialReference = new  arcgis.SpatialReference({ wkid: 102100 });
         this.layersService.EsriMapImageLayer = this.EsriMapImageLayer;
         this.layersService.EsriFeatureLayer = this.EsriFeatureLayer;
         this.layersService.EsriGraphicsLayer = this.EsriGraphicsLayer;
-        this.layersService.EsriEditGraphicsLayer = this.EsriEditGraphicsLayer;
-        this.layersService.EsriRequest = this.EsriRequest;
+        this.layersService.EsriRequest = this.EsriRequest;        
         this.activeView = this.mapView;
         this.coordStatusMap = {zoneUTM: 18, xUTM: 0, yUTM: 0, latitude: 0, longitude: 0, height: 0};
 
         //--Obtenemos las capas para el mapa
-        this.layers = await this.layersService.getLayers(config.agsNomBasemap,this.urlBasemap,true);
+        this.layers = await this.layersService.getLayers(config.agsNomBasemap,this.urlBasemap,true);        
+        this.ptGraphicsLayerEdit = this.layersService.EditGraphicsLayer;
+        this.ptGraphicLayerSelect = this.layersService.SelectGraphicsLayer;
+
         console.log('Layers del Mapa:' + this.layers);
         //-Obtnemos el map
         this.map = new this.EsriMap(this.getMapProperties());
@@ -242,17 +217,23 @@ export class MapService {
         this.setAddWidgetMapView()
         //--Agregamos El Widget de Edición
         this.setAddEditWidget()
-        
+        //Agregamos el skech
+        this.setaddSkechWidget()
+        // Ocultar el menú contextual cuando se hace clic en el mapa
+        this.mapView.on('click', (event) => {
+          this.editcontexMenu.style.display = 'none';
+        });
+
         /** Configuración del SceneView **/
         //--Obtnemos la Propiedades
-        const sceneViewProperties = this.getViewProperties(divSceneView, this.map);
+        //const sceneViewProperties = this.getViewProperties(divSceneView, this.map);
         //--Obtnemos el contenedor
-        this.sceneView = new EsriSceneView(sceneViewProperties);
+        //this.sceneView = new EsriSceneView(sceneViewProperties);
         //--Agregamos eventos al contenedor
-        this.sceneView.on('click', (event) => { this.eventClickMap(event); });
-        this.sceneView.on('pointer-move', (event) => { this.eventPointerMove(event); });
+        //this.sceneView.on('click', (event) => { this.eventClickMap(event); });
+        //this.sceneView.on('pointer-move', (event) => { this.eventPointerMove(event); });
         //--Agregamos los Widgets
-        this.setAddWidgetSceneView();
+        //this.setAddWidgetSceneView();
 
         //--Variable para la Lista de capas de Información
         this.SislistaLayer = [];
@@ -330,6 +311,7 @@ export class MapService {
     //this.addCoordinateConversion(this.sceneView, 'div-coord-conver-3D');
   }
   setAddEditWidget(){
+    
     //----------------------------------------------
     // Editor widget para Feature Layer
     //----------------------------------------------  
@@ -339,12 +321,11 @@ export class MapService {
     // Servicio Feature de Edición
     //----------------------------------------------
     let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'" 
-    this.EditFeature= new this.EsriFeatureLayer({
+    this.ptFeatureLayerEdit= new this.EsriFeatureLayer({
       url: config.agsUrlRoot + config.agsUrlEditLyr,
       legendEnabled:false,
       opacity:0.5,
       definitionExpression:strQuery,
-      mode: this.EsriFeatureLayer.MODE_SNAPSHOT, 
       outFields: ["*"],
       title:"Campos",
       visible:true
@@ -356,57 +337,160 @@ export class MapService {
     //const sampleInstructions = document.getElementById("Instrucciones");
     const expandEdit = new this.EsriExpand({
       view:this.mapView,
-      //mode:'floating',
-      //expandIconClass: 'esri-icon-cursor-marquee',
-      //expandTooltip:'Edición de campos',
-      //collapseIconClass:'esri-icon-close',
-      autoCollapse: true,
-      content: this.editEditor,
+      collapseIcon:'x-circle',
+      expandIcon:'add-features',
       expanded: false,
       label: 'Editor',
-      collapseTooltip: 'Editor',
-      expandTooltip: 'Editor'
+      collapseTooltip: 'Cerrar editor',
+      expandTooltip: 'Abrir editor'
     })
-
 
     this.editWidget = expandEdit;
     this.mapView.ui.add(expandEdit, 'top-left');
     expandEdit.watch('expanded', (expanded:any)=>{
       const widget = 'direXY';
-      //const oFeatureLayer:any = this.map.layers.getItemAt(2)
       var isGraphicsVisible = expanded;
       if (expanded){
-          // Add Services
-        this.map.addMany([this.EditFeature]);
-        this.setRefresh(this.EditFeature.extent);
+        this.setViewGraphicsLayer()      
       }else{
         isGraphicsVisible = expanded
       }
-      if(this.EditFeature !== undefined ){this.EditFeature.visible=!isGraphicsVisible}
+      if(this.ptFeatureLayerEdit !== undefined ){this.ptFeatureLayerEdit.visible=!isGraphicsVisible}
       //--Desactiva las capasa para la edición
-      this.EditFeature.visible = isGraphicsVisible;
+      //this.editSketch.visible = isGraphicsVisible;
+      this.ptGraphicsLayerEdit.visible = isGraphicsVisible;
+      this.ptGraphicLayerSelect.visible = isGraphicsVisible;
+
+      this.ptFeatureLayerEdit.visible = isGraphicsVisible;
       this.SislistaLayer[0].layer.visible = !isGraphicsVisible
       this.SislistaLayer[1].layer.visible = !isGraphicsVisible
       this.SislistaLayer[2].layer.visible = !isGraphicsVisible
 
       this.EditProgress = false;
   })
-
-
-
-
-
-
-
-
   }
 
+  async setViewGraphicsLayer(){
+    const symbol = this.globals.symbolEditFill;
+    var featureLayer = this.SislistaLayer[0].layer;
+    var query = featureLayer.createQuery();
+        query.where =  "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'";
+        query.returnGeometry = true;
+        query.outFields = ['*'];
+    
+    await featureLayer.queryFeatures(query).then((result:any)=>{
+      const features = result.features.map((feacture:any) => {
+        const f = feacture.clone();
+        //f.geometry= arcgis.webMercatorUtils.geographicToWebMercator(feacture.geometry);
+        f.symbol = symbol;
+        return f;
+      });
+      //--Eliminamos los graficos actuales
+      this.ptGraphicsLayerEdit.removeAll();
+      this.ptGraphicsLayerEdit.addMany(features)
+      this.ptGraphicSelect = null;
+      //this.setRefresh(featureLayer.extent);
+    });
+  }
+  
+  //------------------------------------------------------------------------------------------------------
+  // Desc. fn: Eventos de Edición
+  // Params: id del poligono
+  //------------------------------------------------------------------------------------------------------
+  setaddSkechWidget(){
+    this.editSketch = new arcgis.Sketch({
+      view: this.mapView,
+      defaultUpdateOptions:{
+       enableRotation:false,
+       enableScaling: false,
+       toggleToolOnClick: false 
+      }     
+    });
+
+    this.editSketch.on("update", (event:any)=>{
+      const eventInfo = event.toolEventInfo;
+      if (event.state =="start" && event.tool=="transform"){
+      }
+    });
+
+    //---
+    this.editSketch.on('create', evt => {
+      if(evt.state === 'complete'){ 
+        // CUT POLYLINE INPUT //
+        const polylineGeometry = this.EsriwebMercatorUtils.webMercatorToGeographic(evt.graphic.geometry);
+        if(polylineGeometry.type === 'polyline'){ 
+          //--Procedemos a Eliminar la polyline
+          this.ptGraphicsLayerEdit.remove(evt.graphic);
+          //--Validamos si se selecciono un Poligono a cortar
+          if (this.ptGraphicSelect.length == 0){console.log('No selecciono un poligono'); return}
+          //--Obtenemos el Poligono seleccionado
+          const oCutGeometry = this.ptGraphicSelect.items[0].geometry.clone();
+          //-- Validamos si el Poligono intersecta la Polyline
+          let intersects = this.EsriGeometryEngine.intersects(oCutGeometry, polylineGeometry);
+          if (intersects){
+            //--Procedemos con el split del Poligono
+            const cutResults = this.EsriGeometryEngine.cut(oCutGeometry, polylineGeometry); 
+            //--Validamos si hya resultados
+            if(cutResults.length){   
+               //--Eliminamos el POligono existente
+               this.ptGraphicsLayerEdit.remove(this.ptGraphicSelect.items[0]);
+               //--Limpiamos el poligono seleccionado
+               this.ptGraphicSelect.items[0] = 0;
+               //--Añadimos los nuevos poligonos creados
+               this.ptGraphicsLayerEdit.addMany(cutResults.map(cutResult=>{ 
+                return {                  
+                  geometry:cutResult,
+                  symbol: this.globals.symbolEditFill,
+                  attributes:this.ptGraphicSelect.items[0].attributes
+                };
+               }));
+            }
+          }else{
+            console.log('No ha seleccionado un poligono para cortar');
+          }
+        }else{
+          evt.graphic.geometry = polylineGeometry;
+        }
+      }
+    });
+
+  }
+  ptSelectGeometry(){   
+    this.editSketch.layer = this.ptGraphicLayerSelect;
+    this.editSketch.cancel();    
+  }
+
+  ptEditGeometry(){
+    this.editcontexMenu.style.display = 'none';
+    this.editSketch.layer = this.ptGraphicsLayerEdit;
+    this.editSketch.update([this.ptGraphicSelect.items[0]], {
+      tool: "reshape",
+      enableRotation: false,
+      enableScaling: false,
+      preserveAspectRatio: true,
+      toggleToolOnClick: false
+    });
+    this.refresh(this.ptGraphicSelect.items[0].geometry.extent)
+  }
+  
+  ptCreateGeometry(type:any){
+    this.editcontexMenu.style.display = 'none';
+    this.editSketch.layer = this.ptGraphicsLayerEdit;
+    this.editSketch.creationMode = type=='polyline'? 'single':'continuous';
+
+    this.editSketch.create(type, {   
+      enableRotation: false,
+      enableScaling: false,
+      preserveAspectRatio: true,
+      toggleToolOnClick: false,      
+    });    
+  }
 
   setAddWidgetEdit(){
     //----------------------------------------------
     // Servicio Feature de Edición
     //----------------------------------------------  
-    this.EditFeature= new this.EsriFeatureLayer({
+    this.ptFeatureLayerEdit= new this.EsriFeatureLayer({
       url: config.agsNomBasemap + config.agsUrlEditLyr,
       mode: this.EsriFeatureLayer.MODE_SNAPSHOT,
       outFields: ["*"]
@@ -414,7 +498,7 @@ export class MapService {
 
     //Tipo: Eventos del Feature de Servicio de Edición
     //Objetivo: Esta función se activará cada vez que applyEdits () se complete con éxito
-    this.EditFeature.on('edits',async (event:any)=>{
+    this.ptFeatureLayerEdit.on('edits',async (event:any)=>{
       console.log('--Edición de Servicio de Consulta - Estado: OK');
       //this.spinner.hide();
       var adds:any = event.addedFeatures
@@ -454,8 +538,8 @@ export class MapService {
       var isGraphicsVisible = expanded;
       if (expanded){
        //--Almacenamos el Grafico por si se Cancela la Edición
-       this.editGraphic = this.EsriEditGraphicsLayer.graphics.items[0].clone();
-       this.editSkech.update([this.EsriEditGraphicsLayer.graphics.items[0]], {
+       this.ptGraphicEdit = this.EsriGraphicsLayerEdit.graphics.items[0].clone();
+       this.editSketch.update([this.EsriGraphicsLayerEdit.graphics.items[0]], {
          tool: "reshape",
          enableRotation: false,
          enableScaling: false,
@@ -463,23 +547,24 @@ export class MapService {
          toggleToolOnClick: false
        });
        //this.homeService.setFormName('gis_edicion'); 
-       this.setRefresh(this.EsriEditGraphicsLayer.graphics.items[0].geometry.extent)
+       this.setRefresh(this.EsriGraphicsLayerEdit.graphics.items[0].geometry.extent)
       }else{
        isGraphicsVisible = expanded
+       this.editSketch.layer = this.ptGraphicLayerSelect;
        //--Activamos el mensaje de Edición
-       if(this.EditProgress ===false){this.editSkech.cancel();}
+       if(this.EditProgress ===false){this.editSketch.cancel();}
       }
       if(oFeatureLayer !== undefined ){oFeatureLayer.visible=!isGraphicsVisible}
-      this.EsriEditGraphicsLayer.visible = isGraphicsVisible;
+      this.EsriGraphicsLayerEdit.visible = isGraphicsVisible;
       this.EditProgress = false;
   })
 
     //----------------------------------------------
     // Sckech widget para Graphics Layer
     //----------------------------------------------  
-    this.editSkech = new this.EsriSketch({
+    this.editSketch = new this.EsriSketch({
       view: this.mapView,
-      layer: this.EsriEditGraphicsLayer,
+      layer: this.EsriGraphicsLayerEdit,
       creationMode: "update",
       defaultUpdateOptions:{
        enableRotation:false,
@@ -490,16 +575,16 @@ export class MapService {
     
     //Tipo: Eventos del Sckech widget
     //Objetivo: Edición del Grafico
-    this.editSkech.on("update", (event:any)=>{
+    this.editSketch.on("update", (event:any)=>{
       const eventInfo = event.toolEventInfo;
       //--Clonamos el Grafico
-      const oGraphic = this.EsriEditGraphicsLayer.graphics.items[0].clone();
+      const oGraphic = this.EsriGraphicsLayerEdit.graphics.items[0].clone();
       if (eventInfo && eventInfo.type == "move-stop") {
-        this.editSkech.undo();
+        this.editSketch.undo();
       }
       if (event.tool == 'transform' || event.tool == 'move'){
         if (event.state !='complete'){
-          this.editSkech.update([oGraphic],{
+          this.editSketch.update([oGraphic],{
             tool: "reshape",
             enableScaling: false,
             toggleToolOnClick: false
@@ -513,8 +598,8 @@ export class MapService {
         //--Si Cancelo la Edición del Poligono
         if (event.aborted){
           //--Si el Poligono fue modificado debe volver a su forma original
-          const oGraphicWeb = this.EsriEditGraphicsLayer.graphics.items[0]
-          oGraphicWeb.geometry = this.editGraphic.geometry;
+          const oGraphicWeb = this.EsriGraphicsLayerEdit.graphics.items[0]
+          oGraphicWeb.geometry = this.ptGraphicEdit.geometry;
           //this.homeService.setFormName('resultado_consulta');
         }else{
           //--OBJECTID del Poligono en el servicio de consulta
@@ -1120,8 +1205,32 @@ export class MapService {
       this.popupViewButton.classList.add("active");
     }
   }
+  //------------------------------------------------------------------------------------------------------
+  // Desc. fn: Evento Clic del Mapa
+  // Params: id del poligono
+  //------------------------------------------------------------------------------------------------------
+  eventClickMap(event:any) {    
+    event.stopPropagation(); // Previene el comportamiento predeterminado del clic derecho 
+    let pointGraphic = arcgis.webMercatorUtils.webMercatorToGeographic(event.mapPoint);
+    if (this.ptEditTool.name=='select'){
+        this.ptGraphicSelect = null;
+        this.ptGraphicSelect = this.ptGraphicsLayerEdit.graphics.filter((item:any)  =>{
+          item.symbol = this.globals.symbolEditFill;
+          if(this.EsriGeometryEngine.intersects(item.geometry,pointGraphic)){
+            item.symbol = this.globals.symbolSelectFill;
+            return item.geometry;
+          }
+       });
+       if (event.button==2) {
+        event.preventDefault(); // Evita el menú contextual del navegador
+        if (this.ptGraphicSelect.length==0){console.log('No selecciono un poligono'); return}
+        const screenPoint = event.screenPoint;
+        this.editcontexMenu.style.left = `${screenPoint.x}px`;
+        this.editcontexMenu.style.top = `${screenPoint.y}px`;
+        this.editcontexMenu.style.display = 'block';
+       }      
+    }  
 
-  eventClickMap(event:any) {
     //console.log('eventClickMap');
     if (this.activePopup) {
       // this.activeView.popup.location = event.mapPoint;
@@ -1134,6 +1243,7 @@ export class MapService {
       this.changePositionStreet$.next(this.positionStreet);
     }
   }
+
   async eventAction(event:any){
     console.log(event);
     if (this.mapView.popup.title =='Conflictos Socioambientales>Espacios de Diálogo>Mesas de diálogo'){
@@ -1325,14 +1435,14 @@ export class MapService {
     let geometryType = "polygon"
     const symbol = this.getSymbolFeature(geometryType);
     const features = await this.getFeaturesQuery(strQuery, this.SislistaLayer[0].layer, geometryType);
-    await Esriprojection.load();
+    await arcgis.Projection.load();
 
     //--Recorremos los Registros
     features.forEach(f => {
-      let outSpatialReference = new EsriSpatialReference({
+      let outSpatialReference = new arcgis.SpatialReference({
         wkid: 32618 //UTM Zona 18 projection
       });
-      let ProjetShape = Esriprojection.project(f.geometry, outSpatialReference);
+      let ProjetShape = arcgis.Projection.project(f.geometry, outSpatialReference);
       let itemField={}
           itemField['IDE_EMPRESA'] = f.attributes.IDE_EMPRESA
           itemField['IDE_FUNDO'] = f.attributes.IDE_FUNDO
@@ -1345,5 +1455,26 @@ export class MapService {
      });
     return oListaFields
   }
-  
+
+  async setDeleteFeature(): Promise<void> {   
+    this.ptFeatureLayerEdit.queryFeatures().then((results) => {
+      //--edits object tells apply edits that you want to delete the features
+      const deleteEdits = {
+        deleteFeatures: results.features
+      };
+      console.log(results.features);
+     });
+
+  }
+
+  async refresh(extent:any){
+    var opts = {
+      duration: 2000  // Duration of animation will be 5 seconds
+    };
+    await this.mapView.goTo({
+      target: extent.center,
+      //zoom:this.mapView.zoom
+    }, opts);
+  }
  }
+ 

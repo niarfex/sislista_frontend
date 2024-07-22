@@ -1,5 +1,3 @@
-
-
 div.container-map {
     position: relative;
     height: 100%;
@@ -44,6 +42,16 @@ div.container-map {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+  }
+  div.container-map>.toolbar-edit {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    visibility: visible;
   }
   
   div.container-map>.status-map {
@@ -151,6 +159,7 @@ div.container-map {
   
   .toolbar-widget-map {
     border: 1px solid #1e85be;
+    visibility: hidden;
   }
   
   .separator-button {
@@ -170,4 +179,35 @@ div.container-map {
   }
   .esri-ui-top-left .esri-component {
     margin-bottom: 5px !important;
+  }
+  #contextMenu {
+    display: none;
+    position: absolute;
+    
+    padding: 0.25rem 0.25rem;
+    background: #ffffff;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    width: 12.5rem;
+  }
+  #contextMenu .icon-style {
+    color: #334155;
+    padding: 0.35rem;
+    user-select: none;
+  }
+
+  #contextMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  #contextMenu ul li {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  #contextMenu ul li:hover {
+    background-color: #1fbc08b3;
+    color: #ffffff;
   }
