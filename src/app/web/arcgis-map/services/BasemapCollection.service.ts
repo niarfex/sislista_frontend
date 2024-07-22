@@ -58,7 +58,7 @@ export class BasemapCollectionService {
       baseLayers: new this.EsriTileLayer({
         url: 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer'
       }),
-      thumbnailUrl: 'assets/images/basemap/street.jpg',
+      thumbnailUrl: 'assets/images/maps/basemap/street.jpg',
       title: 'Calles'
     });
   }

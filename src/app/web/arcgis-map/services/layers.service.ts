@@ -15,13 +15,15 @@ export class LayersService {
   streetViewLayer: any;
   searchLayer: any;
   mapImageLayer: any;
+  EditGraphicsLayer: any;
+  SelectGraphicsLayer: any;
 
   // variables de ESRI
   EsriMapImageLayer: any;
   EsriFeatureLayer: any;
   EsriGraphicsLayer: any;
   EsriRequest: any;
-  EsriEditGraphicsLayer: any;
+  
 
   constructor() {
   }
@@ -48,15 +50,24 @@ export class LayersService {
     this.layers.push(this.streetViewLayer);
     console.log('02-Street View-' + true);
 
-    //--Cargamos la Capa de StreetView --  
-    this.EsriEditGraphicsLayer = new this.EsriGraphicsLayer({
+    //--Cargamos la Capa de Edición --  
+    this.EditGraphicsLayer = new this.EsriGraphicsLayer({
       title: 'Edit Graphic',
       listMode: 'hide',
       visible: false
     });
-    this.layers.push(this.EsriEditGraphicsLayer);
+    this.layers.push(this.EditGraphicsLayer);
     console.log('03-Edit Graphic-' + true);
-    
+
+    //--Cargamos la Capa de Edición --  
+    this.SelectGraphicsLayer = new this.EsriGraphicsLayer({
+        title: 'Select Graphic',
+        listMode: 'hide',
+        visible: false
+    });
+    this.layers.push(this.SelectGraphicsLayer);
+    console.log('04-Select Graphic-' + true);
+    //--Regresamos las capas
     return this.layers;
   }
 

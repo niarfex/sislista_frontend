@@ -73,11 +73,43 @@
                       class="button-esri-modify esri-widget--button esri-interactive esri-custom-icon-trash"
                       title="Limpiar Herramientas" (click)="onClickClear()"></button>
             </div>
+            <!--ToolBar Personalizado de Edición-->
+            <div class="toolbar-edit esri-component esri-widget toolbar-widget-map">
+                <button id="toolbar-edit-selection"
+                class="esri-widget--button esri-interactive button-esri-modify esri-icon-cursor-marquee"
+                title="Seleccionar Polígono" (click)="onSelectGraphic()"></button>
+                <div class="separator-button"></div>
+                <button id="toolbar-edit-line"
+                class="esri-widget--button esri-interactive button-esri-modify esri-icon-polyline"
+                title="Seleccionar Polígono" (click)="onCreateLineGraphic('polyline')"></button>
+                <div class="separator-button"></div>
+                <button id="toolbar-edit-line"
+                class="esri-widget--button esri-interactive button-esri-modify esri-icon-polygon"
+                title="Seleccionar Polígono" (click)="onCreateLineGraphic('polygon')"></button>
+                <button id="toolbar-edit-line"
+                class="esri-widget--button esri-interactive button-esri-modify esri-icon-save"
+                title="Grabar cambios" (click)="onSaveChanges()"></button>                           
+            </div>         
         </div>
     </div>
     <div [ngClass]="'w-100 m-0 p-0 ' + (activeStreet ? 'h-40' : 'h-0')">
         <ng-template [ngIf]="activeStreet">        
         </ng-template>
+    </div>
+    <!--Menu-->
+    <div id="contextMenu">
+        <ul>
+          <li id="EditGeometry"  (click)="onEditGraphic()">
+            <span class="esri-icon-line-chart icon-style"></span>
+            <span> Modificar geometría</span>
+          </li>
+          <li id="showInfo">
+            <div>
+              <span class="esri-icon-table icon-style"> </span>
+              <span>Modificar atributos</span>
+            </div>
+          </li>
+        </ul>
     </div>
 </div>
 <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
