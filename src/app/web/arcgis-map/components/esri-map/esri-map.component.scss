@@ -1,3 +1,4 @@
+
 div.container-map {
     position: relative;
     height: 100%;
@@ -211,3 +212,24 @@ div.container-map {
     background-color: #1fbc08b3;
     color: #ffffff;
   }
+
+  .card {
+    position: absolute;   
+    right: 15px;
+    bottom: 20px;
+    .card-header {
+        color: #ffffff;
+        background-color: #008f49;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 0.35rem 1.25rem;
+        border-radius: 6px 6px 0px 0px;
+    }
+
+    .form-group>label {
+      width: 100%;
+      .form-control {
+          margin-top: 0.5rem;
+      }
+  }
+}
