@@ -197,7 +197,7 @@ export class MapService {
         this.isAddWMS = false;
         this.activePopup = false;
         this.activeStreet = false;
-        this.basemap = this.basemapService.getTopo();
+        this.basemap = this.basemapService.getSatellite();
         this.spatialReference = new  arcgis.SpatialReference({ wkid: 102100 });
         this.layersService.EsriMapImageLayer = this.EsriMapImageLayer;
         this.layersService.EsriFeatureLayer = this.EsriFeatureLayer;
@@ -362,9 +362,11 @@ export class MapService {
       const widget = 'direXY';
       var isGraphicsVisible = expanded;
       if (expanded){
-        this.setViewGraphicsLayer()      
+        this.setViewGraphicsLayer()
+        this.editDivToolbar.style.display = 'block'; 
       }else{
         isGraphicsVisible = expanded
+        this.editDivToolbar.style.display = 'none';
       }
       if(this.ptFeatureLayerEdit !== undefined ){this.ptFeatureLayerEdit.visible=!isGraphicsVisible}
       //--Desactiva las capasa para la edición
