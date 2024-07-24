@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Injector, OnInit, TemplateRef } from '@angular/core';
+import moment from 'moment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -21,20 +22,20 @@ export class ListaNotificacionesComponent implements OnInit {
   txt_busqueda: string = "";
   lista_resultados: NotificacionListDto[];
   idRegistro: number;
-  modalActivo:boolean;
-  usuario:Login; 
+  modalActivo: boolean;
+  usuario: Login;
   private notificacionServiceProxy: NotificacionServiceProxy;
   constructor(_injector: Injector
     , private confirmationService: ConfirmationService
     , private modalService: BsModalService
     , private spinner: NgxSpinnerService
     , private toastr: ToastrService
-    ,private loginService: LoginService) {
+    , private loginService: LoginService) {
     this.notificacionServiceProxy = _injector.get(NotificacionServiceProxy);
   }
 
   ngOnInit(): void {
-    this.usuario=this.loginService.getCurrentUserValue;
+    this.usuario = this.loginService.getCurrentUserValue;
     this.getData();
   }
 
@@ -51,9 +52,9 @@ export class ListaNotificacionesComponent implements OnInit {
       });
   }
 
-  abrirModal(viewUserTemplate: TemplateRef<any>, id: number,activo:boolean){
+  abrirModal(viewUserTemplate: TemplateRef<any>, id: number, activo: boolean) {
     this.idRegistro = id;
-    this.modalActivo=activo;
+    this.modalActivo = activo;
     this.modalRef = this.modalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
@@ -61,10 +62,10 @@ export class ListaNotificacionesComponent implements OnInit {
     });
   }
   agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
-    this.abrirModal(viewUserTemplate,id,true);
+    this.abrirModal(viewUserTemplate, id, true);
   }
-  verRegistro(viewUserTemplate: TemplateRef<any>, id: number){
-    this.abrirModal(viewUserTemplate,id,false);
+  verRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
+    this.abrirModal(viewUserTemplate, id, false);
   }
   eliminarRegistro(id: number) {
     this.confirmationService.confirm({
@@ -99,7 +100,7 @@ export class ListaNotificacionesComponent implements OnInit {
 
       }
     });
-  }  
+  }
   notificarRegistro(id: number) {
     this.confirmationService.confirm({
       message: '¿Estás seguro que deseas enviar la notificación?',
@@ -133,27 +134,30 @@ export class ListaNotificacionesComponent implements OnInit {
 
       }
     });
-  }  
+  }
   exitModal = (): void => {
     this.modalRef?.hide();
     this.getData();
   };
-  exportar(){
+  exportar() {
     this.notificacionServiceProxy.getAllToExcel(this.txt_busqueda).subscribe(async (event) => {
-      let data = event as HttpResponse < Blob > ;
-            const downloadedFile = new Blob([data.body as BlobPart], {
-                type: data.body?.type
-            });         
-        if (downloadedFile.type != "") {
-          const a = document.createElement('a');
-          a.setAttribute('style', 'display:none;');
-          document.body.appendChild(a);
-          a.download = "notificaciones.xlsx";
-          a.href = URL.createObjectURL(downloadedFile);
-          a.target = '_blank';
-          a.click();
-          document.body.removeChild(a);
-        }
+      let data = event as HttpResponse<Blob>;
+      const downloadedFile = new Blob([data.body as BlobPart], {
+        type: data.body?.type
+      });
+      if (downloadedFile.type != "") {
+        const a = document.createElement('a');
+        a.setAttribute('style', 'display:none;');
+        document.body.appendChild(a);
+        a.download = "notificaciones.xlsx";
+        a.href = URL.createObjectURL(downloadedFile);
+        a.target = '_blank';
+        a.click();
+        document.body.removeChild(a);
+      }
     });
-}
+  }
+  convertDateToString(dateToBeConverted: string) {
+    return dateToBeConverted == null ? "" : moment(dateToBeConverted, "YYYY-MM-DD HH:mm:ss").format("DD/MM/yyyy");
+  }
 }

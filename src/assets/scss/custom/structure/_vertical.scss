@@ -61,14 +61,14 @@
     .mm-active {
         >.has-arrow {
             &:after {
-                transform: rotate(-180deg);
+                transform: rotate(-45deg);
             }
         }
     }
 
     .has-arrow {
         &:after {
-            content: "\F0140";
+            font-weight:bold;
             font-family: 'Material Design Icons';
             display: block;
             float: right;

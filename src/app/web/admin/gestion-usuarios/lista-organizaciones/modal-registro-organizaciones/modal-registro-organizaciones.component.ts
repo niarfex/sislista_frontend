@@ -82,7 +82,9 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
 
 
   onFocusOutEvent(event: any, nombreControl: string) {
-    this.modalForm.controls[nombreControl].setValue(event.target.value.trim().toUpperCase());
+    if(nombreControl!="CorreoElectronico"){
+      this.modalForm.controls[nombreControl].setValue(event.target.value.trim().toUpperCase());
+    }    
   }
 
   onClickSubmit(data) {
@@ -119,7 +121,7 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
                 this.close();
               }
               else {
-                this.toastr.warning(result.message.toString(), 'Aviso');
+                this.toastr.error(result.message.toString(), 'Error');
               }
             }
           });
@@ -181,7 +183,7 @@ export class ModalRegistroOrganizacionesComponent implements OnInit {
                 var sunat= JSON.parse(result.datos.toString());                
                 if(sunat.datos!=null && sunat.datos!=undefined){
                   this.Organizacion.setValue(sunat.datos.ddp_nombre);
-                  this.DireccionFiscal.setValue(sunat.datos.ddp_nomvia+" "+sunat.ddp_numer1);
+                  this.DireccionFiscal.setValue(sunat.datos.ddp_nomvia+" "+(sunat.ddp_numer1===undefined?"":sunat.ddp_numer1));
                   this.Organizacion.disable();
                   this.toastr.success(result.message.toString(), 'Información');
                 }

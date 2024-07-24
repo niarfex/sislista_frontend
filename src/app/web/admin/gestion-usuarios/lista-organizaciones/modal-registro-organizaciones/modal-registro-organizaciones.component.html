@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="IdTipoOrganizacion">Tipo de organización</label>
+                        <label for="IdTipoOrganizacion">Tipo de organización*</label>
                         <select formControlName="IdTipoOrganizacion" id="IdTipoOrganizacion" name="IdTipoOrganizacion"
                             class="form-select">      
                             <option value="" disabled selected>-- Seleccionar --</option>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="NumeroDocumento">RUC</label>
+                        <label for="NumeroDocumento">RUC*</label>
                         <div class="input-group">
                             <input formControlName="NumeroDocumento" onkeypress="return '0123456789'.includes(event.key)" maxlength="11" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'NumeroDocumento')" required>
                             <button *ngIf="modalActivo" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="getDatosSUNAT()"><i class="bi bi-search"></i></button>
@@ -49,7 +49,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="Organizacion">Nombre</label>
+                        <label for="Organizacion">Nombre*</label>
                         <input formControlName="Organizacion" type="text" maxlength="200" class="form-control" (focusout)="onFocusOutEvent($event,'Organizacion')" required>
                         <div *ngIf="Organizacion.invalid && (Organizacion.dirty || Organizacion.touched)" class="text-danger">
                             <div *ngIf="Organizacion.errors?.['required']">
@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="DireccionFiscal">Dirección fiscal</label>
+                        <label for="DireccionFiscal">Dirección fiscal*</label>
                         <input formControlName="DireccionFiscal" maxlength="100" type="text" class="form-control" (focusout)="onFocusOutEvent($event,'DireccionFiscal')" required>
                         <div *ngIf="DireccionFiscal.invalid && (DireccionFiscal.dirty || DireccionFiscal.touched)" class="text-danger">
                             <div *ngIf="DireccionFiscal.errors?.['required']">

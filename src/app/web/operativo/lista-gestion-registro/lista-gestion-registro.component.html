@@ -53,9 +53,9 @@
                     <td style="width: 20%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td>
                     <td style="width: 20%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
                     <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.UsuarioCreacion }}</td>
-                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;"></td>
+                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.FechaRegistro }}</td>
                     <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.UsuarioActualizacion }}</td>
-                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{item.Clasificacion}}</td> 
+                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.FechaActualizacion }}</td> 
                     <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;">{{item.TipoExplotacion}}</td> 
                     <td *ngIf="usuario.isSupervisor || usuario.isEspecialista" style="width: 15%; flex: none; padding: 5px;">{{item.Clasificacion}}</td> 
                     <td *ngIf="usuario.isSupervisor" style="width: 15%; flex: none; padding: 5px;">{{item.NombreEstadoSupervision}}</td> 
@@ -70,19 +70,26 @@
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>
                             <div class="dropdown-menu" *dropdownMenu>                                
-                                <div *ngIf="usuario.isEmpadronador || usuario.isSupervisor || usuario.isEspecialista">
+                                <div *ngIf="((usuario.isEmpadronador && item.CodigoEstadoRegistro != 'PARAREVISAR' && item.CodigoEstadoRegistro != 'ENALERTA'
+                                && item.CodigoEstadoRegistro != 'ARBITRAJE' && item.CodigoEstadoRegistro != 'OBSERVADOSUPERVISOR' && item.CodigoEstadoRegistro != 'PARAVALIDAR'
+                                && item.CodigoEstadoRegistro != 'ELIMINADO' && item.CodigoEstadoRegistro != 'CERRADO')
+                                || (usuario.isSupervisor && item.CodigoEstadoSupervision!='APROBADO' && item.CodigoEstadoSupervision!='DESAPROBADO'
+                                && item.CodigoEstadoSupervision!='RATIFICADO' && item.CodigoEstadoSupervision!='DERIVADO') 
+                                || (usuario.isEspecialista && item.CodigoEstadoValidacion!='VALIDO' && item.CodigoEstadoValidacion!='INVALIDO'
+                                && item.CodigoEstadoValidacion!='SUSTITUIR' && item.CodigoEstadoValidacion!='DESCARTAR'))">
                                     <button  class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;" type="button"
                                     (click)="agregarRegistro(item.NumeroDocumento,item.IdPeriodo)"><i class="bi bi-pencil-square"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Editar</span>
                                 </div>                               
                                 <div *ngIf="usuario.isAdministrador || usuario.isEmpadronador || usuario.isEspecialista">
-                                    <button   class="btn btn-primary"
+                                    <button class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
                                     type="button" (click)="verRegistro(item.CodigoUUID)"><i class="bi bi-eye"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Visualizar</span>
                                 </div>    
-                                <div *ngIf="usuario.isEmpadronador">
+                                <div *ngIf="usuario.isEmpadronador && 
+                                    (item.CodigoEstadoRegistro == 'OBSERVADOSUPERVISOR' || item.CodigoEstadoRegistro == 'OBSERVADOESPECIALISTA')">
                                     <button   class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
                                     type="button" (click)="subsanarRegistro(item.CodigoUUID)"><i class="bi bi-wrench"></i>

@@ -17,6 +17,7 @@ export class ModalProgramacionRegistroComponent implements OnInit {
   @Input() exitModal = (): void => {};
   @Input() idRegistro:number;
   @Input() modalActivo: boolean = true;
+  @Input() estado: number=0;
   objRegistro:PanelRegistroGetDto = new PanelRegistroGetDto();
   active: boolean = true;
   modalForm=this.formBuilder.group({
@@ -58,8 +59,8 @@ export class ModalProgramacionRegistroComponent implements OnInit {
                 this.modalForm.controls['IdPlantilla'].setValue(this.objRegistro.IdPlantilla.toString());
                 this.modalForm.controls['IdAnio'].setValue(this.objRegistro.IdAnio.toString());
                 this.modalForm.controls['ProgramacionRegistro'].setValue(this.objRegistro.ProgramacionRegistro.toString());
-                this.modalForm.controls['FechaInicio'].setValue(this.objRegistro.FechaInicio.toString());
-                this.modalForm.controls['FechaFin'].setValue(this.objRegistro.FechaFin.toString());
+                this.modalForm.controls['FechaInicio'].setValue(this.objRegistro.FechaInicio.toString().substring(0,this.objRegistro.FechaInicio.toString().indexOf('T')));
+                this.modalForm.controls['FechaFin'].setValue(this.objRegistro.FechaFin.toString().substring(0,this.objRegistro.FechaFin.toString().indexOf('T')));
                 this.modalForm.controls['DecretoNorma'].setValue(this.objRegistro.DecretoNorma.toString());
                 this.modalForm.controls['Objetivo'].setValue(this.objRegistro.Objetivo.toString());
                 this.modalForm.controls['EnteRector'].setValue(this.objRegistro.EnteRector.toString());
@@ -70,7 +71,19 @@ export class ModalProgramacionRegistroComponent implements OnInit {
             }
             if (!this.modalActivo) {
               this.modalForm.disable();  
-            }           
+            }
+            else{
+              if(this.estado==2){
+                this.IdPlantilla.disable();
+                this.IdAnio.disable();
+                this.FechaInicio.disable();
+                this.ProgramacionRegistro.disable();
+              }
+              else if(this.estado==4){
+                this.ProgramacionRegistro.disable();
+              }
+            }     
+                  
           }
         });
   }
@@ -78,11 +91,16 @@ export class ModalProgramacionRegistroComponent implements OnInit {
 
   onFocusOutEvent(event: any,nombreControl:string){
     this.modalForm.controls[nombreControl].setValue(event.target.value.trim()); 
+    
  }
-
+ selecFecha(){
+    if(this.FechaInicio.value>this.FechaFin.value){
+      this.toastr.error("La fecha de cierre debe ser mayor a la fecha de inicio", 'Error');
+    }  
+ }
   onClickSubmit(data) {
     if(this.FechaInicio.value>this.FechaFin.value){
-      this.toastr.error("La fecha de cierre debe ser mayor o igual a la fecha de inicio", 'Error');
+      this.toastr.error("La fecha de cierre debe ser mayor a la fecha de inicio", 'Error');
       return;
     }
     this.confirmationService.confirm({
@@ -129,7 +147,7 @@ export class ModalProgramacionRegistroComponent implements OnInit {
     });
     
  }
-
+ 
   show(){
     
   }

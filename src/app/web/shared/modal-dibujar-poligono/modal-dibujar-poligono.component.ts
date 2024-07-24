@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injector, Input } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -21,8 +21,8 @@ export class ModalDibujarPoligonoComponent {
   @Input() nombreEmpresa: String;
   @Input() periodo: String;
   modalForm = this.formBuilder.group({
-    NombreFundo: ['', []],
-    NombreCampo: ['', []]
+    NombreFundo: ['', [Validators.required]],
+    NombreCampo: ['', [Validators.required]]
   });
   private gestionregistroServiceProxy: GestionRegistroServiceProxy;
   constructor(_injector: Injector

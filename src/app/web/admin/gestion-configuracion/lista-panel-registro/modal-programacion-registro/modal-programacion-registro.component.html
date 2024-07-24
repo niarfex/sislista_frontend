@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="ProgramacionRegistro">Denominación</label>
+                        <label for="ProgramacionRegistro">Denominación*</label>
                         <input formControlName="ProgramacionRegistro" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'ProgramacionRegistro')" required>
                         <div *ngIf="ProgramacionRegistro.invalid && (ProgramacionRegistro.dirty || ProgramacionRegistro.touched)" class="text-danger">
                             <div *ngIf="ProgramacionRegistro.errors?.['required']">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="IdAnio">Periodo</label>
+                        <label for="IdAnio">Periodo*</label>
                         <select formControlName="IdAnio" id="IdAnio" name="IdAnio"
                             class="form-select">   
                             <option value="" disabled selected>-- Seleccionar --</option> 
@@ -47,8 +47,8 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="FechaInicio">Fecha de inicio</label>
-                        <input formControlName="FechaInicio" type="date" class="form-control" (focusout)="onFocusOutEvent($event,'FechaInicio')" required>
+                        <label for="FechaInicio">Fecha de inicio*</label>
+                        <input formControlName="FechaInicio" type="date" class="form-control" (change)="selecFecha()" (focusout)="onFocusOutEvent($event,'FechaInicio')" required>
                         <div *ngIf="FechaInicio.invalid && (FechaInicio.dirty || FechaInicio.touched)" class="text-danger">
                             <div *ngIf="FechaInicio.errors?.['required']">
                                 El campo es obligatorio
@@ -58,8 +58,8 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="FechaFin">Fecha de cierre</label>
-                        <input formControlName="FechaFin" type="date" class="form-control" (focusout)="onFocusOutEvent($event,'FechaFin')" required>
+                        <label for="FechaFin">Fecha de cierre*</label>
+                        <input formControlName="FechaFin" type="date" class="form-control" (change)="selecFecha()" (focusout)="onFocusOutEvent($event,'FechaFin')" required>
                         <div *ngIf="FechaFin.invalid && (FechaFin.dirty || FechaFin.touched)" class="text-danger">
                             <div *ngIf="FechaFin.errors?.['required']">
                                 El campo es obligatorio
@@ -71,7 +71,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="DecretoNorma">Documento normativo</label>
+                        <label for="DecretoNorma">Documento normativo*</label>
                         <input formControlName="DecretoNorma" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'DecretoNorma')" required>
                         <div *ngIf="DecretoNorma.invalid && (DecretoNorma.dirty || DecretoNorma.touched)" class="text-danger">
                             <div *ngIf="DecretoNorma.errors?.['required']">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="Objetivo">Objetivo</label>
+                        <label for="Objetivo">Objetivo*</label>
                         <input formControlName="Objetivo" type="text" maxlength="200" class="form-control" (focusout)="onFocusOutEvent($event,'Objetivo')" required>
                         <div *ngIf="Objetivo.invalid && (Objetivo.dirty || Objetivo.touched)" class="text-danger">
                             <div *ngIf="Objetivo.errors?.['required']">
@@ -95,7 +95,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="EnteRector">Ente rector</label>
+                        <label for="EnteRector">Ente rector*</label>
                         <input formControlName="EnteRector" type="text" maxlength="100" class="form-control" (focusout)="onFocusOutEvent($event,'EnteRector')" required>
                         <div *ngIf="EnteRector.invalid && (EnteRector.dirty || EnteRector.touched)" class="text-danger">
                             <div *ngIf="EnteRector.errors?.['required']">
@@ -115,7 +115,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="IdPlantilla">Plantilla</label>
+                        <label for="IdPlantilla">Plantilla*</label>
                         <select formControlName="IdPlantilla" id="IdPlantilla" name="IdPlantilla"
                             class="form-select">    
                             <option value="" disabled selected>-- Seleccionar --</option> 

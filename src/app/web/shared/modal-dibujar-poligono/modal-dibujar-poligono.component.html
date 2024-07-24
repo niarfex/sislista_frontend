@@ -15,6 +15,11 @@
                 <div class="col-sm-6">
                     <input formControlName="NombreFundo" maxlength="50" type="text" class="form-control"
                         (focusout)="onFocusOutEvent($event,'NombreFundo')">
+                        <div *ngIf="NombreFundo.invalid && (NombreFundo.dirty || NombreFundo.touched)" class="text-danger">
+                            <div *ngIf="NombreFundo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -24,12 +29,17 @@
                 <div class="col-sm-6">
                     <input formControlName="NombreCampo" maxlength="50" type="text" class="form-control"
                         (focusout)="onFocusOutEvent($event,'NombreCampo')">
+                        <div *ngIf="NombreCampo.invalid && (NombreCampo.dirty || NombreCampo.touched)" class="text-danger">
+                            <div *ngIf="NombreCampo.errors?.['required']">
+                                El campo es requerido.
+                            </div>
+                        </div>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-6"></div>
                 <div class="col-sm-6 text-end">
-                    <button type="submit" class="btn btn-primary" (click)="dibujarPoligono()"
+                    <button type="submit" class="btn btn-primary" (click)="dibujarPoligono()" [disabled]="!modalForm.valid"
                         style="background-color: #008F49; border-color: #008F49;">Dibujar polígono</button>
                 </div>
             </div>
@@ -57,11 +67,11 @@
         <div class="modal-footer" style="display: block;">
             <div class="row">
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary" (click)="procesarFundos()"
+                    <button type="button" class="btn btn-primary" (click)="procesarFundos()" [disabled]="!modalForm.valid"
                         style="background-color: #008F49; border-color: #008F49;">Procesar fundos</button>
                 </div>
                 <div class="col-sm-6 text-end">
-                    <button type="submit" class="btn btn-primary" (click)="grabar()"
+                    <button type="submit" class="btn btn-primary" (click)="grabar()" [disabled]="!modalForm.valid"
                         style="background-color: #008F49; border-color: #008F49;">Grabar</button>
                 </div>
             </div>

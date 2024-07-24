@@ -467,7 +467,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="CantidadFundo">16. ¿Cuántos fundos tiene la empresa?</label>
-                        <input formControlName="CantidadFundo" type="text" class="form-control"
+                        <input formControlName="CantidadFundo" maxlength="6" readonly type="text" class="form-control" onkeypress="return '0123456789'.includes(event.key)"
                             required>
                         <div *ngIf="CantidadFundo.invalid && (CantidadFundo.dirty || CantidadFundo.touched)" class="text-danger">
                             <div *ngIf="CantidadFundo.errors?.['required']">

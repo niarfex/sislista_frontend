@@ -24,7 +24,7 @@ export class RegistroFundoPlantillaComponent {
   @Input() listUsoTierra: SelectTipoDto[];
   @Input() listCultivo: SelectTipoDto[];
   @Input() listUsoNoAgricola: SelectTipoDto[];
-  idNombre:String="";
+  idNombre: String = "";
   fundoForm = this.formBuilder.group({
     SuperficieTotal: [''],
     SuperficieTotalCalc: [''],
@@ -50,7 +50,7 @@ export class RegistroFundoPlantillaComponent {
   get IdDistrito() { return this.fundoForm.controls['IdDistrito']; }
 
   ngOnInit(): void {
-    this.idNombre="fundo-"+this.fundo.Orden.toString();
+    this.idNombre = "fundo-" + this.fundo.Orden.toString();
     this.SuperficieAgricola.setValue(this.fundo.SuperficieAgricola.toString());
     this.SuperficieTotalCalc.setValue(this.fundo.SuperficieTotalCalc.toString());
     this.SuperficieTotal.setValue(this.fundo.SuperficieTotal.toString());
@@ -74,6 +74,9 @@ export class RegistroFundoPlantillaComponent {
           }
         }
       });
+      this.IdProvincia.setValue("");
+      this.IdDistrito.setValue("");
+      this.fundo.IdUbigeo="";
   }
   selProvincia(event: any) {
     this.spinner.show();
@@ -89,6 +92,29 @@ export class RegistroFundoPlantillaComponent {
           }
         }
       });
+      this.IdDistrito.setValue("");
+      this.fundo.IdUbigeo="";
   }
+  selDistrito(event: any) {
+    this.fundo.IdUbigeo=this.IdDistrito.value;
+  }
+  setTwoNumberDecimal(nombreControl: string) {
+    this.fundoForm.controls[nombreControl].setValue(parseFloat(this.fundoForm.controls[nombreControl].value==""?0:this.fundoForm.controls[nombreControl].value).toFixed(2));
+  }
+  actualizarSumas(tipo:string){
+    if(tipo=="Superficie"){
+      let sumSuperficieTotal:number=0;
+      this.fundo.ListCampos.forEach(a => sumSuperficieTotal += a.Superficie);
+      this.SuperficieTotal.setValue(sumSuperficieTotal.toString());
 
+      let valAgricola=this.listUsoTierra.find(x=>x.codigo="AGRÍCOLA").value;
+      let sumSuperficieAgricola:number=0;
+      this.fundo.ListCampos.filter(x =>x.IdUsoTierra.toString()==valAgricola).forEach(a => sumSuperficieAgricola += a.Superficie);
+      this.SuperficieAgricola.setValue(sumSuperficieAgricola.toString());
+
+    }
+    else if(tipo=="SuperficieCultivada"){
+      
+    }
+  }
 }

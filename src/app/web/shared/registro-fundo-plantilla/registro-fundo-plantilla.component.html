@@ -4,7 +4,7 @@
         <div class="accordion-item">
           <h2 class="accordion-header" [id]=idNombre>
             <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+idNombre" aria-expanded="true" [attr.aria-controls]="idNombre">
-                17.1 Nombre del fundo: "{{fundo.Fundo}}"
+                17.{{fundo.Orden}}. Nombre del fundo: "{{fundo.Fundo}}"
             </button>
           </h2>
           <div [id]=idNombre class="accordion-collapse collapse show" [attr.aria-labelledby]="idNombre">
@@ -13,19 +13,19 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="SuperficieTotalCalc">Superficie total calculada(ha)</label>
-                            <input readonly formControlName="SuperficieTotalCalc" type="text" class="form-control" required>        
+                            <input readonly formControlName="SuperficieTotalCalc" maxlength="10" step ="0.01" type="number" class="form-control" required>        
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="SuperficieTotal">Superficie total reportada(ha)</label>
-                            <input formControlName="SuperficieTotal" type="text" class="form-control" required>        
+                            <input readonly formControlName="SuperficieTotal" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal('SuperficieTotal')" class="form-control" required>        
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="SuperficieAgricola">Superficie agrícola (ha)</label>
-                            <input formControlName="SuperficieAgricola" type="text" class="form-control" required>        
+                            <input readonly formControlName="SuperficieAgricola" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal('SuperficieAgricola')" class="form-control" required>        
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -64,7 +64,7 @@
                         <div class="form-group">
                             <label for="IdDistrito">Distrito</label>
                             <select formControlName="IdDistrito" id="IdDistrito" name="IdDistrito"
-                                class="form-select">
+                                class="form-select" (change)="selDistrito($event)">
                                 <option value="" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of fundo.ListDistrito" [value]="item.value">
                                     {{ item.label }}
@@ -78,7 +78,8 @@
                     [listTenencia]="listTenencia"
                     [listUsoTierra]="listUsoTierra"
                     [listCultivo]="listCultivo"
-                    [listUsoNoAgricola]="listUsoNoAgricola"></lista-campos-plantilla>
+                    [listUsoNoAgricola]="listUsoNoAgricola"
+                    (enviarSumas)="actualizarSumas($event)"></lista-campos-plantilla>
                 </div>
             </div>
           </div>

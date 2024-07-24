@@ -14,7 +14,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-sm-10">
-            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px;background-color: #008F49; border-color: #008F49;" type="button" (click)="agregarRegistro(viewUserTemplate,0)">Nueva encuesta</button>
+            <button *ngIf="usuario.isAdministrador" class="btn btn-primary" style="min-width: 100px;background-color: #008F49; border-color: #008F49;" type="button" (click)="agregarRegistro(viewUserTemplate,0,0)">Nuevo</button>
             <button *ngIf="usuario.isEspecialista" class="btn btn-primary" style="min-width: 100px;background-color: #008F49; border-color: #008F49;" type="button" (click)="exportar()">Exportar</button>
         </div>        
         <div class="col-sm-2 text-end">
@@ -32,19 +32,19 @@
                 <tr>
                     <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Periodo</th>
                     <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Denominacion</th>
-                    <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Fecha inicio</th>  
+                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Fecha inicio</th>  
                     <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Fecha de cierre</th> 
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado</th>          
-                    <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
+                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Estado</th>          
+                    <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item>
                 <tr>
                     <td style="width: 10%; flex: none; padding: 5px;">{{ item.Periodo }}</td>
                     <td style="width: 30%; flex: none; padding: 5px;">{{ item.ProgramacionRegistro }}</td>
-                    <td style="width: 30%; flex: none; padding: 5px;">{{ item.FechaInicio }}</td> 
-                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.FechaFin}}</td> 
-                    <td style="width: 5%; flex: none; padding: 5px;">{{ item.EstadoProgramacion==1?'Programada':(item.EstadoProgramacion==2?'En curso':(item.EstadoProgramacion==3?'Finalizada':(item.EstadoProgramacion==4?'Pausada':(item.EstadoProgramacion==5?'Cancelada':'')))) }}</td> 
+                    <td style="width: 15%; flex: none; padding: 5px;">{{ convertDateToString(item.FechaInicio) }}</td> 
+                    <td style="width: 15%; flex: none; padding: 5px;">{{ convertDateToString(item.FechaFin) }}</td> 
+                    <td style="width: 15%; flex: none; padding: 5px;">{{ item.EstadoProgramacion==1?'Programada':(item.EstadoProgramacion==2?'En curso':(item.EstadoProgramacion==3?'Finalizada':(item.EstadoProgramacion==4?'Pausada':(item.EstadoProgramacion==5?'Cancelada':'')))) }}</td> 
                     <td style="width: 15%; flex: none; padding: 5px;">
                         <div class="dropdown" dropdown>
                             <button type="button" class="btn" dropdownToggle id="page-header-user-dropdown">
@@ -52,19 +52,19 @@
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>
                             <div class="dropdown-menu" *dropdownMenu>                                
-                                <div *ngIf="usuario.isAdministrador">
+                                <div *ngIf="usuario.isAdministrador && (item.EstadoProgramacion==1 || item.EstadoProgramacion==2 || item.EstadoProgramacion==4)">
                                     <button  class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;" type="button"
-                                    (click)="agregarRegistro(viewUserTemplate,item.Id)"><i class="bi bi-pencil-square"></i>
+                                    (click)="agregarRegistro(viewUserTemplate,item.Id,item.EstadoProgramacion)"><i class="bi bi-pencil-square"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Editar</span>
                                 </div>
-                                <div *ngIf="usuario.isAdministrador">
+                                <div *ngIf="usuario.isAdministrador && item.EstadoProgramacion==1">
                                     <button class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
                                     type="button" (click)="eliminarRegistro(item.Id)"><i class="bi bi-trash3"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Eliminar</span>
                                 </div>
-                                <div *ngIf="usuario.isAdministrador">
+                                <div *ngIf="usuario.isAdministrador && item.EstadoProgramacion==1">
                                     <button class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
                                     type="button" (click)="publicarRegistro(item.Id)"><i class="bi bi-arrow-up-left-square"></i>
@@ -76,13 +76,13 @@
                                     type="button" (click)="verRegistro(viewUserTemplate,item.Id)"><i class="bi bi-eye"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Visualizar</span>
                                 </div>  
-                                <div *ngIf="usuario.isAdministrador">
+                                <div *ngIf="usuario.isAdministrador && item.EstadoProgramacion==2">
                                     <button class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
                                     type="button" (click)="pausarRegistro(item.Id)"><i class="pi-stop"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Pausar</span>
                                 </div> 
-                                <div *ngIf="usuario.isAdministrador">
+                                <div *ngIf="usuario.isAdministrador && item.EstadoProgramacion==4">
                                     <button class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
                                     type="button" (click)="reiniciarRegistro(item.Id)"><i class="bi bi-play-fill"></i>
@@ -97,6 +97,6 @@
     </div>
     <p-confirmDialog></p-confirmDialog>
     <ng-template #viewUserTemplate >
-        <modal-programacion-registro [exitModal]="exitModal" [idRegistro]="idRegistro" [modalActivo]="modalActivo"></modal-programacion-registro> 
+        <modal-programacion-registro [exitModal]="exitModal" [idRegistro]="idRegistro" [modalActivo]="modalActivo" [estado]="estadoRegistro"></modal-programacion-registro> 
     </ng-template>
 </div>

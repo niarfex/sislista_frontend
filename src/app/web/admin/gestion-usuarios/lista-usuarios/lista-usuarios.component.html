@@ -53,7 +53,7 @@
                                 <span class="d-none d-xl-inline-block ms-1">SELECCIONE </span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>
-                            <div class="dropdown-menu" *dropdownMenu style="overflow-y: scroll; width: 200px; height: 200px;">
+                            <div class="dropdown-menu" *dropdownMenu style="overflow-y: scroll; width: 200px; max-height: 200px;">
                                 <div *ngIf="item.Estado==1 && usuario.isAdministrador">
                                     <button  class="btn btn-primary"
                                     style="background-color: red; border-color: red; margin-left: 10px; margin-bottom: 5px;" type="button"

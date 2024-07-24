@@ -6,11 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './components/layout/layout/layout.component';
 import { VerticalComponent } from './components/layout/vertical/vertical.component';
-import { HorizontalComponent } from './components/layout/horizontal/horizontal.component';
 import { TopbarComponent } from './components/layout/topbar/topbar.component';
 import { SidebarComponent } from './components/layout/sidebar/sidebar.component';
 import { RightsidebarComponent } from './components/layout/rightsidebar/rightsidebar.component';
-import { HorizontaltopbarComponent } from './components/layout/horizontaltopbar/horizontaltopbar.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { InicioComponent } from './web/inicio/inicio.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -43,18 +41,11 @@ import { ModalRegistroObservacionComponent } from './web/shared/modal-registro-o
         AppComponent,
         LayoutComponent,
         VerticalComponent,
-        HorizontalComponent,
         TopbarComponent,
         SidebarComponent,
-        RightsidebarComponent,
-        HorizontaltopbarComponent,        
+        RightsidebarComponent,    
         FooterComponent,
-        InicioComponent,
-        
-        
-        
-        
-        
+        InicioComponent,   
         /*ModalRegistroInformantesComponent,
         PlantillaUnoComponent,
         ListaInformantesComponent,

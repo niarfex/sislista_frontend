@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="IdTipoDocumento">Tipo de documento</label>
+                        <label for="IdTipoDocumento">Tipo de documento*</label>
                         <select formControlName="IdTipoDocumento" id="IdTipoDocumento" name="IdTipoDocumento"
                             class="form-select" (change)="selTipoDocumento()">
                             <option value="" disabled selected>-- Seleccionar --</option>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="NumeroDocumento">Número de documento</label>
+                        <label for="NumeroDocumento">Número de documento*</label>
                         <div class="input-group">
                             <input formControlName="NumeroDocumento" maxlength="11"
                                 onkeypress="return '0123456789'.includes(event.key)" type="text" class="form-control"
@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="Nombre">Nombres</label>
+                        <label for="Nombre">Nombres*</label>
                         <input formControlName="Nombre" maxlength="25" type="text" class="form-control"
                             (focusout)="onFocusOutEvent($event,'Nombre')" required>
                         <div *ngIf="Nombre.invalid && (Nombre.dirty || Nombre.touched)" class="text-danger">
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="ApellidoPaterno">Apellido paterno</label>
+                        <label for="ApellidoPaterno">Apellido paterno*</label>
                         <input formControlName="ApellidoPaterno" maxlength="25" type="text" class="form-control"
                             (focusout)="onFocusOutEvent($event,'ApellidoPaterno')" required>
                         <div *ngIf="ApellidoPaterno.invalid && (ApellidoPaterno.dirty || ApellidoPaterno.touched)"
@@ -81,7 +81,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="ApellidoMaterno">Apellido materno</label>
+                        <label for="ApellidoMaterno">Apellido materno*</label>
                         <input formControlName="ApellidoMaterno" maxlength="25" type="text" class="form-control"
                             (focusout)="onFocusOutEvent($event,'ApellidoMaterno')" required>
                         <div *ngIf="ApellidoMaterno.invalid && (ApellidoMaterno.dirty || ApellidoMaterno.touched)"
@@ -94,7 +94,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label for="IdPerfil">Perfil</label>
+                        <label for="IdPerfil">Perfil*</label>
                         <select formControlName="IdPerfil" id="IdPerfil" name="IdPerfil" (change)="selPerfil($event)"
                             class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
@@ -118,7 +118,7 @@
             <div class="row">
                 <div *ngIf="contacto" class="col-sm-6">
                     <div class="form-group">
-                        <label for="IdOrganizacion">Organización</label>
+                        <label for="IdOrganizacion">Organización*</label>
                         <select formControlName="IdOrganizacion" id="IdOrganizacion" name="IdOrganizacion"
                             class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
@@ -136,7 +136,7 @@
                 </div>
                 <div *ngIf="contacto" class="col-sm-6">
                     <div class="form-group">
-                        <label for="OficinaArea">Oficina o área</label>
+                        <label for="OficinaArea">Oficina o área*</label>
                         <input formControlName="OficinaArea" maxlength="100" type="text" class="form-control"
                             (focusout)="onFocusOutEvent($event,'OficinaArea')" required>
                         <div *ngIf="OficinaArea.invalid && (OficinaArea.dirty || OficinaArea.touched)"
@@ -151,7 +151,7 @@
             <div class="row">
                 <div *ngIf="contacto" class="col-sm-6">
                     <div class="form-group">
-                        <label for="Cargo">Cargo</label>
+                        <label for="Cargo">Cargo*</label>
                         <input formControlName="Cargo" maxlength="100" type="text" class="form-control"
                             (focusout)="onFocusOutEvent($event,'Cargo')" required>
                         <div *ngIf="Cargo.invalid && (Cargo.dirty || Cargo.touched)" class="text-danger">
@@ -166,17 +166,13 @@
                         <label for="Celular">Celular</label>
                         <input formControlName="Celular" maxlength="9" onkeypress="return '0123456789'.includes(event.key)"
                             maxlength="10" type="text" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'Celular')" required>
-                        <div *ngIf="Celular.invalid && (Celular.dirty || Celular.touched)" class="text-danger">
-                            <div *ngIf="Celular.errors?.['required']">
-                                El campo es requerido.
-                            </div>
-                        </div>
+                            (focusout)="onFocusOutEvent($event,'Celular')">
+                       *
                     </div>
                 </div>
                 <div *ngIf="contacto || contactoMarco" class="col-sm-6">
                     <div class="form-group">
-                        <label for="CorreoElectronico">Correo electrónico</label>
+                        <label for="CorreoElectronico">Correo electrónico*</label>
                         <input formControlName="CorreoElectronico" maxlength="100" type="text" class="form-control"
                             (focusout)="onFocusOutEvent($event,'CorreoElectronico')" required>
                         <div *ngIf="CorreoElectronico.invalid && (CorreoElectronico.dirty || CorreoElectronico.touched)"

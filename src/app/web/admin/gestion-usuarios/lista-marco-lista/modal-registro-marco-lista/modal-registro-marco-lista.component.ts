@@ -37,7 +37,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
     Nombre: ['', this.perPN ? [Validators.required] : []],
     ApellidoPaterno: ['', this.perPN ? [Validators.required] : []],
     ApellidoMaterno: ['', this.perPN ? [Validators.required] : []],
-    TieneRuc: ['', this.perPN ? [Validators.required] : []],
+    TieneRuc: [''],
     IdDepartamentoPer: ['', [Validators.required]],
     IdProvinciaPer: ['', [Validators.required]],
     IdDistritoPer: ['', [Validators.required]],
@@ -330,7 +330,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
                 console.log(sunat);
                 if(sunat.datos!=null && sunat.datos!=undefined){
                   this.RazonSocial.setValue(sunat.datos.ddp_nombre);
-                  this.DireccionFiscalDomicilioSA.setValue(sunat.datos.ddp_nomvia+" "+sunat.ddp_numer1);
+                  this.DireccionFiscalDomicilioSA.setValue(sunat.datos.ddp_nomvia+" "+(sunat.ddp_numer1==undefined?"":sunat.ddp_numer1));
                   this.RazonSocial.disable();
                   this.toastr.success(result.message.toString(), 'Información');
                 }

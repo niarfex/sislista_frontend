@@ -1,4 +1,4 @@
-<form [formGroup]="campoForm">
+<form>
     <div class="row">
         <div class="row">
             <div class="col-sm-12 text-end">
@@ -47,13 +47,13 @@
                             </select>
                         </td>
                         <td style="width: 8%; flex: none; padding: 5px;">
-                            <input [(ngModel)]="item.SuperficieCalc" readonly [ngModelOptions]="{standalone: true}" type="text" class="form-control" required>
+                            <input [(ngModel)]="item.SuperficieCalc" readonly [ngModelOptions]="{standalone: true}" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" class="form-control" required>
                         </td>
                         <td style="width: 8%; flex: none; padding: 5px;">
-                            <input [(ngModel)]="item.Superficie" [ngModelOptions]="{standalone: true}" type="text" class="form-control" required>
+                            <input [(ngModel)]="item.Superficie" [ngModelOptions]="{standalone: true}" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal(item,'Superficie')" class="form-control" required>
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">
-                            <select [(ngModel)]="item.IdUsoTierra" [ngModelOptions]="{standalone: true}" class="form-select">
+                            <select [(ngModel)]="item.IdUsoTierra" [ngModelOptions]="{standalone: true}" (change)="selUsoTierra($event)" class="form-select">
                                 <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listUsoTierra" [value]="item.value">
                                     {{ item.label }}
@@ -69,7 +69,7 @@
                             </select>
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">
-                            <input [(ngModel)]="item.SuperficieCultivada" [ngModelOptions]="{standalone: true}" type="text" class="form-control" required>
+                            <input [(ngModel)]="item.SuperficieCultivada" [ngModelOptions]="{standalone: true}" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal(item,'SuperficieCultivada')" class="form-control" required>
                         </td>
                         <td style="width: 13%; flex: none; padding: 5px;">
                             <select [(ngModel)]="item.IdUsoNoAgricola" [ngModelOptions]="{standalone: true}" class="form-select">
@@ -80,7 +80,7 @@
                             </select>
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">
-                            <input [(ngModel)]="item.Observacion" [ngModelOptions]="{standalone: true}" type="text" class="form-control" required>
+                            <input [(ngModel)]="item.Observacion" [ngModelOptions]="{standalone: true}" maxlength="200" type="text" class="form-control">
                         </td>
                     </tr>
                 </ng-template>

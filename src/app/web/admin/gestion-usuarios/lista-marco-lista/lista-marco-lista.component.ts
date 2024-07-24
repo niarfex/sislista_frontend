@@ -225,7 +225,7 @@ export class ListaMarcoListaComponent implements OnInit {
     
     this.marcolistaServiceProxy.subirArchivo(formData).subscribe(async (res:any)=>{
       this.toastr.success(res.partialText, 'Información');
-      
+      console.log(res.partialText);
         if (res.status === 200) {        
         this.bArchivoOk=true;
         this.getData();
@@ -235,4 +235,8 @@ export class ListaMarcoListaComponent implements OnInit {
         this.bArchivoOk=false;
       });
   }
+  PadLeft(value, length) {
+    return ((value==null?"":value).toString().length < length) ? this.PadLeft("0" + (value==null?"":value), length) : 
+    value;
+}
 }

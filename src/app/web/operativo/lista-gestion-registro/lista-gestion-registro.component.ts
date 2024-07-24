@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -63,6 +64,25 @@ export class ListaGestionRegistroComponent implements OnInit {
 
   subsanarRegistro(uuid:String){}
 
-  exportar(){}
+  exportar(){
+
+    this.gestionregistroServiceProxy.getAllToExcel(this.txt_busqueda).subscribe(async (event) => {
+      let data = event as HttpResponse<Blob>;
+      const downloadedFile = new Blob([data.body as BlobPart], {
+        type: data.body?.type
+      });
+      if (downloadedFile.type != "") {
+        const a = document.createElement('a');
+        a.setAttribute('style', 'display:none;');
+        document.body.appendChild(a);
+        a.download = "cuestionarios.xlsx";
+        a.href = URL.createObjectURL(downloadedFile);
+        a.target = '_blank';
+        a.click();
+        document.body.removeChild(a);
+      }
+    });
+
+  }
 
 }

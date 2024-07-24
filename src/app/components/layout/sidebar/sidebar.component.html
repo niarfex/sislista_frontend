@@ -5,19 +5,23 @@
   <div id="sidebar-menu">
     <!-- Left Menu Start -->
     <ul class=" list-unstyled" id="side-menu" #sideMenu>
-      <!-- {{menuItems}} -->
-      @for (item of menuItems; track $index) {
+      @for (preitem of menuItems; track $index) {
       <ng-container>
+        @if(preitem.isTitle){
+        <li class="menu-title">{{ preitem.label }}</li>
+        }
+        @for (item of preitem.subItems; track $index) {
+
         @if(item.isTitle){
         <li class="menu-title">{{ item.label }}</li>
-        }@else if(!item.isTitle && !item.isLayout){
+        }@else if(!item.isTitle){
         <li>
           @if(hasItems(item)){
-          <a href="#" class="is-parent" [ngClass]="{'has-arrow': !item.badge, 'has-dropdown': item.badge}">
+          <a href="#" class="is-parent has-arrow has-dropdown">
             @if(item.icon){<i class="bx {{item.icon}}"></i>}
             <span> {{ item.label }}</span>
             @if(item.badge){
-            <span class="badge rounded-pill float-end bg-{{item.badge.variant}}">{{item.badge.text }}</span>
+            <span class="badge rounded-pill float-end bg-{{item.badge.variant}}">{{item.badge.text}}</span>
             }
           </a>}
           @else{
@@ -25,7 +29,7 @@
             @if(item.icon){<i class="bx {{ item.icon }}"></i>}
             <span> {{ item.label }}</span>
             @if(item.badge){
-            <span class="badge rounded-pill bg-{{item.badge.variant}} float-end">{{item.badge.text }}</span>
+            <span class="badge rounded-pill bg-{{item.badge.variant}} float-end"></span>
             }
           </a>
           }
@@ -52,7 +56,7 @@
                 routerLinkActive="active">
                 {{ subitem.label }}
                 @if(subitem.badge){
-                <span class="badge rounded-pill bg-{{subitem.badge.variant}} float-end">{{subitem.badge.text }}</span>
+                <span class="badge rounded-pill bg-{{subitem.badge.variant}} float-end">{{subitem.badge.text}}</span>
                 }
               </a>
               }
@@ -61,6 +65,8 @@
           </ul>
           }
         </li>
+        }
+
         }
       </ng-container>
       }
@@ -74,3 +80,68 @@
 
 </div>
 <!-- Left Sidebar End -->
+
+
+
+
+
+
+<!--
+@for (item of menuItems; track $index) {
+  <ng-container>
+    @if(item.isTitle){
+    <li class="menu-title">{{ item.label }}</li>
+    }@else if(!item.isTitle){
+    <li>
+      @if(hasItems(item)){
+      <a href="#" class="is-parent" [ngClass]="{'has-arrow': true, 'has-dropdown': false}">
+        @if(item.icon){<i class="bx {{item.icon}}"></i>}
+        <span> {{ item.label }}</span>
+        @if(item.badge){
+        <span class="badge rounded-pill float-end bg-{{item.badge.variant}}"></span>
+        }
+      </a>}
+      @else{
+      <a [routerLink]="item.link" class="side-nav-link-ref" routerLinkActive="active">
+        @if(item.icon){<i class="bx {{ item.icon }}"></i>}
+        <span> {{ item.label }}</span>
+        @if(item.badge){
+        <span class="badge rounded-pill bg-{{item.badge.variant}} float-end"></span>
+        }
+      </a>
+      }
+      @if(hasItems(item)){
+      <ul class="sub-menu" aria-expanded="true">
+        @for (subitem of item.subItems; track $index) {
+        <li>
+          @if(hasItems(subitem)){
+          <a class="side-nav-link-a-ref has-arrow" href="#" [attr.data-parent]="subitem.parentId">
+            {{ subitem.label }}
+          </a>
+          <ul class="sub-menu" aria-expanded="true">
+            @for (subSubitem of subitem.subItems; track $index) {
+            <li>
+              <a [attr.data-parent]="subSubitem.parentId" [routerLink]="subSubitem.link" routerLinkActive="active"
+                class="side-nav-link-ref">
+                {{ subSubitem.label }}
+              </a>
+            </li>
+            }
+          </ul>}
+          @else{
+          <a [routerLink]="subitem.link" class="side-nav-link-ref" [attr.data-parent]="subitem.parentId"
+            routerLinkActive="active">
+            {{ subitem.label }}
+            @if(subitem.badge){
+            <span class="badge rounded-pill bg-{{subitem.badge.variant}} float-end"></span>
+            }
+          </a>
+          }
+        </li>
+        }
+      </ul>
+      }
+    </li>
+    }
+  </ng-container>
+  }-->

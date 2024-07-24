@@ -1,7 +1,7 @@
-import { MenuItem } from "src/app/models/menu";
+import { MenuItem } from "src/app/models/MenuItem";
 
 export const MENU: MenuItem[] = [
-    {
+    /*{
         id: 1,
         label: 'Administración',
         isTitle: true
@@ -131,6 +131,6 @@ export const MENU: MenuItem[] = [
                 parentId: 16
             },
         ]
-    },
+    },*/
 ];
 

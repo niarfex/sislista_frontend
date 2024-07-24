@@ -33,7 +33,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
     Nombre: ['', [Validators.required]],
     ApellidoPaterno: ['', [Validators.required]],
     ApellidoMaterno: ['', [Validators.required]],
-    Celular: ['', [Validators.required]],
+    Celular: [''],
     CorreoElectronico: ['', [Validators.required,Validators.email]],
     IdOrganizacion: ['', this.contacto ? [Validators.required] : []],
     Cargo: ['', this.contacto ? [Validators.required] : []],
@@ -129,7 +129,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
 
         this.objRegistro.IdPerfil = Number.parseInt(this.IdPerfil.value);
         this.objRegistro.IdTipoDocumento = Number.parseInt(this.IdTipoDocumento.value);
-        this.objRegistro.CodigoUUIDPersona = this.uuidRegistro;
+        this.objRegistro.CodigoUUIDUsuario = this.uuidRegistro;
         this.objRegistro.NumeroDocumento = this.NumeroDocumento.value;
         this.objRegistro.Nombre = this.Nombre.value;
         this.objRegistro.ApellidoPaterno = this.ApellidoPaterno.value;
@@ -151,7 +151,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
                 this.close();
               }
               else {
-                this.toastr.warning(result.message.toString(), 'Aviso');
+                this.toastr.error(result.message.toString(), 'Error');
               }
             }
           });

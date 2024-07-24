@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Injector, OnInit, TemplateRef } from '@angular/core';
+import moment from 'moment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -23,6 +24,7 @@ export class ListaPanelRegistroComponent implements OnInit {
   idRegistro: number;
   modalActivo:boolean;
   usuario:Login; 
+  estadoRegistro:number;
   private panelregistroServiceProxy: PanelRegistroServiceProxy;
   constructor(_injector: Injector
     , private confirmationService: ConfirmationService
@@ -51,20 +53,21 @@ export class ListaPanelRegistroComponent implements OnInit {
       });
   }
 
-  abrirModal(viewUserTemplate: TemplateRef<any>, id: number,activo:boolean){
+  abrirModal(viewUserTemplate: TemplateRef<any>, id: number,activo:boolean,estado:number){
     this.idRegistro = id;
     this.modalActivo=activo;
+    this.estadoRegistro=estado;
     this.modalRef = this.modalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
       class: 'modal-m'
     });
   }
-  agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
-    this.abrirModal(viewUserTemplate,id,true);
+  agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number,estado:number) {
+    this.abrirModal(viewUserTemplate,id,true,estado);
   }
   verRegistro(viewUserTemplate: TemplateRef<any>, id: number){
-    this.abrirModal(viewUserTemplate,id,false);
+    this.abrirModal(viewUserTemplate,id,false,0);
   }
   
   
@@ -226,4 +229,7 @@ export class ListaPanelRegistroComponent implements OnInit {
         }
     });
 }
+convertDateToString(dateToBeConverted: string) {
+  return moment(dateToBeConverted, "YYYY-MM-DD HH:mm:ss").format("DD/MM/yyyy");
+  }
 }

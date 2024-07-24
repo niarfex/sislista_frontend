@@ -55,11 +55,14 @@ export class ReporteMapaComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
+            console.log(this.idPeriodo.toString());
             this.condicionJuridica=this.objRegistro.ListCondicionJuridica.find(x=>x.value==this.objRegistro.IdCondicionJuridica.toString()).label;
-            this.tipoExplotacion=this.objRegistro.ListTipoExplotacion.find(x=>x.value==this.objRegistro.IdTipoExplotacion.toString()).label;
-            this.cadPeriodo=this.objRegistro.ListPeriodos.find(x=>x.value==this.objRegistro.IdPeriodo.toString()).label;
+            if(this.objRegistro.IdTipoExplotacion!=null){
+              this.tipoExplotacion=this.objRegistro.ListTipoExplotacion.find(x=>x.value==this.objRegistro.IdTipoExplotacion.toString()).label;
+            }
+            this.cadPeriodo=this.objRegistro.ListPeriodos.find(x=>x.value==this.idPeriodo.toString()).label;
             //--
-            console.log( 'MapService:'+ this.oMapService)
+            //console.log( 'MapService:'+ this.oMapService)
           }
           else {
             this.toastr.error(result.message.toString(), 'Error');

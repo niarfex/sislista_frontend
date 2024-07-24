@@ -48,7 +48,13 @@ export class GestionRegistroServiceProxy {
                 return <Observable<ResponseGestionRegistroListDto>><any>_observableThrow(response_);
         }));
     }
-
+    getAllToExcel(param: string) {
+        return this.http.get(AppConsts.urlHost + "v1/gestionregistro/GetAllToExcel??param=" + param, {
+            reportProgress: true,
+            observe: 'events',
+            responseType: 'blob'
+        });
+    }
     protected processgetAll(response: HttpResponseBase): Observable<ResponseGestionRegistroListDto> {
         const status = response.status;
         const responseBlob =

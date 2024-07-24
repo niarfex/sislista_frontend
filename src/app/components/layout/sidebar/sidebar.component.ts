@@ -1,12 +1,15 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, OnChanges, Injector } from '@angular/core';
 import MetisMenu from 'metismenujs';
 import { EventService } from 'src/shared/services/event.service';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http';
 
-import { MENU } from './menu';
-import { MenuItem } from 'src/app/models/menu';
+//import { MENU } from './Menu';
+import { MenuItemGetDto } from 'src/app/models/MenuItem';
+import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies';
+import { finalize } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -24,22 +27,28 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   menu: any;
   data: any;
 
-  menuItems: MenuItem[] = [];
+  menuItems: MenuItemGetDto[] = [];
 
   @ViewChild('sideMenu') sideMenu: ElementRef;
-
-  constructor(private eventService: EventService, private router: Router, private http: HttpClient) {
+  private usuarioServiceProxy: UsuarioServiceProxy;
+  constructor(private eventService: EventService
+    ,_injector: Injector
+    , private spinner: NgxSpinnerService
+    , private router: Router
+    , private http: HttpClient) {
+    this.usuarioServiceProxy = _injector.get(UsuarioServiceProxy);
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         //this._activateMenuDropdown();
-        this._scrollElement();
+        //this._scrollElement();
       }
     });
   }
 
   ngOnInit() {
     this.initialize();
-    this._scrollElement();
+    //this._scrollElement();   
+    //this.menu = new MetisMenu(this.sideMenu.nativeElement);
   }
 
   ngAfterViewInit() {
@@ -54,7 +63,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges() {
     //console.log("ngOnChanges()");
-    /*if (!this.isCondensed && this.sideMenu || this.isCondensed) {
+    /*
+    if (!this.isCondensed && this.sideMenu || this.isCondensed) {
       setTimeout(() => {
         this.menu = new MetisMenu(this.sideMenu.nativeElement);
       });
@@ -71,7 +81,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
             this.scrollRef.SimpleBar.getScrollElement().scrollTop =
               currentPosition + 300;
       }
-    }, 300);
+      this.menu = new MetisMenu(this.sideMenu.nativeElement);
+    }, 1000);
   }
 
   /**
@@ -85,93 +96,37 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   }*/
 
   /**
-   * Activate the parent dropdown
-   */
-  _activateMenuDropdown() {
-/*
-    const enlaces = document.getElementsByClassName('side-nav-link-ref');
-    //console.log(enlaces);
-    console.log(window.location.href);
-    for (let i = 0; i < enlaces.length; i++) {
-      console.log(enlaces[i]['hash']);
-      if(window.location.href.toString().indexOf(enlaces[i]['hash'])>0){
-        console.log("si cumple");
-        console.log(enlaces[i].parentElement.classList);
-        enlaces[i].parentElement.classList.add('mm-active');
-        console.log(enlaces[i].parentElement.classList);
-      }    
-    }*/
-
-    //console.log(activo);
-    //console.log(activo.length);
-    //const padre = activo[0]['parentElement'];
-    //padre.classList.add('mm-active');
-
-/*
-    const links = document.getElementsByClassName('active');
-    //this._removeAllClass('mm-active');
-    //this._removeAllClass('mm-show');
-    
-    console.log(links);
-    let menuItemEl = null;
-    // tslint:disable-next-line: prefer-for-of
-    const paths = [];
-    for (let i = 0; i < links.length; i++) {
-      paths.push(links[i]['pathname']);
-    }
-    console.log(paths);
-    var itemIndex = paths.indexOf(window.location.pathname);
-    if (itemIndex === -1) {
-      const strIndex = window.location.pathname.lastIndexOf('/');
-      const item = window.location.pathname.substr(0, strIndex).toString();
-      menuItemEl = links[paths.indexOf(item)];
-    } else {
-      menuItemEl = links[itemIndex];
-    }
-    if (menuItemEl) {
-      //menuItemEl.classList.add('active');
-      const parentEl = menuItemEl.parentElement;
-      if (parentEl) {
-        //parentEl.classList.add('mm-active');
-        const parent2El = parentEl.parentElement.closest('ul');
-        if (parent2El && parent2El.id !== 'side-menu') {
-          parent2El.classList.add('mm-show');
-          const parent3El = parent2El.parentElement;
-          if (parent3El && parent3El.id !== 'side-menu') {
-            parent3El.classList.add('mm-active');
-            const childAnchor = parent3El.querySelector('.has-arrow');
-            const childDropdown = parent3El.querySelector('.has-dropdown');
-            if (childAnchor) { childAnchor.classList.add('mm-active'); }
-            if (childDropdown) { childDropdown.classList.add('mm-active'); }
-            const parent4El = parent3El.parentElement;
-            if (parent4El && parent4El.id !== 'side-menu') {
-              parent4El.classList.add('mm-show');
-              const parent5El = parent4El.parentElement;
-              if (parent5El && parent5El.id !== 'side-menu') {
-                parent5El.classList.add('mm-active');
-                const childanchor = parent5El.querySelector('.is-parent');
-                if (childanchor && parent5El.id !== 'side-menu') { childanchor.classList.add('mm-active'); }
-              }
-            }
-          }
-        }
-      }
-    }
-*/
-  }
-
-  /**
    * Initialize
    */
   initialize(): void {
-    this.menuItems = MENU;
+    //this.menuItems = MENU;
+    this.usuarioServiceProxy.GetMenuItemxUsuario()
+    .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+    .subscribe({
+      next: (result) => {
+        if (result.success) {
+          //console.log(result);
+          this.menuItems=result.datos;
+
+          this._scrollElement(); 
+          
+        }
+
+
+        //this.menu = new MetisMenu(this.sideMenu.nativeElement);
+
+
+      }
+      
+    });
   }
 
   /**
    * Returns true or false if given menu item has child or not
    * @param item menuItem
    */
-  hasItems(item: MenuItem) {
+  hasItems(item: MenuItemGetDto) {
+    //console.log(item.subItems !== undefined ? (item.subItems.length > 0) : false);
     return item.subItems !== undefined ? (item.subItems.length > 0) : false;
   }
 }

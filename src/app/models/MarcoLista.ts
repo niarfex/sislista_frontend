@@ -56,6 +56,7 @@ export interface IMarcoListaListDto {
     IdDepartamento: String;
     Departamento: String;
     Estado: number;
+    IdUbigeo: String;
     Seleccionado: boolean;
 }
 export class MarcoListaListDto implements IMarcoListaListDto {
@@ -67,6 +68,7 @@ export class MarcoListaListDto implements IMarcoListaListDto {
     IdDepartamento: String;
     Departamento: String;
     Estado: number;
+    IdUbigeo: String;
     Seleccionado: boolean=false;
     constructor(data?: IMarcoListaListDto) {
         if (data) {
@@ -86,6 +88,7 @@ export class MarcoListaListDto implements IMarcoListaListDto {
             this.IdDepartamento= _data["IdDepartamento"];
             this.Departamento= _data["Departamento"];
             this.Estado = _data["Estado"];
+            this.IdUbigeo= _data["IdUbigeo"];
         }
     }
     static fromJS(data: any): MarcoListaListDto {
