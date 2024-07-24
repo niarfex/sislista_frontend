@@ -23,9 +23,14 @@ import { GlobalsService } from './globals.service';
 import { Subject, Observable } from 'rxjs';
 import { CoordinatesStatusMap } from '../models/general.model';
 import { EmissionService } from './emission.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SwalUtil } from '../util/SwalUtil';
+import Swal, { SweetAlertResult } from "sweetalert2";
+import * as arcgis from '../util/arcgis-libraries';
+
 import { url } from 'inspector';
 import { AnyARecord, AnyCnameRecord } from 'dns';
-import * as arcgis from '../util/arcgis-libraries';
+
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +56,10 @@ export class MapService {
   SislistaLayer: any[] = [];
 
   //-Datos de Edición
-  editcontexMenu:any;
+  editDivMenu:any;
+  editDivAttribute:any;
+  editDivToolbar:any;
+
   editEditor:any
   editWidget:any;
   editSketch:any
@@ -60,6 +68,7 @@ export class MapService {
   ptEditTool:any; 
   ptGraphicEdit:any;
   ptGraphicSelect:any;
+  ptAttributeSelect:any;
 
   //--Layers para opción de Edición
   ptFeatureLayerEdit:any
@@ -137,7 +146,7 @@ export class MapService {
   private urlProxy: string = config.agsUrlProxy;
   private urlBasemap: string = config.agsUrlRoot + config.agsUrlBasemap;
 
-  constructor(private emissonService: EmissionService, private basemapService: BasemapCollectionService, private layersService: LayersService, private globals: GlobalsService) {
+  constructor(private spinner: NgxSpinnerService, private emissonService: EmissionService, private basemapService: BasemapCollectionService, private layersService: LayersService, private globals: GlobalsService) {
     this.coordStatusMap = {zoneUTM: 18, xUTM: 0, yUTM: 0, latitude: 0, longitude: 0, height: 0};
   }
 
@@ -182,7 +191,9 @@ export class MapService {
         this.EsriGeometryEngine =  arcgis.GeometryEngine;
 
         // iniciar constantes
-        this.ptEditTool = {name:'', disabled:false}
+        this.ptEditTool = {name:'', disabled:false};
+        this.ptAttributeSelect = {ruc:'', nombre:'', fundo:'', campo:'', area:'' };
+
         this.isAddWMS = false;
         this.activePopup = false;
         this.activeStreet = false;
@@ -221,7 +232,7 @@ export class MapService {
         this.setaddSkechWidget()
         // Ocultar el menú contextual cuando se hace clic en el mapa
         this.mapView.on('click', (event) => {
-          this.editcontexMenu.style.display = 'none';
+          this.editDivMenu.style.display = 'none';          
         });
 
         /** Configuración del SceneView **/
@@ -424,25 +435,27 @@ export class MapService {
           //--Validamos si se selecciono un Poligono a cortar
           if (this.ptGraphicSelect.length == 0){console.log('No selecciono un poligono'); return}
           //--Obtenemos el Poligono seleccionado
-          const oCutGeometry = this.ptGraphicSelect.items[0].geometry.clone();
+          const oCutGeometry = this.ptGraphicSelect.items[0].clone();
           //-- Validamos si el Poligono intersecta la Polyline
-          let intersects = this.EsriGeometryEngine.intersects(oCutGeometry, polylineGeometry);
+          let intersects = this.EsriGeometryEngine.intersects(oCutGeometry.geometry, polylineGeometry);
           if (intersects){
             //--Procedemos con el split del Poligono
-            const cutResults = this.EsriGeometryEngine.cut(oCutGeometry, polylineGeometry); 
+            const cutResults = this.EsriGeometryEngine.cut(oCutGeometry.geometry, polylineGeometry); 
             //--Validamos si hya resultados
             if(cutResults.length){   
-               //--Eliminamos el POligono existente
+               //--Eliminamos el Poligono existente
                this.ptGraphicsLayerEdit.remove(this.ptGraphicSelect.items[0]);
                //--Limpiamos el poligono seleccionado
                this.ptGraphicSelect.items[0] = 0;
                //--Añadimos los nuevos poligonos creados
                this.ptGraphicsLayerEdit.addMany(cutResults.map(cutResult=>{ 
-                return {                  
+                //console.log(oAttributes);
+                let oAttributes:any = oCutGeometry.clone().attributes;
+                return {
                   geometry:cutResult,
                   symbol: this.globals.symbolEditFill,
-                  attributes:this.ptGraphicSelect.items[0].attributes
-                };
+                  attributes:oAttributes
+                }
                }));
             }
           }else{
@@ -455,13 +468,51 @@ export class MapService {
     });
 
   }
+  ptEditAttribute(){   
+    //--Validamos si hay seleccionados
+    this.editDivMenu.style.display = 'none';
+    this.editDivAttribute.style.display = 'none';
+
+    if(this.ptGraphicSelect.length == 0){console.log('No selecciono un poligono'); return}
+    //--Validamos si hay seleccionados
+    this.editDivAttribute.style.display = 'block';
+
+    //--Obtenemos los datos principales
+     let strAux = this.ptGraphicSelect.items[0].attributes['TXT_EMPRESA_RUC']
+     this.ptAttributeSelect.ruc = (!strAux)?'':strAux;
+
+    strAux = this.ptGraphicSelect.items[0].attributes['TXT_EMPRESA_NOMBRE']
+    this.ptAttributeSelect.nombre = (!strAux)?'':strAux;
+
+    strAux = this.ptGraphicSelect.items[0].attributes['TXT_FUNDO_NOMBRE']
+    this.ptAttributeSelect.fundo = (!strAux)?'':strAux;
+
+    strAux = this.ptGraphicSelect.items[0].attributes['TXT_CAMPO_NOMBRE']
+    this.ptAttributeSelect.campo = (!strAux)?'':strAux;
+
+    strAux = this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'];
+    this.ptAttributeSelect.area = (!strAux)?'':strAux;
+    console.log('Atributos:' + this.ptAttributeSelect)
+  }
+  ptSaveAttribute(){
+    //--Validamos si hay seleccionados
+    this.editDivAttribute.style.display = 'none';
+    if(this.ptGraphicSelect.length == 0){console.log('No selecciono un poligono'); return}
+    //--Guardamos los datos en el Graphic
+    this.ptGraphicSelect.items[0].attributes['TXT_EMPRESA_RUC'] = this.ptAttributeSelect.ruc
+    this.ptGraphicSelect.items[0].attributes['TXT_EMPRESA_NOMBRE'] = this.ptAttributeSelect.nombre;
+    this.ptGraphicSelect.items[0].attributes['TXT_FUNDO_NOMBRE'] = this.ptAttributeSelect.fundo;
+    this.ptGraphicSelect.items[0].attributes['TXT_CAMPO_NOMBRE'] = this.ptAttributeSelect.campo;
+    this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'] = this.ptAttributeSelect.area;
+  }
+  
   ptSelectGeometry(){   
     this.editSketch.layer = this.ptGraphicLayerSelect;
     this.editSketch.cancel();    
   }
 
   ptEditGeometry(){
-    this.editcontexMenu.style.display = 'none';
+    this.editDivMenu.style.display = 'none';
     this.editSketch.layer = this.ptGraphicsLayerEdit;
     this.editSketch.update([this.ptGraphicSelect.items[0]], {
       tool: "reshape",
@@ -474,7 +525,7 @@ export class MapService {
   }
   
   ptCreateGeometry(type:any){
-    this.editcontexMenu.style.display = 'none';
+    this.editDivMenu.style.display = 'none';
     this.editSketch.layer = this.ptGraphicsLayerEdit;
     this.editSketch.creationMode = type=='polyline'? 'single':'continuous';
 
@@ -547,10 +598,12 @@ export class MapService {
          toggleToolOnClick: false
        });
        //this.homeService.setFormName('gis_edicion'); 
+       this.editDivToolbar.style.display = 'block';
        this.setRefresh(this.EsriGraphicsLayerEdit.graphics.items[0].geometry.extent)
       }else{
        isGraphicsVisible = expanded
        this.editSketch.layer = this.ptGraphicLayerSelect;
+       this.editDivToolbar.style.display = 'none';
        //--Activamos el mensaje de Edición
        if(this.EditProgress ===false){this.editSketch.cancel();}
       }
@@ -1225,9 +1278,9 @@ export class MapService {
         event.preventDefault(); // Evita el menú contextual del navegador
         if (this.ptGraphicSelect.length==0){console.log('No selecciono un poligono'); return}
         const screenPoint = event.screenPoint;
-        this.editcontexMenu.style.left = `${screenPoint.x}px`;
-        this.editcontexMenu.style.top = `${screenPoint.y}px`;
-        this.editcontexMenu.style.display = 'block';
+        this.editDivMenu.style.left = `${screenPoint.x}px`;
+        this.editDivMenu.style.top = `${screenPoint.y}px`;
+        this.editDivMenu.style.display = 'block';
        }      
     }  
 
@@ -1456,17 +1509,30 @@ export class MapService {
     return oListaFields
   }
 
-  async setDeleteFeature(): Promise<void> {   
-    this.ptFeatureLayerEdit.queryFeatures().then((results) => {
+  async setDeleteFeature(): Promise<void> { 
+    let deleteEdits:any
+    let addEdits:any
+
+    this.ptFeatureLayerEdit.queryFeatures().then(async(results) => {
       //--edits object tells apply edits that you want to delete the features
-      const deleteEdits = {
+      deleteEdits = {
         deleteFeatures: results.features
       };
-      console.log(results.features);
+      //--Obtenemos los Features que se van agregar
+      addEdits = {
+        addFeatures: this.ptGraphicsLayerEdit.graphics
+      };
+      //--activamos el spinner
+      //this.spinner.show();
+      this.showSwalUtil('Realizando copia de Campos...')
+      await this.ptFeatureLayerEdit.applyEdits(deleteEdits);
+      this.showSwalUtil('Actualizando geometría de Campos...')
+      await this.ptFeatureLayerEdit.applyEdits(addEdits);
+      Swal.close();
+      //--Ocultamos el Spinner
+      //this.spinner.hide()
      });
-
   }
-
   async refresh(extent:any){
     var opts = {
       duration: 2000  // Duration of animation will be 5 seconds
@@ -1476,5 +1542,15 @@ export class MapService {
       //zoom:this.mapView.zoom
     }, opts);
   }
+  showSwalUtil(mensaje:string){
+    SwalUtil.loading('',mensaje,()=>{
+      window.location.reload();
+      console.log('cerrado');
+    });
+   }
+   showConsoleLog(mensaje:any){
+      var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+      var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 19);
+      console.log(localISOTime, ' '+mensaje);
+   }
  }
- 

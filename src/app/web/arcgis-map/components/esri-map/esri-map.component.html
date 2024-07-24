@@ -11,9 +11,11 @@
                     <input ngbButton type="radio" [value]="3"> Mapa 3D
                 </label>
             </div>
+            <!--
             <button type="button" class="btn btn-primary button-curtain" (click)="onChangeView()">
                 <span [ngClass]="isFullView ? 'fa fa-arrow-left': 'fa fa-arrow-right'"></span>
             </button>
+            -->
             <div class="status-map d-flex flex-column m-0 p-0">
                 <div class="d-flex justify-content-center m-0 p-0">
                     <label class="m-0 p-0">Longitud:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.longitude}}</label>
@@ -74,7 +76,7 @@
                       title="Limpiar Herramientas" (click)="onClickClear()"></button>
             </div>
             <!--ToolBar Personalizado de Edición-->
-            <div class="toolbar-edit esri-component esri-widget toolbar-widget-map">
+            <div id="editToolbar" class="toolbar-edit esri-component esri-widget toolbar-widget-map">
                 <button id="toolbar-edit-selection"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-cursor-marquee"
                 title="Seleccionar Polígono" (click)="onSelectGraphic()"></button>
@@ -87,61 +89,58 @@
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-polygon"
                 title="Seleccionar Polígono" (click)="onCreateLineGraphic('polygon')"></button>
                 <button id="toolbar-edit-line"
+                class="esri-widget--button esri-interactive button-esri-modify esri-icon-trash"
+                title="Eliminar Polígono" (click)="onDeleteGraphic()"></button>                
+                <button id="toolbar-edit-line"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-save"
                 title="Grabar cambios" (click)="onSaveChanges()"></button>                           
             </div>
-            <!--Menu-->
-            <div id="contextMenu2" class="btn-group open">
+            <!--Menu contextual-->
+            <div id="contextMenu">
                 <ul>
-                    <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Modificar Geometría</a></li>
-                    <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Modificar Atributos</a></li>
-                    <li id="EditGeometry"  (click)="onEditGraphic()">
-                        <span class="esri-icon-line-chart icon-style"></span>
-                        <span> Modificar geometría</span>
-                    </li>
-                    <li id="showInfo">                        
-                        <span class="esri-icon-table icon-style"> </span>
-                        <span>Modificar atributos</span>                        
-                    </li>
+                    <li><a (click)="onEditGraphic()"><i class="fa fa-object-group"></i> Modificar geometría</a></li>
+                    <li><a (click)="onEditAttribute()"><i class="fa fa-address-card"></i> Modificar atributos</a></li>                    
                 </ul>
             </div>
-            <div class="btn-group open">
-                <a class="btn btn-primary" ><i class="fa fa-user fa-fw"></i> User</a>
-                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                  <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
-                  <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
-                  <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#"><i class="fa fa-unlock"></i> Make admin</a></li>
-                </ul>
-              </div>
             <!--Formulario de acualizacion-->
-            <div class="card">
+            <div id="AttributeForm" class="card">
                 <div class="card-header" v-if="cardHeaderTitle">
-                    <i class="fas fa-tty"></i>
-                    <span>{{this.administradoDoc}}</span>
+                    <i class="fa fa-address-card"></i>
+                    <span> {{admin.ruc}}</span>
                 </div>
                 <div class="card-body">
-                    <h3 class="card-title" v-if="cardTitle">{{cardTitle}}</h3>
-                    <slot>
-                        <div class="input-group form-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Número de teléfono" v-model="WatchNumTele" v-on:keypress="isNumber($event, WatchNumTele)">						
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <button  type="button"  class="btn btn-primary"  style=" width: 100%;" >Buscar</button>
-                            </div>  
-                            <div class="col">
-                                <button  type="button"  class="btn btn-primary"  style=" width: 100%;" >Limpiar</button>
-                            </div>                
+                        <input type="text" readonly class="form-control" title="Nombre del administrado" placeholder="Administrado" [(ngModel)]="admin.nombre" v-on:keypress="isNumber($event, WatchNumTele)">						
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-map"></i></span>
                         </div>
-                    </slot>
+                        <input type="text" class="form-control" title="Nombre del fundo" placeholder="Nombre del fundo" [(ngModel)]="admin.fundo" v-on:keypress="isNumber($event, WatchNumTele)">						
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-pie-chart"></i></span>
+                        </div>
+                        <input type="text" class="form-control" title="Nombre del campo" placeholder="Nombre del campo" [(ngModel)]="admin.campo" v-on:keypress="isNumber($event, WatchNumTele)">						
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-area-chart"></i></span>
+                        </div>
+                        <input type="text" class="form-control" title="Área declarada" placeholder="Área declarada" [(ngModel)]="admin.area" v-on:keypress="isNumber($event, WatchNumTele)">						
+                    </div>                                               
+                    <div class="row">
+                        <div class="col">                           
+                            <a class="btn btn-primary" (click)="onSaveAttributes()"><i class="fa fa-floppy-o"></i> Grabar</a>
+                        </div>  
+                        <div class="col">
+                            <a class="btn btn-primary" (click)="onCancelAttributes()"><i class="fa fa-times"></i> Cancelar</a>
+                        </div>                
+                    </div>
                 </div>
             </div>
         </div>
