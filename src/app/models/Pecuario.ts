@@ -103,6 +103,7 @@ export class PecuarioGetDto implements IPecuarioGetDto {
         data["IdFundo"] = this.IdFundo;
         data["IdCampo"] = this.IdCampo;
         data["IdSistemaPecuario"] = this.IdSistemaPecuario;
+        data["SistemaPecuario"] = this.SistemaPecuario;
         data["IdLineaProduccion"] = this.IdLineaProduccion;
         data["IdEspecie"] = this.IdEspecie;
         data["Cantidad"] = this.Cantidad;
