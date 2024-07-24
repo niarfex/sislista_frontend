@@ -6,6 +6,7 @@
 @import 'dropzone/dist/min/dropzone.min.css';
 @import "https://js.arcgis.com/4.30/@arcgis/core/assets/esri/themes/light/main.css";
 
+
 .modal {
   background: rgba(0, 0, 0, .3);
 }
@@ -200,4 +201,3 @@ margin-left: 5px;
 .p-datatable>.p-datatable-wrapper{
   overflow:initial !important;
 }
-@import './app/web/reportes/reporte-mapa/reporte-mapa.component.scss';

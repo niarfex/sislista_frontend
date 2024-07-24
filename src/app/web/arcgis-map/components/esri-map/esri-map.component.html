@@ -89,27 +89,67 @@
                 <button id="toolbar-edit-line"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-save"
                 title="Grabar cambios" (click)="onSaveChanges()"></button>                           
-            </div>         
+            </div>
+            <!--Menu-->
+            <div id="contextMenu2" class="btn-group open">
+                <ul>
+                    <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Modificar Geometría</a></li>
+                    <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Modificar Atributos</a></li>
+                    <li id="EditGeometry"  (click)="onEditGraphic()">
+                        <span class="esri-icon-line-chart icon-style"></span>
+                        <span> Modificar geometría</span>
+                    </li>
+                    <li id="showInfo">                        
+                        <span class="esri-icon-table icon-style"> </span>
+                        <span>Modificar atributos</span>                        
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group open">
+                <a class="btn btn-primary" ><i class="fa fa-user fa-fw"></i> User</a>
+                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                  <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+                  <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                  <li><a href="#"><i class="fa fa-ban fa-fw"></i> Ban</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#"><i class="fa fa-unlock"></i> Make admin</a></li>
+                </ul>
+              </div>
+            <!--Formulario de acualizacion-->
+            <div class="card">
+                <div class="card-header" v-if="cardHeaderTitle">
+                    <i class="fas fa-tty"></i>
+                    <span>{{this.administradoDoc}}</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title" v-if="cardTitle">{{cardTitle}}</h3>
+                    <slot>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Número de teléfono" v-model="WatchNumTele" v-on:keypress="isNumber($event, WatchNumTele)">						
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button  type="button"  class="btn btn-primary"  style=" width: 100%;" >Buscar</button>
+                            </div>  
+                            <div class="col">
+                                <button  type="button"  class="btn btn-primary"  style=" width: 100%;" >Limpiar</button>
+                            </div>                
+                        </div>
+                    </slot>
+                </div>
+            </div>
         </div>
     </div>
     <div [ngClass]="'w-100 m-0 p-0 ' + (activeStreet ? 'h-40' : 'h-0')">
         <ng-template [ngIf]="activeStreet">        
         </ng-template>
     </div>
-    <!--Menu-->
-    <div id="contextMenu">
-        <ul>
-          <li id="EditGeometry"  (click)="onEditGraphic()">
-            <span class="esri-icon-line-chart icon-style"></span>
-            <span> Modificar geometría</span>
-          </li>
-          <li id="showInfo">
-            <div>
-              <span class="esri-icon-table icon-style"> </span>
-              <span>Modificar atributos</span>
-            </div>
-          </li>
-        </ul>
-    </div>
 </div>
 <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css">
+<link rel="stylesheet" href="/assets/scss/font-awesome.min.css">
