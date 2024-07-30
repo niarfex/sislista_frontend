@@ -40,6 +40,7 @@ import FeatureService from "@arcgis/core/rest/featureService/FeatureService";
 
 import * as GeometryEngine from "@arcgis/core/geometry/geometryEngine.js";
 import * as GeometryService from "@arcgis/core/rest/geometryService";
+import * as geoprocessor from "@arcgis/core/rest/geoprocessor.js";
 
 import * as Projection from "@arcgis/core/geometry/projection";
 import * as ProjectParameters from "@arcgis/core/rest/support/ProjectParameters";
@@ -82,6 +83,7 @@ export {
         FeatureService,        
         GeometryEngine ,
         GeometryService,
+        geoprocessor,
         Projection,
         ProjectParameters,        
         Config,

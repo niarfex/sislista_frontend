@@ -18,14 +18,14 @@
             -->
             <div class="status-map d-flex flex-column m-0 p-0">
                 <div class="d-flex justify-content-center m-0 p-0">
-                    <label class="m-0 p-0">Longitud:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.longitude}}</label>
-                    <label class="m-0 p-0 ml-3">Latitud:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.latitude}}</label>
+                    <label class="m-0 p-0">Longitud:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.longitude}} </label>
+                    <label class="m-0 p-0 ml-3">Latitud:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.latitude}} </label>
                     <label class="m-0 p-0 ml-3" *ngIf="mapActive==3">Altura:</label><label class="m-0 p-0 ml-1" *ngIf="mapActive==3">{{mapService.coordStatusMap.height}}</label>
                 </div>
                 <div class="d-flex justify-content-center m-0 p-0">
-                    <label class="m-0 p-0">Zona:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.zoneUTM}}S</label>
-                    <label class="m-0 p-0 ml-3">Este:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.xUTM}}</label>
-                    <label class="m-0 p-0 ml-3">Norte:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.yUTM}}</label>
+                    <label class="m-0 p-0">Zona:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.zoneUTM}}S </label>
+                    <label class="m-0 p-0 ml-3">Este:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.xUTM}} </label>
+                    <label class="m-0 p-0 ml-3">Norte:</label><label class="m-0 p-0 ml-1">{{mapService.coordStatusMap.yUTM}} </label>
                 </div>
             </div>
             <div id="div-coord-conver-2D" class="coord-conver-map m-0 p-0" [class]="mapActive==2?'d-block':'d-none'"></div>
@@ -99,13 +99,13 @@
             <div id="contextMenu">
                 <ul>
                     <li><a (click)="onEditGraphic()"><i class="fa fa-object-group"></i> Modificar geometría</a></li>
-                    <li><a (click)="onEditAttribute()"><i class="fa fa-address-card"></i> Modificar atributos</a></li>                    
+                    <li><a (click)="onEditAttribute()"><i class="fa fa-id-card-o"></i> Modificar atributos</a></li>                    
                 </ul>
             </div>
             <!--Formulario de acualizacion-->
             <div id="AttributeForm" class="card">
                 <div class="card-header" v-if="cardHeaderTitle">
-                    <i class="fa fa-address-card"></i>
+                    <i class="fa fa-id-card-o"></i>
                     <span> {{admin.ruc}}</span>
                 </div>
                 <div class="card-body">
@@ -113,13 +113,13 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
                         </div>
-                        <input type="text" readonly class="form-control" title="Nombre del administrado" placeholder="Administrado" [(ngModel)]="admin.nombre" v-on:keypress="isNumber($event, WatchNumTele)">						
+                        <input type="text" readonly class="form-control" title="Nombre del administrado" placeholder="Administrado" [(ngModel)]="admin.nombre">
                     </div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-map"></i></span>
                         </div>
-                        <input type="text" class="form-control" title="Nombre del fundo" placeholder="Nombre del fundo" [(ngModel)]="admin.fundo" v-on:keypress="isNumber($event, WatchNumTele)">						
+                        <input type="text" class="form-control" title="Nombre del fundo" placeholder="Nombre del fundo" [(ngModel)]="admin.fundo">						
                     </div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
@@ -129,10 +129,16 @@
                     </div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-area-chart"></i></span>
+                            <span class="input-group-text"><i class="fa fa-object-group"></i></span>
                         </div>
-                        <input type="text" class="form-control" title="Área declarada" placeholder="Área declarada" [(ngModel)]="admin.area" v-on:keypress="isNumber($event, WatchNumTele)">						
-                    </div>                                               
+                        <input type="text" readonly class="form-control" title="Área calculada" placeholder="Área calculada" [(ngModel)]="admin.area_ca">						
+                    </div>
+                    <div class="input-group form-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-object-ungroup"></i></span>
+                        </div>
+                        <input type="text" class="form-control" title="Área declarada" placeholder="Área declarada" [(ngModel)]="admin.area_de" (keypress)="setNumber($event, admin.area_de)">						
+                    </div>                                                       
                     <div class="row">
                         <div class="col">                           
                             <a class="btn btn-primary" (click)="onSaveAttributes()"><i class="fa fa-floppy-o"></i> Grabar</a>

@@ -62,7 +62,7 @@ div.container-map>.status-map {
   width: 100%;
   z-index: 0;
   background-color: #0bbc087b;
-  color: #1e85be;
+  color: #008f49;
   font-size: 9px;
   font-weight: 700;
   text-shadow: rgb(255, 255, 255) 1px 0px 0px, rgb(255, 255, 255) 0.540302px 0.841471px 0px, rgb(255, 255, 255) -0.416147px 0.909297px 0px, rgb(255, 255, 255) -0.989992px 0.14112px 0px, rgb(255, 255, 255) -0.653644px -0.756802px 0px, rgb(255, 255, 255) 0.283662px -0.958924px 0px, rgb(255, 255, 255) 0.96017px -0.279415px 0px;
@@ -79,6 +79,19 @@ div.container-map>.scalebar-map {
   position: absolute;
   bottom: 4px;
   left: 5px;
+}
+.esri-widget{
+  color: #fff;
+  background-color: #008f49;
+}
+
+.esri-widget--button {
+  color: #fff;
+  background-color: #008f49;
+}
+
+.esri-widget--button:is(calcite-button):not(:hover) {
+  --calcite-ui-icon-color:  #fff;
 }
 
 .esri-widget--button.button-esri-modify {
@@ -244,16 +257,18 @@ ngui-map {
   }
 }
 
-.input-group {
+.input-group{
 padding: 2px;
-.form-control {
-  padding: 0.0rem 0.5rem;
+  .form-control {
+    padding: 0.0rem 0.5rem;
+  }
+  .text{
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    text-transform: uppercase;
+  }
 }
-.input-group-text{
-  border-bottom-right-radius: 0px;
-  border-top-right-radius: 0px;
-}
-}
+
 .row{
 margin-top: 5px;
 display:flex;
