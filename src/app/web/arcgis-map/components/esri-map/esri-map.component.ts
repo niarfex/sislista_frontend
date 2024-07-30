@@ -67,8 +67,8 @@ export class EsriMapComponent implements OnInit {
     this.mapService.printSeparator2D = document.getElementById('print_separator_2D');
 
     //--Datos del Administrado
-    //this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
-    this.administradoDoc ='20131867744';
+    this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
+    //this.administradoDoc ='20131867744';
     this.mapService.SisListaRuc = this.administradoDoc
 
     this.changeSelectMap();
