@@ -3,64 +3,144 @@
         <app-esri-map [isFullView]="isFullViewMap" (changeFullView)="onChangeFullView($event)" (MapElement)="setMapElement($event)"></app-esri-map>   
     </div>
     <div class="col-sm-2">
-        <div class="row">
-            <div class="col-sm-9" style="color:#008F49; font-weight: bold; text-decoration: underline;">
-                <span>Registro de Marco de Lista</span>
+        <div id="divFormLista" class="row" >
+            <div class="row">
+                <div class="col-sm-9" style="color:#008F49; font-weight: bold; text-decoration: underline;">
+                    <span>Registro de Marco de Lista</span>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-primary"
+                    style="background-color: #008F49; border-color: #008F49; margin-bottom: 5px;"
+                    type="button" (click)="mostrarCuestionario(viewUserTemplate)"><i class="bi bi-pencil-square"></i></button>
+                </div>
+            </div>  
+            <div class="row">
+                <div class="col-sm-12 text-end">Periodo: {{cadPeriodo}}</div>
             </div>
-            <div class="col-sm-3">
-                <button class="btn btn-primary"
-                style="background-color: #008F49; border-color: #008F49; margin-bottom: 5px;"
-                type="button" (click)="mostrarCuestionario(viewUserTemplate)"><i class="bi bi-pencil-square"></i></button>
+            <div class="row">
+                <div class="col-sm-12" style="color: #008F49; font-weight: bold;">
+                    <span>Datos de la empresa:</span>
+                </div>            
+            </div> 
+            <div class="row">         
+                <div class="col-sm-12" style="margin-left: 5px; margin-right: 5px; ">
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Condición jurídica</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{condicionJuridica}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>RUC</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.NumeroDocumento}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Razón social</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.RazonSocial}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Dirección fiscal</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.DireccionFiscalDomicilio}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Tipo de Explotación</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{tipoExplotacion}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Teléfono fijo</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.Telefono}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Celular</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.Celular}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Correo electrónico</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.CorreoElectronico}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Página web</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.PaginaWeb}}</span></div>
+                </div>
             </div>
-        </div>  
-        <div class="row">
-            <div class="col-sm-12 text-end">Periodo: {{cadPeriodo}}</div>
+            <div class="row" style="color: #008F49; font-weight: bold;">
+                <span>Datos del representante legal:</span>
+            </div> 
+            <div class="row">   
+                <div class="col-sm-12" style="margin-left: 5px; margin-right: 5px;">
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Nombres y apellidos</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.NombreRepLegal}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Celular</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.Celular}}</span></div>
+                    <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Correo electrónico</span></div>
+                    <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.CorreoRepLegal}}</span></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-end">
+                    <span>Última actualización: </span>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12" style="color: #008F49; font-weight: bold;">
-                <span>Datos de la empresa:</span>
-            </div>            
-        </div> 
-        <div class="row">         
-            <div class="col-sm-12" style="margin-left: 5px; margin-right: 5px; ">
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Condición jurídica</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{condicionJuridica}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>RUC</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.NumeroDocumento}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Razón social</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.RazonSocial}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Dirección fiscal</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.DireccionFiscalDomicilio}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Tipo de Explotación</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{tipoExplotacion}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Teléfono fijo</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.Telefono}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Celular</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.Celular}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Correo electrónico</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.CorreoElectronico}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Página web</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.PaginaWeb}}</span></div>
+        <!--Formulario de acualizacion-->
+        <div id="divAttribMap" class="row card">
+            <div class="card-header">
+                    <i class="fa fa-id-card-o"></i>
+                    <span> {{admin.ruc}}</span>
             </div>
-        </div>
-        <div class="row" style="color: #008F49; font-weight: bold;">
-            <span>Datos del representante legal:</span>
-        </div> 
-        <div class="row">   
-            <div class="col-sm-12" style="margin-left: 5px; margin-right: 5px;">
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Nombres y apellidos</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.NombreRepLegal}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Celular</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.Celular}}</span></div>
-                <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Correo electrónico</span></div>
-                <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{objRegistro.CorreoRepLegal}}</span></div>
+            <div class="card-body">
+                    <div class="input-group form-group">
+                        <label>Nombre del administrado:</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
+                        </div>
+                        <input type="text" readonly class="form-control" title="Nombre del administrado" placeholder="Administrado" [(ngModel)]="admin.nombre">
+                    </div>
+                    <div class="input-group form-group">
+                        <label>Nombre del fundo:</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-map"></i></span>
+                        </div>
+                        <input type="text" class="form-control" title="Nombre del fundo" placeholder="Nombre del fundo" [(ngModel)]="admin.fundo">						
+                    </div>
+                    <div class="input-group form-group">
+                        <label>Nombre del campo:</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-pie-chart"></i></span>
+                        </div>
+                        <input type="text" class="form-control" title="Nombre del campo" placeholder="Nombre del campo" [(ngModel)]="admin.campo" v-on:keypress="isNumber($event, WatchNumTele)">						
+                    </div>
+                    <div class="input-group form-group">
+                        <label>Tipo de uso:</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                        </div>
+                        <select class="form-select" [(ngModel)]="admin.tipo">
+                            <option *ngFor="let item of listaTipoCampo"
+                                [value]="item.value">{{ item.label }}
+                            </option>                                  
+                        </select>
+                    </div>
+                    <div class="input-group form-group">
+                        <label>Tipo de tenencia:</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-users"></i></span>
+                        </div>
+                        <select class="form-select" [(ngModel)]="admin.tenencia">
+                            <option *ngFor="let item of listaTenencia"
+                                [value]="item.value">{{ item.label }}
+                            </option>                                  
+                        </select>
+                    </div>                                        
+                    <div class="input-group form-group">
+                        <label>Área declarada (ha):</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-object-ungroup"></i></span>
+                        </div>
+                        <input type="text" class="form-control" title="Área declarada" placeholder="Área declarada" [(ngModel)]="admin.area_de" (keypress)="setNumber($event, admin.area_de)">						
+                    </div> 
+                    <div class="input-group form-group">
+                        <label>Área calculada (ha):</label>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-object-group"></i></span>
+                        </div>
+                        <input type="text" readonly class="form-control" title="Área calculada" placeholder="Área calculada" [(ngModel)]="admin.area_ca">						
+                    </div>
+                    <div class="input-group form-group">
+                        <label>Observaciones:</label>
+                         <textarea class="form-control" rows="3" title="Observaciones" placeholder="Observaciones" [(ngModel)]="admin.observacion"></textarea>
+                    </div>                                                                                            
+                    <div class="row">
+                        <div class="col">                           
+                            <a class="btn btn-primary" (click)="onSaveAttributes()"><i class="fa fa-floppy-o"></i> Grabar</a>
+                        </div>  
+                        <div class="col">
+                            <a class="btn btn-primary" (click)="onCancelAttributes()"><i class="fa fa-times"></i> Cancelar</a>
+                        </div>                
+                    </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 text-end">
-                <span>Última actualización: </span>
-            </div>
-        </div>
+        </div>   
     </div>
 </div>
 <ng-template #viewUserTemplate >

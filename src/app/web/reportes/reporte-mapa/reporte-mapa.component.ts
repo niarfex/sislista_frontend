@@ -8,6 +8,7 @@ import { finalize } from 'rxjs';
 import { GestionRegistroGetDto } from 'src/app/models/GestionRegistro';
 import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionregistro-proxies';
 import { MapService } from '../../arcgis-map/services/map.service';
+import { SweetAlert } from '../../arcgis-map/util/SweetAlert';
 
 @Component({
   selector: 'reporte-mapa',
@@ -25,7 +26,7 @@ export class ReporteMapaComponent implements OnInit {
   tipoExplotacion:String;
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
   
-  /*GIS*/
+  /*GIS*/  
   title = '';
   screenActive = 0;
   isFullViewMap = false;
@@ -33,15 +34,22 @@ export class ReporteMapaComponent implements OnInit {
   isCollapsed = false;
   showMap = true;
   showData = true;
-  oMapService:MapService;
+  mapService:MapService;
   listaCampos:any[];
-
+  admin:any;
+  listaTipoCampo:any[] = [{value: 'AGRÍCOLA', label: 'AGRÍCOLA'},
+                          {value: 'NO AGRÍCOLA', label: 'NO AGRÍCOLA'},    
+                         ];
+  listaTenencia:any[] = [{value: 'PROPIO', label: 'PROPIO'},
+                         {value: 'ALQUILADO', label: 'ALQUILADO'},    
+                        ];
   private gestionregistroServiceProxy: GestionRegistroServiceProxy;
   constructor(_injector: Injector
-    ,private _route: ActivatedRoute
-    ,private modalService: BsModalService
+    , private _route: ActivatedRoute
+    , private modalService: BsModalService
     , private spinner: NgxSpinnerService
-    , private toastr: ToastrService) {
+    , private toastr: ToastrService
+    , private sweetAlert: SweetAlert) {
     this.gestionregistroServiceProxy = _injector.get(GestionRegistroServiceProxy);
    }
 
@@ -68,14 +76,13 @@ export class ReporteMapaComponent implements OnInit {
             this.toastr.error(result.message.toString(), 'Error');
           }          
         }
-      });    
+      }); 
   }
 
   async mostrarCuestionario(viewUserTemplate: TemplateRef<any>){
     //--Trae Listado de Campos
-    this.listaCampos = await this.oMapService.getListField();
+    this.listaCampos = await this.mapService.getListField();
     console.log(this.listaCampos);
-
 
     this.numDoc = this.numDoc;
     this.modalActivo=true;
@@ -90,8 +97,18 @@ export class ReporteMapaComponent implements OnInit {
     this.modalRef?.hide();
   };
 
+  setNumber(event, message) {
+    if (!/\d/.test(event.key) && (event.key !== "." || /\./.test(message)) && (event.key !== "-" || /\./.test(message)))  
+        return event.preventDefault();
+        //if (/\.\d{2}/.test(message)) return event.preventDefault();
+  }
+
   setMapElement(oMapElement:any){
-    this.oMapService=oMapElement;
+    this.mapService=oMapElement;
+    //--Seteamos los variables de los Formularios
+    this.mapService.readDivFormLista = document.getElementById('divFormLista');
+    this.mapService.editDivAttribute = document.getElementById('divAttribMap');
+    this.admin = this.mapService.ptAttributeSelect;
   }
 
   onChangeSelect(value:any) {
@@ -107,4 +124,24 @@ export class ReporteMapaComponent implements OnInit {
     this.showData = !value;
     this.screenActive = value ? 1: 0;
   }
+  onSaveAttributes(){
+    //--Procedemos con la validación de los atributos
+    if(this.admin.fundo==''){
+      this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> nombre del fundo</b>')
+      return;
+    }
+    if(this.admin.campo==''){
+      this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> nombre del campo</b>')
+      return;
+    }
+    if(this.admin.area_de==''){
+      this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> Área declarada</b>')
+      return;
+    }
+    this.mapService.ptSaveAttribute();
+    //--this.mapService.ptGraphicsLayerEdit;
+    }
+  onCancelAttributes(){
+    this.mapService.editDivAttribute.style.display = 'none';
+  }  
 }

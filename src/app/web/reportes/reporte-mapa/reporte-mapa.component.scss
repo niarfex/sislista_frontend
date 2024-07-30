@@ -126,3 +126,35 @@ $container-max-widths: (
       top: 0;
       right: 0;
   }
+
+  .card {    
+    display: none;
+    //position: absolute;   
+    //right: 15px;
+    top: -5px;
+    bottom: 0px;
+    margin-bottom: 0px;    
+    text-align: left;
+    background: #f4f4f7;
+    .card-header {
+        color: #ffffff;
+        background-color: #008f49;
+        font-size: 12px;
+        font-weight: bold;
+        //padding: 0.35rem 1.25rem;
+        border-radius: 0px;
+    }
+    .card-body {
+      padding:5px;      
+      right: 5px;
+      label{
+        margin-top: 2px;
+        margin-bottom: 0rem;
+        color: #008F49;
+        font-weight: bold;
+      }
+    }
+  }
+  .form-select{
+    padding: 0.1rem 1.0rem 0.1rem 0.75rem;
+  }

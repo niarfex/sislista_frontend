@@ -3,6 +3,8 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthComponent } from './auth.component';
 //import { AccountRouteGuard } from './auth/account-route-guard';
 import { LoginComponent } from '../auth/login/login.component';
+//FCF
+//import { ReporteMapaComponent } from '../../src/app/web/reportes/reporte-mapa/reporte-mapa.component';
 
 @NgModule({
     imports: [

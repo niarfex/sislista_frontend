@@ -54,7 +54,7 @@ export class EsriMapComponent implements OnInit {
   
     //buttons masurement
     this.mapService.editDivMenu = document.getElementById('contextMenu');
-    this.mapService.editDivAttribute = document.getElementById('AttributeForm');
+    //this.mapService.editDivAttribute = document.getElementById('AttributeForm');
     this.mapService.editDivToolbar= document.getElementById('editToolbar');
     
     this.mapService.distanceButton2D = document.getElementById('measurement_distance_2D');
@@ -67,14 +67,11 @@ export class EsriMapComponent implements OnInit {
     this.mapService.printSeparator2D = document.getElementById('print_separator_2D');
 
     //--Datos del Administrado
-    this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
+    //this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
+    this.administradoDoc ='20131867744';
     this.mapService.SisListaRuc = this.administradoDoc
 
-
-    this.items = [
-      { label: 'Copy', icon: 'pi pi-copy' },
-      { label: 'Rename', icon: 'pi pi-file-edit' }
-    ];
+    this.changeSelectMap();
 
   }
 
@@ -87,9 +84,15 @@ export class EsriMapComponent implements OnInit {
     this.MapElement.emit(this.mapService);
   }
 
+  setNumber(event, message) {
+    if (!/\d/.test(event.key) && (event.key !== "." || /\./.test(message)) && (event.key !== "-" || /\./.test(message)))  
+        return event.preventDefault();
+        //if (/\.\d{2}/.test(message)) return event.preventDefault();
+  }
+
   changeSelectMap() {
     //console.log(this.mapActive);
-    this.onClickClear();
+    //this.onClickClear();
     this.mapService.setActiveView(this.mapActive);
     this.mapService.UpdatePositionStreet();
     this.changeExtent();
@@ -134,14 +137,14 @@ export class EsriMapComponent implements OnInit {
 
   onClickPopupView() {
     this.activeStreet = false;
-    this.closeWindow('download');
-    this.closeWindow('addWMS');
+    //this.closeWindow('download');
+    //this.closeWindow('addWMS');
     this.mapService.setActiveWidget('popupview');
   }
   onClickClear() {
     this.activeStreet = false;
-    this.closeWindow('download');
-    this.closeWindow('addWMS');
+    //this.closeWindow('download');
+    //this.closeWindow('addWMS');
     this.mapService.clearActiveWidget();
   }
 
@@ -200,7 +203,6 @@ export class EsriMapComponent implements OnInit {
     //this.mapService.ptEditTool.name="select";
     this.mapService.ptEditAttribute();
   }
-
   onEditGraphic(){
     this.mapService.ptEditTool.name="Edit";
     this.mapService.ptEditGeometry();
@@ -215,41 +217,39 @@ export class EsriMapComponent implements OnInit {
       // Validando si lo retornado es una promesa (caso 'X');
       question.then((response: any) => {
         if (response.isConfirmed) {
-          console.log('prueba')
-        }      
+          this.mapService.ptDeleteGeometry();          
+        }
       });
     } else {
-      this.sweetAlert.AlertError('Presupuesto', 'Error de Validacion')
+      this.sweetAlert.AlertError('Edición de Elementos', 'Error de Validacion')
     }
   }
+
   onCreateLineGraphic(evt:any){
     this.mapService.ptEditTool.name="Create Line";
     this.mapService.ptCreateGeometry(evt);
- }
- onSaveAttributes(){
-  //--Procedemos con la validación de los atributos
-  if(this.admin.fundo==''){
-    this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> nombre del fundo</b>')
-    return;
   }
-  if(this.admin.campo==''){
-    this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> nombre del campo</b>')
-    return;
+  onSaveAttributes(){
+    //--Procedemos con la validación de los atributos
+    if(this.admin.fundo==''){
+      this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> nombre del fundo</b>')
+      return;
+    }
+    if(this.admin.campo==''){
+      this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> nombre del campo</b>')
+      return;
+    }
+    if(this.admin.area_de==''){
+      this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> Área declarada</b>')
+      return;
+    }
+    this.mapService.ptSaveAttribute();
+    //--this.mapService.ptGraphicsLayerEdit;
+    }
+  onCancelAttributes(){
+    this.mapService.editDivAttribute.style.display = 'none';
   }
-  if(this.admin.area==''){
-    this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> Área declarada</b>')
-    return;
-  }
-
-  this.mapService.ptSaveAttribute();
-  console.log(this.mapService.ptGraphicsLayerEdit);
-  this.sweetAlert.AlertWarning('Nuevo', 'No se pueden registrar mas Paquetes IP <br>Maximo: <b>xx</b>')
- }
- onCancelAttributes(){
-  this.mapService.editDivAttribute.style.display = 'none';
- }
-
- async onSaveChanges(){
+  async onSaveChanges(){
     //--Valida Aprobacion
     let question: any = this.sweetAlert.AlertQuestion(
       'Sesión de edición',
@@ -258,13 +258,13 @@ export class EsriMapComponent implements OnInit {
     if (question instanceof Promise) {
       question.then(async(response: any) => {
         if (response.isConfirmed) {
-          console.log('aca')
-          await this.mapService.setDeleteFeature()
+          //await this.mapService.setDeleteFeature()
+          this.mapService.setBackupFeature();
         }      
       });
     }else{
       this.sweetAlert.AlertError('Presupuesto', 'Error de Validacion')
     }
   
- }
+  }
 }
