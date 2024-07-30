@@ -7,6 +7,8 @@ import { AuthComponent } from './auth.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { RecaptchaModule } from "ng-recaptcha";
 import { RecuperarClaveComponent } from './recuperar-clave/recuperar-clave.component';
+import { RecuperarMensajeComponent } from './recuperar-mensaje/recuperar-mensaje.component';
+import { NuevaClaveComponent } from './nueva-clave/nueva-clave.component';
 
 @NgModule({ 
         imports: [
@@ -18,7 +20,7 @@ import { RecuperarClaveComponent } from './recuperar-clave/recuperar-clave.compo
         AuthRoutingModule,
         RecaptchaModule
         ], 
-        declarations: [AuthComponent, LoginComponent, RecuperarClaveComponent], 
+        declarations: [AuthComponent, LoginComponent, RecuperarClaveComponent, RecuperarMensajeComponent, NuevaClaveComponent], 
         providers: [] 
 })
 export class AccountModule {}

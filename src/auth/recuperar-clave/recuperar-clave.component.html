@@ -10,21 +10,21 @@
         <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
-                <div class="text-center" style="margin-top: 40px;">
+                <div class="text" style="margin-top: 40px;">
                     <form [formGroup]="recuperarForm" (ngSubmit) = "onClickSubmit(recuperarForm.value)">
                 
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-sm-12 text-center">
                                 <img [src]="appBaseUrl + '/assets/images/logo_midagri.png'"
                                     style="width: 100px;height: 100px;" />
                             </div>
                         </div>           
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-sm-12">
-                                <span>Ingrese el correo electrónico asociado a su cuenta de usuario</span>
+                                <span>Ingrese el correo electrónico asociado a su cuenta de usuario:</span>
                             </div>
                         </div> 
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="Correo">Correo electrónico</label>
@@ -47,11 +47,7 @@
                         <div class="mb-3">
                             <button type="submit" [disabled]="!captchaResolved" class="btn btn-primary"
                                 style="background-color: #008F49; border-color: #008F49;">Enivar</button>
-                        </div>
-                        <div class="mb-3">
-                            <span><a [routerLink]="'#'">¿Olvidaste la contraseña?</a></span>
-                        </div>
-
+                        </div>   
                     </form>
                 </div>
             </div>
