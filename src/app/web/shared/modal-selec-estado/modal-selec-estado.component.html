@@ -1,5 +1,5 @@
 <div id="modalRegInformantes" href="#" tabindex="-1" role="dialog" aria-hidden="true">
-    <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
+    <form [formGroup]="modalForm">
         <div class="modal-header"
             style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
             <span style="font-size: large; font-weight: bold;">
@@ -22,10 +22,11 @@
                     </div>
                 </div>
                 <div class="col-sm-6 text-end">
-                    <button type="submit" class="btn btn-primary"
+                    <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid"
                         style="background-color: #008F49; border-color: #008F49;" (click)="continuarObservacion()">Continuar</button>
                 </div>
             </div>  
         </div>
     </form>
 </div>
+<p-confirmDialog></p-confirmDialog>

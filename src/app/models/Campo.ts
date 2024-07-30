@@ -51,6 +51,8 @@ export interface ICampoGetDto {
     Superficie: number;
     SuperficieCultivada: number;
     Orden:number;
+    idusoNoAgricolaDisable:boolean;
+    agricolaDisable:boolean;
 }
 export class CampoGetDto implements ICampoGetDto {
     Id: number;
@@ -65,6 +67,8 @@ export class CampoGetDto implements ICampoGetDto {
     Superficie: number;
     SuperficieCultivada: number;
     Orden:number;
+    idusoNoAgricolaDisable:boolean=true;
+    agricolaDisable:boolean=true;
     constructor(data?: ICampoGetDto) {
         if (data) {
             for (var property in data) {

@@ -33,7 +33,7 @@ import { ModalMetodoInsercionComponent } from './web/shared/modal-metodo-inserci
 import { ModalCargarArchivoComponent } from './web/shared/modal-cargar-archivo/modal-cargar-archivo.component';
 import { ModalDibujarPoligonoComponent } from './web/shared/modal-dibujar-poligono/modal-dibujar-poligono.component';
 import { ListaSistemaPecuarioComponent } from './web/shared/lista-sistema-pecuario/lista-sistema-pecuario.component';
-import { ModalSistemaPecuarioComponent } from './web/shared/modal-sistema-pecuario/modal-sistema-pecuario.component';
+import { ModalSistemaPecuarioComponent } from './web/shared/lista-sistema-pecuario/modal-sistema-pecuario/modal-sistema-pecuario.component';
 import { ModalSelecEstadoComponent } from './web/shared/modal-selec-estado/modal-selec-estado.component';
 import { ModalRegistroObservacionComponent } from './web/shared/modal-registro-observacion/modal-registro-observacion.component';
 

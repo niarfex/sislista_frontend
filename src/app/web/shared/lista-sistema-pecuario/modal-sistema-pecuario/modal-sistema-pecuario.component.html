@@ -36,8 +36,8 @@
             <div class="row mb-3">
                 <div class="col-sm-1">
                     <div class="form-group">
-                        <label for="IdLineaProd">Selec.</label>
-                        <input type="checkbox" [(ngModel)]="selecLineaProd" class="form-check-input"
+                        <label for="selectLineaProd">Selec.</label>
+                        <input type="checkbox" [(ngModel)]="selecLineaProd" [disabled]="bloquearChecks" class="form-check-input"
                             (change)="checkLineaprod()" [ngModelOptions]="{standalone: true}" />
                     </div>
                 </div>
@@ -54,8 +54,8 @@
                     </div>
                 </div>
                 <div class="col-sm-1">
-                    <label for="IdLineaProd">Selec.</label>
-                    <input type="checkbox" [(ngModel)]="selecEspecie" class="form-check-input" (change)="checkEspecie()"
+                    <label for="selecEspecie">Selec.</label>
+                    <input type="checkbox" [(ngModel)]="selecEspecie" [disabled]="bloquearChecks" class="form-check-input" (change)="checkEspecie()"
                         [ngModelOptions]="{standalone: true}" />
                 </div>
                 <div class="col-sm-5">
@@ -86,7 +86,7 @@
             </div>
         </div>
         <div class="modal-footer text-end" style="display: block;">
-            <button type="submit" class="btn btn-primary"
+            <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
                 style="background-color: #008F49; border-color: #008F49;">Registrar</button>
         </div>
     </form>

@@ -45,6 +45,33 @@ export class MarcoListaServiceProxy {
                 return <Observable<ResponseMarcoListaListDto>><any>_observableThrow(response_);
         }));
     }
+    GetMarcoListasinAginarxPerfil(idPerfil: number): Observable<ResponseMarcoListaListDto> {
+        let url_ = AppConsts.urlHost + "v1/marcolista/GetMarcoListasinAginarxPerfil?";
+        if (idPerfil !== undefined && idPerfil !== null)
+            url_ += "idPerfil=" + encodeURIComponent("" + idPerfil.toString()) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processgetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processgetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<ResponseMarcoListaListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ResponseMarcoListaListDto>><any>_observableThrow(response_);
+        }));
+    }
     getAllToExcel(param: string) {
         return this.http.get(AppConsts.urlHost + "v1/marcolista/GetAllToExcel??param=" + param, {
             reportProgress: true,

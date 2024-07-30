@@ -74,7 +74,7 @@ export class ReporteMapaComponent implements OnInit {
   async mostrarCuestionario(viewUserTemplate: TemplateRef<any>){
     //--Trae Listado de Campos
     this.listaCampos = await this.oMapService.getListField();
-    console.log(this.listaCampos);
+    //console.log(this.listaCampos);
 
 
     this.numDoc = this.numDoc;

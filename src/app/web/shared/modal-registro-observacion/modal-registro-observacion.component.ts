@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injector, Input } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
@@ -26,8 +26,8 @@ export class ModalRegistroObservacionComponent {
   @Input() listaSecciones:SelectTipoDto[]=[];
   @Input() listaObservaciones:TrazabilidadGetDto[]=[];
   modalForm = this.formBuilder.group({
-    IdSeccion: ['', []],
-    Observacion: ['', []]
+    IdSeccion: ['', [Validators.required]],
+    Observacion: ['', [Validators.required]]
   });
   constructor(_injector: Injector
     , private formBuilder: FormBuilder
@@ -74,15 +74,18 @@ export class ModalRegistroObservacionComponent {
       Cuestionario:0,
       Observacion:this.Observacion.value,
       EstadoResultado:this.estadoResultado,
-      Seccion:Number.parseInt(this.IdSeccion.value),
-      TipoSeccion:this.listaSecciones.find(x=>x.value==this.IdSeccion.value).label,
+      IdSeccion:Number.parseInt(this.IdSeccion.value),
+      Seccion:this.listaSecciones.find(x=>x.value==this.IdSeccion.value).label,
       Perfil:this.perfil
     });
+    this.listaObservaciones.push(observacion);
+    this.IdSeccion.setValue("");
+    this.Observacion.setValue("");
   }
   grabar(){
 
   }
   eliminarObservacion(item:TrazabilidadGetDto){
-
+    this.listaObservaciones=this.listaObservaciones.filter(x=>x.IdSeccion!=item.IdSeccion || x.Observacion!=item.Observacion);
   }
 }

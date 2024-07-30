@@ -35,7 +35,7 @@ export class ModalRegistroInformantesComponent {
     ApellidoPaterno: ['', [Validators.required]],
     ApellidoMaterno: ['', [Validators.required]],
     Cargo: ['', [Validators.required]],
-    CorreoElectronico: ['', [Validators.required]],
+    CorreoElectronico: ['', [Validators.required, Validators.email]],
     Celular: ['', [Validators.required]],
     Telefono: ['', []],
     IdEstado: ['', [Validators.required]],

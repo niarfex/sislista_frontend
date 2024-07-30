@@ -64,7 +64,7 @@ export class LoginService {
                         var usuarioActual=response.body.usuario;
                         usuarioActual.isAdministrador=usuarioActual.CodigoPerfil=="PERFILADM"?true:false;
                         usuarioActual.isEmpadronador=usuarioActual.CodigoPerfil=="PERFILEMP"?true:false;
-                        usuarioActual.isSupervidor=usuarioActual.CodigoPerfil=="PERFILSUP"?true:false;
+                        usuarioActual.isSupervisor=usuarioActual.CodigoPerfil=="PERFILSUP"?true:false;
                         usuarioActual.isEspecialista=usuarioActual.CodigoPerfil=="PERFILESP"?true:false;
                         usuarioActual.isConsulta=usuarioActual.CodigoPerfil=="PERFILCON"?true:false;
                         sessionStorage.setItem('currentUser', JSON.stringify(usuarioActual));
@@ -79,7 +79,7 @@ export class LoginService {
                         RefreshToken: response.body.usuario.RefreshToken,
                         isAdministrador:usuarioActual.isAdministrador,
                         isEmpadronador:usuarioActual.isEmpadronador,
-                        isSupervisor:usuarioActual.isSupervidor,
+                        isSupervisor:usuarioActual.isSupervisor,
                         isEspecialista:usuarioActual.isEspecialista,
                         isConsulta:usuarioActual.isConsulta
                     });

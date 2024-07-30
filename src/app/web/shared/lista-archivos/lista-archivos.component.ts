@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -16,6 +16,8 @@ import { ArchivoGetDto } from 'src/app/models/Archivo';
 })
 export class ListaArchivosComponent {
   @Input() listaArchivos: ArchivoGetDto[];
+  @Input() modalActivo:boolean=true;
+  @Output() enviarLista = new EventEmitter<any>();
   constructor(private confirmationService: ConfirmationService    
   ) {
   }
@@ -34,7 +36,7 @@ export class ListaArchivosComponent {
 
       accept: () => {
         this.listaArchivos = this.listaArchivos.filter(x => x.NombreArchivo != nombre);
-        //this.enviarAsignados.emit(this.lista_asignados);
+        this.enviarLista.emit(this.listaArchivos);
       },
       reject: () => {
 

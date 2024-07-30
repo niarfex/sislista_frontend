@@ -6,6 +6,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { RecaptchaModule } from "ng-recaptcha";
+import { RecuperarClaveComponent } from './recuperar-clave/recuperar-clave.component';
 
 @NgModule({ 
         imports: [
@@ -17,7 +18,7 @@ import { RecaptchaModule } from "ng-recaptcha";
         AuthRoutingModule,
         RecaptchaModule
         ], 
-        declarations: [AuthComponent, LoginComponent], 
+        declarations: [AuthComponent, LoginComponent, RecuperarClaveComponent], 
         providers: [] 
 })
 export class AccountModule {}

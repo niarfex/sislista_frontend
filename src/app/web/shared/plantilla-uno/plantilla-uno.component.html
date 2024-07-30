@@ -1,30 +1,32 @@
 <div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
-    <form [formGroup]="plantillaForm">    
+    <form [formGroup]="plantillaForm">
         <div class="modal-header"
             style="background-color: #008F49; color: white; text-align: center; align-items: center;">
             <span style="font-size: large; font-weight: bold;">
                 Cuestionario de Marco de Lista
             </span>
             <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
-        </div>    
+        </div>
         <div class="modal-body">
             <div class="row" style="text-align: center;">
                 <div class="col-sm-12" style="text-align: center;">
-                    <span style="font-weight: bold;">Información confidencial amparada por Decreto Supremo Nº 043-2001-PCM del Decreto Estadístico</span>
+                    <span style="font-weight: bold;">Información confidencial amparada por Decreto Supremo Nº
+                        043-2001-PCM del Decreto Estadístico</span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12" style="text-align: center;">
-                    <span style="font-weight: bold;">Objetivo: </span>“Contar con información georreferenciada de los datos recolectados a través del soporte de un sistema de información geográfica”.
+                    <span style="font-weight: bold;">Objetivo: </span>“Contar con información georreferenciada de los
+                    datos recolectados a través del soporte de un sistema de información geográfica”.
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12" style="color:#008F49">
                     <h3>Capítulo I. Características de la Empresa</h3>
                 </div>
-            </div>       
+            </div>
             <!--Para Persona Natural-->
-            <div  class="row">
+            <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="IdCondicionJuridica">1. Condición jurídica</label>
@@ -63,12 +65,15 @@
                 </div>
                 <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
-                        <label for="NumeroDocumentoPN">3. Número de documento</label>                        
+                        <label for="NumeroDocumentoPN">3. Número de documento</label>
                         <div class="input-group">
-                            <input formControlName="NumeroDocumentoPN" maxlength="11" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'NumeroDocumentoPN')" required>
-                            <button *ngIf="modalActivo" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" (click)="getDatosRENIEC()" type="button"><i class="bi bi-search"></i></button>
-                        </div> 
+                            <input formControlName="NumeroDocumentoPN" maxlength="11" type="text"
+                                onkeypress="return '0123456789'.includes(event.key)" class="form-control"
+                                (focusout)="onFocusOutEvent($event,'NumeroDocumentoPN')" required>
+                            <button *ngIf="modalActivoEmp" class="btn btn-primary"
+                                style="background-color: #008F49; border-color: #008F49;" (click)="getDatosRENIEC()"
+                                type="button"><i class="bi bi-search"></i></button>
+                        </div>
                         <div *ngIf="NumeroDocumentoPN.invalid && (NumeroDocumentoPN.dirty || NumeroDocumentoPN.touched)"
                             class="text-danger">
                             <div *ngIf="NumeroDocumentoPN.errors?.['required']">
@@ -76,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-                </div>      
+                </div>
                 <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="Nombre">4. Nombres</label>
@@ -114,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                </div>      
+                </div>
                 <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="TieneRuc">¿Tiene RUC?</label>
@@ -139,8 +144,8 @@
                 <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="IdDepartamentoPerPN">8. Departamento</label>
-                        <select formControlName="IdDepartamentoPerPN" id="IdDepartamentoPerPN" name="IdDepartamentoPerPN"
-                            class="form-select" (change)="selDepartamento($event)">
+                        <select formControlName="IdDepartamentoPerPN" id="IdDepartamentoPerPN"
+                            name="IdDepartamentoPerPN" class="form-select" (change)="selDepartamento($event)">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListDepartamento" [value]="item.value">
                                 {{ item.label }}
@@ -153,7 +158,7 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="IdProvinciaPerPN">9. Provincia</label>
@@ -193,8 +198,8 @@
                 <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="IdTipoExplotacionPN">11. Tipo de explotación</label>
-                        <select formControlName="IdTipoExplotacionPN" id="IdTipoExplotacionPN" name="IdTipoExplotacionPN"
-                            class="form-select">
+                        <select formControlName="IdTipoExplotacionPN" id="IdTipoExplotacionPN"
+                            name="IdTipoExplotacionPN" class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListTipoExplotacion" [value]="item.value">
                                 {{ item.label }}
@@ -212,7 +217,7 @@
                     <div class="form-group">
                         <label for="TelefonoPN">12. Teléfono fijo</label>
                         <input formControlName="TelefonoPN" maxlength="9" type="text" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'TelefonoPN')">                       
+                            (focusout)="onFocusOutEvent($event,'TelefonoPN')">
                     </div>
                 </div>
                 <div *ngIf="perPN" class="col-sm-4">
@@ -236,7 +241,8 @@
                         <div *ngIf="CorreoElectronicoPN.invalid && (CorreoElectronicoPN.dirty || CorreoElectronicoPN.touched)"
                             class="text-danger">
                             <div *ngIf="CorreoElectronicoPN.errors?.['required']">El campo es requerido.</div>
-                            <div *ngIf="CorreoElectronicoPN.errors?.['email']">El campo no cumple con el formato requerido
+                            <div *ngIf="CorreoElectronicoPN.errors?.['email']">El campo no cumple con el formato
+                                requerido
                             </div>
                         </div>
                     </div>
@@ -245,23 +251,23 @@
                     <div class="form-group">
                         <label for="PaginaWebPN">15. Página web</label>
                         <input formControlName="PaginaWebPN" maxlength="100" type="text" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'PaginaWebPN')">                       
+                            (focusout)="onFocusOutEvent($event,'PaginaWebPN')">
                     </div>
                 </div>
                 <div *ngIf="perPN" class="col-sm-4">
-                    
+
                 </div>
                 <div *ngIf="perPN" class="col-sm-4">
-                    
-                </div>         
-            <!--Para Persona Natural-->
-            <!--Para persona jurídica-->                   
+
+                </div>
+                <!--Para Persona Natural-->
+                <!--Para persona jurídica-->
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="NumeroDocumentoSA">2. RUC</label>
-                        <input formControlName="NumeroDocumentoSA" type="text" class="form-control"
-                            required>
-                        <div *ngIf="NumeroDocumentoSA.invalid && (NumeroDocumentoSA.dirty || NumeroDocumentoSA.touched)" class="text-danger">
+                        <input formControlName="NumeroDocumentoSA" type="text" class="form-control" required>
+                        <div *ngIf="NumeroDocumentoSA.invalid && (NumeroDocumentoSA.dirty || NumeroDocumentoSA.touched)"
+                            class="text-danger">
                             <div *ngIf="NumeroDocumentoSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -271,21 +277,21 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="RazonSocial">3. Razón Social</label>
-                        <input formControlName="RazonSocial" type="text" class="form-control"
-                            required>
-                        <div *ngIf="RazonSocial.invalid && (RazonSocial.dirty || RazonSocial.touched)" class="text-danger">
+                        <input formControlName="RazonSocial" type="text" class="form-control" required>
+                        <div *ngIf="RazonSocial.invalid && (RazonSocial.dirty || RazonSocial.touched)"
+                            class="text-danger">
                             <div *ngIf="RazonSocial.errors?.['required']">
                                 El campo es requerido.
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div>
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="DireccionFiscalDomicilioSA">4. Dirección fiscal</label>
-                        <input formControlName="DireccionFiscalDomicilioSA" type="text" class="form-control"
-                            required>
-                        <div *ngIf="DireccionFiscalDomicilioSA.invalid && (DireccionFiscalDomicilioSA.dirty || DireccionFiscalDomicilioSA.touched)" class="text-danger">
+                        <input formControlName="DireccionFiscalDomicilioSA" type="text" class="form-control" required>
+                        <div *ngIf="DireccionFiscalDomicilioSA.invalid && (DireccionFiscalDomicilioSA.dirty || DireccionFiscalDomicilioSA.touched)"
+                            class="text-danger">
                             <div *ngIf="DireccionFiscalDomicilioSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -295,8 +301,8 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="IdDepartamentoPerSA">5. Departamento</label>
-                        <select formControlName="IdDepartamentoPerSA" id="IdDepartamentoPerSA" name="IdDepartamentoPerSA"
-                            class="form-select" (change)="selDepartamento($event)">
+                        <select formControlName="IdDepartamentoPerSA" id="IdDepartamentoPerSA"
+                            name="IdDepartamentoPerSA" class="form-select" (change)="selDepartamento($event)">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListDepartamento" [value]="item.value">
                                 {{ item.label }}
@@ -349,8 +355,8 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="IdTipoExplotacionSA">8. Tipo de explotación</label>
-                        <select formControlName="IdTipoExplotacionSA" id="IdTipoExplotacionSA" name="IdTipoExplotacionSA"
-                            class="form-select">
+                        <select formControlName="IdTipoExplotacionSA" id="IdTipoExplotacionSA"
+                            name="IdTipoExplotacionSA" class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListTipoExplotacion" [value]="item.value">
                                 {{ item.label }}
@@ -367,8 +373,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="TelefonoSA">9. Teléfono fijo</label>
-                        <input formControlName="TelefonoSA" type="text" class="form-control"
-                            required>
+                        <input formControlName="TelefonoSA" type="text" class="form-control" required>
                         <div *ngIf="TelefonoSA.invalid && (TelefonoSA.dirty || TelefonoSA.touched)" class="text-danger">
                             <div *ngIf="TelefonoSA.errors?.['required']">
                                 El campo es requerido.
@@ -379,8 +384,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="CelularSA">10. Celular</label>
-                        <input formControlName="CelularSA" type="text" class="form-control"
-                            required>
+                        <input formControlName="CelularSA" type="text" class="form-control" required>
                         <div *ngIf="CelularSA.invalid && (CelularSA.dirty || CelularSA.touched)" class="text-danger">
                             <div *ngIf="CelularSA.errors?.['required']">
                                 El campo es requerido.
@@ -391,9 +395,9 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="CorreoElectronicoSA">11. Correo electrónico institucional</label>
-                        <input formControlName="CorreoElectronicoSA" type="text" class="form-control"
-                            required>
-                        <div *ngIf="CorreoElectronicoSA.invalid && (CorreoElectronicoSA.dirty || CorreoElectronicoSA.touched)" class="text-danger">
+                        <input formControlName="CorreoElectronicoSA" type="text" class="form-control" required>
+                        <div *ngIf="CorreoElectronicoSA.invalid && (CorreoElectronicoSA.dirty || CorreoElectronicoSA.touched)"
+                            class="text-danger">
                             <div *ngIf="CorreoElectronicoSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -403,9 +407,9 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="PaginaWebSA">12. Página web</label>
-                        <input formControlName="PaginaWebSA" type="text" class="form-control"
-                            required>
-                        <div *ngIf="PaginaWebSA.invalid && (PaginaWebSA.dirty || PaginaWebSA.touched)" class="text-danger">
+                        <input formControlName="PaginaWebSA" type="text" class="form-control" required>
+                        <div *ngIf="PaginaWebSA.invalid && (PaginaWebSA.dirty || PaginaWebSA.touched)"
+                            class="text-danger">
                             <div *ngIf="PaginaWebSA.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -417,14 +421,14 @@
                 <div class="col-sm-12" style="color:darkgray">
                     <h3>Datos del Representante Legal:</h3>
                 </div>
-            </div>  
+            </div>
             <div *ngIf="perSA" class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="NombreRepLegal">13. Nombres y apellidos</label>
-                        <input formControlName="NombreRepLegal" type="text" class="form-control"
-                            required>
-                        <div *ngIf="NombreRepLegal.invalid && (NombreRepLegal.dirty || NombreRepLegal.touched)" class="text-danger">
+                        <input formControlName="NombreRepLegal" type="text" class="form-control" required>
+                        <div *ngIf="NombreRepLegal.invalid && (NombreRepLegal.dirty || NombreRepLegal.touched)"
+                            class="text-danger">
                             <div *ngIf="NombreRepLegal.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -434,9 +438,9 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="CelularRepLegal">14. Celular</label>
-                        <input formControlName="CelularRepLegal" type="text" class="form-control"
-                            required>
-                        <div *ngIf="CelularRepLegal.invalid && (CelularRepLegal.dirty || CelularRepLegal.touched)" class="text-danger">
+                        <input formControlName="CelularRepLegal" type="text" class="form-control" required>
+                        <div *ngIf="CelularRepLegal.invalid && (CelularRepLegal.dirty || CelularRepLegal.touched)"
+                            class="text-danger">
                             <div *ngIf="CelularRepLegal.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -446,9 +450,9 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="CorreoRepLegal">15. Correo electrónico</label>
-                        <input formControlName="CorreoRepLegal" type="text" class="form-control"
-                            required>
-                        <div *ngIf="CorreoRepLegal.invalid && (CorreoRepLegal.dirty || CorreoRepLegal.touched)" class="text-danger">
+                        <input formControlName="CorreoRepLegal" type="text" class="form-control" required>
+                        <div *ngIf="CorreoRepLegal.invalid && (CorreoRepLegal.dirty || CorreoRepLegal.touched)"
+                            class="text-danger">
                             <div *ngIf="CorreoRepLegal.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -456,20 +460,21 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-sm-12" style="color:green">
                     <h3>Capítulo II. Características del Fundo</h3>
                 </div>
-            </div>      
-            <div class="row">
-                <div class="col-sm-4">                    
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4">
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="CantidadFundo">16. ¿Cuántos fundos tiene la empresa?</label>
-                        <input formControlName="CantidadFundo" maxlength="6" readonly type="text" class="form-control" onkeypress="return '0123456789'.includes(event.key)"
-                            required>
-                        <div *ngIf="CantidadFundo.invalid && (CantidadFundo.dirty || CantidadFundo.touched)" class="text-danger">
+                        <input formControlName="CantidadFundo" maxlength="6" readonly type="text" class="form-control"
+                            onkeypress="return '0123456789'.includes(event.key)" required>
+                        <div *ngIf="CantidadFundo.invalid && (CantidadFundo.dirty || CantidadFundo.touched)"
+                            class="text-danger">
                             <div *ngIf="CantidadFundo.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -477,76 +482,72 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <button type="button" class="btn btn-primary" (click)="selectMetodoInsercion(viewUserTemplate2,viewUserTemplate3,viewUserTemplate4)"
-                    style="background-color: #008F49; border-color: #008F49;">Insertar</button>
+                    <button type="button" class="btn btn-primary" *ngIf="modalActivoEmp"
+                        (click)="selectMetodoInsercion(viewUserTemplate2,viewUserTemplate3,viewUserTemplate4)"
+                        style="background-color: #008F49; border-color: #008F49;">Insertar</button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-sm-12" style="color:darkgray">
                     <h3>17. Caracteristicas de fundos y uso de la tierra por campo</h3>
                 </div>
-            </div> 
-            <registro-fundo-plantilla *ngFor="let item of objRegistro.ListFundos" [fundo]="item"
-            [listTenencia]="objRegistro.ListTenencia"
-            [listUsoTierra]="objRegistro.ListUsoTierra"
-            [listCultivo]="objRegistro.ListCultivo"
-            [listUsoNoAgricola]="objRegistro.ListUsoNoAgricola"
-            ></registro-fundo-plantilla>
-            <div class="row">
-                
             </div>
-            <div class="row">
+
+            <div class="row mb-3">
+                <div class="col-sm-12">
+                    <registro-fundo-plantilla *ngFor="let item of objRegistro.ListFundos" [fundo]="item"
+                        [listTenencia]="objRegistro.ListTenencia" [listUsoTierra]="objRegistro.ListUsoTierra"
+                        [listCultivo]="objRegistro.ListCultivo"
+                        [modalActivo]="modalActivoEmp"
+                        [listUsoNoAgricola]="objRegistro.ListUsoNoAgricola"></registro-fundo-plantilla>
+                </div>
+            </div>
+            <div class="row mb-3">
                 <div class="col-sm-12" style="color:green">
                     <h3>Capítulo III. Existencia de aves, ganado, búfalo y camélidos sudamericanos</h3>
                 </div>
             </div>
-            <div class="row mb-3">                
-                <div class="col-sm-9" style="color:darkgray">
-                    <h3>18. ¿Cuantos animales tiene?</h3>
+
+            <div class="row mb-3">
+                <div class="col-sm-12">
+                    <lista-sistema-pecuario [listaPecuarios]="objRegistro.ListPecuarios"
+                        (enviarLista)="actualizarPecuarios($event)" (enviarPecuario)="agregarPecuario($event)"
+                        [objCuestionario]="objRegistro" [modalActivo]="modalActivoEmp"></lista-sistema-pecuario>
                 </div>
-                <div class="col-sm-3 text-end">
-                    <button type="button" class="btn btn-primary"
-                        style="background-color:  #008F49; border-color:  #008F49;"
-                        (click)="registrarPecuario(viewUserTemplate5)">Agregar</button>
-                </div>
-            </div>  
-            <div class="row">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-10">
-                    <lista-sistema-pecuario [listaPecuarios]="objRegistro.ListPecuarios"></lista-sistema-pecuario>
-                </div>
-                <div class="col-sm-1"></div>
-            </div>  
-            <div class="row">
+            </div>
+            <div class="row mb-3">
                 <div class="col-sm-9" style="color:green">
                     <h3>Capítulo IV. Datos de la entrevista</h3>
                 </div>
                 <div class="col-sm-3 text-end">
-                    <button type="button" class="btn btn-primary"
+                    <button type="button" class="btn btn-primary" *ngIf="modalActivoEmp"
                         style="background-color:  #008F49; border-color:  #008F49;"
                         (click)="registrarInformante(viewUserTemplate)">Agregar</button>
                 </div>
             </div>
-            <div class="row">                
+            <div class="row mb-3">
                 <lista-informantes [listaInformantes]="objRegistro.ListInformantes"></lista-informantes>
             </div>
-            <div class="row">                
+            <div class="row mb-3">
                 <div class="col-sm-12" style="color:darkgray">
                     <h3>ARCHIVOS PARA GABINETE:</h3>
                 </div>
-            </div> 
-            <div class="row">
+            </div>
+            <div class="row mb-3">
                 <div class="col-sm-4">
                     <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;">
                         <span>Seleccionar archivo</span>
                     </div>
                     <div class="row" style="text-align: center; padding-bottom: 3px;">
-                        <input type="file" id="file" class="d-none" accept=".xls, .xlsx, .shp" (change)="importar($event)"> 
-                        <div class="input-group">
-                            <input formControlName="NombreArchivo" type="text" maxlength="100" readonly class="form-control">
-                            <label for="file" style="cursor: pointer; margin-bottom: 0; color:#008F49; font-size:xx-large;" >
-                                <i style="font-size: xx-large;" class="bi bi-file-earmark-plus"></i></label>  
-                        </div>    
+                        <input type="file" id="file" class="d-none" accept=".xls, .xlsx, .shp"
+                            (change)="importar($event)">
+                        <div *ngIf="modalActivoEmp" class="input-group">
+                            <input formControlName="NombreArchivo" type="text" maxlength="100" readonly
+                                class="form-control">
+                            <label for="file"
+                                style="cursor: pointer; margin-bottom: 0; color:#008F49; font-size:xx-large;">
+                                <i style="font-size: xx-large;" class="bi bi-file-earmark-plus"></i></label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-1"></div>
@@ -555,8 +556,8 @@
                         <span>Tipo de información</span>
                     </div>
                     <div class="row" style="text-align: center; padding-bottom: 3px;">
-                        <select formControlName="IdTipoInformacion" id="IdTipoInformacion"
-                            name="IdTipoInformacion" class="form-select">
+                        <select formControlName="IdTipoInformacion" id="IdTipoInformacion" name="IdTipoInformacion"
+                            class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListTipoInformacion" [value]="item.value">
                                 {{ item.label }}
@@ -566,84 +567,88 @@
                 </div>
                 <div class="col-sm-1"></div>
                 <div class="col-sm-3">
-                    <button type="button" class="btn btn-primary"
-                    style="background-color:  #008F49; border-color:  #008F49;"
-                    (click)="adjuntarArchivo()">Adjuntar</button>
+                    <button type="button" class="btn btn-primary" *ngIf="modalActivoEmp"
+                        style="background-color:  #008F49; border-color:  #008F49;"
+                        (click)="adjuntarArchivo()">Adjuntar</button>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-sm-1"></div>
                 <div class="col-sm-10">
-                    <lista-archivos [listaArchivos]="objRegistro.ListArchivos"></lista-archivos>
+                    <lista-archivos [listaArchivos]="objRegistro.ListArchivos" [modalActivo]="modalActivoEmp"
+                        (enviarLista)="actualizarArchivos($event)"></lista-archivos>
                 </div>
                 <div class="col-sm-1"></div>
             </div>
-            <div class="row">                
-                <div class="col-sm-4" style="color:darkgray">
-                    <h3>Temporizador:{{time.hours}}:{{time.minutes}}:{{time.seconds}} </h3>
+            <div class="row mb-3">
+                <div class="col-sm-6" style="color:black; font-size: small;">
+                    <span style="margin-right: 5px; font-size: medium;"><i class="bi bi-stopwatch"></i></span><span
+                        style="font-weight: bold;">Temporizador:</span> {{time.hours}}:{{time.minutes}}:{{time.seconds}}
                 </div>
-                <div class="col-sm-4" style="color:darkgray">
-                    <h3>Hora: </h3>
+                <div class="col-sm-3" style="color:black; font-size: small;">
+                    <span style="margin-right: 5px; font-size: medium;"><i class="bi bi-clock"></i></span><span
+                        style="font-weight: bold;">Hora: </span>{{changedHour}}
                 </div>
-                <div class="col-sm-4" style="color:darkgray">
-                    <h3>Fecha: </h3>
+                <div class="col-sm-3" style="color:black; font-size: small;">
+                    <span style="margin-right: 5px; font-size: medium;"><i class="bi bi-calendar2"></i></span><span
+                        style="font-weight: bold;">Fecha: </span>{{changedDate}}
                 </div>
-            </div> 
+            </div>
         </div>
-        <div class="modal-footer" style="display: block;">
-            <div *ngIf="usuario.isEmpadronador" class="row">
-                <div class="col-sm-6">
-                    <button *ngIf="modalActivo" type="button" class="btn btn-primary" (click)="previsualizarCuestionario()"
+    </form>
+    <div class="modal-footer" style="display: block;">
+        <div *ngIf="usuario.isEmpadronador" class="row">
+            <div class="col-sm-6">
+                <button *ngIf="modalActivoEmp" type="button" class="btn btn-primary" (click)="previsualizarCuestionario()"
                     style="background-color: #008F49; border-color: #008F49;">Previsualizar</button>
-                </div>
-                <div class="col-sm-6 text-end">
-                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" (click)="grabarCuestionario()"
+            </div>
+            <div class="col-sm-6 text-end">
+                <button *ngIf="modalActivoEmp" type="submit" class="btn btn-primary" (click)="grabarCuestionario()"
                     style="background-color: #008F49; border-color: #008F49;">Grabar</button>
-                </div>
-            </div>
-            <div *ngIf="usuario.isSupervisor" class="row">
-                <div class="col-sm-6">              
-                </div>
-                <div class="col-sm-6 text-end">
-                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" (click)="supervisarCuestionario()"
-                    style="background-color: #008F49; border-color: #008F49;">Supervisar</button>
-                </div>
-            </div>
-            <div *ngIf="usuario.isEspecialista" class="row">
-                <div class="col-sm-6">              
-                </div>
-                <div class="col-sm-6 text-end">
-                    <button *ngIf="modalActivo" type="submit" class="btn btn-primary" (click)="validarCuestionario()"
-                    style="background-color: #008F49; border-color: #008F49;">Validar</button>
-                </div>
             </div>
         </div>
+        <div *ngIf="usuario.isSupervisor" class="row">
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6 text-end">
+                <button type="submit" class="btn btn-primary" (click)="supervisarValidar(viewUserTemplate6,viewUserTemplate7,'SUPERVISAR')"
+                    style="background-color: #008F49; border-color: #008F49;">Supervisar</button>
+            </div>
+        </div>
+        <div *ngIf="usuario.isEspecialista" class="row">
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6 text-end">
+                <button  type="submit" class="btn btn-primary" (click)="supervisarValidar(viewUserTemplate6,viewUserTemplate7,'VALIDAR')"
+                    style="background-color: #008F49; border-color: #008F49;">Validar</button>
+            </div>
+        </div>
+    </div>
     <p-confirmDialog></p-confirmDialog>
     <ng-template #viewUserTemplate>
-        <modal-registro-informantes [exitSubModal]="exitSubModal"
-        [listTipoDocumento]="objRegistro.ListTipoDocumento"
-        [listEstadoEntrevista]="objRegistro.ListEstadoEntrevista"
-        (enviarInformante)="agregarInformante($event)"></modal-registro-informantes>
+        <modal-registro-informantes [exitSubModal]="exitSubModal" [listTipoDocumento]="objRegistro.ListTipoDocumento"
+            [listEstadoEntrevista]="objRegistro.ListEstadoEntrevista"
+            (enviarInformante)="agregarInformante($event)"></modal-registro-informantes>
     </ng-template>
     <ng-template #viewUserTemplate2>
-        <modal-metodo-insercion [exitSubModal]="exitSubModal" (enviarMetodo)="mostrarVentanaMetodo($event)"></modal-metodo-insercion>
+        <modal-metodo-insercion [exitSubModal]="exitSubModal"
+            (enviarMetodo)="mostrarVentanaMetodo($event)"></modal-metodo-insercion>
     </ng-template>
     <ng-template #viewUserTemplate3>
-        <modal-cargar-archivo [exitSubModal]="exitSubModal" [numDoc]="numDoc" [periodo]="cadPeriodo"></modal-cargar-archivo>
+        <modal-cargar-archivo [exitSubModal]="exitSubModal" [numDoc]="numDoc"
+            [periodo]="cadPeriodo"></modal-cargar-archivo>
     </ng-template>
     <ng-template #viewUserTemplate4>
-        <modal-dibujar-poligono [exitSubModal]="exitSubModal" [numDoc]="numDoc" [nombreEmpresa]="nombreElemento" [periodo]="cadPeriodo"></modal-dibujar-poligono>
-    </ng-template>
-    <ng-template #viewUserTemplate5>
-        <modal-sistema-pecuario [exitSubModal]="exitSubModal" [listLineaProd]="listLineaProd" 
-        [listEspecie]="listEspecie" [objCuestionario]="objRegistro"
-        (enviarPecuario)="agregarPecuario($event)"></modal-sistema-pecuario>
+        <modal-dibujar-poligono [exitSubModal]="exitSubModal" [numDoc]="numDoc" [nombreEmpresa]="nombreElemento"
+            [periodo]="cadPeriodo"></modal-dibujar-poligono>
     </ng-template>
     <ng-template #viewUserTemplate6>
-        <modal-selec-estado [exitSubModal]="exitSubModal" [tipo]="tipoPerfil" [listaEstado]="listEstados"></modal-selec-estado>
+        <modal-selec-estado [exitSubModal]="exitSubModal" [tipo]="tipoPerfil"
+            [listaEstado]="listEstados" (enviarCodigoEstado)="accionSupervisionValidacion($event)"></modal-selec-estado>
     </ng-template>
     <ng-template #viewUserTemplate7>
-        <modal-registro-observacion [estadoResultado]="estadoResultado" [perfil]="tipoPerfil" [exitSubModal]="exitSubModal" [listaSecciones]="objRegistro.ListSecciones"></modal-registro-observacion>
+        <modal-registro-observacion [estadoResultado]="estadoResultado" [perfil]="tipoPerfil"
+            [exitSubModal]="exitSubModal" [listaSecciones]="objRegistro.ListSecciones"></modal-registro-observacion>
     </ng-template>
-    </form>
+
 </div>

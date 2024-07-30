@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Injector, Input, Output } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -19,7 +19,7 @@ export class ModalMetodoInsercionComponent {
   @Input() exitSubModal = (): void => {};
   @Output() enviarMetodo = new EventEmitter<any>();
   modalForm = this.formBuilder.group({
-    IdModoRegistro: ['', []]
+    IdModoRegistro: ['', [Validators.required]]
   });
 
   constructor(_injector: Injector
@@ -29,10 +29,6 @@ export class ModalMetodoInsercionComponent {
   }
   get IdModoRegistro() { return this.modalForm.controls['IdModoRegistro']; }
   ngOnInit(): void {
-
-  }
-
-  onClickSubmit(data) {
 
   }
   continuarMetodo(){

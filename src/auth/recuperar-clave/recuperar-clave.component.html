@@ -1,0 +1,61 @@
+<div class="row" style="height: 100%; width: 100%;">
+    <div class="col-sm-6" style="background-image: url('./assets/images/campo_1.jpeg'); background-size: 100%;
+        background-size: cover; position: relative;">
+
+        <div class="text-end" style="color: white; font-weight: bold;
+         font-size:xx-large; bottom: 0; position: absolute; padding-right: 10px; padding-bottom: 10px;">Sistema del Marco de Lista de Encuesta Nacional Agropecuaria
+        </div>
+    </div>
+    <div class="col-sm-6" style="height: 100%; ">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div class="text-center" style="margin-top: 40px;">
+                    <form [formGroup]="recuperarForm" (ngSubmit) = "onClickSubmit(recuperarForm.value)">
+                
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <img [src]="appBaseUrl + '/assets/images/logo_midagri.png'"
+                                    style="width: 100px;height: 100px;" />
+                            </div>
+                        </div>           
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span>Ingrese el correo electrónico asociado a su cuenta de usuario</span>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="Correo">Correo electrónico</label>
+                                    <input formControlName="CorreoElectronicoPN" maxlength="50" type="text" class="form-control" required>
+                                    <div *ngIf="Correo.invalid && (Correo.dirty || Correo.touched)"
+                                        class="text-danger">
+                                        <div *ngIf="Correo.errors?.['required']">El campo es requerido.</div>
+                                        <div *ngIf="Correo.errors?.['email']">El campo no cumple con el formato
+                                            requerido
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="g-recaptcha" style="margin:auto; max-width:325px;">
+                                <re-captcha (resolved)="checkCaptcha($event)" siteKey="{{keyCaptcha}}" ></re-captcha>
+                            </div>   
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" [disabled]="!captchaResolved" class="btn btn-primary"
+                                style="background-color: #008F49; border-color: #008F49;">Enivar</button>
+                        </div>
+                        <div class="mb-3">
+                            <span><a [routerLink]="'#'">¿Olvidaste la contraseña?</a></span>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</div>
