@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm,FormBuilder, Validators} from '@angular/forms';
+import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { ToastrService } from 'ngx-toastr';
@@ -13,78 +13,67 @@ import { AppConsts } from 'src/shared/AppConsts';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  captchaResolved : boolean = false;
-  appBaseUrl: String=AppConsts.urlBaseApp;
-  keyCaptcha: String=AppConsts.siteKeyCaptcha;
-  loginError:string="";
-  loginForm=this.formBuilder.group({
-    username:['',[Validators.required]],
-    password: ['',Validators.required],
+  captchaResolved: boolean = false;
+  appBaseUrl: String = AppConsts.urlBaseApp;
+  keyCaptcha: String = AppConsts.siteKeyCaptcha;
+  loginError: string = "";
+  loginForm = this.formBuilder.group({
+    username: ['', [Validators.required]],
+    password: ['', Validators.required],
   })
-  constructor(private formBuilder:FormBuilder
-    ,private route: ActivatedRoute
-    , private router:Router
+  constructor(private formBuilder: FormBuilder
+    , private route: ActivatedRoute
+    , private router: Router
     , private loginService: LoginService
-    ,private toastr: ToastrService) { }
+    , private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const currentUser = this.loginService.getCurrentUserValue;
     //console.log("entra_0");
-  if (currentUser) {
-    
-    this.router.navigate(['./app/web/inicio']);
-  }else{
-    this.route.queryParamMap.subscribe((p:any) => {
-      if(p['params'].sesion=='logout'){
-        this.toastr.success('Ha cerrado sesión exitosamente','',{
-        });  
-      }
-    });    
-  }
-    
+    if (currentUser) {
+
+      this.router.navigate(['./app/web/inicio']);
+    } else {
+      this.route.queryParamMap.subscribe((p: any) => {
+        if (p['params'].sesion == 'logout') {
+          this.toastr.success('Ha cerrado sesión exitosamente', '', {
+          });
+        }
+      });
+    }
+
 
   }
 
-  get username(){
+  get username() {
     return this.loginForm.controls['username'];
   }
 
-  get password()
-  {
+  get password() {
     return this.loginForm.controls['password'];
   }
 
-  onClickSubmit(data){
-    if(this.loginForm.valid){
-      this.loginError="";
-
-      //this.router.navigateByUrl('/admin/inicio');
-      //this.router.navigate(['app','admin','inicio'], { });
-
-      /* Esta sección es para validar el login */
-      //this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
-        this.loginService.login(this.loginForm.controls['username'].value,this.loginForm.controls['password'].value).subscribe({
-        next: (userData) => {          
+  onClickSubmit(data) {
+    if (this.loginForm.valid) {
+      this.loginError = "";
+      this.loginService.login(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value).subscribe({
+        next: (userData) => {
         },
-        error: (errorData) => {         
-          //console.log(errorData);
-          //this.loginError=errorData.error.status.error.messages[0];     
+        error: (errorData) => {
         },
-        complete: () => {  
-          //console.log("ruteo_login");
-          this.router.navigate(['app','web','inicio'], { });
-          //this.router.navigateByUrl('/inicio');
+        complete: () => {
+          this.router.navigate(['app', 'web', 'inicio'], {});
           this.loginForm.reset();
         }
       });
 
     }
-    else{
+    else {
       this.loginForm.markAllAsTouched();
-      this.toastr.error('Usuario y/o contraseña incorrecto.', 'Error');      
+      this.toastr.error('Usuario y/o contraseña incorrecto.', 'Error');
     }
   }
-  checkCaptcha(captchaResponse : string) {
+  checkCaptcha(captchaResponse: string) {
     this.captchaResolved = (captchaResponse && captchaResponse.length > 0) ? true : false
-}
+  }
 }

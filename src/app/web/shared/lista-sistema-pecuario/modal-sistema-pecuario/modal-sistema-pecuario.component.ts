@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Injector, Input, Output } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
@@ -23,20 +23,22 @@ export class ModalSistemaPecuarioComponent {
   @Input() exitSubModal = (): void => { };
   @Input() listLineaProd:SelectTipoDto[];
   @Input() listEspecie:SelectTipoDto[];
+  @Input() objRegistro:PecuarioGetDto = new PecuarioGetDto();
   @Input() objCuestionario:GestionRegistroGetDto;
   @Output() enviarPecuario = new EventEmitter<any>();
+  
   listFundos:SelectTipoDto[]=[];
   listCampos:SelectTipoDto[]=[];
-  objRegistro: PecuarioGetDto = new PecuarioGetDto();
   selecLineaProd:boolean=false;
   selecEspecie:boolean=false;
   valPecuaria:String;
+  bloquearChecks:boolean=false;
   modalForm = this.formBuilder.group({
-    IdFundo: ['', []],
-    IdCampo: ['', []],
-    IdLineaProd: ['', []],
-    IdEspecie: ['', []],
-    Numero: ['', []]
+    IdFundo: ['', [Validators.required]],
+    IdCampo: ['', [Validators.required]],
+    IdLineaProd: ['', this.selecLineaProd ? [Validators.required] : []],
+    IdEspecie: ['', this.selecEspecie ? [Validators.required] : []],
+    Numero: ['', [Validators.required]]
   });
   constructor(_injector: Injector
     , private formBuilder: FormBuilder
@@ -50,10 +52,6 @@ export class ModalSistemaPecuarioComponent {
   get IdEspecie() { return this.modalForm.controls['IdEspecie']; }
   get Numero() { return this.modalForm.controls['Numero']; }
   ngOnInit(): void {
-    this.IdLineaProd.setValue("");
-    this.IdEspecie.setValue("");
-    this.IdEspecie.disable();
-    this.IdLineaProd.disable();
     this.listFundos=[];
     this.valPecuaria=this.objCuestionario.ListUsoNoAgricola.find(x=>x.codigo=="PECUARIA").value;
     this.objCuestionario.ListFundos.forEach(myObject => {
@@ -61,17 +59,45 @@ export class ModalSistemaPecuarioComponent {
       {
         this.listFundos.push(new SelectTipoDto({
           value:myObject.Orden.toString(),
-          label:myObject.Fundo.toString(),
+          label:myObject.Fundo==null?"":myObject.Fundo.toString(),
           codigo:myObject.Orden.toString()
         }));
       }      
     });
+    //console.log(this.objRegistro);    
+    this.IdLineaProd.setValue((this.objRegistro.IdLineaProduccion==undefined||this.objRegistro.IdLineaProduccion==0)?"":this.objRegistro.IdLineaProduccion.toString());
+    this.IdEspecie.setValue((this.objRegistro.IdEspecie==undefined||this.objRegistro.IdEspecie==0)?"":this.objRegistro.IdEspecie.toString());
+    this.IdEspecie.disable();
+    this.IdLineaProd.disable();
+    if(this.objRegistro.IdLineaProduccion>0 || this.objRegistro.IdEspecie>0){
+      this.IdFundo.setValue(this.objRegistro.OrdenFundo.toString());
+      this.selFundo(null);
+      this.IdCampo.setValue(this.objRegistro.OrdenCampo.toString());      
+      this.IdFundo.disable();
+      this.IdCampo.disable();
+      this.bloquearChecks=true;
+      if(this.objRegistro.IdLineaProduccion>0){        
+        this.selecLineaProd=true;
+      }
+      else if (this.objRegistro.IdEspecie>0){    
+        this.selecEspecie=true;
+      }
+    }
+    else{
+      this.bloquearChecks=false;
+    }   
+    this.Numero.setValue(this.objRegistro.Cantidad==undefined?"":this.objRegistro.Cantidad.toString());
+    
   }
   onFocusOutEvent(event: any, nombreControl: string) {
     this.modalForm.controls[nombreControl].setValue(event.target.value.trim().toUpperCase());
   }
 
   onClickSubmit(data) {    
+    if(this.IdLineaProd.value=="" && this.IdEspecie.value==""){
+      this.toastr.warning("Debe seleccionar un Sistema pecuario (Línea de Producción o Especie)", 'Aviso');
+      return;
+    }
     this.confirmationService.confirm({
       message: '¿Estás seguro de guardar los datos ingresados?',
       header: 'Guardar',
@@ -89,18 +115,22 @@ export class ModalSistemaPecuarioComponent {
       this.objRegistro.OrdenFundo=Number.parseInt(this.IdFundo.value);
       this.objRegistro.OrdenCampo=Number.parseInt(this.IdCampo.value);
       this.objRegistro.Campo=this.listCampos.find(x=>x.value==this.IdCampo.value).label;
-      this.objRegistro.IdLineaProduccion=Number.parseInt(this.IdLineaProd.value);
+      
       if(this.selecLineaProd){
+        this.objRegistro.IdLineaProduccion=Number.parseInt(this.IdLineaProd.value);
+        this.objRegistro.IdEspecie=0;
         this.objRegistro.SistemaPecuario="LÍNEA DE PRODUCCIÓN";
         this.objRegistro.IdSistemaPecuario=1;
         this.objRegistro.Animal=this.listLineaProd.find(x=>x.value==this.IdLineaProd.value).label;
       }
       else if (this.selecEspecie){
+        this.objRegistro.IdLineaProduccion=0;
+        this.objRegistro.IdEspecie=Number.parseInt(this.IdEspecie.value);
         this.objRegistro.SistemaPecuario="ESPECIE";
         this.objRegistro.IdSistemaPecuario=2;
         this.objRegistro.Animal=this.listEspecie.find(x=>x.value==this.IdEspecie.value).label;
       }
-      this.objRegistro.IdEspecie=Number.parseInt(this.IdEspecie.value);
+      
       this.objRegistro.Cantidad=Number.parseInt(this.Numero.value);
       this.asignarPecuario();
        

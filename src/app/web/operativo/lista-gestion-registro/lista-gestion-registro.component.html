@@ -74,7 +74,8 @@
                                 && item.CodigoEstadoRegistro != 'ARBITRAJE' && item.CodigoEstadoRegistro != 'OBSERVADOSUPERVISOR' && item.CodigoEstadoRegistro != 'PARAVALIDAR'
                                 && item.CodigoEstadoRegistro != 'ELIMINADO' && item.CodigoEstadoRegistro != 'CERRADO')
                                 || (usuario.isSupervisor && item.CodigoEstadoSupervision!='APROBADO' && item.CodigoEstadoSupervision!='DESAPROBADO'
-                                && item.CodigoEstadoSupervision!='RATIFICADO' && item.CodigoEstadoSupervision!='DERIVADO') 
+                                && item.CodigoEstadoSupervision!='RATIFICADO' && item.CodigoEstadoSupervision!='DERIVADO'
+                                && item.CodigoEstadoRegistro) 
                                 || (usuario.isEspecialista && item.CodigoEstadoValidacion!='VALIDO' && item.CodigoEstadoValidacion!='INVALIDO'
                                 && item.CodigoEstadoValidacion!='SUSTITUIR' && item.CodigoEstadoValidacion!='DESCARTAR'))">
                                     <button  class="btn btn-primary"
@@ -82,10 +83,10 @@
                                     (click)="agregarRegistro(item.NumeroDocumento,item.IdPeriodo)"><i class="bi bi-pencil-square"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Editar</span>
                                 </div>                               
-                                <div *ngIf="usuario.isAdministrador || usuario.isEmpadronador || usuario.isEspecialista">
+                                <div *ngIf="(usuario.isAdministrador || usuario.isEmpadronador || usuario.isEspecialista) && item.CodigoEstadoRegistro!=null">
                                     <button class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
-                                    type="button" (click)="verRegistro(item.CodigoUUID)"><i class="bi bi-eye"></i>
+                                    type="button" (click)="verRegistro(item.NumeroDocumento,item.IdPeriodo)"><i class="bi bi-eye"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Visualizar</span>
                                 </div>    
                                 <div *ngIf="usuario.isEmpadronador && 

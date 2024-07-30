@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MarcoListaListDto } from 'src/app/models/MarcoLista';
 
@@ -6,7 +6,8 @@ import { MarcoListaListDto } from 'src/app/models/MarcoLista';
   selector: 'lista-marco-lista-asignado',
   templateUrl: './lista-marco-lista-asignado.component.html',
   styleUrl: './lista-marco-lista-asignado.component.scss',
-  providers: [ConfirmationService]
+  providers: [ConfirmationService],
+  encapsulation : ViewEncapsulation.None
 })
 export class ListaMarcoListaAsignadoComponent implements OnInit {
   @Input() lista_asignados: MarcoListaListDto[] = [];

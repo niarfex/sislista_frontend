@@ -92,7 +92,6 @@ export class ArchivoGetDto implements IArchivoGetDto {
         data["CuestionarioPrincipal"] = this.CuestionarioPrincipal;
         data["IdTipoInformacion"] = this.IdTipoInformacion;
         data["Peso"] = this.Peso;
-        data["TipoInformacion"] = this.TipoInformacion;
         return data;
     }
 }

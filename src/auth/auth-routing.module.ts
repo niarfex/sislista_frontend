@@ -3,8 +3,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthComponent } from './auth.component';
 //import { AccountRouteGuard } from './auth/account-route-guard';
 import { LoginComponent } from '../auth/login/login.component';
-//FCF
-//import { ReporteMapaComponent } from '../../src/app/web/reportes/reporte-mapa/reporte-mapa.component';
+import { RecuperarClaveComponent } from './recuperar-clave/recuperar-clave.component';
 
 @NgModule({
     imports: [
@@ -14,9 +13,8 @@ import { LoginComponent } from '../auth/login/login.component';
                 component: AuthComponent,
                 children: [
                     { path: '', redirectTo: 'login', pathMatch: 'full' },
-                    {
-                         path: 'login',component:LoginComponent,pathMatch: 'full',
-                    },
+                    { path: 'login',component:LoginComponent,pathMatch: 'full' },
+                    { path: 'recuperar-clave',component:RecuperarClaveComponent,pathMatch: 'full' },
                     { path: '**', redirectTo: 'login' },
                 ],
             },

@@ -23,7 +23,11 @@ export class ListaCamposPlantillaComponent {
   @Input() listUsoTierra: SelectTipoDto[];
   @Input() listCultivo: SelectTipoDto[];
   @Input() listUsoNoAgricola: SelectTipoDto[];
+  @Input() modalActivo:boolean=true;
   @Output() enviarSumas = new EventEmitter<any>();
+  //obsDisable:boolean=true;
+  //idusoNoAgricolaDisable:boolean=true;
+  //agricolaDisable:boolean=true;
   constructor(_injector: Injector
     , private formBuilder: FormBuilder
     , private spinner: NgxSpinnerService
@@ -42,7 +46,31 @@ export class ListaCamposPlantillaComponent {
     }
     this.enviarSumas.emit(nombreControl);
   }
-  selUsoTierra(event: any){
+  selUsoTierra(item:CampoGetDto){
+    if(this.listUsoTierra.find(x=>x.value==item.IdUsoTierra.toString()).codigo=="AGRÍCOLA"){
+      item.agricolaDisable=false;
+      item.idusoNoAgricolaDisable=true;
+      item.IdUsoNoAgricola=0;
+      item.Observacion="";
+    }
+    else if (this.listUsoTierra.find(x=>x.value==item.IdUsoTierra.toString()).codigo=="NO AGRÍCOLA"){
+      item.agricolaDisable=true;
+      item.idusoNoAgricolaDisable=false;
+      item.IdCultivo=0;
+      item.SuperficieCultivada=0;
+      
+    }
+    else{
+      item.agricolaDisable=true;
+    }
     this.enviarSumas.emit("Superficie");
+  }
+  selUsoNoAgricola(item:CampoGetDto){
+    /*if(this.listUsoNoAgricola.find(x=>x.value==item.IdUsoNoAgricola.toString()).codigo=="INFRAESTRUCTURA") 
+    { }
+    else{ item.Observacion=""; }*/
+  }
+  onFocusOutEventObs(item:CampoGetDto) {
+    item.Observacion=(item.Observacion.trim().toUpperCase());
   }
 }

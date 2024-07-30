@@ -217,7 +217,7 @@
             </div>
             <div *ngIf="contactoMarco" class="row">
                 <lista-marco-lista-asignado [lista_asignados]="objRegistro.ListMarcoListaAsignados"
-                (enviarAsignados)="actualizarAsignados($event)"
+                (enviarAsignados)="actualizarAsignados($event)" 
                 ></lista-marco-lista-asignado>
             </div>
         </div>
@@ -231,6 +231,7 @@
         <modal-consulta-elementos [exitSubModal]="exitSubModal"
         [idDepartamento]="IdDepartamento.value"
         [lista_asignados]="objRegistro.ListMarcoListaAsignados"
+        [idPerfil]="IdPerfil.value"
         (enviarAsignados)="agregarAsignados($event)"></modal-consulta-elementos>
     </ng-template>
 </div>

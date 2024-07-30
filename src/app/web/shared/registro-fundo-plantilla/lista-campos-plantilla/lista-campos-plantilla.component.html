@@ -2,16 +2,16 @@
     <div class="row">
         <div class="row">
             <div class="col-sm-12 text-end">
-                <button class="btn btn-primary"
+                <button class="btn btn-primary" *ngIf="modalActivo"
                     style="background-color: #008F49; border-color: #008F49; margin-right: 5px;" type="button"><i
                         class="bi bi-plus-square"></i></button>
-                <button class="btn btn-primary"
+                <button class="btn btn-primary" *ngIf="modalActivo"
                     style="background-color: #008F49; border-color: #008F49; margin-right: 5px;" type="button"><i
                         class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-primary"
+                <button class="btn btn-primary" *ngIf="modalActivo"
                     style="background-color: #008F49; border-color: #008F49; margin-right: 5px;" type="button"><i
                         class="bi bi-trash3"></i></button>
-                <button class="btn btn-primary"
+                <button class="btn btn-primary" *ngIf="modalActivo"
                     style="background-color: #008F49; border-color: #008F49; margin-right: 5px;" type="button"><i
                         class="bi bi-eye"></i></button>
             </div>
@@ -19,7 +19,7 @@
         <div class="row">
             <p-table [value]="listaCampos">
                 <ng-template pTemplate="header">
-                    <tr>
+                    <tr style="font-size:small;">
                         <th style="width: 3%; flex: none; padding: 5px;" pResizableColumn></th>
                         <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Nombre del campo</th>
                         <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Tenencia</th>
@@ -35,11 +35,11 @@
                 <ng-template pTemplate="body" let-item>
                     <tr>
                         <td style="width: 3%; flex: none; padding: 5px;">
-                            <input type="checkbox" class="form-check-input">
+                            <input type="checkbox" class="form-check-input" [disabled]="!modalActivo">
                         </td>
                         <td style="width: 10%; flex: none; padding: 5px;">{{ item.Campo }}</td>
                         <td style="width: 10%; flex: none; padding: 5px;">
-                            <select [(ngModel)]="item.IdTenencia" [ngModelOptions]="{standalone: true}" class="form-select">
+                            <select [(ngModel)]="item.IdTenencia" [disabled]="!modalActivo" [ngModelOptions]="{standalone: true}" class="form-select">
                                 <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listTenencia" [value]="item.value">
                                     {{ item.label }}
@@ -50,10 +50,10 @@
                             <input [(ngModel)]="item.SuperficieCalc" readonly [ngModelOptions]="{standalone: true}" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" class="form-control" required>
                         </td>
                         <td style="width: 8%; flex: none; padding: 5px;">
-                            <input [(ngModel)]="item.Superficie" [ngModelOptions]="{standalone: true}" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal(item,'Superficie')" class="form-control" required>
+                            <input [(ngModel)]="item.Superficie" [disabled]="!modalActivo" [ngModelOptions]="{standalone: true}" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal(item,'Superficie')" class="form-control" required>
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">
-                            <select [(ngModel)]="item.IdUsoTierra" [ngModelOptions]="{standalone: true}" (change)="selUsoTierra($event)" class="form-select">
+                            <select [(ngModel)]="item.IdUsoTierra" [disabled]="!modalActivo" [ngModelOptions]="{standalone: true}" (change)="selUsoTierra(item)" class="form-select">
                                 <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listUsoTierra" [value]="item.value">
                                     {{ item.label }}
@@ -61,7 +61,7 @@
                             </select>
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">
-                            <select [(ngModel)]="item.IdCultivo" [ngModelOptions]="{standalone: true}" class="form-select">
+                            <select [(ngModel)]="item.IdCultivo" [ngModelOptions]="{standalone: true}" [disabled]="item.agricolaDisable || !modalActivo" class="form-select">
                                 <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listCultivo" [value]="item.value">
                                     {{ item.label }}
@@ -69,10 +69,10 @@
                             </select>
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">
-                            <input [(ngModel)]="item.SuperficieCultivada" [ngModelOptions]="{standalone: true}" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal(item,'SuperficieCultivada')" class="form-control" required>
+                            <input [(ngModel)]="item.SuperficieCultivada" [ngModelOptions]="{standalone: true}" [disabled]="item.agricolaDisable || !modalActivo" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal(item,'SuperficieCultivada')" class="form-control" required>
                         </td>
                         <td style="width: 13%; flex: none; padding: 5px;">
-                            <select [(ngModel)]="item.IdUsoNoAgricola" [ngModelOptions]="{standalone: true}" class="form-select">
+                            <select [(ngModel)]="item.IdUsoNoAgricola" [ngModelOptions]="{standalone: true}" [disabled]="item.idusoNoAgricolaDisable || !modalActivo" (change)="selUsoNoAgricola(item)" class="form-select">
                                 <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listUsoNoAgricola" [value]="item.value">
                                     {{ item.label }}
@@ -80,7 +80,8 @@
                             </select>
                         </td>
                         <td style="width: 12%; flex: none; padding: 5px;">
-                            <input [(ngModel)]="item.Observacion" [ngModelOptions]="{standalone: true}" maxlength="200" type="text" class="form-control">
+                            <input [(ngModel)]="item.Observacion" [ngModelOptions]="{standalone: true}" [disabled]="item.idusoNoAgricolaDisable || !modalActivo"
+                             maxlength="200" type="text" class="form-control" (focusout)="onFocusOutEventObs(item)">
                         </td>
                     </tr>
                 </ng-template>

@@ -4,7 +4,7 @@
         <div class="accordion-item">
           <h2 class="accordion-header" [id]=idNombre>
             <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+idNombre" aria-expanded="true" [attr.aria-controls]="idNombre">
-                17.{{fundo.Orden}}. Nombre del fundo: "{{fundo.Fundo}}"
+                <span style="font-weight: bold;">17.{{fundo.Orden}}. Nombre del fundo: "{{fundo.Fundo}}"</span>
             </button>
           </h2>
           <div [id]=idNombre class="accordion-collapse collapse show" [attr.aria-labelledby]="idNombre">
@@ -19,7 +19,7 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <label for="SuperficieTotal">Superficie total reportada(ha)</label>
-                            <input readonly formControlName="SuperficieTotal" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal('SuperficieTotal')" class="form-control" required>        
+                            <input readonly formControlName="SuperficieTotal" maxlength="9" type="text" class="form-control" required>        
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -79,6 +79,7 @@
                     [listUsoTierra]="listUsoTierra"
                     [listCultivo]="listCultivo"
                     [listUsoNoAgricola]="listUsoNoAgricola"
+                    [modalActivo]="modalActivo"
                     (enviarSumas)="actualizarSumas($event)"></lista-campos-plantilla>
                 </div>
             </div>

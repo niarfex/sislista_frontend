@@ -15,6 +15,7 @@ export class ModalConsultaElementosComponent implements OnInit {
   @Input() exitSubModal = (): void => {};
   @Input() idDepartamento:String="";
   @Input() lista_asignados:MarcoListaListDto[]=[];
+  @Input() idPerfil:String;
   @Output() enviarAsignados = new EventEmitter<any>();
   lista_resultados: MarcoListaListDto[]=[];
   private marcolistaServiceProxy: MarcoListaServiceProxy;
@@ -30,7 +31,7 @@ export class ModalConsultaElementosComponent implements OnInit {
 
   getData(event?: LazyLoadEvent) {
     this.spinner.show();
-    this.marcolistaServiceProxy.getAll("")
+    this.marcolistaServiceProxy.GetMarcoListasinAginarxPerfil(Number.parseInt((this.idPerfil==""?"0":this.idPerfil.toString())))
       .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
       .subscribe({
         next: (result) => {

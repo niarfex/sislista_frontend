@@ -145,7 +145,7 @@ export class GestionRegistroServiceProxy {
     CreateCuestionario(parametro:GestionRegistroGetDto): Observable<Respuesta> {
         let url_ = AppConsts.urlHost + "v1/gestionregistro/CreateCuestionario?";
         url_ = url_.replace(/[?&]$/, "");
-        console.log(parametro?.toJSON());
+        //console.log(parametro?.toJSON());
         let options_: any = {
             observe: "response",
             responseType: "blob",
@@ -169,6 +169,203 @@ export class GestionRegistroServiceProxy {
                 return <Observable<Respuesta>><any>_observableThrow(response_);
         }));
     }
+    DesaprobarCuestionario(parametro:GestionRegistroGetDto): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/DesaprobarCuestionario?";
+        url_ = url_.replace(/[?&]$/, "");
+        //console.log(parametro?.toJSON());
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            body: parametro?.toJSON(),
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+    InvalidarCuestionario(parametro:GestionRegistroGetDto): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/InvalidarCuestionario?";
+        url_ = url_.replace(/[?&]$/, "");
+        //console.log(parametro?.toJSON());
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            body: parametro?.toJSON(),
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+
+    /************/
+    AprobarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/AprobarCuestionarioxUUID?";
+        if (uuid!== undefined && uuid!== null)
+            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+    RatificarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/RatificarCuestionarioxUUID?";
+        if (uuid!== undefined && uuid!== null)
+            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+    DerivarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/DerivarCuestionarioxUUID?";
+        if (uuid!== undefined && uuid!== null)
+            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+    ValidarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/ValidarCuestionarioxUUID?";
+        if (uuid!== undefined && uuid!== null)
+            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+    DescartarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/DescartarCuestionarioxUUID?";
+        if (uuid!== undefined && uuid!== null)
+            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+    /************/
 
     protected processguardarRegistro(response: HttpResponseBase): Observable<Respuesta> {
         const status = response.status;
