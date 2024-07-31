@@ -1,1 +1,33 @@
-<p>recuperar-mensaje works!</p>
+<div class="row" style="height: 100vh; width: 100%;">
+    <div class="col-sm-6" style="background-image: url('./assets/images/campo_1.jpeg'); background-size: 100%;
+        background-size: cover; position: relative;">
+
+        <div class="text-end" style="color: white; font-weight: bold;
+         font-size:xx-large; bottom: 0; position: absolute; padding-right: 10px; padding-bottom: 10px;">Sistema del Marco de Lista de Encuesta Nacional Agropecuaria
+        </div>
+    </div>
+    <div class="col-sm-6" style="height: 100vh; ">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div class="text" style="margin-top: 40px;">
+                    <form [formGroup]="mensajeForm" >
+                
+                        <div class="row mb-5">
+                            <div class="col-sm-12 text-center">
+                                <img [src]="appBaseUrl + '/assets/images/logo_midagri.png'"
+                                    style="width: 100px;height: 100px;" />
+                            </div>
+                        </div>           
+                        <div class="row mb-5">
+                            <div class="col-sm-12">
+                                <span><h3>Se ha remitido un un enlace al correo electrónico indicado, el mensaje solo tendrá una duración de 15 minutos pasado los 15 minutos debera solicitar nuevamente el correo para reestablecer la contraseña, en caso usted no reciba el correo electrónico, asegurese de haber escrito correctamente el correo y que se encuentre asociado a un usuario del Sistema de Marco de Lista</h3></span>
+                            </div>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</div>

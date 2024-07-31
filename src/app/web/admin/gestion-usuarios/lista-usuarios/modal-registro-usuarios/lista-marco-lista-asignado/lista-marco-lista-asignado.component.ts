@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { MarcoListaListDto } from 'src/app/models/MarcoLista';
 
 @Component({
@@ -12,11 +12,21 @@ import { MarcoListaListDto } from 'src/app/models/MarcoLista';
 export class ListaMarcoListaAsignadoComponent implements OnInit {
   @Input() lista_asignados: MarcoListaListDto[] = [];
   @Output() enviarAsignados = new EventEmitter<any>();
-  constructor(private confirmationService: ConfirmationService    
+  private lastTableLazyLoadEvent: LazyLoadEvent;
+  constructor(_injector: Injector
+    , private confirmationService: ConfirmationService    
   ) {
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    this.loadUserData(this.lastTableLazyLoadEvent);
   }
   ngOnInit(): void {
   }
+  loadUserData(event: LazyLoadEvent): void {
+    this.lastTableLazyLoadEvent = event;
+    // Lots of beautifull data loading code here 
+    // (like calling a server trough a service and so on)...
+}
   eliminarElemento(id: number) {
     this.confirmationService.confirm({
       message: '¿Estás seguro de eliminar el elemento?',

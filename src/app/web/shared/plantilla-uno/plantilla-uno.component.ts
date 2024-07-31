@@ -204,7 +204,7 @@ export class PlantillaUnoComponent implements OnInit {
               this.plantillaForm.controls['IdDepartamentoPerSA'].setValue(this.objRegistro.IdUbigeo == null ? null : this.objRegistro.IdUbigeo.toString().substring(0, 2));
               this.plantillaForm.controls['IdProvinciaPerSA'].setValue(this.objRegistro.IdUbigeo == null ? null : this.objRegistro.IdUbigeo.toString().substring(0, 4));
               this.plantillaForm.controls['IdDistritoPerSA'].setValue(this.objRegistro.IdUbigeo == null ? null : this.objRegistro.IdUbigeo.toString());
-              this.plantillaForm.controls['IdTipoExplotacionSA'].setValue(this.objRegistro.IdTipoExplotacion == null ? null : this.objRegistro.IdTipoExplotacion.toString());
+              this.plantillaForm.controls['IdTipoExplotacionSA'].setValue(this.objRegistro.IdTipoExplotacion == null ? "" : this.objRegistro.IdTipoExplotacion.toString());
               this.plantillaForm.controls['TelefonoSA'].setValue(this.objRegistro.Telefono == null ? null : this.objRegistro.Telefono.toString());
               this.plantillaForm.controls['CelularSA'].setValue(this.objRegistro.Celular == null ? null : this.objRegistro.Celular.toString());
               this.plantillaForm.controls['CorreoElectronicoSA'].setValue(this.objRegistro.CorreoElectronico == null ? null : this.objRegistro.CorreoElectronico.toString());
@@ -227,7 +227,7 @@ export class PlantillaUnoComponent implements OnInit {
               this.plantillaForm.controls['IdDepartamentoPerPN'].setValue(this.objRegistro.IdUbigeo == null ? null : this.objRegistro.IdUbigeo.toString().substring(0, 2));
               this.plantillaForm.controls['IdProvinciaPerPN'].setValue(this.objRegistro.IdUbigeo == null ? null : this.objRegistro.IdUbigeo.toString().substring(0, 4));
               this.plantillaForm.controls['IdDistritoPerPN'].setValue(this.objRegistro.IdUbigeo == null ? null : this.objRegistro.IdUbigeo.toString());
-              this.plantillaForm.controls['IdTipoExplotacionPN'].setValue(this.objRegistro.IdTipoExplotacion == null ? null : this.objRegistro.IdTipoExplotacion.toString());
+              this.plantillaForm.controls['IdTipoExplotacionPN'].setValue(this.objRegistro.IdTipoExplotacion == null ? "" : this.objRegistro.IdTipoExplotacion.toString());
               this.plantillaForm.controls['TelefonoPN'].setValue(this.objRegistro.Telefono == null ? null : this.objRegistro.Telefono.toString());
               this.plantillaForm.controls['CelularPN'].setValue(this.objRegistro.Celular == null ? null : this.objRegistro.Celular.toString());
               this.plantillaForm.controls['CorreoElectronicoPN'].setValue(this.objRegistro.CorreoElectronico == null ? null : this.objRegistro.CorreoElectronico.toString());

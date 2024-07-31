@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AppConsts } from 'src/shared/AppConsts';
 
 @Component({
@@ -14,7 +15,9 @@ export class RecuperarClaveComponent implements OnInit{
   recuperarForm=this.formBuilder.group({
     Correo:['',[Validators.required,Validators.email]]
   })
-  constructor(private formBuilder:FormBuilder){
+  constructor(private formBuilder:FormBuilder
+    , private router: Router
+  ){
     
   }
   get Correo() { return this.recuperarForm.controls['Correo'];
@@ -24,7 +27,7 @@ export class RecuperarClaveComponent implements OnInit{
   }
   onClickSubmit(data){
     if(this.recuperarForm.valid){
-
+      this.router.navigate(['auth/recuperar-mensaje'],{});
     }
   }
   checkCaptcha(captchaResponse: string) {

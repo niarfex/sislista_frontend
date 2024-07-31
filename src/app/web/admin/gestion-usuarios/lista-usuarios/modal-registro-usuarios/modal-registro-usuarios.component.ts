@@ -111,6 +111,10 @@ export class ModalRegistroUsuariosComponent implements OnInit {
         return;
       }
     }
+    if(this.objRegistro.ListMarcoListaAsignados.length==0){
+      this.toastr.error("El número de DNI debe tener 8 dígitios", 'Error');
+        return;
+    }
     
     this.confirmationService.confirm({
       message: '¿Estás seguro de guardar los datos ingresados?',
@@ -180,6 +184,21 @@ export class ModalRegistroUsuariosComponent implements OnInit {
 
   selPerfil(event: any) {
     var codPerfil = this.objRegistro.ListPerfil.find(x => x.value == this.IdPerfil.value).codigo;
+    if(this.IdPerfil.value!=""){
+      this.spinner.show();
+      this.usuarioServiceProxy.getDepartamentosMarcoLista(Number.parseInt(this.IdPerfil.value))
+        .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+        .subscribe({
+          next: (result) => {
+            if (result.success) {
+              this.objRegistro.ListDepartamento = result.datos;
+            }
+            else {
+              this.toastr.warning(result.message.toString(), 'Aviso');
+            }
+          }
+        });
+    }   
     switch (codPerfil) {
       case "PERFILADM":
       case "PERFILCON": {
@@ -201,12 +220,18 @@ export class ModalRegistroUsuariosComponent implements OnInit {
       }
 
     }
-
+    if(event!=null){
+      this.objRegistro.ListMarcoListaAsignados=[];
+    }
   }
   actualizarAsignados(lista: MarcoListaListDto[]){
+    console.log("asignados1");
+    this.spinner.show();
     this.objRegistro.ListMarcoListaAsignados=lista;
+    this.spinner.hide();
   }
   agregarAsignados(lista: MarcoListaListDto[]) {
+    console.log("asignados2");
     lista.forEach((currentValue, index) => {
       this.objRegistro.ListMarcoListaAsignados.push(currentValue);
     });

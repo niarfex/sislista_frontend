@@ -5,6 +5,7 @@ import { ReporteEstadosComponent } from './reporte-estados/reporte-estados.compo
 
 const routes: Routes = [
   { path: 'reporte-mapa/:numDoc/:idPeriodo', component: ReporteMapaComponent, pathMatch: 'full'},
+  { path: 'reporte-mapa', component: ReporteMapaComponent, pathMatch: 'full'},
   { path: 'reporte-estados', component: ReporteEstadosComponent , pathMatch: 'full'},
 ];
 
