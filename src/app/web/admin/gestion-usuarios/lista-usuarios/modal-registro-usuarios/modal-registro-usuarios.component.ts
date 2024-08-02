@@ -112,7 +112,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
       }
     }
     if(this.objRegistro.ListMarcoListaAsignados.length==0){
-      this.toastr.error("El número de DNI debe tener 8 dígitios", 'Error');
+      this.toastr.error("Se debe asignar por lo menos un elemento de marco de lista al usuario", 'Error');
         return;
     }
     
