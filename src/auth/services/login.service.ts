@@ -113,18 +113,9 @@ export class LoginService {
         this.currentUserSubject.next(null);
         this.router.navigate(['auth/login'],
         { queryParams: { sesion: 'logout' }});
-        //console.log('Se cierra la sesión');        
-        //window.location.reload();
         
     }
     private handleError(error: HttpErrorResponse) {
-        //console.log(error);
-        /*if (error.status === 0) {
-            console.error('Se ha producio un error ', error.error);
-        }
-        else {
-            console.error('Servicio retornó el código de estado ', error);
-        }*/
         return throwError(() => new Error('Algo falló. Por favor intente nuevamente.'));
     }    
     get userToken(): String {

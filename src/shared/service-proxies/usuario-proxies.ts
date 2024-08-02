@@ -378,6 +378,98 @@ export class UsuarioServiceProxy {
         }));
     }
 
+    ReestablecerClave(correo:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/auth/ReestablecerClave?";
+        if (correo!== undefined && correo!== null)
+            url_ += "correo=" + encodeURIComponent("" + correo) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+
+    ValidarTokenReseteo(token:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/auth/ValidarTokenReseteo?";
+        if (token!== undefined && token!== null)
+            url_ += "token=" + encodeURIComponent("" + token) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+        
+        let options_: any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+
+    ActualizarClave(newPassword:String,renewPassword:String,token:String): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/auth/ActualizarClave?";    
+        url_ = url_.replace(/[?&]$/, "");
+        
+        const param = {
+            NewPassword: newPassword,
+            ReNewPassword: renewPassword,
+            Token:token
+        };
+
+        let options_: any = {
+            observe: "response",
+            body: param,
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "*/*"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_: any) => {
+            return this.processguardarRegistro(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processguardarRegistro(<any>response_);
+                } catch (e) {
+                    return <Observable<Respuesta>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Respuesta>><any>_observableThrow(response_);
+        }));
+    }
+
     GetDatosRENIEC(dni:String): Observable<Respuesta> {
         let url_ = AppConsts.urlHost + "v1/usuario/GetDatosRENIEC?";
         if (dni!== undefined && dni!== null)

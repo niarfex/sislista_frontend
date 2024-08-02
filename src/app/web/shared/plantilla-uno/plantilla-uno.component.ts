@@ -190,7 +190,7 @@ export class PlantillaUnoComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
-            console.log(this.objRegistro);
+            ///console.log(this.objRegistro);
             this.cadPeriodo = this.objRegistro.ListPeriodos.find(x => x.value == this.idPeriodo.toString()).label;
             this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
             this.plantillaForm.controls['IdCondicionJuridica'].setValue(this.objRegistro.IdCondicionJuridica.toString());
