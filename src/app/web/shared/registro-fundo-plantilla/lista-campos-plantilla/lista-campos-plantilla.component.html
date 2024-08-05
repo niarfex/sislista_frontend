@@ -23,13 +23,13 @@
                         <th style="width: 3%; flex: none; padding: 5px;" pResizableColumn></th>
                         <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Nombre del campo</th>
                         <th style="width: 10%; flex: none; padding: 5px;" pResizableColumn>Tenencia</th>
-                        <th style="width: 8%; flex: none; padding: 5px;" pResizableColumn>Superficie calculada(ha)</th>
-                        <th style="width: 8%; flex: none; padding: 5px;" pResizableColumn>Superficie reportada(ha)</th>
+                        <th style="width: 8%; flex: none; padding: 5px;" pResizableColumn>Superficie calculada (ha)</th>
+                        <th style="width: 8%; flex: none; padding: 5px;" pResizableColumn>Superficie reportada (ha)</th>
                         <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Uso de la tierra</th>
                         <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Cultivo</th>
-                        <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Sup. cultivada (ha)</th>
-                        <th style="width: 13%; flex: none; padding: 5px;" pResizableColumn>Uso no agrícola</th>
-                        <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Observación</th>
+                        <th style="width: 8%; flex: none; padding: 5px;" pResizableColumn>Sup. cultivada (ha)</th>
+                        <th style="width: 13%; flex: none; padding: 5px;" pResizableColumn>Tipo de uso</th>
+                        <th style="width: 16%; flex: none; padding: 5px;" pResizableColumn>Detalle</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-item>
@@ -68,19 +68,26 @@
                                 </option>
                             </select>
                         </td>
-                        <td style="width: 12%; flex: none; padding: 5px;">
+                        <td style="width: 8%; flex: none; padding: 5px;">
                             <input [(ngModel)]="item.SuperficieCultivada" [ngModelOptions]="{standalone: true}" [disabled]="item.agricolaDisable || !modalActivo" maxlength="9" type="text" onkeypress="return '0123456789.'.includes(event.key)" (change)="setTwoNumberDecimal(item,'SuperficieCultivada')" class="form-control" required>
                         </td>
                         <td style="width: 13%; flex: none; padding: 5px;">
-                            <select [(ngModel)]="item.IdUsoNoAgricola" [ngModelOptions]="{standalone: true}" [disabled]="item.idusoNoAgricolaDisable || !modalActivo" (change)="selUsoNoAgricola(item)" class="form-select">
+                            <p-multiSelect optionLabel="label" optionValue="value" [ngModelOptions]="{standalone: true}"
+                            [filter]="false"
+                            class="custom-ms"
+                            [options]="listado" 
+                            [(ngModel)]="item.IdUsoNoAgricola"
+                            display="chip"
+                            [showClear]="true"/>
+                            <!--<select [(ngModel)]="item.IdUsoNoAgricola" [ngModelOptions]="{standalone: true}" [disabled]="item.idusoNoAgricolaDisable || !modalActivo" (change)="selUsoNoAgricola(item)" class="form-select">
                                 <option value="0" disabled selected>-- Seleccionar --</option>
                                 <option *ngFor="let item of listUsoNoAgricola" [value]="item.value">
                                     {{ item.label }}
                                 </option>
-                            </select>
+                            </select>-->
                         </td>
-                        <td style="width: 12%; flex: none; padding: 5px;">
-                            <input [(ngModel)]="item.Observacion" [ngModelOptions]="{standalone: true}" [disabled]="item.idusoNoAgricolaDisable || !modalActivo"
+                        <td style="width: 16%; flex: none; padding: 5px;">
+                            <input [(ngModel)]="item.Observacion" [ngModelOptions]="{standalone: true}" [disabled]="!modalActivo"
                              maxlength="200" type="text" class="form-control" (focusout)="onFocusOutEventObs(item)">
                         </td>
                     </tr>

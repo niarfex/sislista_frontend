@@ -36,6 +36,7 @@ import { ListaSistemaPecuarioComponent } from './web/shared/lista-sistema-pecuar
 import { ModalSistemaPecuarioComponent } from './web/shared/lista-sistema-pecuario/modal-sistema-pecuario/modal-sistema-pecuario.component';
 import { ModalSelecEstadoComponent } from './web/shared/modal-selec-estado/modal-selec-estado.component';
 import { ModalRegistroObservacionComponent } from './web/shared/modal-registro-observacion/modal-registro-observacion.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -63,7 +64,7 @@ import { ModalRegistroObservacionComponent } from './web/shared/modal-registro-o
         LightboxModule,
         NgSelectModule,
         BsDropdownModule.forRoot(),
-        
+        NgMultiSelectDropDownModule.forRoot(),
         ToastrModule.forRoot(),
         PlantillaUnoComponent,
         ListaInformantesComponent,

@@ -23,6 +23,7 @@ export class RegistroFundoPlantillaComponent {
   @Input() listTenencia: SelectTipoDto[];
   @Input() listUsoTierra: SelectTipoDto[];
   @Input() listCultivo: SelectTipoDto[];
+  @Input() listUsoAgricola: SelectTipoDto[];
   @Input() listUsoNoAgricola: SelectTipoDto[];
   @Input() modalActivo:boolean=true;
   idNombre: String = "";

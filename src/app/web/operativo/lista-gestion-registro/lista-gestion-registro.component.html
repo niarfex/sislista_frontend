@@ -17,13 +17,13 @@
             <button class="btn btn-primary" style="min-width: 100px; background-color: #008F49; border-color: #008F49;" type="button" (click)="exportar()">Exportar</button>
         </div>        
         <div class="col-sm-4 text-end">
-            Filtro: <select>
+            <!--Filtro: <select>
                 <option value="0">Todos</option>
                 <option value="1">Número Doc.</option>
                 <option value="2">Razón social/Nombre completo</option>         
                 <option value="3">Condición jurídica</option>
                 <option value="4">Representante legal</option>      
-            </select>
+            </select>-->
         </div>
     </div>
     <div class="row mb-3" >    
@@ -39,7 +39,7 @@
                     <th *ngIf="usuario.isAdministrador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Usuario de modificación</th>
                     <th *ngIf="usuario.isAdministrador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Fecha de actualización</th>
                     <th *ngIf="usuario.isEmpadronador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Tipo de explotación</th> 
-                    <th *ngIf="usuario.isSupervisor || usuario.isEspecialista" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Clasificación</th> 
+                    <th *ngIf="usuario.isSupervisor || usuario.isEspecialista" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Tipo de explotación</th> 
                     <th *ngIf="usuario.isSupervisor" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Supervisión</th>     
                     <th *ngIf="usuario.isEmpadronador || usuario.isEspecialista" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Validación</th>      
                     <th *ngIf="usuario.isEmpadronador" style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Estado de Entrevista</th>
@@ -57,7 +57,7 @@
                     <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.UsuarioActualizacion }}</td>
                     <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.FechaActualizacion }}</td> 
                     <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;">{{item.TipoExplotacion}}</td> 
-                    <td *ngIf="usuario.isSupervisor || usuario.isEspecialista" style="width: 15%; flex: none; padding: 5px;">{{item.Clasificacion}}</td> 
+                    <td *ngIf="usuario.isSupervisor || usuario.isEspecialista" style="width: 15%; flex: none; padding: 5px;">{{item.TipoExplotacion}}</td> 
                     <td *ngIf="usuario.isSupervisor" style="width: 15%; flex: none; padding: 5px;">{{item.NombreEstadoSupervision}}</td> 
                     <td *ngIf="usuario.isEmpadronador || usuario.isEspecialista" style="width: 15%; flex: none; padding: 5px;">{{item.NombreEstadoValidacion}}</td> 
                     <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;">{{item.NombreEstadoEntrevista}}</td> 
@@ -83,7 +83,10 @@
                                     (click)="agregarRegistro(item.NumeroDocumento,item.IdPeriodo)"><i class="bi bi-pencil-square"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Editar</span>
                                 </div>                               
-                                <div *ngIf="(usuario.isAdministrador || usuario.isEmpadronador || usuario.isEspecialista) && item.CodigoEstadoRegistro!=null">
+                                <div *ngIf="(usuario.isAdministrador 
+                                || (usuario.isEmpadronador && item.CodigoEstadoRegistro!=null) 
+                                || (usuario.isSupervisor && item.CodigoEstadoSupervision!=null) 
+                                || usuario.isEspecialista && item.CodigoEstadoValidacion!=null)">
                                     <button class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
                                     type="button" (click)="verRegistro(item.NumeroDocumento,item.IdPeriodo)"><i class="bi bi-eye"></i>

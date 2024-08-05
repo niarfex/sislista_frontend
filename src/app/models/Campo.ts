@@ -45,7 +45,7 @@ export interface ICampoGetDto {
     IdTenencia: number;
     IdUsoTierra: number;
     IdCultivo: number;
-    IdUsoNoAgricola: number;
+    IdUsoNoAgricola: String[];
     Observacion: String;
     SuperficieCalc: number;
     Superficie: number;
@@ -61,7 +61,7 @@ export class CampoGetDto implements ICampoGetDto {
     IdTenencia: number;
     IdUsoTierra: number;
     IdCultivo: number;
-    IdUsoNoAgricola: number;
+    IdUsoNoAgricola: String[];
     Observacion: String;
     SuperficieCalc: number;
     Superficie: number;
@@ -85,7 +85,7 @@ export class CampoGetDto implements ICampoGetDto {
             this.IdTenencia = _data["IdTenencia"];
             this.IdUsoTierra = _data["IdUsoTierra"];
             this.IdCultivo = _data["IdCultivo"];
-            this.IdUsoNoAgricola = _data["IdUsoNoAgricola"];
+            this.IdUsoNoAgricola = _data["IdUsoNoAgricola"].toString().split(",");
             this.Observacion = _data["Observacion"];
             this.Superficie = _data["Superficie"];
             this.SuperficieCultivada = _data["SuperficieCultivada"];
@@ -106,7 +106,7 @@ export class CampoGetDto implements ICampoGetDto {
         data["IdTenencia"] = this.IdTenencia;
         data["IdUsoTierra"] = this.IdUsoTierra;
         data["IdCultivo"] = this.IdCultivo;
-        data["IdUsoNoAgricola"] = this.IdUsoNoAgricola;
+        data["IdUsoNoAgricola"] = this.IdUsoNoAgricola.toString();
         data["Observacion"] = this.Observacion;
         data["Superficie"] = this.Superficie;
         data["SuperficieCultivada"] = this.SuperficieCultivada;

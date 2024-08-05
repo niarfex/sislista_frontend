@@ -9,6 +9,7 @@
                 <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Telefono fijo</th>
                 <th style="width: 12%; flex: none; padding: 5px;" pResizableColumn>Estado</th>
                 <th style="width: 13%; flex: none; padding: 5px;" pResizableColumn>Observaciones</th>
+                <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-item>
@@ -16,29 +17,35 @@
                 <td style="width: 14%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td>
                 <td style="width: 12%; flex: none; padding: 5px;">{{ item.Cargo }}</td>
                 <td style="width: 10%; flex: none; padding: 5px;">{{ item.Correo }}</td>
-                <td style="width: 12%; flex: none; padding: 5px;">{{ item.Celular }}</td>
-                <td style="width: 12%; flex: none; padding: 5px;">{{ item.Telefono }}</td>
-                <td style="width: 12%; flex: none; padding: 5px;">{{ item.EstadoEntrevista }}</td>
-                <td style="width: 13%; flex: none; padding: 5px;">{{ item.Observacion }}</td>                
+                <td style="width: 10%; flex: none; padding: 5px;">{{ item.Celular }}</td>
+                <td style="width: 10%; flex: none; padding: 5px;">{{ item.Telefono }}</td>
+                <td style="width: 11%; flex: none; padding: 5px;">{{ item.EstadoEntrevista }}</td>
+                <td style="width: 13%; flex: none; padding: 5px;">{{ item.Observacion }}</td>    
+                <td style="width: 5%; flex: none; padding: 5px;">
+                    <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49; margin-left: 10px;" 
+                    *ngIf="modalActivo" type="button" (click)="eliminarInformante(item)"><i class="bi bi-trash3"></i></button>
+                </td>            
             </tr>
             <tr>
-                <td colspan="3" style="width: 14%; flex: none; padding: 5px;">
+                <td colspan="3" style="flex: none; padding: 5px;">
                     <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Dirección</span></div>
                     <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{item.Direccion}}</span></div>
                 </td>
-                <td colspan="2" style="width: 14%; flex: none; padding: 5px;">
+                <td colspan="2" style="flex: none; padding: 5px;">
                     <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>Coordenadas</span></div>
                     <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>UTM WGS84</span></div>
                 </td>
-                <td style="width: 14%; flex: none; padding: 5px;">
+                <td style="flex: none; padding: 5px;">
                     <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>ESTE</span></div>
                     <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{item.CoordenadaEste}}</span></div>
                 </td>
-                <td style="width: 14%; flex: none; padding: 5px;">
+                <td style="flex: none; padding: 5px;">
                     <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;"><span>NORTE</span></div>
                     <div class="row" style="text-align: center; border-bottom: lightgray 1px solid; padding-bottom: 3px;"><span>{{item.CoordenadaNorte}}</span></div>
                 </td>
+                <td></td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+<p-confirmDialog></p-confirmDialog>

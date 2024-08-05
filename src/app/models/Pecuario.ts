@@ -40,7 +40,6 @@ export class ResponsePecuarioGetDto implements IResponsePecuarioGetDto {
 
 export interface IPecuarioGetDto {
     Id: number;
-    IdFundo: number;
     IdCampo: number;
     IdSistemaPecuario: number;
     IdLineaProduccion: number;
@@ -55,7 +54,6 @@ export interface IPecuarioGetDto {
 }
 export class PecuarioGetDto implements IPecuarioGetDto {
     Id: number;
-    IdFundo: number;
     IdCampo: number;
     IdSistemaPecuario: number;
     IdLineaProduccion: number;
@@ -78,7 +76,6 @@ export class PecuarioGetDto implements IPecuarioGetDto {
     init(_data?: any) {
         if (_data) {
             this.Id = _data["Id"];
-            this.IdFundo = _data["IdFundo"];
             this.IdCampo = _data["IdCampo"];
             this.IdSistemaPecuario = _data["IdSistemaPecuario"];
             this.IdLineaProduccion = _data["IdLineaProduccion"];
@@ -100,7 +97,6 @@ export class PecuarioGetDto implements IPecuarioGetDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["Id"] = this.Id;
-        data["IdFundo"] = this.IdFundo;
         data["IdCampo"] = this.IdCampo;
         data["IdSistemaPecuario"] = this.IdSistemaPecuario;
         data["SistemaPecuario"] = this.SistemaPecuario;

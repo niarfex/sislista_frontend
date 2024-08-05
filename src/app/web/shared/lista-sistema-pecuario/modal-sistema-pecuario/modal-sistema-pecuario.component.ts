@@ -53,9 +53,9 @@ export class ModalSistemaPecuarioComponent {
   get Numero() { return this.modalForm.controls['Numero']; }
   ngOnInit(): void {
     this.listFundos=[];
-    this.valPecuaria=this.objCuestionario.ListUsoNoAgricola.find(x=>x.codigo=="PECUARIA").value;
+    this.valPecuaria=this.objCuestionario.ListUsoNoAgricola.find(x=>x.codigo=="INST").value;
     this.objCuestionario.ListFundos.forEach(myObject => {
-      if(myObject.ListCampos.filter(x=>x.IdUsoNoAgricola.toString()==this.valPecuaria).length>0)
+      if(myObject.ListCampos.filter(x=>x.IdUsoNoAgricola.find(x=>x==this.valPecuaria)).length>0)
       {
         this.listFundos.push(new SelectTipoDto({
           value:myObject.Orden.toString(),
@@ -145,7 +145,7 @@ export class ModalSistemaPecuarioComponent {
     this.listCampos=[];  
     let campos=this.objCuestionario.ListFundos.find(x=>x.Orden.toString()==this.IdFundo.value).ListCampos;  
     campos.forEach(myObject => {
-      if(myObject.IdUsoNoAgricola.toString()==this.valPecuaria){
+      if(myObject.IdUsoNoAgricola.filter(x=>x==this.valPecuaria).length>0){
         this.listCampos.push(new SelectTipoDto({
           value:myObject.Orden.toString(),
           label:myObject.Campo==null?"":myObject.Campo.toString(),

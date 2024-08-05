@@ -227,6 +227,7 @@ export interface IGestionRegistroGetDto {
     ListTenencia: SelectTipoDto[];
     ListUsoTierra: SelectTipoDto[];
     ListCultivo: SelectTipoDto[];
+    ListUsoAgricola: SelectTipoDto[];
     ListUsoNoAgricola: SelectTipoDto[];
     ListEstadoEntrevista: SelectTipoDto[];
     ListTipoInformacion: SelectTipoDto[];
@@ -282,6 +283,7 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     ListTenencia: SelectTipoDto[];
     ListUsoTierra: SelectTipoDto[];
     ListCultivo: SelectTipoDto[];
+    ListUsoAgricola: SelectTipoDto[];
     ListUsoNoAgricola: SelectTipoDto[];
     ListEstadoEntrevista: SelectTipoDto[];
     ListTipoInformacion: SelectTipoDto[];
@@ -413,6 +415,11 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
                 this.ListCultivo = [] as any;
                 for (let item of _data["ListCultivo"])
                     this.ListCultivo!.push(SelectTipoDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListUsoAgricola"]) && _data["ListUsoAgricola"].length > 0) {
+                this.ListUsoAgricola = [] as any;
+                for (let item of _data["ListUsoAgricola"])
+                    this.ListUsoAgricola!.push(SelectTipoDto.fromJS(item));
             }
             if (Array.isArray(_data["ListUsoNoAgricola"]) && _data["ListUsoNoAgricola"].length > 0) {
                 this.ListUsoNoAgricola = [] as any;

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TableModule } from 'primeng/table';
 import { CampoGetDto } from 'src/app/models/Campo';
 import { SelectTipoDto } from 'src/app/models/SelectTipo';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @Component({
   standalone: true,
@@ -15,16 +16,19 @@ import { SelectTipoDto } from 'src/app/models/SelectTipo';
   imports: [CommonModule,
     ReactiveFormsModule,
     TableModule,
-    FormsModule]
+    FormsModule,
+    MultiSelectModule]
 })
 export class ListaCamposPlantillaComponent {
   @Input() listaCampos: CampoGetDto[];
   @Input() listTenencia: SelectTipoDto[];
   @Input() listUsoTierra: SelectTipoDto[];
   @Input() listCultivo: SelectTipoDto[];
+  @Input() listUsoAgricola: SelectTipoDto[];
   @Input() listUsoNoAgricola: SelectTipoDto[];
   @Input() modalActivo:boolean=true;
   @Output() enviarSumas = new EventEmitter<any>();
+  listado:SelectTipoDto[]=[];
   //obsDisable:boolean=true;
   //idusoNoAgricolaDisable:boolean=true;
   //agricolaDisable:boolean=true;
@@ -33,10 +37,10 @@ export class ListaCamposPlantillaComponent {
     , private spinner: NgxSpinnerService
     , private toastr: ToastrService) {
   }
-
   ngOnInit(): void {
-    
+    //this.listado=[{value:1,label:"uno"},{value:2,label:"dos"}];
   }
+ 
   setTwoNumberDecimal(item:CampoGetDto,nombreControl: string) {
     if(nombreControl=="SuperficieCultivada"){
       item.SuperficieCultivada=item.SuperficieCultivada.toString()==""?0:(Number.parseFloat(Number.parseFloat(item.SuperficieCultivada.toString()).toFixed(2)));
@@ -48,14 +52,14 @@ export class ListaCamposPlantillaComponent {
   }
   selUsoTierra(item:CampoGetDto){
     if(this.listUsoTierra.find(x=>x.value==item.IdUsoTierra.toString()).codigo=="AGRÍCOLA"){
+      this.listado=this.listUsoAgricola;
       item.agricolaDisable=false;
-      item.idusoNoAgricolaDisable=true;
-      item.IdUsoNoAgricola=0;
+      item.IdUsoNoAgricola=[];
       item.Observacion="";
     }
     else if (this.listUsoTierra.find(x=>x.value==item.IdUsoTierra.toString()).codigo=="NO AGRÍCOLA"){
+      this.listado=this.listUsoNoAgricola;
       item.agricolaDisable=true;
-      item.idusoNoAgricolaDisable=false;
       item.IdCultivo=0;
       item.SuperficieCultivada=0;
       

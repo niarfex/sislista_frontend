@@ -83,7 +83,30 @@ export class ModalRegistroObservacionComponent {
     this.Observacion.setValue("");
   }
   grabar(){
+    if(this.listaObservaciones.length==0){
+      this.toastr.warning("Se debe agregar por lo menos una observación", 'Aviso');
+      return;
+    }
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de enviar las observaciones al Empadronador?',
+      header: 'Guardar',
+      icon: 'none',
 
+      acceptButtonStyleClass: "p-button-danger p-button-text",
+      rejectButtonStyleClass: "p-button-text p-button-text",
+      acceptLabel: "Si, estoy seguro",
+      rejectLabel: "Cancelar",
+      acceptIcon: "none",
+      rejectIcon: "none",
+
+      accept: () => {
+      
+       
+      },
+      reject: () => {
+
+      }
+    });
   }
   eliminarObservacion(item:TrazabilidadGetDto){
     this.listaObservaciones=this.listaObservaciones.filter(x=>x.IdSeccion!=item.IdSeccion || x.Observacion!=item.Observacion);
