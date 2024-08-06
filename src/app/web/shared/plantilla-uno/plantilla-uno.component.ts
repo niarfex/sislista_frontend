@@ -34,6 +34,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { Router } from '@angular/router';
+import { TrazabilidadGetDto } from 'src/app/models/Trazabilidad';
 
 @Component({
   standalone: true,
@@ -272,6 +273,7 @@ export class PlantillaUnoComponent implements OnInit {
                     Orden: contCampos + 1,
                     idusoNoAgricolaDisable: true,
                     agricolaDisable: true,
+                    ListTipoUso:[]
                   }));
                   contCampos = contCampos + 1;
                 });
@@ -715,7 +717,45 @@ export class PlantillaUnoComponent implements OnInit {
       class: 'modal-m'
     });
   }
-
+  actualizarObservaciones(listObservaciones:TrazabilidadGetDto[]){
+    this.objRegistro.ListObservaciones=listObservaciones;
+    if(this.tipoPerfil=="SUPERVISAR"){
+      this.spinner.show();
+      this.gestionregistroServiceProxy.DesaprobarCuestionario(this.objRegistro)
+        .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+        .subscribe({
+          next: (result) => {
+            if (result.success) {
+              this.toastr.success(result.message.toString(), 'Información');
+              //this.objRegistro.CodigoUUID = result.datos.toString();
+              this.close();
+              this.router.navigate(['app', 'operativo', 'lista-gestion-registro'], {});
+            }
+            else {
+              this.toastr.warning(result.message.toString(), 'Aviso');
+            }
+          }
+        });
+    }
+    else if (this.tipoPerfil=="VALIDAR"){
+      this.spinner.show();
+      this.gestionregistroServiceProxy.InvalidarCuestionario(this.objRegistro)
+        .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+        .subscribe({
+          next: (result) => {
+            if (result.success) {
+              this.toastr.success(result.message.toString(), 'Información');
+              //this.objRegistro.CodigoUUID = result.datos.toString();
+              this.close();
+              this.router.navigate(['app', 'operativo', 'lista-gestion-registro'], {});
+            }
+            else {
+              this.toastr.warning(result.message.toString(), 'Aviso');
+            }
+          }
+        });
+    }
+  }
   accionSupervisionValidacion(codigoEstado: String) {
     switch (codigoEstado) {
       case "APROBADO":

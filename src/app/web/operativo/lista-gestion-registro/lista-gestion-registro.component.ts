@@ -19,7 +19,7 @@ import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionr
   encapsulation : ViewEncapsulation.None
 })
 export class ListaGestionRegistroComponent implements OnInit {
-  txt_busqueda:string="";
+  txtBusqueda:string="";
   lista_resultados: GestionRegistroListDto[];
   idRegistro: number;
   usuario:Login;
@@ -41,7 +41,7 @@ export class ListaGestionRegistroComponent implements OnInit {
 
   getData(event?: LazyLoadEvent) {
     this.spinner.show();
-    this.gestionregistroServiceProxy.getAll(this.txt_busqueda,this.usuario.CodigoUUID)
+    this.gestionregistroServiceProxy.getAll(this.txtBusqueda,this.usuario.CodigoUUID)
       .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
       .subscribe({
         next: (result) => {
@@ -68,7 +68,7 @@ export class ListaGestionRegistroComponent implements OnInit {
 
   exportar(){
 
-    this.gestionregistroServiceProxy.getAllToExcel(this.txt_busqueda).subscribe(async (event) => {
+    this.gestionregistroServiceProxy.getAllToExcel(this.txtBusqueda).subscribe(async (event) => {
       let data = event as HttpResponse<Blob>;
       const downloadedFile = new Blob([data.body as BlobPart], {
         type: data.body?.type

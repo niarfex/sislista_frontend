@@ -28,7 +28,7 @@ export class ListaCamposPlantillaComponent {
   @Input() listUsoNoAgricola: SelectTipoDto[];
   @Input() modalActivo:boolean=true;
   @Output() enviarSumas = new EventEmitter<any>();
-  listado:SelectTipoDto[]=[];
+  //listado:SelectTipoDto[]=[];
   //obsDisable:boolean=true;
   //idusoNoAgricolaDisable:boolean=true;
   //agricolaDisable:boolean=true;
@@ -38,7 +38,7 @@ export class ListaCamposPlantillaComponent {
     , private toastr: ToastrService) {
   }
   ngOnInit(): void {
-    //this.listado=[{value:1,label:"uno"},{value:2,label:"dos"}];
+    //this.selUsoTierra();
   }
  
   setTwoNumberDecimal(item:CampoGetDto,nombreControl: string) {
@@ -52,13 +52,13 @@ export class ListaCamposPlantillaComponent {
   }
   selUsoTierra(item:CampoGetDto){
     if(this.listUsoTierra.find(x=>x.value==item.IdUsoTierra.toString()).codigo=="AGRÍCOLA"){
-      this.listado=this.listUsoAgricola;
+      item.ListTipoUso=this.listUsoAgricola;
       item.agricolaDisable=false;
       item.IdUsoNoAgricola=[];
       item.Observacion="";
     }
     else if (this.listUsoTierra.find(x=>x.value==item.IdUsoTierra.toString()).codigo=="NO AGRÍCOLA"){
-      this.listado=this.listUsoNoAgricola;
+      item.ListTipoUso=this.listUsoNoAgricola;
       item.agricolaDisable=true;
       item.IdCultivo=0;
       item.SuperficieCultivada=0;

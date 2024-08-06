@@ -649,7 +649,8 @@
     </ng-template>
     <ng-template #viewUserTemplate7>
         <modal-registro-observacion [estadoResultado]="estadoResultado" [perfil]="tipoPerfil"
-            [exitSubModal]="exitSubModal" [listaSecciones]="objRegistro.ListSecciones"></modal-registro-observacion>
+            [exitSubModal]="exitSubModal" [listaSecciones]="objRegistro.ListSecciones"
+            (enviarObservaciones)="actualizarObservaciones($event)"></modal-registro-observacion>
     </ng-template>
 
 </div>

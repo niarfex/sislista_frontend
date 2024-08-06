@@ -1,3 +1,5 @@
+import { SelectTipoDto } from "./SelectTipo";
+
 export interface IResponseCampoGetDto {
     success: boolean;
     message: String;
@@ -53,6 +55,7 @@ export interface ICampoGetDto {
     Orden:number;
     idusoNoAgricolaDisable:boolean;
     agricolaDisable:boolean;
+    ListTipoUso:SelectTipoDto[];
 }
 export class CampoGetDto implements ICampoGetDto {
     Id: number;
@@ -69,6 +72,7 @@ export class CampoGetDto implements ICampoGetDto {
     Orden:number;
     idusoNoAgricolaDisable:boolean=true;
     agricolaDisable:boolean=true;
+    ListTipoUso:SelectTipoDto[]=[];
     constructor(data?: ICampoGetDto) {
         if (data) {
             for (var property in data) {
@@ -90,6 +94,11 @@ export class CampoGetDto implements ICampoGetDto {
             this.Superficie = _data["Superficie"];
             this.SuperficieCultivada = _data["SuperficieCultivada"];
             this.Orden = _data["Orden"];
+            if (Array.isArray(_data["ListTipoUso"]) && _data["ListTipoUso"].length > 0) {
+                this.ListTipoUso = [] as any;
+                for (let item of _data["ListTipoUso"])
+                    this.ListTipoUso!.push(SelectTipoDto.fromJS(item));
+            }
         }
     }
     static fromJS(data: any): CampoGetDto {

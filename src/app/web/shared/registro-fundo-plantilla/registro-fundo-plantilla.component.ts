@@ -27,6 +27,7 @@ export class RegistroFundoPlantillaComponent {
   @Input() listUsoNoAgricola: SelectTipoDto[];
   @Input() modalActivo:boolean=true;
   idNombre: String = "";
+  collapsNombre:String="";
   fundoForm = this.formBuilder.group({
     SuperficieTotal: [''],
     SuperficieTotalCalc: [''],
@@ -52,14 +53,15 @@ export class RegistroFundoPlantillaComponent {
   get IdDistrito() { return this.fundoForm.controls['IdDistrito']; }
 
   ngOnInit(): void {
-    this.idNombre = "fundo-" + this.fundo.Orden.toString();
+    this.idNombre = "hfundo-" + this.fundo.Orden.toString();
+    this.collapsNombre= "cfundo-" + this.fundo.Orden.toString();
     this.SuperficieAgricola.setValue(this.fundo.SuperficieAgricola.toString());
     this.SuperficieTotalCalc.setValue(this.fundo.SuperficieTotalCalc.toString());
     this.SuperficieTotal.setValue(this.fundo.SuperficieTotal.toString());
     this.Observacion.setValue(this.fundo.Observacion==null?null:this.fundo.Observacion.toString());
-    this.IdDepartamento.setValue(this.fundo.IdUbigeo.toString().substring(0, 2));
-    this.IdProvincia.setValue(this.fundo.IdUbigeo.toString().substring(0, 4));
-    this.IdDistrito.setValue(this.fundo.IdUbigeo.toString());
+    this.IdDepartamento.setValue(this.fundo.IdUbigeo==null?"":this.fundo.IdUbigeo.toString().substring(0, 2));
+    this.IdProvincia.setValue(this.fundo.IdUbigeo==null?"":this.fundo.IdUbigeo.toString().substring(0, 4));
+    this.IdDistrito.setValue(this.fundo.IdUbigeo==null?"":this.fundo.IdUbigeo.toString());
     if(!this.modalActivo){
       this.fundoForm.disable();
     }

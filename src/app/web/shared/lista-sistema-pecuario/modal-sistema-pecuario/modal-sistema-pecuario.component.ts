@@ -110,7 +110,6 @@ export class ModalSistemaPecuarioComponent {
       acceptIcon: "none",
       rejectIcon: "none",
 
-
       accept: () => {
       this.objRegistro.OrdenFundo=Number.parseInt(this.IdFundo.value);
       this.objRegistro.OrdenCampo=Number.parseInt(this.IdCampo.value);
@@ -129,10 +128,9 @@ export class ModalSistemaPecuarioComponent {
         this.objRegistro.SistemaPecuario="ESPECIE";
         this.objRegistro.IdSistemaPecuario=2;
         this.objRegistro.Animal=this.listEspecie.find(x=>x.value==this.IdEspecie.value).label;
-      }
-      
+      }      
       this.objRegistro.Cantidad=Number.parseInt(this.Numero.value);
-      this.asignarPecuario();
+      this.enviarPecuario.emit(this.objRegistro);    this.close();
        
       },
       reject: () => {
@@ -157,11 +155,7 @@ export class ModalSistemaPecuarioComponent {
   }
   close(){
     this.exitSubModal();
-  }
-  asignarPecuario(){
-    this.enviarPecuario.emit(this.objRegistro);
-    this.close();
-  }
+  }  
   checkLineaprod(){
     if(this.selecLineaProd){
       this.selecEspecie=false;
