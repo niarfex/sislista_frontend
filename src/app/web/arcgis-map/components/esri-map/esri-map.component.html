@@ -83,14 +83,24 @@
                 <div class="separator-button"></div>
                 <button id="toolbar-edit-line"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-polyline"
-                title="Seleccionar Polígono" (click)="onCreateLineGraphic('polyline')"></button>
+                title="Crear Línea" (click)="onCreateLineGraphic('polyline')"></button>
                 <div class="separator-button"></div>
                 <button id="toolbar-edit-line"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-polygon"
-                title="Seleccionar Polígono" (click)="onCreateLineGraphic('polygon')"></button>
+                title="Crear Polígono" (click)="onCreateLineGraphic('polygon')"></button>
+                <div class="separator-button"></div>
+                <button id="toolbar-edit-line"
+                class="esri-widget--button esri-interactive button-esri-modify esri-icon-unlocked-link-horizontal"
+                title="Unir Polígono" (click)="onCreateLineGraphic('polygon')"></button>
+                <div class="separator-button"></div>
                 <button id="toolbar-edit-line"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-trash"
                 title="Eliminar Polígono" (click)="onDeleteGraphic()"></button>                
+                <div class="separator-button"></div>
+                <button id="toolbar-edit-line"
+                class="esri-widget--button esri-interactive button-esri-modify fa fa-file-archive-o"
+                title="Cargar ShapeFile(zip)" (click)="onshowLoadZipFile()"></button>               
+                <div class="separator-button"></div>                
                 <button id="toolbar-edit-line"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-save"
                 title="Grabar cambios" (click)="onSaveChanges()"></button>                           
@@ -102,52 +112,33 @@
                     <li><a (click)="onEditAttribute()"><i class="fa fa-id-card-o"></i> Modificar atributos</a></li>                    
                 </ul>
             </div>
-            <!--Formulario de acualizacion-->
-            <div id="AttributeForm" class="card">
+            <!--Formulario de carga del ZipFile-->
+            <div id="ZipFileForm" class="card">
                 <div class="card-header" v-if="cardHeaderTitle">
-                    <i class="fa fa-id-card-o"></i>
-                    <span> {{admin.ruc}}</span>
+                    <i class="fa fa-file-archive-o"></i>
+                    <span>  Cargar ShapeFile</span>
                 </div>
                 <div class="card-body">
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
+                    <div>
+                        <div style='padding-left:4px;'>
+                            <p><b>Agregar ShapeFile comprimido al mapa</b></p>
+                            <p>Descargar el modelo de ShapeFile desde <a href='https://bsvensson.github.io/various-tests/shp/drp_county_boundary.zip'>aquí.</a></p>                          
+                          <p>Visite la ayuda acerca de  
+                            <a target='_blank' href="https://doc.arcgis.com/es/arcgis-online/reference/shapefiles.htm">Shapefiles</a> 
+                            para tener información acerca de las limitaciones.</p>
+                            <div class="mb-3">
+                                <label for="formFileSm" class="form-label">Agregar Archivo</label>
+                                <input class="form-control form-control-sm" id="inFile" type="file" (change)="onLoadZipFile($event)" accept=".zip">
+                            </div>
+                          <span class="file-upload-status" style="opacity:1;" id="upload-status"></span>
+                          <div id="fileInfo"> </div>
                         </div>
-                        <input type="text" readonly class="form-control" title="Nombre del administrado" placeholder="Administrado" [(ngModel)]="admin.nombre">
-                    </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-map"></i></span>
-                        </div>
-                        <input type="text" class="form-control" title="Nombre del fundo" placeholder="Nombre del fundo" [(ngModel)]="admin.fundo">						
-                    </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-pie-chart"></i></span>
-                        </div>
-                        <input type="text" class="form-control" title="Nombre del campo" placeholder="Nombre del campo" [(ngModel)]="admin.campo" v-on:keypress="isNumber($event, WatchNumTele)">						
-                    </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-object-group"></i></span>
-                        </div>
-                        <input type="text" readonly class="form-control" title="Área calculada" placeholder="Área calculada" [(ngModel)]="admin.area_ca">						
-                    </div>
-                    <div class="input-group form-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-object-ungroup"></i></span>
-                        </div>
-                        <input type="text" class="form-control" title="Área declarada" placeholder="Área declarada" [(ngModel)]="admin.area_de" (keypress)="setNumber($event, admin.area_de)">						
-                    </div>                                                       
-                    <div class="row">
-                        <div class="col">                           
-                            <a class="btn btn-primary" (click)="onSaveAttributes()"><i class="fa fa-floppy-o"></i> Grabar</a>
-                        </div>  
-                        <div class="col">
-                            <a class="btn btn-primary" (click)="onCancelAttributes()"><i class="fa fa-times"></i> Cancelar</a>
-                        </div>                
                     </div>
                 </div>
+            </div>
+            <!--Menu Cargar ZipFile-->
+            <div id="mainWindow">
+                
             </div>
         </div>
     </div>

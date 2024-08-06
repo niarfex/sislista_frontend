@@ -54,6 +54,10 @@ export class ReporteMapaComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    //--Visualizamos el Formulario
+    let formLista = document.getElementById('divFormLista');
+    formLista.style.display = 'block';
+
     this.numDoc = this._route.snapshot.paramMap.get('numDoc');
     this.idPeriodo =  Number.parseInt(this._route.snapshot.paramMap.get('idPeriodo'));
     this.spinner.show();
@@ -143,5 +147,6 @@ export class ReporteMapaComponent implements OnInit {
     }
   onCancelAttributes(){
     this.mapService.editDivAttribute.style.display = 'none';
+    this.mapService.readDivFormLista.style.display = 'block';
   }  
 }

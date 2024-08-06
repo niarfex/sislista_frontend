@@ -5,6 +5,8 @@ import { AuthComponent } from './auth.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { RecuperarClaveComponent } from './recuperar-clave/recuperar-clave.component';
 import { RecuperarMensajeComponent } from './recuperar-mensaje/recuperar-mensaje.component';
+//FCF
+import {ReporteMapaComponent} from '../app/web/reportes/reporte-mapa/reporte-mapa.component';
 
 @NgModule({
     imports: [
@@ -15,6 +17,7 @@ import { RecuperarMensajeComponent } from './recuperar-mensaje/recuperar-mensaje
                 children: [
                     { path: '', redirectTo: 'login', pathMatch: 'full' },
                     { path: 'login',component:LoginComponent,pathMatch: 'full' },
+                    //{ path: 'login',component:ReporteMapaComponent,pathMatch: 'full' },
                     { path: 'recuperar-clave',component:RecuperarClaveComponent,pathMatch: 'full' },
                     { path: 'recuperar-mensaje',component:RecuperarMensajeComponent,pathMatch: 'full' },
                     { path: '**', redirectTo: 'login' },

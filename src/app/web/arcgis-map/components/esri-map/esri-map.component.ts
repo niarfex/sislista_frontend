@@ -7,6 +7,8 @@ import { GoogleMapPosition, GoogleMapPov } from '../../models/googlemaps.model';
 import { CoordinatesStatusMap } from '../../models/general.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-esri-map',
@@ -56,6 +58,7 @@ export class EsriMapComponent implements OnInit {
     this.mapService.editDivMenu = document.getElementById('contextMenu');
     //this.mapService.editDivAttribute = document.getElementById('AttributeForm');
     this.mapService.editDivToolbar= document.getElementById('editToolbar');
+    this.mapService.editDivZipfile = document.getElementById('ZipFileForm');
     
     this.mapService.distanceButton2D = document.getElementById('measurement_distance_2D');
     this.mapService.areaButton2D = document.getElementById('measurement_area_2D');
@@ -68,7 +71,7 @@ export class EsriMapComponent implements OnInit {
 
     //--Datos del Administrado
     this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
-    //this.administradoDoc ='20131867744';
+    this.administradoDoc ='20131867744';
     this.mapService.SisListaRuc = this.administradoDoc
 
     this.changeSelectMap();
@@ -222,6 +225,17 @@ export class EsriMapComponent implements OnInit {
       });
     } else {
       this.sweetAlert.AlertError('Edición de Elementos', 'Error de Validacion')
+    }
+  }
+  onshowLoadZipFile(){
+    this.mapService.ptEditTool.name="Load ZipFile";
+    this.mapService.showLoadZipFile();
+  }
+  onLoadZipFile(event){
+    const file:File = event.target.files[0];
+    if (file) {
+      console.log(file.name);
+      this.mapService.ptGenerateFatureCollection(file);
     }
   }
 
