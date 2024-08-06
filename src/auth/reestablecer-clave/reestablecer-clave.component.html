@@ -1,0 +1,85 @@
+<div class="row" style="height: 100vh; width: 100%;">
+    <div class="col-sm-6" style="background-image: url('./assets/images/campo_1.jpeg'); background-size: 100%;
+        background-size: cover; position: relative;">
+
+        <div class="text-end" style="color: white; font-weight: bold;
+         font-size:xx-large; bottom: 0; position: absolute; padding-right: 10px; padding-bottom: 10px;">Sistema del Marco de Lista de Encuesta Nacional Agropecuaria
+        </div>
+    </div>
+    <div class="col-sm-6" style="height: 100vh; ">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div *ngIf="mostrarForm" class="text" style="margin-top: 40px;">
+                    <form [formGroup]="recuperarForm" (ngSubmit) = "onClickSubmit(recuperarForm.value)">
+                
+                        <div class="row mb-5">
+                            <div class="col-sm-12 text-center">
+                                <img [src]="appBaseUrl + '/assets/images/logo_midagri.png'"
+                                    style="width: 100px;height: 100px;" />
+                            </div>
+                        </div>     
+                        <div class="row mb-3">
+                            <div class="col-sm-12">
+                                <span style="font-weight: bold; font-size: medium;">Reestablecer la contraseña</span>
+                            </div>
+                        </div>       
+                        <div class="row mb-3">
+                            <div class="col-sm-12">
+                                <span>Ingrese el correo electrónico asociado a su cuenta de usuario:</span>
+                            </div>
+                        </div> 
+                        <div class="row mb-3">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="newPassword">Nueva Contraseña</label>
+                                    <input formControlName="newPassword" maxlength="50" type="password" class="form-control" required>
+                                    <div *ngIf="newPassword.invalid && (newPassword.dirty || newPassword.touched)"
+                                        class="text-danger">
+                                        <div *ngIf="newPassword.errors?.['required']">El campo es requerido.</div>                                        
+                                    </div>
+                                    <div class="text-red-400 text-sm" *ngIf="newPassword?.dirty">
+                                        <div class="block" [ngClass]="{'text-primary': newPassword?.value?.match('^(?=.*[A-Z])')}">La contraseña debe tener al menos una letra mayúscula.</div>
+                                        <div class="block" [ngClass]="{'text-primary': newPassword?.value?.match('(?=.*[a-z])')}">La constraseña debe tener al menos una letra minúscila.</div>
+                                        <div class="block" [ngClass]="{'text-primary': newPassword?.value?.match('(.*[0-9].*)')}">La contraseña debe tener al menos un número.</div>
+                                        <div class="block" [ngClass]="{'text-primary': newPassword?.value?.match('(?=.*[!@#$%^&*])')}">La contraseña debe tener al menos un caracter especial.</div>
+                                        <div class="block" [ngClass]="{'text-primary': newPassword?.value?.match('.{8,}')}">La contraseña debe tener al menos 8 caracteres.</div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="renewPassword">Repita la nueva Contraseña</label>
+                                    <input formControlName="renewPassword" maxlength="50" type="password" class="form-control" required>
+                                    <div *ngIf="renewPassword.invalid && (renewPassword.dirty || renewPassword.touched)"
+                                        class="text-danger">
+                                        <div *ngIf="renewPassword.errors?.['required']">El campo es requerido.</div>                                        
+                                    </div>
+                                    <div class="text-red-400 text-sm" *ngIf="renewPassword?.dirty">
+                                        <div class="block" [ngClass]="{'text-primary': renewPassword?.value?.match('^(?=.*[A-Z])')}">La contraseña debe tener al menos una letra mayúscula.</div>
+                                        <div class="block" [ngClass]="{'text-primary': renewPassword?.value?.match('(?=.*[a-z])')}">La constraseña debe tener al menos una letra minúscila.</div>
+                                        <div class="block" [ngClass]="{'text-primary': renewPassword?.value?.match('(.*[0-9].*)')}">La contraseña debe tener al menos un número.</div>
+                                        <div class="block" [ngClass]="{'text-primary': renewPassword?.value?.match('(?=.*[!@#$%^&*])')}">La contraseña debe tener al menos un caracter especial.</div>
+                                        <div class="block" [ngClass]="{'text-primary': renewPassword?.value?.match('.{8,}')}">La contraseña debe tener al menos 8 caracteres.</div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="g-recaptcha" style="margin:auto; max-width:325px;">
+                                <re-captcha (resolved)="checkCaptcha($event)" siteKey="{{keyCaptcha}}" ></re-captcha>
+                            </div>   
+                        </div>
+                        <div class="mb-5">
+                            <button type="submit" [disabled]="!captchaResolved || !recuperarForm.valid" class="btn btn-primary"
+                                style="background-color: #008F49; border-color: #008F49;">Enivar</button>
+                        </div>   
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</div>

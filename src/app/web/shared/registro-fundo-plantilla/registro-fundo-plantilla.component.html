@@ -3,11 +3,11 @@
     <div class="accordion" id="accordionPanelsStayOpenExample">
         <div class="accordion-item">
           <h2 class="accordion-header" [id]=idNombre>
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+idNombre" aria-expanded="true" [attr.aria-controls]="idNombre">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+collapsNombre" aria-expanded="true" [attr.aria-controls]="collapsNombre">
                 <span style="font-weight: bold;">17.{{fundo.Orden}}. Nombre del fundo: "{{fundo.Fundo}}"</span>
             </button>
           </h2>
-          <div [id]=idNombre class="accordion-collapse collapse show" [attr.aria-labelledby]="idNombre">
+          <div [id]=collapsNombre class="accordion-collapse collapse show" [attr.aria-labelledby]="idNombre">
             <div class="accordion-body">
                 <div class="row">
                     <div class="col-sm-3">
@@ -78,6 +78,7 @@
                     [listTenencia]="listTenencia"
                     [listUsoTierra]="listUsoTierra"
                     [listCultivo]="listCultivo"
+                    [listUsoAgricola]="listUsoAgricola"
                     [listUsoNoAgricola]="listUsoNoAgricola"
                     [modalActivo]="modalActivo"
                     (enviarSumas)="actualizarSumas($event)"></lista-campos-plantilla>

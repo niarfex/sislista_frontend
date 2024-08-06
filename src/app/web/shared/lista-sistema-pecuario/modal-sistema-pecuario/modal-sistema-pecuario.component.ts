@@ -53,9 +53,9 @@ export class ModalSistemaPecuarioComponent {
   get Numero() { return this.modalForm.controls['Numero']; }
   ngOnInit(): void {
     this.listFundos=[];
-    this.valPecuaria=this.objCuestionario.ListUsoNoAgricola.find(x=>x.codigo=="PECUARIA").value;
+    this.valPecuaria=this.objCuestionario.ListUsoNoAgricola.find(x=>x.codigo=="INST").value;
     this.objCuestionario.ListFundos.forEach(myObject => {
-      if(myObject.ListCampos.filter(x=>x.IdUsoNoAgricola.toString()==this.valPecuaria).length>0)
+      if(myObject.ListCampos.filter(x=>x.IdUsoNoAgricola.find(x=>x==this.valPecuaria)).length>0)
       {
         this.listFundos.push(new SelectTipoDto({
           value:myObject.Orden.toString(),
@@ -110,7 +110,6 @@ export class ModalSistemaPecuarioComponent {
       acceptIcon: "none",
       rejectIcon: "none",
 
-
       accept: () => {
       this.objRegistro.OrdenFundo=Number.parseInt(this.IdFundo.value);
       this.objRegistro.OrdenCampo=Number.parseInt(this.IdCampo.value);
@@ -129,10 +128,9 @@ export class ModalSistemaPecuarioComponent {
         this.objRegistro.SistemaPecuario="ESPECIE";
         this.objRegistro.IdSistemaPecuario=2;
         this.objRegistro.Animal=this.listEspecie.find(x=>x.value==this.IdEspecie.value).label;
-      }
-      
+      }      
       this.objRegistro.Cantidad=Number.parseInt(this.Numero.value);
-      this.asignarPecuario();
+      this.enviarPecuario.emit(this.objRegistro);    this.close();
        
       },
       reject: () => {
@@ -145,7 +143,7 @@ export class ModalSistemaPecuarioComponent {
     this.listCampos=[];  
     let campos=this.objCuestionario.ListFundos.find(x=>x.Orden.toString()==this.IdFundo.value).ListCampos;  
     campos.forEach(myObject => {
-      if(myObject.IdUsoNoAgricola.toString()==this.valPecuaria){
+      if(myObject.IdUsoNoAgricola.filter(x=>x==this.valPecuaria).length>0){
         this.listCampos.push(new SelectTipoDto({
           value:myObject.Orden.toString(),
           label:myObject.Campo==null?"":myObject.Campo.toString(),
@@ -157,11 +155,7 @@ export class ModalSistemaPecuarioComponent {
   }
   close(){
     this.exitSubModal();
-  }
-  asignarPecuario(){
-    this.enviarPecuario.emit(this.objRegistro);
-    this.close();
-  }
+  }  
   checkLineaprod(){
     if(this.selecLineaProd){
       this.selecEspecie=false;

@@ -67,7 +67,7 @@ export class ReporteMapaComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
-            console.log(this.idPeriodo.toString());
+            //console.log(this.idPeriodo.toString());
             this.condicionJuridica=this.objRegistro.ListCondicionJuridica.find(x=>x.value==this.objRegistro.IdCondicionJuridica.toString()).label;
             if(this.objRegistro.IdTipoExplotacion!=null){
               this.tipoExplotacion=this.objRegistro.ListTipoExplotacion.find(x=>x.value==this.objRegistro.IdTipoExplotacion.toString()).label;

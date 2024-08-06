@@ -8,8 +8,8 @@ import { LoginComponent } from '../auth/login/login.component';
 import { RecaptchaModule } from "ng-recaptcha";
 import { RecuperarClaveComponent } from './recuperar-clave/recuperar-clave.component';
 import { RecuperarMensajeComponent } from './recuperar-mensaje/recuperar-mensaje.component';
-import { NuevaClaveComponent } from './nueva-clave/nueva-clave.component';
-
+import { ReestablecerClaveComponent } from './reestablecer-clave/reestablecer-clave.component';
+import { PasswordStrengthMeterComponent } from 'angular-password-strength-meter';
 @NgModule({ 
         imports: [
         CommonModule,
@@ -18,9 +18,10 @@ import { NuevaClaveComponent } from './nueva-clave/nueva-clave.component';
         HttpClientJsonpModule,
         ReactiveFormsModule,
         AuthRoutingModule,
-        RecaptchaModule
+        RecaptchaModule,
+        PasswordStrengthMeterComponent
         ], 
-        declarations: [AuthComponent, LoginComponent, RecuperarClaveComponent, RecuperarMensajeComponent, NuevaClaveComponent], 
+        declarations: [AuthComponent, LoginComponent, RecuperarClaveComponent, RecuperarMensajeComponent, ReestablecerClaveComponent], 
         providers: [] 
 })
 export class AccountModule {}

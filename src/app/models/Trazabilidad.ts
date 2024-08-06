@@ -87,6 +87,7 @@ export class TrazabilidadGetDto implements ITrazabilidadGetDto {
         data["Observacion"] = this.Observacion;
         data["EstadoResultado"] = this.EstadoResultado;
         data["IdSeccion"] = this.IdSeccion;
+        data["Seccion"] = this.Seccion;
         data["Perfil"] = this.Perfil;
         return data;
     }

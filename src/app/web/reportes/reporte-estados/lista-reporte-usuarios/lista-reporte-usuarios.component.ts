@@ -12,6 +12,7 @@ import { LoginService } from 'src/auth/services/login.service';
 })
 export class ListaReporteUsuariosComponent implements OnInit {
   @Input() listaUsuarios: ReporteUsuarioListDto[];
+  txtBusqueda:String="";
   usuario:Login; 
   constructor(private confirmationService: ConfirmationService 
     ,private loginService: LoginService   
@@ -19,5 +20,8 @@ export class ListaReporteUsuariosComponent implements OnInit {
   }
   ngOnInit(): void {
     this.usuario=this.loginService.getCurrentUserValue;
+  }
+  getData(){
+    
   }
 }

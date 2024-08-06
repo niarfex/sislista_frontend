@@ -482,9 +482,9 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <button type="button" class="btn btn-primary" *ngIf="modalActivoEmp"
+                    <!--<button type="button" class="btn btn-primary" *ngIf="modalActivoEmp" 
                         (click)="selectMetodoInsercion(viewUserTemplate2,viewUserTemplate3,viewUserTemplate4)"
-                        style="background-color: #008F49; border-color: #008F49;">Insertar</button>
+                        style="background-color: #008F49; border-color: #008F49;">Insertar</button>-->
                 </div>
             </div>
             <div class="row mb-3">
@@ -497,8 +497,8 @@
                 <div class="col-sm-12">
                     <registro-fundo-plantilla *ngFor="let item of objRegistro.ListFundos" [fundo]="item"
                         [listTenencia]="objRegistro.ListTenencia" [listUsoTierra]="objRegistro.ListUsoTierra"
-                        [listCultivo]="objRegistro.ListCultivo"
-                        [modalActivo]="modalActivoEmp"
+                        [listCultivo]="objRegistro.ListCultivo" [modalActivo]="modalActivoEmp"
+                        [listUsoAgricola]="objRegistro.ListUsoAgricola"
                         [listUsoNoAgricola]="objRegistro.ListUsoNoAgricola"></registro-fundo-plantilla>
                 </div>
             </div>
@@ -526,7 +526,8 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <lista-informantes [listaInformantes]="objRegistro.ListInformantes"></lista-informantes>
+                <lista-informantes [listaInformantes]="objRegistro.ListInformantes" [modalActivo]="modalActivoEmp"
+                (enviarLista)="actualizarInformantes($event)"></lista-informantes>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-12" style="color:darkgray">
@@ -648,7 +649,8 @@
     </ng-template>
     <ng-template #viewUserTemplate7>
         <modal-registro-observacion [estadoResultado]="estadoResultado" [perfil]="tipoPerfil"
-            [exitSubModal]="exitSubModal" [listaSecciones]="objRegistro.ListSecciones"></modal-registro-observacion>
+            [exitSubModal]="exitSubModal" [listaSecciones]="objRegistro.ListSecciones"
+            (enviarObservaciones)="actualizarObservaciones($event)"></modal-registro-observacion>
     </ng-template>
 
 </div>

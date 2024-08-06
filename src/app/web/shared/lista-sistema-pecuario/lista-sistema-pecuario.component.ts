@@ -43,7 +43,7 @@ export class ListaSistemaPecuarioComponent {
     });
   }
   registrarPecuario(viewUserTemplate: TemplateRef<any>) {    
-    if(this.objCuestionario.ListFundos.filter(x=>x.ListCampos.filter(y=>y.IdUsoNoAgricola.toString()==(this.objCuestionario.ListUsoNoAgricola.find(z=>z.codigo=="PECUARIA").value)).length>0).length==0){
+    if(this.objCuestionario.ListFundos.filter(x=>x.ListCampos.filter(y=>y.IdUsoNoAgricola.find(x=>x==(this.objCuestionario.ListUsoNoAgricola.find(z=>z.codigo=="INST").value)).length>0)).length==0){
       this.toastr.warning("Ningun campo tiene seleccionado en Uso no agrícola el tipo Pecuario", 'Aviso');
       return;
     }

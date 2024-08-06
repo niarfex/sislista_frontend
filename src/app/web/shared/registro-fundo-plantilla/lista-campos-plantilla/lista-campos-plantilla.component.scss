@@ -1,0 +1,19 @@
+:host ::ng-deep .custom-ms 
+            .p-multiselect-label { 
+            width: 60px !important; 
+            font-size:small !important;
+            padding: 0.5rem 0.5rem !important;
+        } 
+        :host ::ng-deep .custom-ms .p-multiselect-token { 
+            padding: unset !important;
+        }
+        :host ::ng-deep .custom-ms .p-multiselect-items { 
+            font-size:small !important;
+            padding: unset !important;
+        }
+        :host ::ng-deep .custom-ms .p-multiselect-item { 
+            font-size:small !important;
+        }
+        :host ::ng-deep .custom-ms .p-multiselect-trigger { 
+            font-size:small !important;
+        }

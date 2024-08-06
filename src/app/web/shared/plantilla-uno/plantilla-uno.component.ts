@@ -34,6 +34,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { Router } from '@angular/router';
+import { TrazabilidadGetDto } from 'src/app/models/Trazabilidad';
 
 @Component({
   standalone: true,
@@ -190,7 +191,7 @@ export class PlantillaUnoComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
-            console.log(this.objRegistro);
+            ///console.log(this.objRegistro);
             this.cadPeriodo = this.objRegistro.ListPeriodos.find(x => x.value == this.idPeriodo.toString()).label;
             this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
             this.plantillaForm.controls['IdCondicionJuridica'].setValue(this.objRegistro.IdCondicionJuridica.toString());
@@ -256,7 +257,7 @@ export class PlantillaUnoComponent implements OnInit {
                 let superficieFundo = 0;
                 let contCampos = 0;
                 ListCampos.forEach(myObject2 => {
-                  superficieFundo = superficieFundo + Number.parseFloat(myObject2["SUPERFICIE"]);
+                  superficieFundo = superficieFundo + Number.parseFloat(myObject2["SUPERFICIE"]==null?0:myObject2["SUPERFICIE"]);
                   this.campos.push(new CampoGetDto({
                     Id: 0,
                     IdFundo: 0,
@@ -264,14 +265,15 @@ export class PlantillaUnoComponent implements OnInit {
                     IdTenencia: 0,
                     IdUsoTierra: 0,
                     IdCultivo: 0,
-                    IdUsoNoAgricola: 0,
+                    IdUsoNoAgricola: [],
                     Observacion: "",
-                    SuperficieCalc: Number.parseFloat(Number.parseFloat(myObject2["SUPERFICIE"]).toFixed(2)),
+                    SuperficieCalc: Number.parseFloat(Number.parseFloat(myObject2["SUPERFICIE"]==null?0:myObject2["SUPERFICIE"]).toFixed(2)),
                     Superficie: 0.00,
                     SuperficieCultivada: 0.00,
                     Orden: contCampos + 1,
                     idusoNoAgricolaDisable: true,
                     agricolaDisable: true,
+                    ListTipoUso:[]
                   }));
                   contCampos = contCampos + 1;
                 });
@@ -339,12 +341,7 @@ export class PlantillaUnoComponent implements OnInit {
         this.perSAOtro = false;
         break;
       }
-      case "SAC":
-      case "SAA":
-      case "SRL":
-      case "EIRL":
-      case "CA":
-      case "SA": {
+      case "SAC": case "SAA": case "SRL": case "EIRL": case "CA": case "SA": {
         this.perSA = true;
         this.perPN = false;
         this.perSAOtro = false;
@@ -483,7 +480,9 @@ export class PlantillaUnoComponent implements OnInit {
       class: 'modal-lg'
     });
   }
-
+  actualizarInformantes(lista: InformanteGetDto[]) {
+    this.objRegistro.ListInformantes = lista;
+  }
   selectMetodoInsercion(viewUserTemplate: TemplateRef<any>, viewUserTemplateA: TemplateRef<any>, viewUserTemplateB: TemplateRef<any>) {
     this.viewUserTemplate1 = viewUserTemplateA;
     this.viewUserTemplate2 = viewUserTemplateB;
@@ -574,7 +573,6 @@ export class PlantillaUnoComponent implements OnInit {
   }
   actualizarArchivos(lista: ArchivoGetDto[]) {
     this.objRegistro.ListArchivos = lista;
-
   }
   previsualizarCuestionario() {
 
@@ -585,56 +583,59 @@ export class PlantillaUnoComponent implements OnInit {
     let tieneErrores: boolean = false;
     let valAgricola = this.objRegistro.ListUsoTierra.find(x => x.codigo == "AGRÍCOLA").value;
     let valNoAgricola = this.objRegistro.ListUsoTierra.find(x => x.codigo == "NO AGRÍCOLA").value;
-    let valPecuario = this.objRegistro.ListUsoNoAgricola.find(x => x.codigo == "PECUARIA").value;
-    this.objRegistro.ListFundos.forEach(objFundo => {
-      objFundo.ListCampos.forEach(objCampo => {
-        if (objCampo.IdTenencia == 0) {
-          this.toastr.error("El dato de tenencia es obligatorio para todos los campos", 'Error');
-          tieneErrores = true;
-        }
-        if (objCampo.IdUsoTierra.toString() == valAgricola) {
-          if (objCampo.SuperficieCultivada > objCampo.Superficie) {
-            this.toastr.error("La Superficie cultivada no debe ser mayor a la Superficie reportada para el campo " + (objCampo.Campo == null ? "" : objCampo.Campo), 'Error');
-            tieneErrores = true;
-          }
-          if (objCampo.IdCultivo == 0 || (objCampo.SuperficieCultivada.toString() == "" ? 0 : objCampo.SuperficieCultivada) == 0) {
-            this.toastr.error("Para los campos donde seleccionó el Uso de la tierra de tipo Agrícola, se debe seleccionar el tipo de Cultivo e ingresar la Superficie cultivada", 'Error');
-            tieneErrores = true;
-          }
-        }
+    let valPecuario = this.objRegistro.ListUsoNoAgricola.find(x => x.codigo == "INST").value;
+    let valCompleto = this.objRegistro.ListEstadoEntrevista.find(x => x.codigo == "ESTADOENTREVISTACOMPLETO").value;
 
-        else if (objCampo.IdUsoTierra.toString() == valNoAgricola) {
-          if (objCampo.IdUsoNoAgricola == 0) {
-            this.toastr.error("Para los campos donde seleccionó el Uso de la tierra de tipo No Agrícola, se debe seleccionar el tipo de Uso no agrícola", 'Error');
-            tieneErrores = true;
-          }
-          if (objCampo.Observacion.length == 0) {
-            this.toastr.error("El campo Observación es obligatorio en el registro de Campos cuando el Uso de la tierra es de tipo No Agrícola", 'Error');
-            tieneErrores = true;
-          }
-        }
-        else {
-          this.toastr.error("Para cada Campo se debe seleccionar el tipo de Uso de la tierra (Agrícola o No Agrícola)", 'Error');
-          tieneErrores = true;
-        }
-        if (objCampo.IdUsoNoAgricola.toString() == valPecuario) {
-          if (this.objRegistro.ListPecuarios.filter(x => x.OrdenFundo == objFundo.Orden && x.OrdenCampo == objCampo.Orden).length == 0) {
-            this.toastr.error("Para los campos donde seleccionó el Uso no agrícola de tipo Pecuario, se debe registrar el Capítulo III", 'Error');
-            tieneErrores = true;
-          }
-        }
-      });
-    });
-
-
-    if (this.objRegistro.ListFundos.filter(x => x.IdUbigeo == "").length > 0) {
-      this.toastr.error("Existen fundos sin registro de ubigeo", 'Error');
-      tieneErrores = true;
-    }
     if (this.objRegistro.ListInformantes.length == 0) {
       this.toastr.error("Se debe agregar datos de la entrevista", 'Error');
       tieneErrores = true;
     }
+    if(tieneErrores == false){
+    if (this.objRegistro.ListArchivos.length == 0 && this.objRegistro.ListInformantes[0].IdEstado.toString() == valCompleto) {
+
+      this.objRegistro.ListFundos.forEach(objFundo => {
+        objFundo.ListCampos.forEach(objCampo => {
+          if (objCampo.IdTenencia == 0) {
+            this.toastr.error("El dato de tenencia es obligatorio para todos los campos", 'Error');
+            tieneErrores = true;
+          }
+          if (objCampo.IdUsoNoAgricola.length==0) {
+            this.toastr.error("Para todos los campos se debe seleccionar el Tipo de Uso", 'Error');
+            tieneErrores = true;
+          }
+          else if (objCampo.IdUsoNoAgricola.length > 0 && objCampo.Observacion.trim().length==0) {
+            this.toastr.error("El campo Detalle es obligatorio en el registro de Campos cuando el Tipo de uso se ha seleccionado", 'Error');
+            tieneErrores = true;
+          }
+          if (objCampo.IdUsoTierra.toString() == valAgricola) {
+            if (objCampo.SuperficieCultivada > objCampo.Superficie) {
+              this.toastr.error("La Superficie cultivada no debe ser mayor a la Superficie reportada para el campo " + (objCampo.Campo == null ? "" : objCampo.Campo), 'Error');
+              tieneErrores = true;
+            }
+            if (objCampo.IdCultivo == 0 || (objCampo.SuperficieCultivada.toString() == "" ? 0 : objCampo.SuperficieCultivada) == 0) {
+              this.toastr.error("Para los campos donde seleccionó el Uso de la tierra de tipo Agrícola, se debe seleccionar el tipo de Cultivo e ingresar la Superficie cultivada", 'Error');
+              tieneErrores = true;
+            }
+          }                    
+          else if (objCampo.IdUsoTierra.toString() != valAgricola && objCampo.IdUsoTierra.toString() != valNoAgricola) {
+            this.toastr.error("Para cada Campo se debe seleccionar el Uso de la tierra (Agrícola o No Agrícola)", 'Error');
+            tieneErrores = true;
+          }
+          if (objCampo.IdUsoNoAgricola.find(x=>x==valPecuario).length>0) {
+            if (this.objRegistro.ListPecuarios.filter(x => x.OrdenFundo == objFundo.Orden && x.OrdenCampo == objCampo.Orden).length == 0) {
+              this.toastr.error("Para los campos donde seleccionó el Uso no agrícola de tipo Pecuario, se debe registrar el Capítulo III", 'Error');
+              tieneErrores = true;
+            }
+          }
+        });
+      });
+
+      if (this.objRegistro.ListFundos.filter(x => x.IdUbigeo == "").length > 0) {
+        this.toastr.error("Existen fundos sin registro de ubigeo", 'Error');
+        tieneErrores = true;
+      }
+    }
+  }
     if (tieneErrores) {
       return;
     }
@@ -716,24 +717,64 @@ export class PlantillaUnoComponent implements OnInit {
       class: 'modal-m'
     });
   }
-
+  actualizarObservaciones(listObservaciones:TrazabilidadGetDto[]){
+    this.objRegistro.ListObservaciones=listObservaciones;
+    if(this.tipoPerfil=="SUPERVISAR"){
+      this.spinner.show();
+      this.gestionregistroServiceProxy.DesaprobarCuestionario(this.objRegistro)
+        .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+        .subscribe({
+          next: (result) => {
+            if (result.success) {
+              this.toastr.success(result.message.toString(), 'Información');
+              //this.objRegistro.CodigoUUID = result.datos.toString();
+              this.close();
+              this.router.navigate(['app', 'operativo', 'lista-gestion-registro'], {});
+            }
+            else {
+              this.toastr.warning(result.message.toString(), 'Aviso');
+            }
+          }
+        });
+    }
+    else if (this.tipoPerfil=="VALIDAR"){
+      this.spinner.show();
+      this.gestionregistroServiceProxy.InvalidarCuestionario(this.objRegistro)
+        .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
+        .subscribe({
+          next: (result) => {
+            if (result.success) {
+              this.toastr.success(result.message.toString(), 'Información');
+              //this.objRegistro.CodigoUUID = result.datos.toString();
+              this.close();
+              this.router.navigate(['app', 'operativo', 'lista-gestion-registro'], {});
+            }
+            else {
+              this.toastr.warning(result.message.toString(), 'Aviso');
+            }
+          }
+        });
+    }
+  }
   accionSupervisionValidacion(codigoEstado: String) {
     switch (codigoEstado) {
       case "APROBADO":
         this.spinner.show();
         this.gestionregistroServiceProxy.AprobarCuestionarioxUUID(this.objRegistro.CodigoUUID)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
-          .subscribe({ next: (result) => {
+          .subscribe({
+            next: (result) => {
               if (result.success) {
                 this.toastr.success(result.message.toString(), 'Información');
                 this.objRegistro.CodigoUUID = result.datos.toString();
                 this.close();
                 this.router.navigate(['app', 'operativo', 'lista-gestion-registro'], {});
               }
-              else {this.toastr.warning(result.message.toString(), 'Aviso');}
-            }});
+              else { this.toastr.warning(result.message.toString(), 'Aviso'); }
+            }
+          });
         break;
-      case "DESAPROBADO":        
+      case "DESAPROBADO":
       case "INVALIDO":
         this.SubmodalRef = this.SubmodalService.show(this.viewUserTemplate1, {
           backdrop: 'static',
@@ -745,59 +786,67 @@ export class PlantillaUnoComponent implements OnInit {
         this.spinner.show();
         this.gestionregistroServiceProxy.RatificarCuestionarioxUUID(this.objRegistro.CodigoUUID)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
-          .subscribe({ next: (result) => {
+          .subscribe({
+            next: (result) => {
               if (result.success) {
                 this.toastr.success(result.message.toString(), 'Información');
                 this.objRegistro.CodigoUUID = result.datos.toString();
                 this.close();
                 this.router.navigate(['app', 'operativo', 'lista-gestion-registro'], {});
               }
-              else {this.toastr.warning(result.message.toString(), 'Aviso');}
-            }});
+              else { this.toastr.warning(result.message.toString(), 'Aviso'); }
+            }
+          });
         break;
       case "DERIVADO":
         this.spinner.show();
         this.gestionregistroServiceProxy.DerivarCuestionarioxUUID(this.objRegistro.CodigoUUID)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
-          .subscribe({ next: (result) => {
+          .subscribe({
+            next: (result) => {
               if (result.success) {
                 this.toastr.success(result.message.toString(), 'Información');
                 this.objRegistro.CodigoUUID = result.datos.toString();
                 this.close();
                 this.router.navigate(['app', 'operativo', 'lista-gestion-registro'], {});
               }
-              else {this.toastr.warning(result.message.toString(), 'Aviso');}
-            }});
+              else { this.toastr.warning(result.message.toString(), 'Aviso'); }
+            }
+          });
         break;
       case "VALIDO":
         this.spinner.show();
         this.gestionregistroServiceProxy.ValidarCuestionarioxUUID(this.objRegistro.CodigoUUID)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
-          .subscribe({ next: (result) => {
+          .subscribe({
+            next: (result) => {
               if (result.success) {
                 this.toastr.success(result.message.toString(), 'Información');
                 this.objRegistro.CodigoUUID = result.datos.toString();
                 this.close();
                 this.router.navigate(['app', 'operativo', 'lista-gestion-registro'], {});
               }
-              else {this.toastr.warning(result.message.toString(), 'Aviso');}
-            }});
+              else { this.toastr.warning(result.message.toString(), 'Aviso'); }
+            }
+          });
         break;
-      case "SUSTITUIR":       
+      case "SUSTITUIR":
         break;
       case "DESCARTAR":
         this.spinner.show();
         this.gestionregistroServiceProxy.DescartarCuestionarioxUUID(this.objRegistro.CodigoUUID)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
-          .subscribe({ next: (result) => {
+          .subscribe({
+            next: (result) => {
               if (result.success) {
                 this.toastr.success(result.message.toString(), 'Información');
                 this.objRegistro.CodigoUUID = result.datos.toString();
                 this.close();
                 this.router.navigate(['app', 'operativo', 'lista-gestion-registro'], {});
               }
-              else {this.toastr.warning(result.message.toString(), 'Aviso');}
-            }});
+              else { this.toastr.warning(result.message.toString(), 'Aviso'); }
+            }
+          });
         break;
       default:
         this.toastr.warning("Ocurrió un error, tipo de Estado no identificado", 'Aviso');
