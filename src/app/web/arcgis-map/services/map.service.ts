@@ -1578,7 +1578,7 @@ export class MapService {
           });
           //--Agregamos los graficos a la capa de Edición
           this.ptGraphicsLayerEdit.add(graphic)
-          //--
+          //--Actualizamos la extensión
           this.setRefresh(this.ptGraphicsLayerEdit.extent);
           //--Cerramos el spinner
           Swal.close();
