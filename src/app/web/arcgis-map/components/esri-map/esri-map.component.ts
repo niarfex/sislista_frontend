@@ -1,4 +1,4 @@
-import { Component, SimpleChanges, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, SimpleChanges, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit, Renderer2 } from '@angular/core';
 // service
 import { MapService } from '../../services/map.service';
 //--Alert
@@ -7,6 +7,8 @@ import { GoogleMapPosition, GoogleMapPov } from '../../models/googlemaps.model';
 import { CoordinatesStatusMap } from '../../models/general.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-esri-map',
@@ -18,6 +20,10 @@ export class EsriMapComponent implements OnInit {
   @Input() isFullView: boolean;
   @Output() changeFullView = new EventEmitter<boolean>();
   @Output() MapElement = new EventEmitter<MapService>();
+
+  @ViewChild('inFile') inFile!: ElementRef;
+  @ViewChild('customButtonContainer') container!: ElementRef;
+
  
   items:any[] = [];
   contextMenu:any;
@@ -35,7 +41,7 @@ export class EsriMapComponent implements OnInit {
 
   cardTitle:any;
 
-  constructor(private sweetAlert: SweetAlert, private elementRef: ElementRef, private spinner: NgxSpinnerService, private _route: ActivatedRoute, public mapService: MapService) {
+  constructor(private renderer: Renderer2, private sweetAlert: SweetAlert, private elementRef: ElementRef, private spinner: NgxSpinnerService, private _route: ActivatedRoute, public mapService: MapService) {
     this.mapService.startMap('divMapView', 'divSceneView');
     this.position = { lat: -12.089592346951877, lng: -77.0581966638565 };
     this.pov = { heading: 35, pitch: 0, zoom: 0 };
@@ -56,6 +62,7 @@ export class EsriMapComponent implements OnInit {
     this.mapService.editDivMenu = document.getElementById('contextMenu');
     //this.mapService.editDivAttribute = document.getElementById('AttributeForm');
     this.mapService.editDivToolbar= document.getElementById('editToolbar');
+    this.mapService.editDivZipfile = document.getElementById('ZipFileForm');
     
     this.mapService.distanceButton2D = document.getElementById('measurement_distance_2D');
     this.mapService.areaButton2D = document.getElementById('measurement_area_2D');
@@ -68,7 +75,7 @@ export class EsriMapComponent implements OnInit {
 
     //--Datos del Administrado
     this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
-    //this.administradoDoc ='20131867744';
+    this.administradoDoc ='20131867744';
     this.mapService.SisListaRuc = this.administradoDoc
 
     this.changeSelectMap();
@@ -224,6 +231,35 @@ export class EsriMapComponent implements OnInit {
       this.sweetAlert.AlertError('Edición de Elementos', 'Error de Validacion')
     }
   }
+  onshowLoadZipFile(){
+    this.mapService.ptEditTool.name="Load ZipFile";
+    this.mapService.showLoadZipFile();
+  }
+  onLoadZipFile(event){
+    const file:File = event.target.files[0];
+    if (file){this.onQuestionZipFile(file)}
+    this.inFile.nativeElement.value = '';
+  }
+
+  onQuestionZipFile(file: File){
+    //--Confirmamos la carga
+    console.log('Archivo cargado:', file);
+    //--Valida Aprobacion
+    let question: any = this.sweetAlert.AlertQuestion(
+      'Edición de Elementos',
+      '¿Estas seguro de cargar el archivo <b>' + file.name + '</b>?'
+    );
+    if (question instanceof Promise) {
+          // Validando si lo retornado es una promesa (caso 'X');
+          question.then((response: any) => {
+            if (response.isConfirmed) {
+              this.mapService.ptGenerateFatureCollection(file);          
+            }
+          });
+        } else {
+          this.sweetAlert.AlertError('Edición de Elementos', 'Error de carga de archivo')
+        }
+  }
 
   onCreateLineGraphic(evt:any){
     this.mapService.ptEditTool.name="Create Line";
@@ -265,6 +301,29 @@ export class EsriMapComponent implements OnInit {
     }else{
       this.sweetAlert.AlertError('Presupuesto', 'Error de Validacion')
     }
-  
+  }
+  /*
+  Eventos del Formulario Cargar ShapeFile
+  */
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.renderer.addClass(this.container.nativeElement, 'drag-over');
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.renderer.removeClass(this.container.nativeElement, 'drag-over');
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      this.onQuestionZipFile(event.dataTransfer.files[0])
+      this.inFile.nativeElement.value = '';      
+    }
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.renderer.removeClass(this.container.nativeElement, 'drag-over');
   }
 }

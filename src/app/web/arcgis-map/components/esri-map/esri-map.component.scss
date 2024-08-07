@@ -172,14 +172,14 @@ div.container-map>.scalebar-map {
 }
 
 .toolbar-widget-map {
-  border: 1px solid #1e85be;
+  border: 1px solid #55e70d7d;
   visibility: hidden;
 }
 
 .separator-button {
-  background-color:#1e85be;
+  background-color:#55e70d7d;
   height: 1px;
-  width: 1px;
+  width: 100%;
   border: none;
 }
 
@@ -230,23 +230,26 @@ ngui-map {
   color: #ffffff;
 }
 
-.card {    
-  display: none;
-  position: absolute;   
-  right: 15px;
-  bottom: 20px;
-  width: 16.5rem;
-  text-align: left;
-  .card-header {
-      color: #ffffff;
-      background-color: #008f49;
-      font-size: 12px;
-      font-weight: bold;
-      //padding: 0.35rem 1.25rem;
-      border-radius: 6px 6px 0px 0px;
-  }
-  .card-body {
-    padding:10px;
+.container-map{
+  .card {    
+    display: none;
+    position: absolute;   
+    right: 15px;
+    bottom: 20px;
+    width: 18.5rem;
+    text-align: left;
+    border-radius: 6px 6px 0px 0px;
+    .card-header {
+        color: #ffffff;
+        background-color: #008f49;
+        font-size: 12px;
+        font-weight: bold;
+        //padding: 0.35rem 1.25rem;
+        border-radius: 6px 6px 0px 0px;
+    }
+    .card-body {
+      padding:10px;
+    }
   }
 }
 
@@ -282,7 +285,50 @@ margin-right: 0.5em;
     background-color: #008f49;
     width: 6.5rem;
   }
+  a:hover {
+    background-color: #1fbc08b3;
+    color: #ffffff;
+  }
 }
 .col:last-child{
 margin-right: 0;
 }
+
+  .custom-button-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+
+    .custom-button {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background-color: #008f49;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      border: none;
+      outline: none;
+      position: relative;
+  
+      .custom-icon {
+        font-size: 24px;
+        transform: rotate(-135deg)
+      }
+  
+      &:hover {
+        background-color: #1fbc08b3;
+      }
+    }
+  
+    // Estilos para cuando se arrastra un archivo sobre el contenedor
+    &.drag-over {
+      background-color: #008f49;
+      border: 2px dashed #fff;
+    }
+  }

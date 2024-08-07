@@ -28,6 +28,7 @@ import { SwalUtil } from '../util/SwalUtil';
 import { SweetAlert } from '../util/SweetAlert';
 import Swal, { SweetAlertResult } from "sweetalert2";
 import * as arcgis from '../util/arcgis-libraries';
+import shp from 'shpjs';
 
 import { url } from 'inspector';
 import { AnyARecord, AnyCnameRecord } from 'dns';
@@ -58,6 +59,7 @@ export class MapService {
 
   //-Datos de Edición
   editDivMenu:any;
+  editDivZipfile:any;
   editDivAttribute:any;
   readDivFormLista:any;
   editDivToolbar:any;
@@ -360,7 +362,10 @@ export class MapService {
         this.editDivToolbar.style.display = 'block'; 
       }else{
         isGraphicsVisible = expanded
-        this.editDivToolbar.style.display = 'none';
+        //--Desactivamos los formularios
+        this.setDisplayDiv();
+        //--Validamos si hay seleccionados
+        this.readDivFormLista.style.display = 'block';
       }
       if(this.ptFeatureLayerEdit !== undefined ){this.ptFeatureLayerEdit.visible=!isGraphicsVisible}
       //--Desactiva las capasa para la edición
@@ -398,7 +403,7 @@ export class MapService {
       this.ptGraphicsLayerEdit.removeAll();
       this.ptGraphicsLayerEdit.addMany(features)
       this.ptGraphicSelect = null;
-      //this.setRefresh(featureLayer.extent);
+      this.setRefresh(featureLayer.extent);
     });
   }
   
@@ -502,10 +507,9 @@ export class MapService {
   }
   //--Editar atributos de la Geometria seleccionada--
   ptEditAttribute(){   
-    //--Validamos si hay seleccionados
-    this.editDivMenu.style.display = 'none';
-    this.editDivAttribute.style.display = 'none';
-
+    //--Desactivamos los formularios
+    this.setDisplayDiv(); 
+    
     if(this.ptGraphicSelect.length == 0){console.log('No selecciono un poligono'); return}
     //--Validamos si hay seleccionados
     this.editDivAttribute.style.display = 'block';
@@ -540,9 +544,10 @@ export class MapService {
 
   }
   //--Grabar datos de atributos de la Geometria seleccionada--
-  ptSaveAttribute(){
-    //--Validamos si hay seleccionados
-    this.editDivAttribute.style.display = 'none';
+  ptSaveAttribute(){   
+    //--Desactivamos los formularios
+    this.setDisplayDiv(); 
+  //--Validamos si hay seleccionados
     if(this.ptGraphicSelect.length == 0){console.log('No selecciono un poligono'); return}
     //--Guardamos los datos en el Graphic
     this.ptGraphicSelect.items[0].attributes['TXT_EMPRESA_RUC'] = this.ptAttributeSelect.ruc
@@ -552,8 +557,10 @@ export class MapService {
     this.ptGraphicSelect.items[0].attributes['TXT_TIPO_USO'] = this.ptAttributeSelect.tipo;    
     this.ptGraphicSelect.items[0].attributes['TXT_TIPO_TENENCIA'] = this.ptAttributeSelect.tenencia;    
     this.ptGraphicSelect.items[0].attributes['TXT_OBSERVACIONES'] = this.ptAttributeSelect.observacion;    
-    this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'] = this.ptAttributeSelect.area_de;    
+    this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'] = this.ptAttributeSelect.area_de;
+    this.readDivFormLista.style.display = 'block';    
   }
+
   //--Editar vertices de la Geometria seleccionada--
   ptEditGeometry(){
     this.editDivMenu.style.display = 'none';
@@ -1505,6 +1512,94 @@ export class MapService {
       })
     })
   }
+  //--Cargar Archivo ShapeFile
+  showLoadZipFile(){
+    //--Desactivamos los formularios
+    this.setDisplayDiv();
+    //--Validamos si hay seleccionados
+    this.readDivFormLista.style.display = 'block';
+    this.editDivZipfile.style.display = 'block';
+  }
+  async ptGenerateFatureCollection(file){
+    //--Campos del ShapeFile vs FeatureClass
+    const oListNameAttribute = [{shape:'Ubigeo',featureclass:'IDE_DISTRITO'},
+                                {shape:'EmpRuc',featureclass:'TXT_EMPRESA_RUC'},
+                                {shape:'EmpNom',featureclass:'TXT_EMPRESA_NOMBRE'},
+                                {shape:'FdoNom',featureclass:'TXT_FUNDO_NOMBRE'},
+                                {shape:'FdoDivisio',featureclass:'TXT_FUNDO_DIVISION'}, 
+                                {shape:'FdoAnexo',featureclass:'TXT_FUNDO_ANEXO'},                          
+                                {shape:'CampoNom',featureclass:'TXT_CAMPO_NOMBRE'}, 
+                                {shape:'CultivoNom',featureclass:'TXT_CULTIVO_NOMBRE'},
+                                {shape:'Tenencia',featureclass:'TXT_TIPO_TENENCIA'},
+                                {shape:'UsoTierra',featureclass:'TXT_TIPO_USO'},
+                                {shape:'AreaDeclar',featureclass:'NUM_AREA_DECLARADA'},
+                                {shape:'AreaCultiv',featureclass:'NUM_AREA_CULTIVO'},
+                                {shape:'AreaTotal',featureclass:'NUM_AREA_TOTAL'},
+                                {shape:'obs',featureclass:'TXT_OBSERVACIONES'}] 
+    //--Activamos el spinner
+    this.showSwalUtil('Realizando carga del archivo Shapefile...')
+    const reader = new FileReader();    
+    reader.onload = async (e: any) => {
+      const arrayBuffer = e.target.result;
+      try{
+        const geojson = await shp(arrayBuffer);
+          
+        // Check if all features are of type 'Polygon'
+        const allPolygons = geojson.features.every((feature: any) => feature.geometry.type === 'Polygon');
+
+        if (!allPolygons) {
+          Swal.close();
+          this.sweetAlert.AlertError('Edición de Elementos', 'El archivo no contiene geometrías de tipo Polígono')
+          return;
+        }
+        //--Eliminamos todos los Graficos existentes
+        this.ptGraphicsLayerEdit.removeAll();        
+        //--Recorremos los features       
+        geojson.features.forEach((feature: any) => {
+          //--Obtenemos la Geometria del Shape
+          const geometry = feature.geometry;
+          var polygon:any = { 
+            type: "polygon",
+            rings:geometry.coordinates
+          };
+          //--Obtenemos los atributos del shape
+          let oAttributes = [];
+          oListNameAttribute.forEach((a: any) => {
+            if (feature.properties.hasOwnProperty(a.shape)){             
+              oAttributes[a.featureclass] = feature.properties[a.shape]
+            };
+          });
+
+          //--Creamos un grafico
+          const graphic = new arcgis.Graphic({
+            geometry: polygon,
+            attributes:oAttributes,
+            symbol: this.globals.symbolEditFill
+          });
+          //--Agregamos los graficos a la capa de Edición
+          this.ptGraphicsLayerEdit.add(graphic)
+          //--
+          this.setRefresh(this.ptGraphicsLayerEdit.extent);
+          //--Cerramos el spinner
+          Swal.close();
+        });
+    } catch (error) {
+      Swal.close();
+      console.error('Error al procesar el archivo:', error);      
+      this.sweetAlert.AlertError('Edición de Elementos', 'Hubo un problema al procesar el archivo.')      
+    }
+  };
+  
+  reader.readAsArrayBuffer(file);
+
+ }
+
+  setDisplayDiv(){    
+    this.editDivMenu.style.display = 'none';
+    this.editDivAttribute.style.display = 'none';
+    this.editDivZipfile.style.display = 'none';
+    this.readDivFormLista.style.display = 'none';
+  }
 
   async refresh(extent:any){
     var opts = {
@@ -1520,10 +1615,10 @@ export class MapService {
       window.location.reload();
       console.log('cerrado');
     });
-   }
+  }
    showConsoleLog(mensaje:any){
       var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
       var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 19);
       console.log(localISOTime, ' '+mensaje);
-   }
+  }
  }

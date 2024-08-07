@@ -126,11 +126,9 @@ $container-max-widths: (
       top: 0;
       right: 0;
   }
-
+.col-sm-2 {
   .card {    
     display: none;
-    //position: absolute;   
-    //right: 15px;
     top: -5px;
     bottom: 0px;
     margin-bottom: 0px;    
@@ -155,6 +153,8 @@ $container-max-widths: (
       }
     }
   }
+}
+ 
   .form-select{
     padding: 0.1rem 1.0rem 0.1rem 0.75rem;
   }
