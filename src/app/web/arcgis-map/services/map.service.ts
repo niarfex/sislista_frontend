@@ -403,7 +403,7 @@ export class MapService {
       this.ptGraphicsLayerEdit.removeAll();
       this.ptGraphicsLayerEdit.addMany(features)
       this.ptGraphicSelect = null;
-      //this.setRefresh(featureLayer.extent);
+      this.setRefresh(featureLayer.extent);
     });
   }
   
@@ -560,7 +560,7 @@ export class MapService {
     this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'] = this.ptAttributeSelect.area_de;
     this.readDivFormLista.style.display = 'block';    
   }
-  
+
   //--Editar vertices de la Geometria seleccionada--
   ptEditGeometry(){
     this.editDivMenu.style.display = 'none';
@@ -1521,6 +1521,7 @@ export class MapService {
     this.editDivZipfile.style.display = 'block';
   }
   async ptGenerateFatureCollection(file){
+    //--Campos del ShapeFile vs FeatureClass
     const oListNameAttribute = [{shape:'Ubigeo',featureclass:'IDE_DISTRITO'},
                                 {shape:'EmpRuc',featureclass:'TXT_EMPRESA_RUC'},
                                 {shape:'EmpNom',featureclass:'TXT_EMPRESA_NOMBRE'},
@@ -1535,8 +1536,9 @@ export class MapService {
                                 {shape:'AreaCultiv',featureclass:'NUM_AREA_CULTIVO'},
                                 {shape:'AreaTotal',featureclass:'NUM_AREA_TOTAL'},
                                 {shape:'obs',featureclass:'TXT_OBSERVACIONES'}] 
-
-    const reader = new FileReader();
+    //--Activamos el spinner
+    this.showSwalUtil('Realizando carga del archivo Shapefile...')
+    const reader = new FileReader();    
     reader.onload = async (e: any) => {
       const arrayBuffer = e.target.result;
       try{
@@ -1546,7 +1548,8 @@ export class MapService {
         const allPolygons = geojson.features.every((feature: any) => feature.geometry.type === 'Polygon');
 
         if (!allPolygons) {
-          alert('El archivo cargado no contiene geometrías de tipo Polygon.');
+          Swal.close();
+          this.sweetAlert.AlertError('Edición de Elementos', 'El archivo no contiene geometrías de tipo Polígono')
           return;
         }
         //--Eliminamos todos los Graficos existentes
@@ -1575,10 +1578,15 @@ export class MapService {
           });
           //--Agregamos los graficos a la capa de Edición
           this.ptGraphicsLayerEdit.add(graphic)
+          //--
+          this.setRefresh(this.ptGraphicsLayerEdit.extent);
+          //--Cerramos el spinner
+          Swal.close();
         });
     } catch (error) {
-      console.error('Error al procesar el archivo:', error);
-      alert('Hubo un problema al procesar el archivo.');
+      Swal.close();
+      console.error('Error al procesar el archivo:', error);      
+      this.sweetAlert.AlertError('Edición de Elementos', 'Hubo un problema al procesar el archivo.')      
     }
   };
   

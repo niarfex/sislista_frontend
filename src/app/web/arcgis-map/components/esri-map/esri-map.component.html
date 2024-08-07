@@ -126,20 +126,22 @@
                           <p>Visite la ayuda acerca de  
                             <a target='_blank' href="https://doc.arcgis.com/es/arcgis-online/reference/shapefiles.htm">Shapefiles</a> 
                             para tener información acerca de las limitaciones.</p>
-                            <div class="mb-3">
-                                <label for="formFileSm" class="form-label">Agregar Archivo</label>
-                                <input class="form-control form-control-sm" id="inFile" type="file" (change)="onLoadZipFile($event)" accept=".zip">
+                            <div #customButtonContainer
+                            class="mb-3 custom-button-container"
+                            (dragover)="onDragOver($event)"
+                            (drop)="onDrop($event)"
+                            (dragleave)="onDragLeave($event)">
+                                <button mat-icon-button (click)="inFile.click()" class="custom-button" title="Cargar o arrastrar y soltar un archivo ShapeFile(.zip)">   
+                                    <i class="custom-icon fa fa-paperclip"></i>                                    
+                                    <input class="form-control form-control-sm" #inFile id="inFile" type="file" style="display: none;" (change)="onLoadZipFile($event)" accept=".zip">
+                                </button>                                
                             </div>
                           <span class="file-upload-status" style="opacity:1;" id="upload-status"></span>
                           <div id="fileInfo"> </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--Menu Cargar ZipFile-->
-            <div id="mainWindow">
-                
-            </div>
+            </div>            
         </div>
     </div>
     <div [ngClass]="'w-100 m-0 p-0 ' + (activeStreet ? 'h-40' : 'h-0')">

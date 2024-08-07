@@ -236,7 +236,7 @@ ngui-map {
     position: absolute;   
     right: 15px;
     bottom: 20px;
-    width: 20.5rem;
+    width: 18.5rem;
     text-align: left;
     border-radius: 6px 6px 0px 0px;
     .card-header {
@@ -294,11 +294,41 @@ margin-right: 0.5em;
 margin-right: 0;
 }
 
-#mainWindow {
-  padding: .5em;
-  background-color: #fff;
-}
-#mainWindow p, #uploadForm {
-    display: block;
-    padding: .1em;
+  .custom-button-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+
+    .custom-button {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background-color: #008f49;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      border: none;
+      outline: none;
+      position: relative;
+  
+      .custom-icon {
+        font-size: 24px;
+        transform: rotate(-135deg)
+      }
+  
+      &:hover {
+        background-color: #1fbc08b3;
+      }
+    }
+  
+    // Estilos para cuando se arrastra un archivo sobre el contenedor
+    &.drag-over {
+      background-color: #008f49;
+      border: 2px dashed #fff;
+    }
   }

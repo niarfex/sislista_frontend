@@ -1,4 +1,4 @@
-import { Component, SimpleChanges, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Component, SimpleChanges, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit, Renderer2 } from '@angular/core';
 // service
 import { MapService } from '../../services/map.service';
 //--Alert
@@ -20,6 +20,10 @@ export class EsriMapComponent implements OnInit {
   @Input() isFullView: boolean;
   @Output() changeFullView = new EventEmitter<boolean>();
   @Output() MapElement = new EventEmitter<MapService>();
+
+  @ViewChild('inFile') inFile!: ElementRef;
+  @ViewChild('customButtonContainer') container!: ElementRef;
+
  
   items:any[] = [];
   contextMenu:any;
@@ -37,7 +41,7 @@ export class EsriMapComponent implements OnInit {
 
   cardTitle:any;
 
-  constructor(private sweetAlert: SweetAlert, private elementRef: ElementRef, private spinner: NgxSpinnerService, private _route: ActivatedRoute, public mapService: MapService) {
+  constructor(private renderer: Renderer2, private sweetAlert: SweetAlert, private elementRef: ElementRef, private spinner: NgxSpinnerService, private _route: ActivatedRoute, public mapService: MapService) {
     this.mapService.startMap('divMapView', 'divSceneView');
     this.position = { lat: -12.089592346951877, lng: -77.0581966638565 };
     this.pov = { heading: 35, pitch: 0, zoom: 0 };
@@ -233,10 +237,28 @@ export class EsriMapComponent implements OnInit {
   }
   onLoadZipFile(event){
     const file:File = event.target.files[0];
-    if (file) {
-      console.log(file.name);
-      this.mapService.ptGenerateFatureCollection(file);
-    }
+    if (file){this.onQuestionZipFile(file)}
+    this.inFile.nativeElement.value = '';
+  }
+
+  onQuestionZipFile(file: File){
+    //--Confirmamos la carga
+    console.log('Archivo cargado:', file);
+    //--Valida Aprobacion
+    let question: any = this.sweetAlert.AlertQuestion(
+      'Edición de Elementos',
+      '¿Estas seguro de cargar el archivo <b>' + file.name + '</b>?'
+    );
+    if (question instanceof Promise) {
+          // Validando si lo retornado es una promesa (caso 'X');
+          question.then((response: any) => {
+            if (response.isConfirmed) {
+              this.mapService.ptGenerateFatureCollection(file);          
+            }
+          });
+        } else {
+          this.sweetAlert.AlertError('Edición de Elementos', 'Error de carga de archivo')
+        }
   }
 
   onCreateLineGraphic(evt:any){
@@ -279,6 +301,29 @@ export class EsriMapComponent implements OnInit {
     }else{
       this.sweetAlert.AlertError('Presupuesto', 'Error de Validacion')
     }
-  
+  }
+  /*
+  Eventos del Formulario Cargar ShapeFile
+  */
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.renderer.addClass(this.container.nativeElement, 'drag-over');
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.renderer.removeClass(this.container.nativeElement, 'drag-over');
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
+      this.onQuestionZipFile(event.dataTransfer.files[0])
+      this.inFile.nativeElement.value = '';      
+    }
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.renderer.removeClass(this.container.nativeElement, 'drag-over');
   }
 }
