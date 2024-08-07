@@ -12,6 +12,7 @@ import { ListaReporteUsuariosComponent } from './reporte-estados/lista-reporte-u
 import { BasicAuthInterceptor, ErrorInterceptor } from 'src/auth/services';
 import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     ReportesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    TableModule
+    TableModule,
+    ChartModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

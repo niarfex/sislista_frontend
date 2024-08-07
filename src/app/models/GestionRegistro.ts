@@ -207,6 +207,7 @@ export interface IGestionRegistroGetDto {
     EstadoEntrevista: number;
     IdPeriodo: number;
     FechaActualizacion: Date;
+    FechaInicio:Date;
     CodigoEstadoRegistro:String;
     CodigoEstadoSupervision:String;
     CodigoEstadoValidacion:String;
@@ -263,6 +264,7 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
     EstadoEntrevista: number;
     IdPeriodo: number;
     FechaActualizacion: Date;
+    FechaInicio:Date;
     CodigoEstadoRegistro:String;
     CodigoEstadoSupervision:String;
     CodigoEstadoValidacion:String;
@@ -487,6 +489,7 @@ export class GestionRegistroGetDto implements IGestionRegistroGetDto {
         data["CelularRepLegal"] = this.CelularRepLegal;
         data["CantidadFundo"] = this.CantidadFundo;
         data["EstadoEntrevista"] = this.EstadoEntrevista;
+        data["FechaInicio"] = this.FechaInicio;
        
         if (Array.isArray(this.ListFundos)) {
             data["ListFundos"] = [];

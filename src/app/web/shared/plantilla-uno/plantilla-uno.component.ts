@@ -83,6 +83,7 @@ export class PlantillaUnoComponent implements OnInit {
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
   inicio: number = 0;
   today: Date;
+  fechaInicio:Date;
   changedDate = '';
   changedHour = '';
   pipe = new DatePipe('en-ES');
@@ -181,6 +182,7 @@ export class PlantillaUnoComponent implements OnInit {
   get NombreArchivo() { return this.plantillaForm.controls['NombreArchivo']; }
   ngOnInit(): void {
     this.usuario = this.loginService.getCurrentUserValue;
+    this.fechaInicio = new Date();
     this.time = { hours: 0, minutes: 0, seconds: this.inicio };
     this.start().subscribe();
     this.spinner.show();
@@ -640,7 +642,7 @@ export class PlantillaUnoComponent implements OnInit {
       return;
     }
     this.objRegistro.CantidadFundo = this.objRegistro.ListFundos.length.toString();
-
+    this.objRegistro.FechaInicio=this.fechaInicio;
     if (this.perSA) {
       this.objRegistro.RazonSocial = this.plantillaForm.controls['RazonSocial'].value;
       this.objRegistro.DireccionFiscalDomicilio = this.plantillaForm.controls['DireccionFiscalDomicilioSA'].value;

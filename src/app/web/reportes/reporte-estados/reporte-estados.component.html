@@ -111,26 +111,27 @@
         <div class="col-sm-4">
             <div *ngIf="usuario.isAdministrador" class="row mb-3">
                 <div class="col-sm-12">
-                    <div style="background-color: lightgreen; text-align: center; min-height: 250px; border-radius: 5px; ">
+                    <div style="background-color: lightgreen; text-align: center; border-radius: 5px;">
                         <div style="padding-top: 10px;">
                             <span style="font-weight: bold;">Mejores tiempos del Flujo de Validación</span>
                         </div>
-                        <div style="height: 170px">
-                            <div class="row" *ngFor="let item of reporte.ListFlujoValidacion">
+                        <div style=" min-height: 80px ;height: 100%">
+                            <div class="row" *ngFor="let item of listaSuperior">
                                 <div class="col-sm-6">{{item.Empresa}}</div>
                                 <div class="col-sm-6">{{item.Tiempo}}</div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-sm-5"></div>
                             <div class="col-sm-2">
-                                <button class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
-                                border-color: #008F49;" type="button">Ver todos</button>
+                                <button *ngIf="!verTodosAdm" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
+                                border-color: #008F49;" type="button" (click)="verTodosSuperiorAdm()">Ver todos</button>
+                                <button *ngIf="verTodosAdm" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
+                                border-color: #008F49;" type="button" (click)="verMenosSuperiorAdm()">Ver menos</button>
                             </div>
                             <div class="col-sm-5"></div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div *ngIf="usuario.isEmpadronador || usuario.isSupervisor || usuario.isEspecialista" class="row mb-3">
@@ -164,7 +165,10 @@
                     <div style="text-align: center; min-height: 350px; border-radius: 5px; border: thin solid lightgray ">
                         <div style="padding-top: 10px;">
                             <span style="font-weight: bold;">Clasificación (Actualizado al)</span>
-                        </div>                        
+                        </div>   
+                        <div class="card flex justify-content-center">
+                            <p-chart type="doughnut" [data]="data" [options]="options" width="512" />
+                        </div>                     
                     </div>
                     
                 </div>
