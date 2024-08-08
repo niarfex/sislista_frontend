@@ -75,7 +75,7 @@ export class EsriMapComponent implements OnInit {
 
     //--Datos del Administrado
     this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
-    this.administradoDoc ='20131823020';
+    //this.administradoDoc ='20131823020';
     this.mapService.SisListaRuc = this.administradoDoc
 
     this.changeSelectMap();

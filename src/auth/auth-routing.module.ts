@@ -17,8 +17,8 @@ import {ReporteMapaComponent} from '../app/web/reportes/reporte-mapa/reporte-map
                 component: AuthComponent,
                 children: [
                     { path: '', redirectTo: 'login', pathMatch: 'full' },
-                    //{ path: 'login',component:LoginComponent,pathMatch: 'full' },
-                    { path: 'login',component:ReporteMapaComponent,pathMatch: 'full' },
+                    { path: 'login',component:LoginComponent,pathMatch: 'full' },
+                    //{ path: 'login',component:ReporteMapaComponent,pathMatch: 'full' },
                     { path: 'recuperar-clave',component:RecuperarClaveComponent,pathMatch: 'full' },
                     { path: 'recuperar-mensaje',component:RecuperarMensajeComponent,pathMatch: 'full' },
                     { path: 'reestablecer-clave/:token',component:ReestablecerClaveComponent,pathMatch: 'full' },
