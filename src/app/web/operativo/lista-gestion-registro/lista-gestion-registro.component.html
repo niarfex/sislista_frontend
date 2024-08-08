@@ -53,9 +53,9 @@
                     <td style="width: 20%; flex: none; padding: 5px;">{{ item.NombreCompleto }}</td>
                     <td style="width: 20%; flex: none; padding: 5px;">{{ item.NumeroDocumento }}</td>
                     <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.UsuarioCreacion }}</td>
-                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.FechaRegistro }}</td>
+                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ convertDateToString(item.FechaRegistro) }}</td>
                     <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.UsuarioActualizacion }}</td>
-                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ item.FechaActualizacion }}</td> 
+                    <td *ngIf="usuario.isAdministrador" style="width: 15%; flex: none; padding: 5px;">{{ convertDateToString(item.FechaActualizacion) }}</td> 
                     <td *ngIf="usuario.isEmpadronador" style="width: 15%; flex: none; padding: 5px;">{{item.TipoExplotacion}}</td> 
                     <td *ngIf="usuario.isSupervisor || usuario.isEspecialista" style="width: 15%; flex: none; padding: 5px;">{{item.TipoExplotacion}}</td> 
                     <td *ngIf="usuario.isSupervisor" style="width: 15%; flex: none; padding: 5px;">{{item.NombreEstadoSupervision}}</td> 

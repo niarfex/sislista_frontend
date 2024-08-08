@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
@@ -67,7 +68,6 @@ export class ListaGestionRegistroComponent implements OnInit {
   subsanarRegistro(uuid:String){}
 
   exportar(){
-
     this.gestionregistroServiceProxy.getAllToExcel(this.txtBusqueda).subscribe(async (event) => {
       let data = event as HttpResponse<Blob>;
       const downloadedFile = new Blob([data.body as BlobPart], {
@@ -86,5 +86,7 @@ export class ListaGestionRegistroComponent implements OnInit {
     });
 
   }
-
+  convertDateToString(dateToBeConverted: string) {
+    return dateToBeConverted == null ? "" : moment(dateToBeConverted, "YYYY-MM-DD HH:mm:ss").format("DD/MM/yyyy");
+  }
 }

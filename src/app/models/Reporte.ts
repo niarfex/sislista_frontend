@@ -1,3 +1,5 @@
+import { SelectTipoDto } from "./SelectTipo";
+
 export interface IResponseReporteGetDto {
     success: boolean;
     message: String;
@@ -63,6 +65,7 @@ export interface IReporteGetDto {
     ListFlujoValidacion:FlujoValidacionListDto[];
     ListRegCerrados:RankingRegCerradosListDto[];
     ListMejorTiempo:MejorTiempoListDto[];
+    ListPeriodos: SelectTipoDto[];
 }
 export class ReporteGetDto implements IReporteGetDto {
     CantEmpadronadores: number;
@@ -89,6 +92,7 @@ export class ReporteGetDto implements IReporteGetDto {
     ListFlujoValidacion:FlujoValidacionListDto[]=[];
     ListRegCerrados:RankingRegCerradosListDto[]=[];
     ListMejorTiempo:MejorTiempoListDto[]=[];
+    ListPeriodos: SelectTipoDto[]=[];
     constructor(data?: IReporteGetDto) {
         if (data) {
             for (var property in data) {
@@ -135,6 +139,11 @@ export class ReporteGetDto implements IReporteGetDto {
                 this.ListMejorTiempo = [] as any;
                 for (let item of _data["ListMejorTiempo"])
                     this.ListMejorTiempo!.push(MejorTiempoListDto.fromJS(item));
+            }
+            if (Array.isArray(_data["ListPeriodos"]) && _data["ListPeriodos"].length > 0) {
+                this.ListPeriodos = [] as any;
+                for (let item of _data["ListPeriodos"])
+                    this.ListPeriodos!.push(SelectTipoDto.fromJS(item));
             }
         }
     }
@@ -204,7 +213,7 @@ export interface IFlujoValidacionListDto {
     NumTiempo:number;
 }
 export class FlujoValidacionListDto implements IFlujoValidacionListDto {
-    Empresa:String;
+    Empresa:String="";
     Tiempo:String;
     NumTiempo:number;
     constructor(data?: IFlujoValidacionListDto) {

@@ -225,14 +225,17 @@ export class GestionRegistroServiceProxy {
     }
 
     /************/
-    AprobarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
-        let url_ = AppConsts.urlHost + "v1/gestionregistro/AprobarCuestionarioxUUID?";
-        if (uuid!== undefined && uuid!== null)
-            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+    AprobarCuestionarioxUUID(uuid:String,fechaInicio:Date): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/AprobarCuestionarioxUUID?";        
         url_ = url_.replace(/[?&]$/, "");
         
+        let cuestionario:GestionRegistroGetDto= new GestionRegistroGetDto();
+        cuestionario.CodigoUUID=uuid;
+        cuestionario.FechaInicio=fechaInicio;
+
         let options_: any = {
             observe: "response",
+            body: cuestionario.toJSON(),
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json",
@@ -253,14 +256,17 @@ export class GestionRegistroServiceProxy {
                 return <Observable<Respuesta>><any>_observableThrow(response_);
         }));
     }
-    RatificarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
-        let url_ = AppConsts.urlHost + "v1/gestionregistro/RatificarCuestionarioxUUID?";
-        if (uuid!== undefined && uuid!== null)
-            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+    RatificarCuestionarioxUUID(uuid:String,fechaInicio:Date): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/RatificarCuestionarioxUUID?";       
         url_ = url_.replace(/[?&]$/, "");
         
+        let cuestionario:GestionRegistroGetDto= new GestionRegistroGetDto();
+        cuestionario.CodigoUUID=uuid;
+        cuestionario.FechaInicio=fechaInicio;  
+
         let options_: any = {
             observe: "response",
+            body: cuestionario.toJSON(),
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json",
@@ -281,14 +287,17 @@ export class GestionRegistroServiceProxy {
                 return <Observable<Respuesta>><any>_observableThrow(response_);
         }));
     }
-    DerivarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
-        let url_ = AppConsts.urlHost + "v1/gestionregistro/DerivarCuestionarioxUUID?";
-        if (uuid!== undefined && uuid!== null)
-            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+    DerivarCuestionarioxUUID(uuid:String,fechaInicio:Date): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/DerivarCuestionarioxUUID?";        
         url_ = url_.replace(/[?&]$/, "");
         
+        let cuestionario:GestionRegistroGetDto= new GestionRegistroGetDto();
+        cuestionario.CodigoUUID=uuid;
+        cuestionario.FechaInicio=fechaInicio;   
+
         let options_: any = {
             observe: "response",
+            body: cuestionario.toJSON(),
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json",
@@ -309,14 +318,17 @@ export class GestionRegistroServiceProxy {
                 return <Observable<Respuesta>><any>_observableThrow(response_);
         }));
     }
-    ValidarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
-        let url_ = AppConsts.urlHost + "v1/gestionregistro/ValidarCuestionarioxUUID?";
-        if (uuid!== undefined && uuid!== null)
-            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+    ValidarCuestionarioxUUID(uuid:String,fechaInicio:Date): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/ValidarCuestionarioxUUID?";       
         url_ = url_.replace(/[?&]$/, "");
         
+        let cuestionario:GestionRegistroGetDto= new GestionRegistroGetDto();
+        cuestionario.CodigoUUID=uuid;
+        cuestionario.FechaInicio=fechaInicio;        
+
         let options_: any = {
             observe: "response",
+            body: cuestionario.toJSON(),
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json",
@@ -324,7 +336,7 @@ export class GestionRegistroServiceProxy {
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_: any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_: any) => {
             return this.processguardarRegistro(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -337,14 +349,17 @@ export class GestionRegistroServiceProxy {
                 return <Observable<Respuesta>><any>_observableThrow(response_);
         }));
     }
-    DescartarCuestionarioxUUID(uuid:String): Observable<Respuesta> {
-        let url_ = AppConsts.urlHost + "v1/gestionregistro/DescartarCuestionarioxUUID?";
-        if (uuid!== undefined && uuid!== null)
-            url_ += "uuid=" + encodeURIComponent("" + uuid) + "&";
+    DescartarCuestionarioxUUID(uuid:String,fechaInicio:Date): Observable<Respuesta> {
+        let url_ = AppConsts.urlHost + "v1/gestionregistro/DescartarCuestionarioxUUID?";        
         url_ = url_.replace(/[?&]$/, "");
         
+        let cuestionario:GestionRegistroGetDto= new GestionRegistroGetDto();
+        cuestionario.CodigoUUID=uuid;
+        cuestionario.FechaInicio=fechaInicio;    
+
         let options_: any = {
             observe: "response",
+            body: cuestionario.toJSON(),
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json",

@@ -18,8 +18,12 @@ export class ReporteServiceProxy {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getAll(): Observable<ResponseReporteGetDto> {
+    getAll(param:String,idPeriodo:number): Observable<ResponseReporteGetDto> {
         let url_ = AppConsts.urlHost + "v1/reporte/GetAll?";  
+        if (param!== undefined && param!== null)
+            url_ += "param=" + encodeURIComponent("" + param) + "&"; 
+        if (idPeriodo!== undefined && idPeriodo!== null)
+            url_ += "idPeriodo=" + encodeURIComponent("" + idPeriodo) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
         let options_: any = {
             observe: "response",
