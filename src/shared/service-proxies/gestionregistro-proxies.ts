@@ -117,7 +117,6 @@ export class GestionRegistroServiceProxy {
                 return <Observable<ResponseGestionRegistroGetDto>><any>_observableThrow(response_);
         }));
     }
-
     protected processgetGestionRegistroxDatos(response: HttpResponseBase): Observable<ResponseGestionRegistroGetDto> {
         const status = response.status;
         const responseBlob =
