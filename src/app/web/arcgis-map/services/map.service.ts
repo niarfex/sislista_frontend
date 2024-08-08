@@ -366,6 +366,7 @@ export class MapService {
         this.setDisplayDiv();
         //--Validamos si hay seleccionados
         this.readDivFormLista.style.display = 'block';
+        this.editDivToolbar.style.display = 'none'; 
       }
       if(this.ptFeatureLayerEdit !== undefined ){this.ptFeatureLayerEdit.visible=!isGraphicsVisible}
       //--Desactiva las capasa para la edición
@@ -432,43 +433,64 @@ export class MapService {
     //---Capturamos el evento al momento de crear al geometria 
     this.editSketch.on('create', evt => {
       if(evt.state === 'complete'){ 
-        // CUT POLYLINE INPUT //
-        const polylineGeometry = this.EsriwebMercatorUtils.webMercatorToGeographic(evt.graphic.geometry);
-        if(polylineGeometry.type === 'polyline'){ 
-          //--Procedemos a Eliminar la polyline
-          this.ptGraphicsLayerEdit.remove(evt.graphic);
-          //--Validamos si se selecciono un Poligono a cortar
-          if (this.ptGraphicSelect.length == 0){console.log('No selecciono un poligono'); return}
-          //--Obtenemos el Poligono seleccionado
-          const oCutGeometry = this.ptGraphicSelect.items[0].clone();
-          //-- Validamos si el Poligono intersecta la Polyline
-          let intersects = this.EsriGeometryEngine.intersects(oCutGeometry.geometry, polylineGeometry);
-          if (intersects){
-            //--Procedemos con el split del Poligono
-            const cutResults = this.EsriGeometryEngine.cut(oCutGeometry.geometry, polylineGeometry); 
-            //--Validamos si hya resultados
-            if(cutResults.length){   
-              //--Eliminamos el Poligono existente
-              this.ptGraphicsLayerEdit.remove(this.ptGraphicSelect.items[0]);
-              //--Limpiamos el poligono seleccionado
-              this.ptGraphicSelect.items[0] = 0;
-              //--Añadimos los nuevos poligonos creados
-              this.ptGraphicsLayerEdit.addMany(cutResults.map(cutResult=>{ 
-                //console.log(oAttributes);
-                let oAttributes:any = oCutGeometry.clone().attributes;
-                let f = {
-                  geometry:cutResult,
-                  symbol: this.globals.symbolEditFill,
-                  attributes:oAttributes
+       switch(evt.tool) { 
+        case 'rectangle': //--Selección por Rectangulo
+            const rectangleGeometry = this.EsriwebMercatorUtils.webMercatorToGeographic(evt.graphic.geometry);
+            //--Procedemos a Eliminar la polyline
+            this.ptGraphicsLayerEdit.remove(evt.graphic);
+            //--Filtramos los Poligonos seleccionados
+            this.ptGraphicsLayerEdit.graphics.filter(graphic => {
+              //--Simbolo por defecto
+              graphic.symbol = this.globals.symbolEditFill;
+              graphic.selected = false;
+              //--Validamos si el Poligono intersecta el Rectangulo
+              let intersects = this.EsriGeometryEngine.intersects(rectangleGeometry, graphic.geometry);              
+              if (intersects){
+                graphic.selected = true;
+                graphic.symbol = this.globals.symbolSelectFill;
+              }
+            });
+          break; 
+        case 'polyline':
+          const polylineGeometry = this.EsriwebMercatorUtils.webMercatorToGeographic(evt.graphic.geometry);
+          if(polylineGeometry.type === 'polyline'){ 
+            //--Procedemos a Eliminar la polyline
+            this.ptGraphicsLayerEdit.remove(evt.graphic);
+            //--Recorremos los Poligonos
+            this.ptGraphicsLayerEdit.graphics.filter(graphic => {
+              //--Verificamos si el Poligono está seleccionado
+              if(graphic.selected == true){
+                const oCutGeometry = graphic.clone();
+                //--Validamos si el Poligono intersecta con la Polyline
+                let intersects = this.EsriGeometryEngine.intersects(polylineGeometry, oCutGeometry.geometry);
+                if (intersects){
+                  //--Procedemos con el split del Poligono
+                  const cutResults = this.EsriGeometryEngine.cut(oCutGeometry.geometry, polylineGeometry); 
+                  //--Validamos si hay resultados
+                  if(cutResults.length){   
+                    //--Eliminamos el Poligono existente
+                    this.ptGraphicsLayerEdit.remove(graphic);
+                    //--Añadimos los nuevos poligonos creados
+                    this.ptGraphicsLayerEdit.addMany(cutResults.map(cutResult=>{ 
+                      //console.log(oAttributes);
+                      let oAttributes:any = oCutGeometry.clone().attributes;
+                      let f = {
+                        geometry:cutResult,
+                        symbol: this.globals.symbolEditFill,
+                        attributes:oAttributes
+                      }
+                      this.ptProjectionGeometry(f);
+                      return f;
+                    }));
+                  }
+                }else{
+                  console.log('No ha seleccionado un poligono para cortar');
                 }
-                this.ptProjectionGeometry(f);
-                return f;
-              }));
-            }
-          }else{
-            console.log('No ha seleccionado un poligono para cortar');
+              }
+            });            
           }
-        }else{
+          break;
+        case 'polygon':
           //--Se ha creado un nuevo Poligono
           if (this.ptAttributeCreate == null){
             this.ptAttributeCreate = {TXT_EMPRESA_RUC:this.SisListaRuc,
@@ -486,9 +508,20 @@ export class MapService {
           }
           evt.graphic.geometry = polylineGeometry;
           evt.graphic.attributes = {...this.ptAttributeCreate}; //--Crea un clon modificable
-        }
+          break;
+       }     
       }
     });
+
+    //---Capturamos el evento al momento de modificar al geometria 
+    this.editSketch.on('update', evt => {
+      if(evt.state === 'complete'){
+        console.log(evt.graphics[0].geometry);
+        const polygonGeometry = this.EsriwebMercatorUtils.webMercatorToGeographic(evt.graphics[0].geometry);
+        evt.graphics[0].geometry = polygonGeometry
+        console.log(evt.graphics[0].geometry);
+      }
+    }); 
   }  
   //--Opción de projección de la geometria en el mapa--
   ptProjectionGeometry(f:any){
@@ -501,9 +534,39 @@ export class MapService {
     //console.log(f.attributes);
   }
   //--Seleccionar geometria en el mapa--
-  ptSelectGeometry(){   
+  ptSelectGeometry(){
     this.editSketch.layer = this.ptGraphicLayerSelect;
-    this.editSketch.cancel();    
+    this.editSketch.cancel();
+  }
+  ptSelectGeometryByRectagle(){
+    this.editSketch.layer = this.ptGraphicLayerSelect;
+    this.ptCreateGeometry("rectangle");
+
+    /*
+    const sketchViewModel = new arcgis.SketchViewModel({
+      view: this.mapView,
+      layer: this.ptGraphicLayerSelect
+    });
+    sketchViewModel.create("rectangle");
+    sketchViewModel.on("create", async (event) => {
+      if (event.state === "complete") {
+        // this polygon will be used to query features that intersect it
+        const geometries = this.ptGraphicLayerSelect.graphics.map(function (graphic) {
+          return graphic.geometry;
+        });
+        //const queryGeometry = await geometryEngineAsync.union(geometries.toArray());
+        //selectFeatures(queryGeometry);
+      }
+    });*/
+  }
+  //--Limpiamos la selección del mapa
+  ptClearSelectGeometry(){
+    //--Filtramos los Poligonos seleccionados
+    this.ptGraphicsLayerEdit.graphics.filter(graphic => {
+      //--Simbolo por defecto
+      graphic.symbol = this.globals.symbolEditFill;
+      graphic.selected = false;
+    });    
   }
   //--Editar atributos de la Geometria seleccionada--
   ptEditAttribute(){   
@@ -1194,14 +1257,18 @@ export class MapService {
   eventClickMap(event:any) {    
     event.stopPropagation(); // Previene el comportamiento predeterminado del clic derecho 
     let pointGraphic = arcgis.webMercatorUtils.webMercatorToGeographic(event.mapPoint);
-    if (this.ptEditTool.name=='select'){
+    if (this.ptEditTool.name=='select' || this.ptEditTool.name=='Create rectangle'){
         this.ptGraphicSelect = null;
         this.ptGraphicSelect = this.ptGraphicsLayerEdit.graphics.filter((item:any)  =>{
-          item.symbol = this.globals.symbolEditFill;
+          if (this.ptEditTool.name=='select'){
+            item.symbol = this.globals.symbolEditFill;
+            item.selected = false;
+          }
+          //--Validamos si intersecta el Poligono
           if(this.EsriGeometryEngine.intersects(item.geometry,pointGraphic)){
-            item.symbol = this.globals.symbolSelectFill;
-            this.ptProjectionGeometry(item);
-            return item.geometry;
+              item.symbol = this.globals.symbolSelectFill;
+              this.ptProjectionGeometry(item);
+              return item.geometry;          
           }
        });
        if (event.button==2) {

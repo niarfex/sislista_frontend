@@ -78,9 +78,18 @@
             <!--ToolBar Personalizado de Edición-->
             <div id="editToolbar" class="toolbar-edit esri-component esri-widget toolbar-widget-map">
                 <button id="toolbar-edit-selection"
-                class="esri-widget--button esri-interactive button-esri-modify esri-icon-cursor-marquee"
+                class="esri-widget--button esri-interactive button-esri-modify esri-icon-cursor"
                 title="Seleccionar Polígono" (click)="onSelectGraphic()"></button>
                 <div class="separator-button"></div>
+                <button id="toolbar-edit-line"
+                class="esri-widget--button esri-interactive button-esri-modify esri-icon-cursor-marquee"
+                title="Seleccionar Polígono por rectangulo" (click)="onCreateLineGraphic('rectangle')"></button>                
+                <div class="separator-button"></div>
+                <div class="separator-button"></div>
+                <button id="toolbar-edit-line"
+                class="esri-widget--button esri-interactive button-esri-modify esri-icon-erase"
+                title="Limpiar Selección" (click)="onClearSelectGraphic()"></button>                
+                <div class="separator-button"></div>                
                 <button id="toolbar-edit-line"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-polyline"
                 title="Crear Línea" (click)="onCreateLineGraphic('polyline')"></button>

@@ -75,7 +75,7 @@ export class EsriMapComponent implements OnInit {
 
     //--Datos del Administrado
     this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
-    this.administradoDoc ='20131867744';
+    //this.administradoDoc ='20131867744';
     this.mapService.SisListaRuc = this.administradoDoc
 
     this.changeSelectMap();
@@ -206,6 +206,10 @@ export class EsriMapComponent implements OnInit {
     this.mapService.ptEditTool.name="select";
     this.mapService.ptSelectGeometry();
   }
+  onClearSelectGraphic(){
+    this.mapService.ptEditTool.name="Clear Selection";
+    this.mapService.ptClearSelectGeometry();
+  }
   onEditAttribute(){
     //this.mapService.ptEditTool.name="select";
     this.mapService.ptEditAttribute();
@@ -262,7 +266,7 @@ export class EsriMapComponent implements OnInit {
   }
 
   onCreateLineGraphic(evt:any){
-    this.mapService.ptEditTool.name="Create Line";
+    this.mapService.ptEditTool.name="Create " + evt;
     this.mapService.ptCreateGeometry(evt);
   }
   onSaveAttributes(){

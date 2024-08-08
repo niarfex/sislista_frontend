@@ -23,6 +23,7 @@ import Expand from "@arcgis/core/widgets/Expand";
 import Print from "@arcgis/core/widgets/Print";
 import Search from "@arcgis/core/widgets/Search";
 import Sketch from "@arcgis/core/widgets/sketch";
+import SketchViewModel from "@arcgis/core/widgets/Sketch/SketchViewModel";
 
 import DistanceMeasurement2D from "@arcgis/core/widgets/DistanceMeasurement2D";
 import AreaMeasurement2D from "@arcgis/core/widgets/AreaMeasurement2D";
@@ -69,7 +70,8 @@ export {
         Expand,
         Print,
         Search,
-        Sketch,        
+        Sketch,
+        SketchViewModel,       
         DistanceMeasurement2D,
         AreaMeasurement2D,
         AreaMeasurement3D,
