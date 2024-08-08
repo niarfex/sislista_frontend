@@ -14,7 +14,7 @@
 import {config } from '../util/config';
 
  //--Librerias utilizadas
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { BasemapCollectionService } from './BasemapCollection.service';
 import { LayersService } from './layers.service';
 import { MapLayer } from '../models/maplayer.model';
@@ -650,6 +650,39 @@ export class MapService {
       toggleToolOnClick: false,      
     });    
   }
+  //--Unir Geometrias en el mapa--
+  async ptMergeGeometry(){
+    //--Desactivamos el menu contextual
+    this.editDivMenu.style.display = 'none';
+    //--recorremos los graficos del mapa
+    let oGraphicsMerge = this.ptGraphicsLayerEdit.graphics.filter((item:any)  =>{
+      //--Validamos si intersecta el Poligono
+      if (item.selected == true){
+        return item;
+      }
+    });
+    //--Validamos si hay mas de un elemento seleccionado
+    if (oGraphicsMerge.items.length <= 1){
+      this.sweetAlert.AlertError('Edición de Elementos', 'Debe seleccionar más de un elemento para unir');
+      return;
+    }
+    //--Variable para almacenamos el primer elemento
+    let oGeometryMain = oGraphicsMerge.items[0].clone();	
+    //--Realizmos el merge delos polignos
+    const geometries = oGraphicsMerge.items.map((graphic:any) =>{
+      const oGeometry = graphic.clone();
+      //--Removemos los poligonos existentes
+      this.ptGraphicsLayerEdit.remove(graphic);
+      //--retornamos los poligonos seleccionados
+      return oGeometry.geometry;
+    });
+    //--Procedemos con el merge del element
+    const queryGeometry = await this.EsriGeometryEngine.union(geometries);
+    oGeometryMain.geometry = queryGeometry;
+    oGeometryMain.symbol = this.globals.symbolEditFill;
+    this.ptGraphicsLayerEdit.add(oGeometryMain);
+  }
+
   //--Eliminar una nueva Geometria en el mapa--
   ptDeleteGeometry(){
     //--Eliminamos el Poligono existente
@@ -1259,21 +1292,38 @@ export class MapService {
     let pointGraphic = arcgis.webMercatorUtils.webMercatorToGeographic(event.mapPoint);
     if (this.ptEditTool.name=='select' || this.ptEditTool.name=='Create rectangle'){
         this.ptGraphicSelect = null;
-        this.ptGraphicSelect = this.ptGraphicsLayerEdit.graphics.filter((item:any)  =>{
-          if (this.ptEditTool.name=='select'){
+        if (this.ptEditTool.name=='select'){
+          //--Recorremos los graficos del mapa
+          this.ptGraphicSelect = this.ptGraphicsLayerEdit.graphics.filter((item:any)  =>{
+            item.selected = false;  
             item.symbol = this.globals.symbolEditFill;
-            item.selected = false;
-          }
-          //--Validamos si intersecta el Poligono
-          if(this.EsriGeometryEngine.intersects(item.geometry,pointGraphic)){
+            //--Validamos si intersecta el Poligono
+            if(this.EsriGeometryEngine.intersects(item.geometry,pointGraphic)){
+              item.selected = true
               item.symbol = this.globals.symbolSelectFill;
               this.ptProjectionGeometry(item);
-              return item.geometry;          
-          }
-       });
-       if (event.button==2) {
+              return item.geometry;
+            }
+          });
+        }
+      //--Si clic es con el boton derecho
+      if (event.button==2) {
         event.preventDefault(); // Evita el menú contextual del navegador
-        if (this.ptGraphicSelect.length==0){console.log('No selecciono un poligono'); return}
+        if (this.ptEditTool.name=='Create rectangle'){
+          this.ptGraphicSelect = this.ptGraphicsLayerEdit.graphics.filter((item:any)  =>{
+            //--Validamos si intersecta el Poligono
+            if(this.EsriGeometryEngine.intersects(item.geometry,pointGraphic) && item.selected == true){
+                this.ptProjectionGeometry(item);
+                return item.geometry;
+            }  
+          });
+        }
+        if (this.ptGraphicSelect==0){console.log('No selecciono un poligono'); return}
+        let contextMenuEdit = this.editDivMenu.querySelector('#contextMenuEdit')
+        let contextMenuSplit = this.editDivMenu.querySelector('#contextMenuMerge')
+        contextMenuEdit.style.display = this.ptEditTool.name=='select' ? 'block' : 'none'
+        contextMenuSplit.style.display = this.ptEditTool.name=='Create rectangle' ? 'block' : 'none'
+
         const screenPoint = event.screenPoint;
         this.editDivMenu.style.left = `${screenPoint.x}px`;
         this.editDivMenu.style.top = `${screenPoint.y}px`;
