@@ -104,6 +104,36 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
+                    <span style="font-size: x-large; font-weight: bold;">Usuarios</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">      
+                    <span *ngIf="usuario.isAdministrador" style="font-size:large;">Empadronadores, Supervisores y Especialistas</span>
+                    <span *ngIf="usuario.isEmpadronador" style="font-size: large;">Empdronadores</span>
+                    <span *ngIf="usuario.isSupervisor" style="font-size: large;">Supervisores</span>
+                    <span *ngIf="usuario.isEspecialista" style="font-size: large;">Especialistas</span>
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group" >            
+                        <input class="form-control m-input" maxlength="50" type="text" [(ngModel)]="txtBusqueda" [ngModelOptions]="{standalone: true}"/>
+                        <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="getData()"><i class="bi bi-search"></i></button>                                            
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="input-group" style="align-items: center;">
+                        <span style="padding-right: 5px; font-weight: bold;">Periodo: </span>
+                        <select [(ngModel)]="idAnio" [ngModelOptions]="{standalone: true}" id="idAnio" name="idAnio" style="width: 50px;"
+                            class="form-select">
+                            <option *ngFor="let item of listPeriodos" [value]="item.value">
+                                {{ item.label }}
+                            </option>
+                        </select>
+                    </div>                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
                     <lista-reporte-usuarios [listaUsuarios]="reporte.ListReporteUsuarios"></lista-reporte-usuarios>
                 </div>
             </div>
@@ -112,50 +142,52 @@
             <div *ngIf="usuario.isAdministrador" class="row mb-3">
                 <div class="col-sm-12">
                     <div style="background-color: lightgreen; text-align: center; border-radius: 5px;">
-                        <div style="padding-top: 10px;">
+                        <div class="mb-3" style="padding-top: 10px;">
                             <span style="font-weight: bold;">Mejores tiempos del Flujo de Validación</span>
                         </div>
-                        <div style=" min-height: 80px ;height: 100%">
+                        <div style="min-height: 80px ;height: 100%">
                             <div class="row" *ngFor="let item of listaSuperior">
-                                <div class="col-sm-6">{{item.Empresa}}</div>
-                                <div class="col-sm-6">{{item.Tiempo}}</div>
+                                <div class="col-sm-6">{{item==null?"":item.Empresa}}</div>
+                                <div class="col-sm-6">{{item==null?"":item.Tiempo}}</div>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-5"></div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
                                 <button *ngIf="!verTodosAdm" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
                                 border-color: #008F49;" type="button" (click)="verTodosSuperiorAdm()">Ver todos</button>
                                 <button *ngIf="verTodosAdm" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
                                 border-color: #008F49;" type="button" (click)="verMenosSuperiorAdm()">Ver menos</button>
                             </div>
-                            <div class="col-sm-5"></div>
+                            <div class="col-sm-4"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div *ngIf="usuario.isEmpadronador || usuario.isSupervisor || usuario.isEspecialista" class="row mb-3">
                 <div class="col-sm-12">
-                    <div style="background-color: lightgreen; text-align: center; min-height: 250px; border-radius: 5px; ">
-                        <div style="padding-top: 10px;">
+                    <div style="background-color: lightgreen; text-align: center; border-radius: 5px; ">
+                        <div class="mb-3" style="padding-top: 10px;">
                             <span style="font-weight: bold;" *ngIf="usuario.isEmpadronador">Ranking Empadronadores con Registros cerrados</span>
                             <span style="font-weight: bold;" *ngIf="usuario.isSupervisor">Ranking Supervisores con Registros cerrados</span>
                             <span style="font-weight: bold;" *ngIf="usuario.isEspecialista">Ranking Especialistas con Registros cerrados</span>
                         </div>
-                        <div style="height: 170px">
-                            <div class="row" *ngFor="let item of reporte.ListRegCerrados">
+                        <div class="mb-3" style="min-height: 80px ;height: 100%">
+                            <div class="row " *ngFor="let item of reporte.ListRegCerrados">
                                 <div class="col-sm-4">{{item.Usuario}}</div>
                                 <div class="col-sm-4">{{item.CantMarcoLista}}</div>
                                 <div class="col-sm-4">{{item.Tiempo}}</div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-5"></div>
-                            <div class="col-sm-2">
-                                <button class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
-                                border-color: #008F49;" type="button">Ver todos</button>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
+                                <button *ngIf="!verTodosSupOtros" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
+                                border-color: #008F49;" type="button" (click)="verTodosSuperiorOtros()">Ver todos</button>
+                                <button *ngIf="verTodosSupOtros" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
+                                border-color: #008F49;" type="button" (click)="verMenosSuperiorOtros()">Ver menos</button>
                             </div>
-                            <div class="col-sm-5"></div>
+                            <div class="col-sm-4"></div>
                         </div>
                     </div>                    
                 </div>
@@ -175,30 +207,30 @@
             </div>
             <div *ngIf="usuario.isEmpadronador || usuario.isSupervisor || usuario.isEspecialista" class="row">
                 <div class="col-sm-12">
-                    <div style="text-align: center; min-height: 350px; border-radius: 5px;">
-                        <div style="padding-top: 10px;">
+                    <div style="text-align: center; border-radius: 5px;">
+                        <div class="mb-3" style="padding-top: 10px; font-weight: bold;">
                             <span *ngIf="usuario.isEmpadronador">Mejores tiempos de Registro</span>
                             <span *ngIf="usuario.isSupervisor">Mejores tiempos de Supervisión</span>
                             <span *ngIf="usuario.isEspecialista">Mejores tiempos de Validación</span>
                         </div>
-                        <div style="height: 270px">
+                        <div class="mb-3" style="min-height: 80px ;height: 100%">
                             <div class="row" *ngFor="let item of reporte.ListMejorTiempo">
                                 <div class="col-sm-4">{{item.Empresa}}</div>
                                 <div class="col-sm-4">{{item.Usuario}}</div>
                                 <div class="col-sm-4">{{item.Tiempo}}</div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-5"></div>
-                            <div class="col-sm-2">
-                                <button class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
-                                border-color: #008F49;" type="button">Ver todos</button>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
+                                <button *ngIf="!verTodosInfOtros" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
+                                border-color: #008F49;" type="button" (click)="verTodosInferiorOtros()">Ver todos</button>
+                                <button *ngIf="verTodosInfOtros" class="btn btn-primary" style="min-width: 100px; background-color: #008F49; 
+                                border-color: #008F49;" type="button" (click)="verMenosInferiorOtros()">Ver menos</button>
                             </div>
-                            <div class="col-sm-5"></div>
+                            <div class="col-sm-4"></div>
                         </div>
-                    </div>
-                    
-                    
+                    </div>  
                 </div>
             </div>
         </div>

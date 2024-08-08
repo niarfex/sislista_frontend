@@ -181,8 +181,9 @@ export class PlantillaUnoComponent implements OnInit {
   get IdTipoInformacion() { return this.plantillaForm.controls['IdTipoInformacion']; }
   get NombreArchivo() { return this.plantillaForm.controls['NombreArchivo']; }
   ngOnInit(): void {
-    this.usuario = this.loginService.getCurrentUserValue;
-    this.fechaInicio = new Date();
+    this.usuario = this.loginService.getCurrentUserValue;    
+    this.fechaInicio = moment().toDate();//new Date();
+    console.log(this.fechaInicio);
     this.time = { hours: 0, minutes: 0, seconds: this.inicio };
     this.start().subscribe();
     this.spinner.show();
@@ -762,7 +763,7 @@ export class PlantillaUnoComponent implements OnInit {
     switch (codigoEstado) {
       case "APROBADO":
         this.spinner.show();
-        this.gestionregistroServiceProxy.AprobarCuestionarioxUUID(this.objRegistro.CodigoUUID)
+        this.gestionregistroServiceProxy.AprobarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {
@@ -786,7 +787,7 @@ export class PlantillaUnoComponent implements OnInit {
         break;
       case "RATIFICADO":
         this.spinner.show();
-        this.gestionregistroServiceProxy.RatificarCuestionarioxUUID(this.objRegistro.CodigoUUID)
+        this.gestionregistroServiceProxy.RatificarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {
@@ -802,7 +803,7 @@ export class PlantillaUnoComponent implements OnInit {
         break;
       case "DERIVADO":
         this.spinner.show();
-        this.gestionregistroServiceProxy.DerivarCuestionarioxUUID(this.objRegistro.CodigoUUID)
+        this.gestionregistroServiceProxy.DerivarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {
@@ -818,7 +819,7 @@ export class PlantillaUnoComponent implements OnInit {
         break;
       case "VALIDO":
         this.spinner.show();
-        this.gestionregistroServiceProxy.ValidarCuestionarioxUUID(this.objRegistro.CodigoUUID)
+        this.gestionregistroServiceProxy.ValidarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {
@@ -836,7 +837,7 @@ export class PlantillaUnoComponent implements OnInit {
         break;
       case "DESCARTAR":
         this.spinner.show();
-        this.gestionregistroServiceProxy.DescartarCuestionarioxUUID(this.objRegistro.CodigoUUID)
+        this.gestionregistroServiceProxy.DescartarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {

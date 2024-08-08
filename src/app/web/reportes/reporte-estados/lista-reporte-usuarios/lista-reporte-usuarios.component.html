@@ -1,27 +1,5 @@
 
 <div class="row">
-    <div class="col-sm-12">
-        <span style="font-size: x-large; font-weight: bold;">Usuarios</span>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-7">      
-        <span *ngIf="usuario.isAdministrador" style="font-size:large;">Empadronadores, Supervisores y Especialistas</span>
-        <span *ngIf="usuario.isEmpadronador" style="font-size: large;">Empdronadores</span>
-        <span *ngIf="usuario.isSupervisor" style="font-size: large;">Supervisores</span>
-        <span *ngIf="usuario.isEspecialista" style="font-size: large;">Especialistas</span>
-    </div>
-    <div class="col-sm-3">
-        <div class="input-group">            
-            <input class="form-control m-input" maxlength="50" type="text" [(ngModel)]="txtBusqueda" [ngModelOptions]="{standalone: true}"/>
-            <button class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" type="button" (click)="getData()"><i class="bi bi-search"></i></button>                                            
-        </div>
-    </div>
-    <div class="col-sm-2">
-
-    </div>
-</div>
-<div class="row">
     <p-table [value]="listaUsuarios" [paginator]="true" [rows]="8">
         <ng-template pTemplate="header">
             <tr>           

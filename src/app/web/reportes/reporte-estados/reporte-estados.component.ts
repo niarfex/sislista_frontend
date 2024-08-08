@@ -4,7 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { finalize } from 'rxjs';
 import { Login } from 'src/app/models/login';
-import { FlujoValidacionListDto, ReporteGetDto } from 'src/app/models/Reporte';
+import { FlujoValidacionListDto, MejorTiempoListDto, RankingRegCerradosListDto, ReporteGetDto } from 'src/app/models/Reporte';
+import { SelectTipoDto } from 'src/app/models/SelectTipo';
 import { LoginService } from 'src/auth/services/login.service';
 import { ReporteServiceProxy } from 'src/shared/service-proxies/reporte-proxies';
 
@@ -19,10 +20,17 @@ export class ReporteEstadosComponent implements OnInit {
 
   usuario: Login;
   verTodosAdm: boolean = false;
+  verTodosSupOtros: boolean = false;
+  verTodosInfOtros: boolean = false;
   reporte: ReporteGetDto = new ReporteGetDto();
   listaSuperior: FlujoValidacionListDto[] = [];
+  listaSuperiorOtros: RankingRegCerradosListDto[] = [];
+  listaInferiorOtros: MejorTiempoListDto[] = [];
   data: any;
   options: any;
+  idAnio:String="0";
+  listPeriodos:SelectTipoDto[]=[];
+  txtBusqueda:String="";
   private reporteServiceProxy: ReporteServiceProxy;
   constructor(_injector: Injector
     , private confirmationService: ConfirmationService
@@ -39,25 +47,25 @@ export class ReporteEstadosComponent implements OnInit {
 
   getData(event?: LazyLoadEvent) {
     this.spinner.show();
-    this.reporteServiceProxy.getAll()
+    this.reporteServiceProxy.getAll(this.txtBusqueda,Number.parseInt(this.idAnio.toString()))
       .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
       .subscribe({
         next: (result) => {
           if (result.success) {
             this.reporte = result.datos;
-            this.generarDona();
-            for (var i = 0; i < 3; i++) {
-              this.listaSuperior.push(this.reporte.ListFlujoValidacion[i]);
+            this.generarDona();        
+            this.verMenosSuperiorAdm();
+            if(this.idAnio=="0"){
+              this.listPeriodos=this.reporte.ListPeriodos;
+              this.idAnio=this.reporte.ListPeriodos[0].value;
+              //console.log(this.idAnio);
             }
-
-            //console.log(result);
-            //this.lista_resultados = result.datos
           }
         }
       });
   }
   verTodosSuperiorAdm() {
-    this.listaSuperior = this.reporte.ListFlujoValidacion;
+    this.listaSuperior=this.reporte.ListFlujoValidacion;
     this.verTodosAdm = true;
   }
   verMenosSuperiorAdm() {
@@ -66,6 +74,28 @@ export class ReporteEstadosComponent implements OnInit {
       this.listaSuperior.push(this.reporte.ListFlujoValidacion[i]);
     }
     this.verTodosAdm = false;
+  }
+  verTodosSuperiorOtros() {
+    this.listaSuperiorOtros=this.reporte.ListRegCerrados;
+    this.verTodosSupOtros = true;
+  }
+  verMenosSuperiorOtros() {
+    this.listaSuperiorOtros = []
+    for (var i = 0; i < 3; i++) {
+      this.listaSuperiorOtros.push(this.reporte.ListRegCerrados[i]);
+    }
+    this.verTodosSupOtros = false;
+  }
+  verTodosInferiorOtros() {
+    this.listaInferiorOtros=this.reporte.ListMejorTiempo;
+    this.verTodosInfOtros = true;
+  }
+  verMenosInferiorOtros() {
+    this.listaInferiorOtros = []
+    for (var i = 0; i < 3; i++) {
+      this.listaInferiorOtros.push(this.reporte.ListMejorTiempo[i]);
+    }
+    this.verTodosInfOtros = false;
   }
   generarDona() {
     const documentStyle = getComputedStyle(document.documentElement);
