@@ -322,22 +322,7 @@ export class MapService {
     //this.addSearch(this.sceneView);      
     //this.addCoordinateConversion(this.sceneView, 'div-coord-conver-3D');
   }
-  setAddEditWidget(){
-    
-    //----------------------------------------------
-    // Servicio Feature de Edición
-    //----------------------------------------------
-    let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'" 
-    this.ptFeatureLayerEdit= new this.EsriFeatureLayer({
-      url: config.agsUrlRoot + config.agsUrlEditLyr,
-      legendEnabled:false,
-      opacity:0.5,
-      definitionExpression:strQuery,
-      outFields: ["*"],
-      title:"Campos",
-      visible:true
-    })
-  
+  setAddEditWidget(){ 
     //----------------------------------------------
     // Widget Expand de Edición
     //----------------------------------------------  
@@ -420,6 +405,27 @@ export class MapService {
  * Descripcion    : Funciones de edición de Geometria                                                                  *
  * 
  ************************************************************************************************************************/
+  //--Activar capas de información
+  async setFilterLayers(){
+      //--Filtramos los layers
+      let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
+      this.SislistaLayer[0].layer.definitionExpression = strQuery
+      this.SislistaLayer[1].layer.definitionExpression = strQuery
+      this.SislistaLayer[2].layer.definitionExpression = strQuery
+
+    //--Filtra la capa de Campos
+    this.ptFeatureLayerEdit= new this.EsriFeatureLayer({
+      url: config.agsUrlRoot + config.agsUrlEditLyr,
+      legendEnabled:false,
+      opacity:0.5,
+      definitionExpression:strQuery,
+      outFields: ["*"],
+      title:"Campos",
+      visible:true
+    })
+
+  }
+
   //--Activamos el SkechWiget Personalizado--  
   setaddSkechWidget(){
     this.editSketch = new arcgis.Sketch({
@@ -1490,12 +1496,6 @@ export class MapService {
     }, opts);
   }
 
-  async setFilterLayers(){
-    let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
-    this.SislistaLayer[0].layer.definitionExpression = strQuery
-    this.SislistaLayer[1].layer.definitionExpression = strQuery
-    this.SislistaLayer[2].layer.definitionExpression = strQuery
-  }
 
   async setZoomToExtentLayer(item:any){
     let strQuery = "TXT_EMPRESA_RUC='" + this.SisListaRuc + "'"
