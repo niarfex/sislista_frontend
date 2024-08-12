@@ -28,7 +28,8 @@ import { AuthGuard } from 'src/auth/services';
                   loadChildren: () => import('../app/web/reportes/reportes.module').then((m) => m.ReportesModule), //Lazy load main module
                   data: { preload: true }, canActivate: [AuthGuard]
                 },
-                { path: 'web/inicio', component: InicioComponent, pathMatch: 'full', canActivate: [AuthGuard]},
+                { path: 'web/inicio', component: InicioComponent, pathMatch: 'full', 
+                  data: { preload: true }, canActivate: [AuthGuard]},
               ],
           }
           

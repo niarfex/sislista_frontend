@@ -1,7 +1,8 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Injector, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import moment from 'moment';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
@@ -16,18 +17,24 @@ import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionr
   selector: 'lista-gestion-registro',
   templateUrl: './lista-gestion-registro.component.html',
   styleUrls: ['./lista-gestion-registro.component.scss'],
-  providers: [ConfirmationService],
+  providers: [BsModalService, ConfirmationService],
   encapsulation : ViewEncapsulation.None
 })
 export class ListaGestionRegistroComponent implements OnInit {
+  modalRef?: BsModalRef;
+  numDoc: String;
+  idPeriodo: number;
+  modalActivo:boolean;
   txtBusqueda:string="";
   lista_resultados: GestionRegistroListDto[];
+  listaCampos:any[];
   idRegistro: number;
   usuario:Login;
   private gestionregistroServiceProxy: GestionRegistroServiceProxy;
   constructor(_injector: Injector
     , private confirmationService: ConfirmationService
     , private spinner: NgxSpinnerService
+    , private modalService: BsModalService
     , private toastr: ToastrService
     , private router: Router
     ,private loginService: LoginService) {
@@ -54,15 +61,29 @@ export class ListaGestionRegistroComponent implements OnInit {
       });
   }
 
-  agregarRegistro(numDoc:String,idPeriodo:number){
-    //console.log(numDoc);
-    //console.log(idPeriodo);
+  agregarRegistro(viewUserTemplate: TemplateRef<any>,numDoc:String,idPeriodo:number){
     var CodigoUUID=this.lista_resultados.find(x=>x.NumeroDocumento==numDoc && x.IdPeriodo==idPeriodo).CodigoUUID;
-    this.router.navigate(['app','reportes','reporte-mapa',numDoc,idPeriodo],{} );
+    //this.router.navigate(['app','reportes','reporte-mapa',numDoc,idPeriodo],{} );
+    this.idPeriodo=idPeriodo;
+    this.numDoc = numDoc;
+    this.modalActivo=true;
+    this.modalRef = this.modalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-xl'
+    });
   }
 
-  verRegistro(numDoc:String,idPeriodo:number){
-    this.router.navigate(['app','reportes','reporte-mapa',numDoc,idPeriodo],{} );
+  verRegistro(viewUserTemplate: TemplateRef<any>,numDoc:String,idPeriodo:number){
+    //this.router.navigate(['app','reportes','reporte-mapa',numDoc,idPeriodo],{} );
+    this.idPeriodo=idPeriodo;
+    this.numDoc = numDoc;
+    this.modalActivo=true;
+    this.modalRef = this.modalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-xl'
+    });
   }
 
   subsanarRegistro(uuid:String){}
@@ -89,4 +110,7 @@ export class ListaGestionRegistroComponent implements OnInit {
   convertDateToString(dateToBeConverted: string) {
     return dateToBeConverted == null ? "" : moment(dateToBeConverted, "YYYY-MM-DD HH:mm:ss").format("DD/MM/yyyy");
   }
+  exitModal = (): void => {
+    this.modalRef?.hide();
+  };
 }

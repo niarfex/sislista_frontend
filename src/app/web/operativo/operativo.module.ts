@@ -9,7 +9,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BasicAuthInterceptor, ErrorInterceptor } from 'src/auth/services';
 import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { PlantillaUnoComponent } from '../shared/plantilla-uno/plantilla-uno.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +21,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     ReactiveFormsModule,
     TableModule,
     ConfirmDialogModule,
+    PlantillaUnoComponent,
     BsDropdownModule.forRoot(),
     OperativoRoutingModule
   ],
