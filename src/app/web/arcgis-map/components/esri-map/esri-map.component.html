@@ -97,11 +97,6 @@
                 <button id="toolbar-edit-line"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-polygon"
                 title="Crear Polígono" (click)="onCreateLineGraphic('polygon')"></button>
-                <div class="separator-button"></div>
-                <button id="toolbar-edit-line"
-                class="esri-widget--button esri-interactive button-esri-modify esri-icon-unlocked-link-horizontal"
-                title="Unir Polígono" (click)="onCreateLineGraphic('polygon')"></button>
-                <div class="separator-button"></div>
                 <button id="toolbar-edit-line"
                 class="esri-widget--button esri-interactive button-esri-modify esri-icon-trash"
                 title="Eliminar Polígono" (click)="onDeleteGraphic()"></button>                
@@ -116,10 +111,17 @@
             </div>
             <!--Menu contextual-->
             <div id="contextMenu">
-                <ul>
-                    <li><a (click)="onEditGraphic()"><i class="fa fa-object-group"></i> Modificar geometría</a></li>
-                    <li><a (click)="onEditAttribute()"><i class="fa fa-id-card-o"></i> Modificar atributos</a></li>                    
-                </ul>
+                <div id="contextMenuEdit">
+                    <ul>
+                        <li><a (click)="onEditGraphic()"><i class="fa fa-object-group"></i> Modificar geometría</a></li>
+                        <li><a (click)="onEditAttribute()"><i class="fa fa-id-card-o"></i> Modificar atributos</a></li>                        
+                    </ul>
+                </div>
+                <div id="contextMenuMerge">
+                    <ul>
+                        <li><a (click)="onMergeGraphic()"><i class="fa fa-object-ungroup"></i> unir geometrías</a></li>
+                    </ul>                    
+                </div>
             </div>
             <!--Formulario de carga del ZipFile-->
             <div id="ZipFileForm" class="card">

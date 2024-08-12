@@ -42,7 +42,7 @@ export class EsriMapComponent implements OnInit {
   cardTitle:any;
 
   constructor(private renderer: Renderer2, private sweetAlert: SweetAlert, private elementRef: ElementRef, private spinner: NgxSpinnerService, private _route: ActivatedRoute, public mapService: MapService) {
-    this.mapService.startMap('divMapView', 'divSceneView');
+     this.mapService.startMap('divMapView', 'divSceneView');   
     this.position = { lat: -12.089592346951877, lng: -77.0581966638565 };
     this.pov = { heading: 35, pitch: 0, zoom: 0 };
     this.mapService.positionStreet = this.position;
@@ -75,7 +75,7 @@ export class EsriMapComponent implements OnInit {
 
     //--Datos del Administrado
     this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
-    //this.administradoDoc ='20131867744';
+    //this.administradoDoc ='20131823020';
     this.mapService.SisListaRuc = this.administradoDoc
 
     this.changeSelectMap();
@@ -218,6 +218,10 @@ export class EsriMapComponent implements OnInit {
     this.mapService.ptEditTool.name="Edit";
     this.mapService.ptEditGeometry();
   }
+  onMergeGraphic(){
+    this.mapService.ptEditTool.name="Create rectangle";
+    this.mapService.ptMergeGeometry();
+  } 
   onDeleteGraphic(){
     //--Valida Aprobacion
     let question: any = this.sweetAlert.AlertQuestion(

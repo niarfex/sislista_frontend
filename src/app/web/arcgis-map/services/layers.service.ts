@@ -29,6 +29,7 @@ export class LayersService {
   }
 
   async getLayers(lyrTitle: string, lyrUrl: string, lyrVisible: boolean) {
+    this.layers = [];    
     const validate: boolean = await this.validateLayer(lyrTitle, lyrUrl);
     //--Cargamos la Capa Mapa Base --
     if (validate) {      
