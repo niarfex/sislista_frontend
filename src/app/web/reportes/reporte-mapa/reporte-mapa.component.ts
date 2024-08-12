@@ -42,7 +42,7 @@ export class ReporteMapaComponent implements OnInit {
                          ];
   listaTenencia:any[] = [{value: 'PROPIO', label: 'PROPIO'},
                          {value: 'ALQUILADO', label: 'ALQUILADO'},    
-                        ];
+                        ]; 
   private gestionregistroServiceProxy: GestionRegistroServiceProxy;
   constructor(_injector: Injector
     , private _route: ActivatedRoute
