@@ -83,7 +83,7 @@ export class PlantillaUnoComponent implements OnInit {
   objRegistro: GestionRegistroGetDto = new GestionRegistroGetDto();
   inicio: number = 0;
   today: Date;
-  fechaInicio:Date;
+  fechaInicio: Date;
   changedDate = '';
   changedHour = '';
   pipe = new DatePipe('en-ES');
@@ -181,9 +181,9 @@ export class PlantillaUnoComponent implements OnInit {
   get IdTipoInformacion() { return this.plantillaForm.controls['IdTipoInformacion']; }
   get NombreArchivo() { return this.plantillaForm.controls['NombreArchivo']; }
   ngOnInit(): void {
-    this.usuario = this.loginService.getCurrentUserValue;    
+    this.usuario = this.loginService.getCurrentUserValue;
     this.fechaInicio = moment().toDate();//new Date();
-    console.log(this.fechaInicio);
+    //console.log(this.fechaInicio);
     this.time = { hours: 0, minutes: 0, seconds: this.inicio };
     this.start().subscribe();
     this.spinner.show();
@@ -250,6 +250,8 @@ export class PlantillaUnoComponent implements OnInit {
               //this.modalForm.controls['IdPerfil'].setValue(this.objRegistro.IdPerfil.toString());
 
             }
+            //EPB 11/08/2024: Se comenta este bloque porque el mapa ya no se cargará primero, sino que el mapa sera después
+            /*
             if (this.objRegistro.ListFundos.length == 0) {
               //console.log(this.listFields);
               let listaFundos = new Set(this.listFields.map(obj => obj["NOMBRE_FUNDO"]));
@@ -300,7 +302,7 @@ export class PlantillaUnoComponent implements OnInit {
                 contFundos = contFundos + 1;
               });
               this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
-            }
+            }*/
           }
           else {
             this.toastr.error(result.message.toString(), 'Error');
@@ -488,12 +490,13 @@ export class PlantillaUnoComponent implements OnInit {
   }
   selectMetodoInsercion(viewUserTemplate: TemplateRef<any>, viewUserTemplateA: TemplateRef<any>, viewUserTemplateB: TemplateRef<any>) {
     this.viewUserTemplate1 = viewUserTemplateA;
-    this.viewUserTemplate2 = viewUserTemplateB;
+    this.viewUserTemplate2 = viewUserTemplateB;/*
     this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
       class: 'modal-m'
-    });
+    });*/
+    this.mostrarVentanaMetodo("2");
   }
   mostrarVentanaMetodo(tipo: String) {
     if (tipo == "1") {
@@ -593,57 +596,57 @@ export class PlantillaUnoComponent implements OnInit {
       this.toastr.error("Se debe agregar datos de la entrevista", 'Error');
       tieneErrores = true;
     }
-    if(tieneErrores == false){
-    if (this.objRegistro.ListArchivos.length == 0 && this.objRegistro.ListInformantes[0].IdEstado.toString() == valCompleto) {
+    if (tieneErrores == false) {
+      if (this.objRegistro.ListArchivos.length == 0 && this.objRegistro.ListInformantes[0].IdEstado.toString() == valCompleto) {
 
-      this.objRegistro.ListFundos.forEach(objFundo => {
-        objFundo.ListCampos.forEach(objCampo => {
-          if (objCampo.IdTenencia == 0) {
-            this.toastr.error("El dato de tenencia es obligatorio para todos los campos", 'Error');
-            tieneErrores = true;
-          }
-          if (objCampo.IdUsoNoAgricola.length==0) {
-            this.toastr.error("Para todos los campos se debe seleccionar el Tipo de Uso", 'Error');
-            tieneErrores = true;
-          }
-          else if (objCampo.IdUsoNoAgricola.length > 0 && objCampo.Observacion.trim().length==0) {
-            this.toastr.error("El campo Detalle es obligatorio en el registro de Campos cuando el Tipo de uso se ha seleccionado", 'Error');
-            tieneErrores = true;
-          }
-          if (objCampo.IdUsoTierra.toString() == valAgricola) {
-            if (objCampo.SuperficieCultivada > objCampo.Superficie) {
-              this.toastr.error("La Superficie cultivada no debe ser mayor a la Superficie reportada para el campo " + (objCampo.Campo == null ? "" : objCampo.Campo), 'Error');
+        this.objRegistro.ListFundos.forEach(objFundo => {
+          objFundo.ListCampos.forEach(objCampo => {
+            if (objCampo.IdTenencia == 0) {
+              this.toastr.error("El dato de tenencia es obligatorio para todos los campos", 'Error');
               tieneErrores = true;
             }
-            if (objCampo.IdCultivo == 0 || (objCampo.SuperficieCultivada.toString() == "" ? 0 : objCampo.SuperficieCultivada) == 0) {
-              this.toastr.error("Para los campos donde seleccionó el Uso de la tierra de tipo Agrícola, se debe seleccionar el tipo de Cultivo e ingresar la Superficie cultivada", 'Error');
+            if (objCampo.IdUsoNoAgricola.length == 0) {
+              this.toastr.error("Para todos los campos se debe seleccionar el Tipo de Uso", 'Error');
               tieneErrores = true;
             }
-          }                    
-          else if (objCampo.IdUsoTierra.toString() != valAgricola && objCampo.IdUsoTierra.toString() != valNoAgricola) {
-            this.toastr.error("Para cada Campo se debe seleccionar el Uso de la tierra (Agrícola o No Agrícola)", 'Error');
-            tieneErrores = true;
-          }
-          if (objCampo.IdUsoNoAgricola.find(x=>x==valPecuario).length>0) {
-            if (this.objRegistro.ListPecuarios.filter(x => x.OrdenFundo == objFundo.Orden && x.OrdenCampo == objCampo.Orden).length == 0) {
-              this.toastr.error("Para los campos donde seleccionó el Uso no agrícola de tipo Pecuario, se debe registrar el Capítulo III", 'Error');
+            else if (objCampo.IdUsoNoAgricola.length > 0 && objCampo.Observacion.trim().length == 0) {
+              this.toastr.error("El campo Detalle es obligatorio en el registro de Campos cuando el Tipo de uso se ha seleccionado", 'Error');
               tieneErrores = true;
             }
-          }
+            if (objCampo.IdUsoTierra.toString() == valAgricola) {
+              if (objCampo.SuperficieCultivada > objCampo.Superficie) {
+                this.toastr.error("La Superficie cultivada no debe ser mayor a la Superficie reportada para el campo " + (objCampo.Campo == null ? "" : objCampo.Campo), 'Error');
+                tieneErrores = true;
+              }
+              if (objCampo.IdCultivo == 0 || (objCampo.SuperficieCultivada.toString() == "" ? 0 : objCampo.SuperficieCultivada) == 0) {
+                this.toastr.error("Para los campos donde seleccionó el Uso de la tierra de tipo Agrícola, se debe seleccionar el tipo de Cultivo e ingresar la Superficie cultivada", 'Error');
+                tieneErrores = true;
+              }
+            }
+            else if (objCampo.IdUsoTierra.toString() != valAgricola && objCampo.IdUsoTierra.toString() != valNoAgricola) {
+              this.toastr.error("Para cada Campo se debe seleccionar el Uso de la tierra (Agrícola o No Agrícola)", 'Error');
+              tieneErrores = true;
+            }
+            if (objCampo.IdUsoNoAgricola.find(x => x == valPecuario).length > 0) {
+              if (this.objRegistro.ListPecuarios.filter(x => x.OrdenFundo == objFundo.Orden && x.OrdenCampo == objCampo.Orden).length == 0) {
+                this.toastr.error("Para los campos donde seleccionó el Uso no agrícola de tipo Pecuario, se debe registrar el Capítulo III", 'Error');
+                tieneErrores = true;
+              }
+            }
+          });
         });
-      });
 
-      if (this.objRegistro.ListFundos.filter(x => x.IdUbigeo == "").length > 0) {
-        this.toastr.error("Existen fundos sin registro de ubigeo", 'Error');
-        tieneErrores = true;
+        if (this.objRegistro.ListFundos.filter(x => x.IdUbigeo == "").length > 0) {
+          this.toastr.error("Existen fundos sin registro de ubigeo", 'Error');
+          tieneErrores = true;
+        }
       }
     }
-  }
     if (tieneErrores) {
       return;
     }
     this.objRegistro.CantidadFundo = this.objRegistro.ListFundos.length.toString();
-    this.objRegistro.FechaInicio=this.fechaInicio;
+    this.objRegistro.FechaInicio = this.fechaInicio;
     if (this.perSA) {
       this.objRegistro.RazonSocial = this.plantillaForm.controls['RazonSocial'].value;
       this.objRegistro.DireccionFiscalDomicilio = this.plantillaForm.controls['DireccionFiscalDomicilioSA'].value;
@@ -720,9 +723,9 @@ export class PlantillaUnoComponent implements OnInit {
       class: 'modal-m'
     });
   }
-  actualizarObservaciones(listObservaciones:TrazabilidadGetDto[]){
-    this.objRegistro.ListObservaciones=listObservaciones;
-    if(this.tipoPerfil=="SUPERVISAR"){
+  actualizarObservaciones(listObservaciones: TrazabilidadGetDto[]) {
+    this.objRegistro.ListObservaciones = listObservaciones;
+    if (this.tipoPerfil == "SUPERVISAR") {
       this.spinner.show();
       this.gestionregistroServiceProxy.DesaprobarCuestionario(this.objRegistro)
         .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
@@ -740,7 +743,7 @@ export class PlantillaUnoComponent implements OnInit {
           }
         });
     }
-    else if (this.tipoPerfil=="VALIDAR"){
+    else if (this.tipoPerfil == "VALIDAR") {
       this.spinner.show();
       this.gestionregistroServiceProxy.InvalidarCuestionario(this.objRegistro)
         .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
@@ -763,7 +766,7 @@ export class PlantillaUnoComponent implements OnInit {
     switch (codigoEstado) {
       case "APROBADO":
         this.spinner.show();
-        this.gestionregistroServiceProxy.AprobarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
+        this.gestionregistroServiceProxy.AprobarCuestionarioxUUID(this.objRegistro.CodigoUUID, this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {
@@ -787,7 +790,7 @@ export class PlantillaUnoComponent implements OnInit {
         break;
       case "RATIFICADO":
         this.spinner.show();
-        this.gestionregistroServiceProxy.RatificarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
+        this.gestionregistroServiceProxy.RatificarCuestionarioxUUID(this.objRegistro.CodigoUUID, this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {
@@ -803,7 +806,7 @@ export class PlantillaUnoComponent implements OnInit {
         break;
       case "DERIVADO":
         this.spinner.show();
-        this.gestionregistroServiceProxy.DerivarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
+        this.gestionregistroServiceProxy.DerivarCuestionarioxUUID(this.objRegistro.CodigoUUID, this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {
@@ -819,7 +822,7 @@ export class PlantillaUnoComponent implements OnInit {
         break;
       case "VALIDO":
         this.spinner.show();
-        this.gestionregistroServiceProxy.ValidarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
+        this.gestionregistroServiceProxy.ValidarCuestionarioxUUID(this.objRegistro.CodigoUUID, this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {
@@ -837,7 +840,7 @@ export class PlantillaUnoComponent implements OnInit {
         break;
       case "DESCARTAR":
         this.spinner.show();
-        this.gestionregistroServiceProxy.DescartarCuestionarioxUUID(this.objRegistro.CodigoUUID,this.fechaInicio)
+        this.gestionregistroServiceProxy.DescartarCuestionarioxUUID(this.objRegistro.CodigoUUID, this.fechaInicio)
           .pipe(finalize(() => setTimeout(() => this.spinner.hide(), 1000)))
           .subscribe({
             next: (result) => {

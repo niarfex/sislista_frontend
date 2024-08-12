@@ -10,6 +10,7 @@ import { MenuItemGetDto } from 'src/app/models/MenuItem';
 import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies';
 import { finalize } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AppConsts } from 'src/shared/AppConsts';
 
 
 @Component({

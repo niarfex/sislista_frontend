@@ -26,11 +26,12 @@ export class AppConsts {
     public  getApplicationConfig(appRootUrl: string, injector: Injector, callback: () => void) {
         let type = 'GET';
         let url = appRootUrl + 'assets/' + environment.appConfig;      
-        //console.log(url);
+        console.log(url);
         XmlHttpRequestHelper.ajax(type, url, null, null, (result) => {              
             AppConsts.urlHost = result.urlHost;          
             AppConsts.urlBaseApp = result.urlBaseApp;            
-            AppConsts.siteKeyCaptcha = result.siteKeyCaptcha;      
+            AppConsts.siteKeyCaptcha = result.siteKeyCaptcha;   
+            //console.log(AppConsts.urlHost);
             callback();
             
         });

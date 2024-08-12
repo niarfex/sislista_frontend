@@ -229,12 +229,7 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
         this.perSAOtro = false;
         break;
       }
-      case "SAC":
-      case "SAA":
-      case "SRL":
-      case "EIRL":
-      case "CA":
-      case "SA": {
+      case "SAC": case "SAA": case "SRL": case "EIRL": case "CA": case "SA": {
         this.perSA = true;
         this.perPN = false;
         this.perSAOtro = false;

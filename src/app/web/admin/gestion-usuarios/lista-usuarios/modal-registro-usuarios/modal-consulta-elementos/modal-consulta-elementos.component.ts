@@ -18,6 +18,7 @@ export class ModalConsultaElementosComponent implements OnInit {
   @Input() idPerfil:String;
   @Output() enviarAsignados = new EventEmitter<any>();
   lista_resultados: MarcoListaListDto[]=[];
+  selTotal:boolean=false;
   private marcolistaServiceProxy: MarcoListaServiceProxy;
   constructor(_injector: Injector
     , private confirmationService: ConfirmationService
@@ -56,5 +57,9 @@ export class ModalConsultaElementosComponent implements OnInit {
   close(){
     this.exitSubModal();
   }
-
+  checkTotal(){
+    this.lista_resultados.forEach((obj) => {
+      obj.Seleccionado=this.selTotal;
+    });
+  }
 }

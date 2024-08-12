@@ -105,13 +105,14 @@ export class ModalRegistroUsuariosComponent implements OnInit {
   }
 
   onClickSubmit(data) {
+    let codPerfil=this.objRegistro.ListPerfil.find(x=>x.value==this.IdPerfil.value.toString()).codigo;
     if(this.selDNI){
       if(this.NumeroDocumento.value.length!=8){
         this.toastr.error("El número de DNI debe tener 8 dígitios", 'Error');
         return;
       }
     }
-    if(this.objRegistro.ListMarcoListaAsignados.length==0){
+    if(this.objRegistro.ListMarcoListaAsignados.length==0 && (codPerfil=="PERFILEMP" || codPerfil=="PERFILESP" || codPerfil=="PERFILSUP")){
       this.toastr.error("Se debe asignar por lo menos un elemento de marco de lista al usuario", 'Error');
         return;
     }
@@ -200,15 +201,12 @@ export class ModalRegistroUsuariosComponent implements OnInit {
         });
     }   
     switch (codPerfil) {
-      case "PERFILADM":
-      case "PERFILCON": {
+      case "PERFILADM": case "PERFILCON": {
         this.contacto = true;
         this.contactoMarco = false;
         break;
       }
-      case "PERFILEMP":
-      case "PERFILSUP":
-      case "PERFILESP": {
+      case "PERFILEMP": case "PERFILSUP": case "PERFILESP": {
         this.contacto = false;
         this.contactoMarco = true;
         break;
@@ -225,13 +223,13 @@ export class ModalRegistroUsuariosComponent implements OnInit {
     }
   }
   actualizarAsignados(lista: MarcoListaListDto[]){
-    console.log("asignados1");
+    //console.log("asignados1");
     this.spinner.show();
     this.objRegistro.ListMarcoListaAsignados=lista;
     this.spinner.hide();
   }
   agregarAsignados(lista: MarcoListaListDto[]) {
-    console.log("asignados2");
+    //console.log("asignados2");
     lista.forEach((currentValue, index) => {
       this.objRegistro.ListMarcoListaAsignados.push(currentValue);
     });
