@@ -488,12 +488,13 @@ export class PlantillaUnoComponent implements OnInit {
   }
   selectMetodoInsercion(viewUserTemplate: TemplateRef<any>, viewUserTemplateA: TemplateRef<any>, viewUserTemplateB: TemplateRef<any>) {
     this.viewUserTemplate1 = viewUserTemplateA;
-    this.viewUserTemplate2 = viewUserTemplateB;
+    this.viewUserTemplate2 = viewUserTemplateB;/*
     this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
       class: 'modal-m'
-    });
+    });*/
+    this.mostrarVentanaMetodo("2");
   }
   mostrarVentanaMetodo(tipo: String) {
     if (tipo == "1") {

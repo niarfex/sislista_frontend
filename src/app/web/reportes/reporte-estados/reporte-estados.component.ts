@@ -53,8 +53,14 @@ export class ReporteEstadosComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.reporte = result.datos;
-            this.generarDona();        
+            if(this.usuario.isAdministrador){
+              this.generarDona();        
             this.verMenosSuperiorAdm();
+            }
+            if(this.usuario.isEmpadronador || this.usuario.isSupervisor || this.usuario.isEspecialista){
+              this.verMenosSuperiorOtros();
+              this.verMenosInferiorOtros();
+            }
             if(this.idAnio=="0"){
               this.listPeriodos=this.reporte.ListPeriodos;
               this.idAnio=this.reporte.ListPeriodos[0].value;

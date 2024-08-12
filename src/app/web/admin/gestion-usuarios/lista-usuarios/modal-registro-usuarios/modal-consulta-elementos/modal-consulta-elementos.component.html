@@ -13,7 +13,9 @@
                 <p-table [value]="lista_resultados">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Acción</th>
+                            <th style="width: 5%; flex: none; padding: 5px;" pResizableColumn>Sel. todo
+                                <input type="checkbox" (change)="checkTotal()" [(ngModel)]="selTotal" class="form-check-input" [ngModelOptions]="{standalone: true}">
+                            </th>
                             <th style="width: 15%; flex: none; padding: 5px;" pResizableColumn>Número Doc.</th>
                             <th style="width: 50%; flex: none; padding: 5px;" pResizableColumn>Razón Social/Nombre completo</th>
                             <th style="width: 30%; flex: none; padding: 5px;" pResizableColumn>Departamento</th>                            
