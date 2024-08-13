@@ -510,14 +510,14 @@ export class PlantillaUnoComponent implements OnInit {
     this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
-      class: 'modal-lg'
+      class: 'modal-lg modal-full-screen'
     });
   }
   mostrarDibujarPoligono(viewUserTemplate: TemplateRef<any>) {
     this.SubmodalRef = this.SubmodalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
-      class: 'modal-lg'
+      class: 'modal-xl modal-full-screen'
     });
   }
   importar($event: any) {

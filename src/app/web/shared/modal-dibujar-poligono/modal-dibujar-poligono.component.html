@@ -1,4 +1,99 @@
-<div id="modalRegInformantes" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+<!--Formulario de carga del ZipFile-->
+<div  class="card">
+    <div class="card-header" v-if="cardHeaderTitle">
+        <i class="fa fa-file-archive-o"></i>
+        <span>  Mantenimiento de Geometrías</span>
+        <a class="btn btn-primary btn-gis-close" (click)="close()"><i class="fa fa-times"></i></a>
+        </div>
+    <div class="card-body">
+        <div class="row" style="height: 100%;">
+            <div class="col-sm-10 div-map">
+                <app-esri-map [isFullView]="isFullViewMap" (changeFullView)="onChangeFullView($event)" (MapElement)="setMapElement($event)"></app-esri-map>   
+            </div>
+            <div class="col-sm-2">
+                <!--Formulario de actualizacion-->
+                <div id="divAttribMap" class="row card">
+                    <div class="card-header">
+                            <i class="fa fa-id-card-o"></i>
+                            <span> {{admin.ruc}}</span>
+                    </div>
+                    <div class="card-body">
+                            <div class="input-group form-group">
+                                <label>Nombre del administrado:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
+                                </div>
+                                <input type="text" readonly class="form-control" title="Nombre del administrado" placeholder="Administrado" [(ngModel)]="admin.nombre">
+                            </div>
+                            <div class="input-group form-group">
+                                <label>Nombre del fundo:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-map"></i></span>
+                                </div>
+                                <input type="text" class="form-control" title="Nombre del fundo" placeholder="Nombre del fundo" [(ngModel)]="admin.fundo">						
+                            </div>
+                            <div class="input-group form-group">
+                                <label>Nombre del campo:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-pie-chart"></i></span>
+                                </div>
+                                <input type="text" class="form-control" title="Nombre del campo" placeholder="Nombre del campo" [(ngModel)]="admin.campo" v-on:keypress="isNumber($event, WatchNumTele)">						
+                            </div>
+                            <div class="input-group form-group">
+                                <label>uso de tierra:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                                </div>
+                                <select class="form-select" [(ngModel)]="admin.tipo">
+                                    <option *ngFor="let item of listaTipoCampo"
+                                        [value]="item.value">{{ item.label }}
+                                    </option>                                  
+                                </select>
+                            </div>
+                            <div class="input-group form-group">
+                                <label>Tipo de tenencia:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-users"></i></span>
+                                </div>
+                                <select class="form-select" [(ngModel)]="admin.tenencia">
+                                    <option *ngFor="let item of listaTenencia"
+                                        [value]="item.value">{{ item.label }}
+                                    </option>                                  
+                                </select>
+                            </div>                                        
+                            <div class="input-group form-group">
+                                <label>Área declarada (ha):</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-object-ungroup"></i></span>
+                                </div>
+                                <input type="text" class="form-control" title="Área declarada" placeholder="Área declarada" [(ngModel)]="admin.area_de" (keypress)="setNumber($event, admin.area_de)">						
+                            </div> 
+                            <div class="input-group form-group">
+                                <label>Área calculada (ha):</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-object-group"></i></span>
+                                </div>
+                                <input type="text" readonly class="form-control" title="Área calculada" placeholder="Área calculada" [(ngModel)]="admin.area_ca">						
+                            </div>
+                            <div class="input-group form-group">
+                                <label>Observaciones:</label>
+                                <textarea class="form-control" rows="3" title="Observaciones" placeholder="Observaciones" [(ngModel)]="admin.observacion"></textarea>
+                            </div>                                                                                            
+                            <div class="row">
+                                <div class="col">                           
+                                    <a class="btn btn-primary" (click)="onSaveAttributes()"><i class="fa fa-floppy-o"></i> Grabar</a>
+                                </div>  
+                                <div class="col">
+                                    <a class="btn btn-primary" (click)="onCancelAttributes()"><i class="fa fa-times"></i> Cancelar</a>
+                                </div>                
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalRegInformantes" href="#" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
         <div class="modal-header"
             style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
@@ -7,6 +102,7 @@
             </span>
             <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
         </div>
+
         <div class="modal-body">           
             <div class="row mb-3">
                 <div class="col-sm-6" style="font-weight: bold; color: darkblue; font-size: medium;">

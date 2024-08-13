@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, SimpleChanges, Input, Output, EventEmitter, ElementRef, ViewChild, OnInit, Renderer2 } from '@angular/core';
 // service
 import { MapService } from '../../services/map.service';
@@ -7,13 +8,14 @@ import { GoogleMapPosition, GoogleMapPov } from '../../models/googlemaps.model';
 import { CoordinatesStatusMap } from '../../models/general.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'app-esri-map',
   templateUrl: './esri-map.component.html',
-  styleUrls: ['./esri-map.component.scss']
+  styleUrls: ['./esri-map.component.scss'],
+  imports: [CommonModule,FormsModule]
 })
 
 export class EsriMapComponent implements OnInit {
@@ -74,8 +76,8 @@ export class EsriMapComponent implements OnInit {
     this.mapService.printSeparator2D = document.getElementById('print_separator_2D');
 
     //--Datos del Administrado
-    this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
-    //this.administradoDoc ='20131823020';
+    //this.administradoDoc = this._route.snapshot.paramMap.get('numDoc');
+    this.administradoDoc ='20512252282';
     this.mapService.SisListaRuc = this.administradoDoc
 
     this.changeSelectMap();
