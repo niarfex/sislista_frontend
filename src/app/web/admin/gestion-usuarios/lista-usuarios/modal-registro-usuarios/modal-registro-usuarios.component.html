@@ -215,7 +215,7 @@
                         (click)="consultarElementos(viewUserTemplate)">Consultar</button>
                 </div>
             </div>
-            <div *ngIf="contactoMarco" class="row">
+            <div *ngIf="contactoMarco && objRegistro.ListMarcoListaAsignados.length>0" class="row">
                 <lista-marco-lista-asignado [lista_asignados]="objRegistro.ListMarcoListaAsignados"
                 (enviarAsignados)="actualizarAsignados($event)" 
                 ></lista-marco-lista-asignado>

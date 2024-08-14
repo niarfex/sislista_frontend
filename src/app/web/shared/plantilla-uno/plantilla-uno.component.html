@@ -216,8 +216,8 @@
                 <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="TelefonoPN">12. Teléfono fijo</label>
-                        <input formControlName="TelefonoPN" maxlength="9" type="text" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'TelefonoPN')">
+                        <input formControlName="TelefonoPN" maxlength="9" type="text"  class="form-control"
+                        onkeypress="return '0123456789'.includes(event.key)" (focusout)="onFocusOutEvent($event,'TelefonoPN')">
                     </div>
                 </div>
                 <div *ngIf="perPN" class="col-sm-4">
@@ -265,7 +265,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="NumeroDocumentoSA">2. RUC</label>
-                        <input formControlName="NumeroDocumentoSA" type="text" class="form-control" required>
+                        <input formControlName="NumeroDocumentoSA" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
                         <div *ngIf="NumeroDocumentoSA.invalid && (NumeroDocumentoSA.dirty || NumeroDocumentoSA.touched)"
                             class="text-danger">
                             <div *ngIf="NumeroDocumentoSA.errors?.['required']">
@@ -277,7 +277,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="RazonSocial">3. Razón Social</label>
-                        <input formControlName="RazonSocial" type="text" class="form-control" required>
+                        <input formControlName="RazonSocial" type="text" (focusout)="onFocusOutEvent($event,'RazonSocial')" class="form-control" required>
                         <div *ngIf="RazonSocial.invalid && (RazonSocial.dirty || RazonSocial.touched)"
                             class="text-danger">
                             <div *ngIf="RazonSocial.errors?.['required']">
@@ -289,7 +289,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="DireccionFiscalDomicilioSA">4. Dirección fiscal</label>
-                        <input formControlName="DireccionFiscalDomicilioSA" type="text" class="form-control" required>
+                        <input formControlName="DireccionFiscalDomicilioSA" type="text" (focusout)="onFocusOutEvent($event,'DireccionFiscalDomicilioSA')" class="form-control" required>
                         <div *ngIf="DireccionFiscalDomicilioSA.invalid && (DireccionFiscalDomicilioSA.dirty || DireccionFiscalDomicilioSA.touched)"
                             class="text-danger">
                             <div *ngIf="DireccionFiscalDomicilioSA.errors?.['required']">
@@ -373,7 +373,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="TelefonoSA">9. Teléfono fijo</label>
-                        <input formControlName="TelefonoSA" type="text" class="form-control" required>
+                        <input formControlName="TelefonoSA" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
                         <div *ngIf="TelefonoSA.invalid && (TelefonoSA.dirty || TelefonoSA.touched)" class="text-danger">
                             <div *ngIf="TelefonoSA.errors?.['required']">
                                 El campo es requerido.
@@ -384,7 +384,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="CelularSA">10. Celular</label>
-                        <input formControlName="CelularSA" type="text" class="form-control" required>
+                        <input formControlName="CelularSA" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
                         <div *ngIf="CelularSA.invalid && (CelularSA.dirty || CelularSA.touched)" class="text-danger">
                             <div *ngIf="CelularSA.errors?.['required']">
                                 El campo es requerido.
@@ -395,7 +395,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="CorreoElectronicoSA">11. Correo electrónico institucional</label>
-                        <input formControlName="CorreoElectronicoSA" type="text" class="form-control" required>
+                        <input formControlName="CorreoElectronicoSA" type="text" (focusout)="onFocusOutEvent($event,'CorreoElectronicoSA')" class="form-control" required>
                         <div *ngIf="CorreoElectronicoSA.invalid && (CorreoElectronicoSA.dirty || CorreoElectronicoSA.touched)"
                             class="text-danger">
                             <div *ngIf="CorreoElectronicoSA.errors?.['required']">
@@ -407,7 +407,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="PaginaWebSA">12. Página web</label>
-                        <input formControlName="PaginaWebSA" type="text" class="form-control" required>
+                        <input formControlName="PaginaWebSA" type="text" (focusout)="onFocusOutEvent($event,'PaginaWebSA')" class="form-control" required>
                         <div *ngIf="PaginaWebSA.invalid && (PaginaWebSA.dirty || PaginaWebSA.touched)"
                             class="text-danger">
                             <div *ngIf="PaginaWebSA.errors?.['required']">
@@ -426,7 +426,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="NombreRepLegal">13. Nombres y apellidos</label>
-                        <input formControlName="NombreRepLegal" type="text" class="form-control" required>
+                        <input formControlName="NombreRepLegal" type="text" (focusout)="onFocusOutEvent($event,'NombreRepLegal')" class="form-control" required>
                         <div *ngIf="NombreRepLegal.invalid && (NombreRepLegal.dirty || NombreRepLegal.touched)"
                             class="text-danger">
                             <div *ngIf="NombreRepLegal.errors?.['required']">
@@ -438,9 +438,9 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="CelularRepLegal">14. Celular</label>
-                        <input formControlName="CelularRepLegal" type="text" class="form-control" required>
-                        <div *ngIf="CelularRepLegal.invalid && (CelularRepLegal.dirty || CelularRepLegal.touched)"
-                            class="text-danger">
+                        <input formControlName="CelularRepLegal" type="text" (focusout)="onFocusOutEvent($event,'CelularRepLegal')" 
+                        onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
+                        <div *ngIf="CelularRepLegal.invalid && (CelularRepLegal.dirty || CelularRepLegal.touched)" class="text-danger">
                             <div *ngIf="CelularRepLegal.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -450,7 +450,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="CorreoRepLegal">15. Correo electrónico</label>
-                        <input formControlName="CorreoRepLegal" type="text" class="form-control" required>
+                        <input formControlName="CorreoRepLegal" type="text" (focusout)="onFocusOutEvent($event,'CorreoRepLegal')" class="form-control" required>
                         <div *ngIf="CorreoRepLegal.invalid && (CorreoRepLegal.dirty || CorreoRepLegal.touched)"
                             class="text-danger">
                             <div *ngIf="CorreoRepLegal.errors?.['required']">
@@ -612,7 +612,7 @@
             <div class="col-sm-6">
             </div>
             <div class="col-sm-6 text-end">
-                <button type="submit" class="btn btn-primary" (click)="supervisarValidar(viewUserTemplate6,viewUserTemplate7,'SUPERVISAR')"
+                <button *ngIf="modalActivoSup" type="submit" class="btn btn-primary" (click)="supervisarValidar(viewUserTemplate6,viewUserTemplate7,'SUPERVISAR')"
                     style="background-color: #008F49; border-color: #008F49;">Supervisar</button>
             </div>
         </div>
@@ -620,7 +620,7 @@
             <div class="col-sm-6">
             </div>
             <div class="col-sm-6 text-end">
-                <button  type="submit" class="btn btn-primary" (click)="supervisarValidar(viewUserTemplate6,viewUserTemplate7,'VALIDAR')"
+                <button *ngIf="modalActivoEsp" type="submit" class="btn btn-primary" (click)="supervisarValidar(viewUserTemplate6,viewUserTemplate7,'VALIDAR')"
                     style="background-color: #008F49; border-color: #008F49;">Validar</button>
             </div>
         </div>
