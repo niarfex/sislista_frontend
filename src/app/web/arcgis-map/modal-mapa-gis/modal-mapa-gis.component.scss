@@ -1,6 +1,5 @@
 @import '../../arcgis-map/components/esri-map/esri-map.component.scss';
 
-
 // globals
 $color-main: #ffffff;
 $time-transition: 0.5s;
@@ -159,30 +158,3 @@ $container-max-widths: (
   .form-select{
     padding: 0.1rem 1.0rem 0.1rem 0.75rem;
   }
-
-  .card {    
-    display: block;
-    position: absolute;
-    text-align: left;
-    border-radius: 6px 6px 0px 0px;
-    width: 100%;
-    height: 100%;
-    .card-header {
-        color: #ffffff;
-        background-color: #008f49;
-        font-size: 12px;
-        font-weight: bold;
-        //padding: 0.35rem 1.25rem;
-        border-radius: 6px 6px 0px 0px;
-    }
-    .card-body {
-      padding:0px;
-      height: calc(100% - 30px);
-
-    }
-  }
-  
-.div-map{
-    height: calc(100% - 13px);
-}
-  

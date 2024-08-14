@@ -7,7 +7,7 @@ import { PlantillaUnoComponent } from '../shared/plantilla-uno/plantilla-uno.com
 import { ReporteMapaGeneralComponent } from './reporte-mapa-general/reporte-mapa-general.component';
 import { TableModule } from 'primeng/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EsriMapComponent } from './../arcgis-map/components/esri-map/esri-map.component';
+//import { EsriMapComponent } from './../arcgis-map/components/esri-map/esri-map.component';
 import { ListaReporteUsuariosComponent } from './reporte-estados/lista-reporte-usuarios/lista-reporte-usuarios.component';
 import { BasicAuthInterceptor, ErrorInterceptor } from 'src/auth/services';
 import { MyHttpInterceptor } from 'src/auth/services/request.interceptor';
@@ -19,7 +19,7 @@ import { ChartModule } from 'primeng/chart';
     ReporteMapaComponent,
     ReporteEstadosComponent,
     ReporteMapaGeneralComponent,
-    EsriMapComponent,
+    //EsriMapComponent,
     ListaReporteUsuariosComponent,
   ],
   imports: [
