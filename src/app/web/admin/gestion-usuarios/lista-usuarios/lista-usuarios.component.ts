@@ -104,7 +104,7 @@ export class ListaUsuariosComponent implements OnInit {
   activarRegistro(uuid: String) {
     this.confirmationService.confirm({
       message: '¿Estás seguro que desea habilitar el registro?',
-      header: 'Eliminar',
+      header: 'Habilitar',
       icon: 'none',
 
       acceptButtonStyleClass: "p-button-danger p-button-text",

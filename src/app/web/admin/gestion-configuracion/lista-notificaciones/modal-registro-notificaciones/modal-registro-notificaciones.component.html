@@ -124,7 +124,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer text-end" style="display: block;">
+        <div *ngIf="modalActivo" class="modal-footer text-end" style="display: block;">
             <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
                 style="background-color: green; border-color: green;">Registrar</button>
         </div>

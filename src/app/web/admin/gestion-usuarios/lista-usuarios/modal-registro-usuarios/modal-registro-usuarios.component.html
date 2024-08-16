@@ -221,12 +221,12 @@
                 ></lista-marco-lista-asignado>
             </div>
         </div>
-        <div class="modal-footer text-end" style="display: block;">
+        <div *ngIf="modalActivo" class="modal-footer text-end" style="display: block;">
             <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
                 style="background-color: #008F49; border-color: #008F49;">Registrar</button>
         </div>
-    </form>
-    <p-confirmDialog></p-confirmDialog>
+        <p-confirmDialog></p-confirmDialog>
+    </form>    
     <ng-template #viewUserTemplate>
         <modal-consulta-elementos [exitSubModal]="exitSubModal"
         [idDepartamento]="IdDepartamento.value"

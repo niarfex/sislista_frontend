@@ -54,7 +54,7 @@
                     <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid"
                     style="background-color: green; border-color: green;">Previsualizar</button>
                 </div>
-                <div class="col-sm-6 text-end">
+                <div *ngIf="modalActivo" class="col-sm-6 text-end">
                     <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
                     style="background-color: green; border-color: green;">Registrar</button>
                 </div>

@@ -10,7 +10,8 @@ import { EspecieServiceProxy } from 'src/shared/service-proxies/especie-proxies'
 @Component({
   selector: 'modal-registro-especies',
   templateUrl: './modal-registro-especies.component.html',
-  styleUrls: ['./modal-registro-especies.component.scss']
+  styleUrls: ['./modal-registro-especies.component.scss'],
+  providers: [ConfirmationService]
 })
 export class ModalRegistroEspeciesComponent implements OnInit {
 

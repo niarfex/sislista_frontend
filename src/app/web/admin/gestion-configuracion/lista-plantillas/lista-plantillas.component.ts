@@ -104,7 +104,7 @@ export class ListaPlantillasComponent implements OnInit {
   activarRegistro(id: number) {
     this.confirmationService.confirm({
       message: '¿Estás seguro que desea habilitar el registro?',
-      header: 'Eliminar',
+      header: 'Habilitar',
       icon: 'none',
 
       acceptButtonStyleClass: "p-button-danger p-button-text",

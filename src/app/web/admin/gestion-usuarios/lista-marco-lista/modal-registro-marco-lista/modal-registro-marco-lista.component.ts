@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
 import { finalize } from 'rxjs/operators';
 import { MarcoListaGetDto } from 'src/app/models/MarcoLista';
+import { SelectTipoDto } from 'src/app/models/SelectTipo';
 import { MarcoListaServiceProxy } from 'src/shared/service-proxies/marcolista-proxies';
 import { UbigeoServiceProxy } from 'src/shared/service-proxies/ubigeo-proxies';
 import { UsuarioServiceProxy } from 'src/shared/service-proxies/usuario-proxies';
@@ -19,12 +20,14 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
   @Input() exitModal = (): void => { };
   @Input() idRegistro: number;
   @Input() modalActivo: boolean = true;
+  listTipoDocumento:SelectTipoDto[] = [];
   objRegistro: MarcoListaGetDto = new MarcoListaGetDto();
   txt_campo: string = "";
   active: boolean = true;
   perSA: boolean = false;
   perPN: boolean = false;
   perSAOtro: boolean = false;
+  mostrarPIDE:boolean=false;
   modalForm = this.formBuilder.group({
     IdCondicionJuridica: ['', [Validators.required]],
     IdCondicionJuridicaOtros: ['', this.perSAOtro ? [Validators.required] : []],
@@ -99,13 +102,14 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
-
+            this.listTipoDocumento= this.objRegistro.ListTipoDocumento.filter(x=>x.codigo!="RUC");
             if (this.objRegistro.Id > 0) {
               this.modalForm.controls['IdCondicionJuridica'].setValue(this.objRegistro.IdCondicionJuridica.toString());
               this.modalForm.controls['IdCondicionJuridicaOtros'].setValue(this.objRegistro.IdCondicionJuridicaOtros==null?null:this.objRegistro.IdCondicionJuridicaOtros.toString());
               this.IdCondicionJuridica.disable();
               this.selCondicionJuridica(null);
               this.modalForm.controls['IdTipoDocumento'].setValue(this.objRegistro.IdTipoDocumento.toString());
+              this.selTipoDocumento(null);
               if(this.objRegistro.IdUbigeo!=null){
                 this.modalForm.controls['IdDepartamentoPer'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 2));
                 this.modalForm.controls['IdProvinciaPer'].setValue(this.objRegistro.IdUbigeo.toString().substring(0, 4));
@@ -153,7 +157,23 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
     this.modalForm.controls[nombreControl].setValue(event.target.value.trim().toUpperCase());
   }
 
-  onClickSubmit(data) {
+  onClickSubmit(data) {    
+    if (this.perPN) {
+      var tipoDocumento = this.objRegistro.ListTipoDocumento.find(x=>x.value==this.IdTipoDocumento.value).codigo
+      if(tipoDocumento=="DNI"){
+        if(this.NumeroDocumentoPN.value.length!=8){
+          this.toastr.error("El DNI debe tener 8 dígitos", 'Error');
+          return;
+        }        
+      }
+    }
+    else if (this.perSA) {
+      if(this.NumeroDocumentoSA.value.length!=11){
+        this.toastr.error("El RUC debe tener 11 dígitos", 'Error');
+          return;
+      }
+    }   
+   
     this.confirmationService.confirm({
       message: '¿Estás seguro de guardar los datos ingresados?',
       header: 'Guardar',
@@ -224,31 +244,31 @@ export class ModalRegistroMarcoListaComponent implements OnInit {
     var codCondJur = this.objRegistro.ListCondicionJuridica.find(x => x.value == this.IdCondicionJuridica.value).codigo;
     switch (codCondJur) {
       case "PN": {
-        this.perSA = false;
-        this.perPN = true;
-        this.perSAOtro = false;
+        this.perSA = false; this.perPN = true; this.perSAOtro = false;
         break;
       }
       case "SAC": case "SAA": case "SRL": case "EIRL": case "CA": case "SA": {
-        this.perSA = true;
-        this.perPN = false;
-        this.perSAOtro = false;
+        this.perSA = true; this.perPN = false; this.perSAOtro = false;
         break;
       }
       case "OTRO": {
-        this.perSA = true;
-        this.perPN = false;
-        this.perSAOtro = true;
+        this.perSA = true; this.perPN = false; this.perSAOtro = true;
         break;
       }
       default: {
-        this.perSA = false;
-        this.perPN = false;
-        this.perSAOtro = false;
+        this.perSA = false; this.perPN = false; this.perSAOtro = false;
         break;
       }
     }
-
+  }
+  selTipoDocumento(event: any) {
+    var tipoDocumento = this.objRegistro.ListTipoDocumento.find(x=>x.value==this.IdTipoDocumento.value).codigo
+    if(tipoDocumento=="DNI"){
+      this.mostrarPIDE=true;
+    }
+    else{
+      this.mostrarPIDE=false;
+    }
   }
   show() {
 
