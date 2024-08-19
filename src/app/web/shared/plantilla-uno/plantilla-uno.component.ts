@@ -63,6 +63,8 @@ export class PlantillaUnoComponent implements OnInit {
   @Input() idPeriodo: number;
   @Input() listFields: any[];
   modalActivoEmp: boolean = true;
+  modalActivoSup: boolean = true;
+  modalActivoEsp: boolean = true;
   campos: CampoGetDto[];
   perSA: boolean = false;
   perPN: boolean = false;
@@ -204,6 +206,7 @@ export class PlantillaUnoComponent implements OnInit {
               this.plantillaForm.controls['NumeroDocumentoSA'].setValue(this.objRegistro.NumeroDocumento.toString());
               this.plantillaForm.controls['NumeroDocumentoSA'].disable();
               this.plantillaForm.controls['RazonSocial'].setValue(this.objRegistro.RazonSocial.toString());
+              this.plantillaForm.controls['RazonSocial'].disable();
               this.plantillaForm.controls['DireccionFiscalDomicilioSA'].setValue(this.objRegistro.DireccionFiscalDomicilio == null ? null : this.objRegistro.DireccionFiscalDomicilio.toString());
               this.plantillaForm.controls['IdDepartamentoPerSA'].setValue(this.objRegistro.IdUbigeo == null ? null : this.objRegistro.IdUbigeo.toString().substring(0, 2));
               this.plantillaForm.controls['IdProvinciaPerSA'].setValue(this.objRegistro.IdUbigeo == null ? null : this.objRegistro.IdUbigeo.toString().substring(0, 4));
@@ -239,14 +242,48 @@ export class PlantillaUnoComponent implements OnInit {
               this.nombreElemento = this.objRegistro.Nombre.toString() + " " + this.objRegistro.ApellidoPaterno.toString() + " " + this.objRegistro.ApellidoMaterno.toString();
             }
             if (this.objRegistro.CodigoUUID != null) {
-              if (this.objRegistro.CodigoEstadoRegistro != "TRABAJOGABINETE"
-                && this.objRegistro.CodigoEstadoRegistro != "PARAREGISTRAR2"
-                && this.objRegistro.CodigoEstadoRegistro != "OBSERVADOSUPERVISOR"
-                && this.objRegistro.CodigoEstadoRegistro != "REEMPLAZADO"
-                && this.objRegistro.CodigoEstadoRegistro != "OBSERVADOESPECIALISTA") {
+              if (this.usuario.isEmpadronador) {
+                if (this.objRegistro.CodigoEstadoRegistro != "TRABAJOGABINETE"
+                  && this.objRegistro.CodigoEstadoRegistro != "PARAREGISTRAR2"
+                  && this.objRegistro.CodigoEstadoRegistro != "OBSERVADOSUPERVISOR"
+                  && this.objRegistro.CodigoEstadoRegistro != "REEMPLAZADO"
+                  && this.objRegistro.CodigoEstadoRegistro != "OBSERVADOESPECIALISTA") {
+                  this.plantillaForm.disable();
+                  this.modalActivoEmp = false;
+                }
+              }
+              else if (this.usuario.isSupervisor) {
                 this.plantillaForm.disable();
                 this.modalActivoEmp = false;
+                if (this.objRegistro.CodigoEstadoRegistro == "TRABAJOGABINETE"
+                  || this.objRegistro.CodigoEstadoRegistro == "PARAREGISTRAR2"
+                  || this.objRegistro.CodigoEstadoRegistro == "OBSERVADOSUPERVISOR"
+                  || this.objRegistro.CodigoEstadoRegistro == "REEMPLAZADO"
+                  || this.objRegistro.CodigoEstadoRegistro == "OBSERVADOESPECIALISTA") {
+                  this.modalActivoSup = false;
+                }
+                else if (this.objRegistro.CodigoEstadoRegistro != "PARAREVISAR"
+                  && this.objRegistro.CodigoEstadoRegistro != "ENALERTA") {
+                    this.modalActivoSup = false;
+                }
               }
+              else if (this.usuario.isEspecialista) {
+                this.plantillaForm.disable();
+                this.modalActivoEmp = false;
+                this.modalActivoSup = false;
+                if (this.objRegistro.CodigoEstadoRegistro == "TRABAJOGABINETE"
+                  || this.objRegistro.CodigoEstadoRegistro == "PARAREGISTRAR2"
+                  || this.objRegistro.CodigoEstadoRegistro == "OBSERVADOSUPERVISOR"
+                  || this.objRegistro.CodigoEstadoRegistro == "REEMPLAZADO"
+                  || this.objRegistro.CodigoEstadoRegistro == "OBSERVADOESPECIALISTA") {
+                  this.modalActivoEsp= false;
+                }
+                else if (this.objRegistro.CodigoEstadoRegistro != "PARAVALIDAR"
+                  && this.objRegistro.CodigoEstadoRegistro != "ARBITRAJE") {
+                    this.modalActivoSup = false;
+                }
+              }
+
               //this.modalForm.controls['IdPerfil'].setValue(this.objRegistro.IdPerfil.toString());
 
             }
@@ -264,40 +301,24 @@ export class PlantillaUnoComponent implements OnInit {
                 ListCampos.forEach(myObject2 => {
                   superficieFundo = superficieFundo + Number.parseFloat(myObject2["SUPERFICIE"]==null?0:myObject2["SUPERFICIE"]);
                   this.campos.push(new CampoGetDto({
-                    Id: 0,
-                    IdFundo: 0,
-                    Campo: myObject2["NOMRE_CAMPO"],
-                    IdTenencia: 0,
-                    IdUsoTierra: 0,
-                    IdCultivo: 0,
-                    IdUsoNoAgricola: [],
-                    Observacion: "",
+                    Id: 0,IdFundo: 0,Campo: myObject2["NOMRE_CAMPO"],
+                    IdTenencia: 0,IdUsoTierra: 0,IdCultivo: 0,
+                    IdUsoNoAgricola: [],Observacion: "",
                     SuperficieCalc: Number.parseFloat(Number.parseFloat(myObject2["SUPERFICIE"]==null?0:myObject2["SUPERFICIE"]).toFixed(2)),
-                    Superficie: 0.00,
-                    SuperficieCultivada: 0.00,
-                    Orden: contCampos + 1,
-                    idusoNoAgricolaDisable: true,
-                    agricolaDisable: true,
-                    ListTipoUso:[]
+                    Superficie: 0.00,SuperficieCultivada: 0.00,Orden: contCampos + 1,
+                    idusoNoAgricolaDisable: true,agricolaDisable: true,ListTipoUso:[]
                   }));
                   contCampos = contCampos + 1;
                 });
 
 
                 this.objRegistro.ListFundos.push(new FundoGetDto({
-                  Id: 0,
-                  IdCuestionario: 0,
-                  Fundo: myObject,
+                  Id: 0,IdCuestionario: 0,Fundo: myObject,
                   SuperficieTotalCalc: Number.parseFloat(superficieFundo.toFixed(2)),
-                  SuperficieTotal: 0.00,
-                  SuperficieAgricola: 0.00,
-                  IdUbigeo: "",
-                  Observacion: "",
-                  Orden: contFundos + 1,
+                  SuperficieTotal: 0.00,SuperficieAgricola: 0.00,
+                  IdUbigeo: "",Observacion: "",Orden: contFundos + 1,
                   ListDepartamento: this.objRegistro.ListDepartamento,
-                  ListProvincia: null,
-                  ListDistrito: null,
-                  ListCampos: this.campos
+                  ListProvincia: null,ListDistrito: null,ListCampos: this.campos
                 }));
                 contFundos = contFundos + 1;
               });
@@ -599,6 +620,38 @@ export class PlantillaUnoComponent implements OnInit {
     if (tieneErrores == false) {
       if (this.objRegistro.ListArchivos.length == 0 && this.objRegistro.ListInformantes[0].IdEstado.toString() == valCompleto) {
 
+        if (this.perSA) {
+          if (this.plantillaForm.controls['DireccionFiscalDomicilioSA'].value == "") {
+            this.toastr.error("Se debe ingresar la Dirección fiscal", 'Error');
+            tieneErrores = true;
+          }
+          if (this.plantillaForm.controls['IdTipoExplotacionSA'].value == "") {
+            this.toastr.error("Se debe seleccionar el Tipo de explotación", 'Error');
+            tieneErrores = true;
+          }
+          if (this.plantillaForm.controls['CorreoElectronicoSA'].value == "") {
+            this.toastr.error("Se debe ingresar el correo electrónico institucional", 'Error');
+            tieneErrores = true;
+          }
+        }
+        if (this.perPN) {
+          if (this.plantillaForm.controls['DireccionFiscalDomicilioPN'].value == "") {
+            this.toastr.error("Se debe ingresar la Dirección fiscal", 'Error');
+            tieneErrores = true;
+          }
+          if (this.plantillaForm.controls['IdTipoExplotacionPN'].value == "") {
+            this.toastr.error("Se debe seleccionar el Tipo de explotación", 'Error');
+            tieneErrores = true;
+          }
+          if (this.plantillaForm.controls['CorreoElectronicoPN'].value == "") {
+            this.toastr.error("Se debe ingresar el correo electrónico", 'Error');
+            tieneErrores = true;
+          }
+        }
+
+
+
+
         this.objRegistro.ListFundos.forEach(objFundo => {
           objFundo.ListCampos.forEach(objCampo => {
             if (objCampo.IdTenencia == 0) {
@@ -665,7 +718,7 @@ export class PlantillaUnoComponent implements OnInit {
       this.objRegistro.ApellidoPaterno = this.plantillaForm.controls['ApellidoPaterno'].value;
       this.objRegistro.ApellidoMaterno = this.plantillaForm.controls['ApellidoMaterno'].value;
       this.objRegistro.TieneRuc = this.plantillaForm.controls['TieneRuc'].value;
-      this.objRegistro.DireccionFiscalDomicilio = this.plantillaForm.controls['DireccionFiscalDomicilioSA'].value;
+      this.objRegistro.DireccionFiscalDomicilio = this.plantillaForm.controls['DireccionFiscalDomicilioPN'].value;
       this.objRegistro.IdUbigeo = this.plantillaForm.controls['IdDistritoPerPN'].value;
       this.objRegistro.IdTipoExplotacion = Number.parseInt(this.plantillaForm.controls['IdTipoExplotacionPN'].value);
       this.objRegistro.Telefono = this.plantillaForm.controls['TelefonoPN'].value;

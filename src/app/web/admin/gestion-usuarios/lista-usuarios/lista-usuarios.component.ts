@@ -104,7 +104,7 @@ export class ListaUsuariosComponent implements OnInit {
   activarRegistro(uuid: String) {
     this.confirmationService.confirm({
       message: '¿Estás seguro que desea habilitar el registro?',
-      header: 'Eliminar',
+      header: 'Habilitar',
       icon: 'none',
 
       acceptButtonStyleClass: "p-button-danger p-button-text",
@@ -175,7 +175,7 @@ export class ListaUsuariosComponent implements OnInit {
   };
   enviarCredenciales(uuid:String){
     this.confirmationService.confirm({
-      message: '¿Estás seguro de remitir correo al usuario al usuario?',
+      message: '¿Estás seguro de remitir las credenciales via correo al usuario?',
       header: 'Enviar Credenciales',
       icon: 'none',
 

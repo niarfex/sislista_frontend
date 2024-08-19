@@ -81,7 +81,7 @@
                                     (click)="agregarRegistro(viewUserTemplate,item.Id)"><i class="bi bi-pencil-square"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Editar</span>
                                 </div>
-                                <div *ngIf="usuario.isAdministrador">
+                                <div *ngIf="usuario.isAdministrador && item.Usuarios==0 && item.Estado==1">
                                     <button class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
                                     type="button" (click)="eliminarRegistro(item.Id)"><i class="bi bi-trash3"></i>

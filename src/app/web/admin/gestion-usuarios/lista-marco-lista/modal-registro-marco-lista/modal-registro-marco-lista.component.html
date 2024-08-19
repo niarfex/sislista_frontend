@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="IdCondicionJuridica">Condición jurídica*</label>
                         <select formControlName="IdCondicionJuridica" id="IdCondicionJuridica"
-                            name="IdCondicionJuridica" class="form-select" (change)="selCondicionJuridica($event)">
+                            class="form-select" (change)="selCondicionJuridica($event)">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListCondicionJuridica" [value]="item.value">
                                 {{ item.label }}
@@ -54,9 +54,9 @@
                     <div *ngIf="perPN" class="form-group">
                         <label for="IdTipoDocumento">Tipo de documento*</label>
                         <select formControlName="IdTipoDocumento" id="IdTipoDocumento" name="IdTipoDocumento"
-                            class="form-select">
+                            class="form-select" (change)="selTipoDocumento($event)">
                             <option value="" disabled selected>-- Seleccionar --</option>
-                            <option *ngFor="let item of objRegistro.ListTipoDocumento" [value]="item.value">
+                            <option *ngFor="let item of listTipoDocumento" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
@@ -130,9 +130,9 @@
                     <div class="form-group">
                         <label for="NumeroDocumentoPN">Número de documento*</label>                        
                         <div class="input-group">
-                            <input formControlName="NumeroDocumentoPN" maxlength="11" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control"
+                            <input formControlName="NumeroDocumentoPN" maxlength="20" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control"
                             (focusout)="onFocusOutEvent($event,'NumeroDocumentoPN')" required>
-                            <button *ngIf="modalActivo" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" (click)="getDatosRENIEC()" type="button"><i class="bi bi-search"></i></button>
+                            <button *ngIf="modalActivo && mostrarPIDE" class="btn btn-primary" style="background-color: #008F49; border-color: #008F49;" (click)="getDatosRENIEC()" type="button"><i class="bi bi-search"></i></button>
                         </div> 
                         <div *ngIf="NumeroDocumentoPN.invalid && (NumeroDocumentoPN.dirty || NumeroDocumentoPN.touched)"
                             class="text-danger">
@@ -437,10 +437,10 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer text-end" style="display: block;">
-            <p-confirmDialog></p-confirmDialog>
+        <div *ngIf="modalActivo" class="modal-footer text-end" style="display: block;">            
             <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"
                 style="background-color: #008F49; border-color: #008F49;">Registrar</button>
         </div>
+        <p-confirmDialog></p-confirmDialog>
     </form>
 </div>

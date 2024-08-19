@@ -112,5 +112,6 @@ export class ListaGestionRegistroComponent implements OnInit {
   }
   exitModal = (): void => {
     this.modalRef?.hide();
+    this.getData();
   };
 }
