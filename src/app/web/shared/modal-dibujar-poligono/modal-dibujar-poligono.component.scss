@@ -170,19 +170,21 @@ $container-max-widths: (
     .card-header {
         color: #ffffff;
         background-color: #008f49;
-        font-size: 12px;
+        font-size: 18px;
         font-weight: bold;
-        //padding: 0.35rem 1.25rem;
+        padding-top: 5px;
+        padding-bottom: 5px;
         border-radius: 6px 6px 0px 0px;
     }
     .card-body {
       padding:0px;
-      height: calc(100% - 30px);
+      height: calc(100% - 38px);
 
     }
   }
   
 .div-map{
     height: calc(100% - 13px);
+    padding-left: 0px;
 }
   

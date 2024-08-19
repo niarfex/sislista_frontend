@@ -22,7 +22,6 @@ import { GoogleMapPosition, GoogleMapPov } from '../models/googlemaps.model';
 import { GlobalsService } from './globals.service';
 import { Subject, Observable } from 'rxjs';
 import { CoordinatesStatusMap } from '../models/general.model';
-import { EmissionService } from './emission.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SwalUtil } from '../util/SwalUtil';
 import { SweetAlert } from '../util/SweetAlert';
@@ -54,14 +53,17 @@ export class MapService {
   coordStatusMap: CoordinatesStatusMap;
 
   //--Datos del Administrado
-  SisListaRuc: any;
+  SisListaRuc: any;  //--Ruc de Administrado
+  SisListaRaz: any;  //--Razon Social del Administrado
+  SisListaUsr: any;  //--Usuario logueado
+
   SislistaLayer: any[] = [];
 
   //-Datos de Edición
   editDivMenu:any;
   editDivZipfile:any;
   editDivAttribute:any;
-  readDivFormLista:any;
+  //readDivFormLista:any;
   editDivToolbar:any;
 
   editEditor:any
@@ -154,7 +156,11 @@ export class MapService {
   private urlProxy: string = config.agsUrlProxy;
   private urlBasemap: string = config.agsUrlRoot + config.agsUrlBasemap;
 
-  constructor(private sweetAlert: SweetAlert, private spinner: NgxSpinnerService, private emissonService: EmissionService, private basemapService: BasemapCollectionService, private layersService: LayersService, private globals: GlobalsService) {
+  constructor(private sweetAlert: SweetAlert, 
+              private spinner: NgxSpinnerService,
+              private basemapService: BasemapCollectionService, 
+              private layersService: LayersService, 
+              private globals: GlobalsService) {
     this.coordStatusMap = {zoneUTM: 18, xUTM: 0, yUTM: 0, latitude: 0, longitude: 0, height: 0};
   }
 
@@ -350,7 +356,7 @@ export class MapService {
         //--Desactivamos los formularios
         this.setDisplayDiv();
         //--Validamos si hay seleccionados
-        this.readDivFormLista.style.display = 'block';
+        //this.readDivFormLista.style.display = 'block';
         this.editDivToolbar.style.display = 'none'; 
       }
       if(this.ptFeatureLayerEdit !== undefined ){this.ptFeatureLayerEdit.visible=!isGraphicsVisible}
@@ -585,10 +591,10 @@ export class MapService {
 
     //--Obtenemos los datos principales
      let strAux = this.ptGraphicSelect.items[0].attributes['TXT_EMPRESA_RUC']
-     this.ptAttributeSelect.ruc = (!strAux)?'':strAux;
+     this.ptAttributeSelect.ruc= (!this.SisListaRuc)?strAux:this.SisListaRuc;
 
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_EMPRESA_NOMBRE']
-    this.ptAttributeSelect.nombre = (!strAux)?'':strAux;
+    this.ptAttributeSelect.nombre = (!this.SisListaRaz)?strAux:this.SisListaRaz;
 
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_FUNDO_NOMBRE']
     this.ptAttributeSelect.fundo = (!strAux)?'':strAux;
@@ -600,13 +606,13 @@ export class MapService {
     this.ptAttributeSelect.tipo = (!strAux)?'AGRÍCOLA':strAux;
 
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_TIPO_TENENCIA']
-    this.ptAttributeSelect.tenencia = (!strAux)?'PROPIO':strAux;
+    this.ptAttributeSelect.tenencia= (!strAux)?'PROPIO':strAux;
 
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_OBSERVACIONES']
     this.ptAttributeSelect.observacion = (!strAux)?'':strAux;
     
     strAux = this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'];
-    this.ptAttributeSelect.area_de = (!strAux)?'':strAux;
+    this.ptAttributeSelect.area_de= (!strAux)?'':strAux;
 
     this.ptAttributeSelect.area_ca = this.ptGraphicSelect.items[0].attributes['NUM_AREA_TOTAL'];   
     console.log('Atributos:' + this.ptAttributeSelect)
@@ -627,9 +633,17 @@ export class MapService {
     this.ptGraphicSelect.items[0].attributes['TXT_TIPO_TENENCIA'] = this.ptAttributeSelect.tenencia;    
     this.ptGraphicSelect.items[0].attributes['TXT_OBSERVACIONES'] = this.ptAttributeSelect.observacion;    
     this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'] = this.ptAttributeSelect.area_de;
-    this.readDivFormLista.style.display = 'block';    
+    //this.readDivFormLista.style.display = 'block';    
   }
+  setAuditAttribute(a:any){
+    //--Datos de Empresa
+    a['TXT_EMPRESA_RUC'] = this.SisListaRuc;
+    a['TXT_EMPRESA_NOMBRE'] = this.SisListaRaz;
+    //--Datos de Auditoria
+    a['IDE_ACT_USUARIO'] = this.SisListaUsr;
+    a['FEC_ACT_FECHA'] = this.SisListaRuc;
 
+  } 
   //--Editar vertices de la Geometria seleccionada--
   ptEditGeometry(){
     this.editDivMenu.style.display = 'none';
@@ -773,7 +787,6 @@ export class MapService {
     });
     objView.ui.add(compass, 'top-left');
   }
-
   //--Addiconar Widget de Brujula
   addCompass(objView: any) {
     const compass = new this.EsriCompass({
@@ -1531,10 +1544,18 @@ export class MapService {
      });
     return oListaFields
   }
+/************************************************************************************************************************
+ * Proyecto : MIDAGRI - MARCO DE LISTA                                                                                  *
+ * Fecha    : 25 / 07 / 2024 13:00:00                                                                                   *
+ * Autor    : Francisco Calderon Franco - FRCF                                                                          *
+ * Descripcion    : Servicios de Geoprocesamiento                                                                       *
+ *                                                                                                                      * 
+ ************************************************************************************************************************/
   //--Backup de las geometrias--
   async setBackupFeature(): Promise<void> { 
     //--Definimos las variables
-    let params = {"RUC": this.SisListaRuc};
+    let params = {"ENV":config.agsEnv ,
+                  "RUC": this.SisListaRuc};
     let gpUrl = config.agsUrlRoot + config.agsUrlGeoBackup;
     this.showSwalUtil('01-Realizando copia de geometrías...')
     //--Ejecutamos el servicio de Geoprocesamiento
@@ -1600,7 +1621,8 @@ export class MapService {
     //--Definimos el mensaje
     this.showSwalUtil('04-Actualizando Fundos..')   
     //--Definimos las variables
-    let params = {"RUC": this.SisListaRuc};
+    let params = {"ENV":config.agsEnv ,
+                  "RUC": this.SisListaRuc};
     let gpUrl = config.agsUrlRoot + config.agsUrlGeoUpdate;
     this.showSwalUtil('05-Actualizando Empresa..')
     //--Ejecutamos el servicio de Geoprocesamiento
@@ -1634,7 +1656,7 @@ export class MapService {
     //--Desactivamos los formularios
     this.setDisplayDiv();
     //--Validamos si hay seleccionados
-    this.readDivFormLista.style.display = 'block';
+    //this.readDivFormLista.style.display = 'block';
     this.editDivZipfile.style.display = 'block';
   }
   async ptGenerateFatureCollection(file){
@@ -1686,6 +1708,10 @@ export class MapService {
               oAttributes[a.featureclass] = feature.properties[a.shape]
             };
           });
+          //--Actualizamos los Datos de Heredados del SisLista
+          oAttributes['TXT_EMPRESA_RUC'] = this.SisListaRuc;
+          oAttributes['TXT_EMPRESA_NOMBRE'] = this.SisListaRaz;
+          //--Actualizamos los datos de auditoria
 
           //--Creamos un grafico
           const graphic = new arcgis.Graphic({
@@ -1705,17 +1731,15 @@ export class MapService {
       console.error('Error al procesar el archivo:', error);      
       this.sweetAlert.AlertError('Edición de Elementos', 'Hubo un problema al procesar el archivo.')      
     }
-  };
-  
+  };  
   reader.readAsArrayBuffer(file);
-
- }
-
+  }
+ 
   setDisplayDiv(){    
     this.editDivMenu.style.display = 'none';
     this.editDivAttribute.style.display = 'none';
     this.editDivZipfile.style.display = 'none';
-    this.readDivFormLista.style.display = 'none';
+    //this.readDivFormLista.style.display = 'none';
   }
 
   async refresh(extent:any){

@@ -273,9 +273,12 @@ padding: 2px;
 }
 
 .row{
-margin-top: 5px;
+margin-top: 1px;
+margin-left: 0px;
 display:flex;
 text-align: center;
+max-width: 100%;
+height: calc(100% - 10px);
 }
 .col{
 flex-grow: 1;

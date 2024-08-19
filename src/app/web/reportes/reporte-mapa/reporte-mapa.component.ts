@@ -110,7 +110,7 @@ export class ReporteMapaComponent implements OnInit {
   setMapElement(oMapElement:any){
     this.mapService=oMapElement;
     //--Seteamos los variables de los Formularios
-    this.mapService.readDivFormLista = document.getElementById('divFormLista');
+    //this.mapService.readDivFormLista = document.getElementById('divFormLista');
     this.mapService.editDivAttribute = document.getElementById('divAttribMap');
     this.admin = this.mapService.ptAttributeSelect;
   }
@@ -147,6 +147,6 @@ export class ReporteMapaComponent implements OnInit {
     }
   onCancelAttributes(){
     this.mapService.editDivAttribute.style.display = 'none';
-    this.mapService.readDivFormLista.style.display = 'block';
+    //this.mapService.readDivFormLista.style.display = 'block';
   }  
 }

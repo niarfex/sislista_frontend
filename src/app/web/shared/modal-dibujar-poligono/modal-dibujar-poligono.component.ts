@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
 import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionregistro-proxies';
+import { LoginService } from 'src/auth/services/login.service';
 import { EsriMapComponent } from '../../arcgis-map/components/esri-map/esri-map.component';
 import { MapService } from '../../arcgis-map/services/map.service';
 import { SweetAlert } from '../../arcgis-map/util/SweetAlert';
@@ -32,7 +33,8 @@ export class ModalDibujarPoligonoComponent {
     , private formBuilder: FormBuilder
     , private spinner: NgxSpinnerService
     , private toastr: ToastrService
-    , private sweetAlert: SweetAlert) {
+    , private sweetAlert: SweetAlert
+    , private loginService: LoginService) {
       this.gestionregistroServiceProxy = _injector.get(GestionRegistroServiceProxy);
   }
   get NombreFundo() { return this.modalForm.controls['NombreFundo']; }
@@ -86,8 +88,12 @@ export class ModalDibujarPoligonoComponent {
 
   setMapElement(oMapElement:any){
     this.mapService=oMapElement;
+    //--Datos de SisLista
+    this.mapService.SisListaRuc = this.numDoc
+    this.mapService.SisListaRaz = this.nombreEmpresa
+    this.mapService.SisListaUsr = this.loginService.getCurrentUserValue['Usuario'];
     //--Seteamos los variables de los Formularios
-    this.mapService.readDivFormLista = document.getElementById('divAttribMap');
+    //this.mapService.readDivFormLista = document.getElementById('divAttribMap');
     this.mapService.editDivAttribute = document.getElementById('divAttribMap');
     this.admin = this.mapService.ptAttributeSelect;
   }
@@ -124,6 +130,6 @@ export class ModalDibujarPoligonoComponent {
     }
   onCancelAttributes(){
     this.mapService.editDivAttribute.style.display = 'none';
-    this.mapService.readDivFormLista.style.display = 'block';
+    //this.mapService.readDivFormLista.style.display = 'block';
   } 
 }
