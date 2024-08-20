@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Injector, Input } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, Output} from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -23,7 +23,14 @@ export class ModalDibujarPoligonoComponent {
   @Input() exitSubModal = (): void => {};
   @Input() numDoc: String;
   @Input() nombreEmpresa: String;
-  @Input() periodo: String;
+  @Input() listaTenencia:any[];
+  @Input() listaUsoTierra:any[];
+  @Input() ListaCultivo:any[];
+  @Input() ListaUsoAgricola:any[];
+  @Input() ListaUsoNoAgricola:any[];
+
+  @Output() enviarListaFundos = new EventEmitter<any>();
+
   modalForm = this.formBuilder.group({
     NombreFundo: ['', [Validators.required]],
     NombreCampo: ['', [Validators.required]]
@@ -51,12 +58,12 @@ export class ModalDibujarPoligonoComponent {
     mapService:MapService;
     listaCampos:any[];
     admin:any;
-    listaTipoCampo:any[] = [{value: 'AGRÍCOLA', label: 'AGRÍCOLA'},
+    /*listaTipoCampo:any[] = [{value: 'AGRÍCOLA', label: 'AGRÍCOLA'},
                             {value: 'NO AGRÍCOLA', label: 'NO AGRÍCOLA'},    
                            ];
     listaTenencia:any[] = [{value: 'PROPIO', label: 'PROPIO'},
                            {value: 'ALQUILADO', label: 'ALQUILADO'},    
-                          ]; 
+                          ]; */
 
   ngOnInit(): void {
 
@@ -64,7 +71,10 @@ export class ModalDibujarPoligonoComponent {
   onClickSubmit(data) {
 
   } 
-  close() {
+  async close() {
+    //--Trae Listado de Campos
+    this.listaCampos = await this.mapService.getListField();
+    this.enviarListaFundos.emit(this.listaCampos);
     this.exitSubModal();
   }
   onFocusOutEvent(event: any, nombreControl: string) {

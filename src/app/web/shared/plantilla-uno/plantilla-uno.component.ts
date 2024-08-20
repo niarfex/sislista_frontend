@@ -196,7 +196,7 @@ export class PlantillaUnoComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
-            ///console.log(this.objRegistro);
+            console.log(this.objRegistro);
             this.cadPeriodo = this.objRegistro.ListPeriodos.find(x => x.value == this.idPeriodo.toString()).label;
             this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
             this.plantillaForm.controls['IdCondicionJuridica'].setValue(this.objRegistro.IdCondicionJuridica.toString());
@@ -525,6 +525,45 @@ export class PlantillaUnoComponent implements OnInit {
     }
     else if (tipo == "2") {
       this.mostrarCargarArchivo(this.viewUserTemplate2);
+    }
+  }
+  actualizarFundos(lista:any) {
+    this.listFields = lista;
+    this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
+    if (this.objRegistro.ListFundos.length == 0) {
+      //console.log(this.listFields);
+      let listaFundos = new Set(this.listFields.map(obj => obj["NOMBRE_FUNDO"]));
+      let contFundos = 0;
+      listaFundos.forEach(myObject => {
+        this.campos = [];
+        let ListCampos = (new Set(this.listFields.filter(obj => obj["NOMBRE_FUNDO"] == myObject).map(obj => obj)));
+        let superficieFundo = 0;
+        let contCampos = 0;
+        ListCampos.forEach(myObject2 => {
+          superficieFundo = superficieFundo + Number.parseFloat(myObject2["SUPERFICIE"]==null?0:myObject2["SUPERFICIE"]);
+          this.campos.push(new CampoGetDto({
+            Id: 0,IdFundo: 0,Campo: myObject2["NOMRE_CAMPO"],
+            IdTenencia: 0,IdUsoTierra: 0,IdCultivo: 0,
+            IdUsoNoAgricola: [],Observacion: "",
+            SuperficieCalc: Number.parseFloat(Number.parseFloat(myObject2["SUPERFICIE"]==null?0:myObject2["SUPERFICIE"]).toFixed(2)),
+            Superficie: 0.00,SuperficieCultivada: 0.00,Orden: contCampos + 1,
+            idusoNoAgricolaDisable: true,agricolaDisable: true,ListTipoUso:[]
+          }));
+          contCampos = contCampos + 1;
+        });
+
+
+        this.objRegistro.ListFundos.push(new FundoGetDto({
+          Id: 0,IdCuestionario: 0,Fundo: myObject,
+          SuperficieTotalCalc: Number.parseFloat(superficieFundo.toFixed(2)),
+          SuperficieTotal: 0.00,SuperficieAgricola: 0.00,
+          IdUbigeo: "",Observacion: "",Orden: contFundos + 1,
+          ListDepartamento: this.objRegistro.ListDepartamento,
+          ListProvincia: null,ListDistrito: null,ListCampos: this.campos
+        }));
+        contFundos = contFundos + 1;
+      });
+      this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
     }
   }
   mostrarCargarArchivo(viewUserTemplate: TemplateRef<any>) {

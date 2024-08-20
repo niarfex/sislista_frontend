@@ -641,7 +641,9 @@
     </ng-template>
     <ng-template #viewUserTemplate4>
         <modal-dibujar-poligono [exitSubModal]="exitSubModal" [numDoc]="numDoc" [nombreEmpresa]="nombreElemento"
-            [periodo]="cadPeriodo"></modal-dibujar-poligono>
+        [listaTenencia]="objRegistro.ListTenencia" [listaUsoTierra]="objRegistro.ListUsoTierra" [ListaCultivo]="objRegistro.ListCultivo" 
+        [ListaUsoAgricola]="objRegistro.ListUsoAgricola" [ListaUsoNoAgricola]="objRegistro.ListUsoNoAgricola"
+        (enviarListaFundos)="actualizarFundos($event)"></modal-dibujar-poligono>
     </ng-template>
     <ng-template #viewUserTemplate6>
         <modal-selec-estado [exitSubModal]="exitSubModal" [tipo]="tipoPerfil"

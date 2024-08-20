@@ -39,18 +39,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-pie-chart"></i></span>
                                 </div>
-                                <input type="text" class="form-control" title="Nombre del campo" placeholder="Nombre del campo" [(ngModel)]="admin.campo" v-on:keypress="isNumber($event, WatchNumTele)">						
-                            </div>
-                            <div class="input-group form-group">
-                                <label>uso de tierra:</label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
-                                </div>
-                                <select class="form-select" [(ngModel)]="admin.tipo">
-                                    <option *ngFor="let item of listaTipoCampo"
-                                        [value]="item.value">{{ item.label }}
-                                    </option>                                  
-                                </select>
+                                <input type="text" class="form-control" title="Nombre del campo" placeholder="Nombre del campo" [(ngModel)]="admin.campo">						
                             </div>
                             <div class="input-group form-group">
                                 <label>Tipo de tenencia:</label>
@@ -59,10 +48,43 @@
                                 </div>
                                 <select class="form-select" [(ngModel)]="admin.tenencia">
                                     <option *ngFor="let item of listaTenencia"
-                                        [value]="item.value">{{ item.label }}
+                                        [value]="item.codigo">{{ item.label }}
                                     </option>                                  
                                 </select>
-                            </div>                                        
+                            </div>                             
+                            <div class="input-group form-group">
+                                <label>uso de tierra:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                                </div>
+                                <select class="form-select" [(ngModel)]="admin.tipo">
+                                    <option *ngFor="let item of listaUsoTierra"
+                                        [value]="item.codigo">{{ item.label }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="input-group form-group">
+                                <label>Cultivo:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                                </div>
+                                <select class="form-select" [(ngModel)]="admin.tipo">
+                                    <option *ngFor="let item of ListaCultivo"
+                                        [value]="item.codigo">{{ item.label }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="input-group form-group">
+                                <label>Tipo de Uso:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                                </div>
+                                <select class="form-select" [(ngModel)]="admin.tipo">
+                                    <option *ngFor="let item of ListaUsoAgricola"
+                                        [value]="item.label">{{ item.label }}
+                                    </option>
+                                </select>
+                            </div>                            
                             <div class="input-group form-group">
                                 <label>Área declarada (ha):</label>
                                 <div class="input-group-prepend">
