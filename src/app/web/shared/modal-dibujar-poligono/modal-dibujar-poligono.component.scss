@@ -129,6 +129,10 @@ $container-max-widths: (
   }
 .col-sm-2 {
   padding: 0px;
+  height: calc(100% - 13px);
+  padding-left: 0px;
+  padding-right: 0px;
+  width:0%;
   .card {    
     display: none;
     max-height: 100%;
@@ -136,6 +140,8 @@ $container-max-widths: (
     margin-bottom: 0px;    
     text-align: left;
     background: #f4f4f7;
+    border-radius: 0px;
+    overflow-x: auto; /* Activa el scroll horizontal si el contenido es más ancho */
     .card-header {
         color: #ffffff;
         background-color: #008f49;
@@ -145,7 +151,7 @@ $container-max-widths: (
         border-radius: 0px;
     }
     .card-body {
-      padding:5px;      
+      padding:5px 0px 0px 10px;
       right: 5px;
       label{
         margin-top: 2px;
@@ -187,5 +193,21 @@ $container-max-widths: (
 .div-map{
     height: calc(100% - 13px);
     padding-left: 0px;
+    padding-right: 0px;
+    width: 100%;
 }
-  
+select[disabled] {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+.p-autocomplete {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  height: 30px;
+}
+.p-autocomplete-item {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.5;
+}

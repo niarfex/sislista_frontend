@@ -62,7 +62,7 @@ export class EsriMapComponent implements OnInit {
   
     //buttons masurement
     this.mapService.editDivMenu = document.getElementById('contextMenu');
-    //this.mapService.editDivAttribute = document.getElementById('AttributeForm');
+    //this.mapService.editDivAttribute = document.getElementById('divAttribMap');
     this.mapService.editDivToolbar= document.getElementById('editToolbar');
     this.mapService.editDivZipfile = document.getElementById('ZipFileForm');
     

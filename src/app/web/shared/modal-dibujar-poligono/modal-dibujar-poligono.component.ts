@@ -5,11 +5,17 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { GestionRegistroServiceProxy } from 'src/shared/service-proxies/gestionregistro-proxies';
 import { LoginService } from 'src/auth/services/login.service';
 import { EsriMapComponent } from '../../arcgis-map/components/esri-map/esri-map.component';
 import { MapService } from '../../arcgis-map/services/map.service';
 import { SweetAlert } from '../../arcgis-map/util/SweetAlert';
+
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
 
 @Component({
   standalone: true,
@@ -17,7 +23,7 @@ import { SweetAlert } from '../../arcgis-map/util/SweetAlert';
   templateUrl: './modal-dibujar-poligono.component.html',
   styleUrl: './modal-dibujar-poligono.component.scss',
   imports: [CommonModule,ReactiveFormsModule,TableModule,
-    FormsModule,ConfirmDialogModule,EsriMapComponent]
+    FormsModule,ConfirmDialogModule,EsriMapComponent, AutoCompleteModule]
 })
 export class ModalDibujarPoligonoComponent {
   @Input() exitSubModal = (): void => {};
@@ -47,7 +53,10 @@ export class ModalDibujarPoligonoComponent {
   get NombreFundo() { return this.modalForm.controls['NombreFundo']; }
   get NombreCampo() { return this.modalForm.controls['NombreCampo']; }
   
-    /*GIS*/  
+    /*GIS*/
+    ListaUso:any[];
+    filteredCountries: any[] | undefined;
+
     title = '';
     screenActive = 0;
     isFullViewMap = false;
@@ -58,6 +67,8 @@ export class ModalDibujarPoligonoComponent {
     mapService:MapService;
     listaCampos:any[];
     admin:any;
+    isDisabled = false;
+
     /*listaTipoCampo:any[] = [{value: 'AGRÍCOLA', label: 'AGRÍCOLA'},
                             {value: 'NO AGRÍCOLA', label: 'NO AGRÍCOLA'},    
                            ];
@@ -70,7 +81,20 @@ export class ModalDibujarPoligonoComponent {
   }
   onClickSubmit(data) {
 
+  }
+  filterCountry(event: AutoCompleteCompleteEvent) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < (this.ListaCultivo as any[]).length; i++) {
+        let country = (this.ListaCultivo as any[])[i];
+        if (country.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(country);
+        }
+    }
+    this.filteredCountries = filtered;
   } 
+
   async close() {
     //--Trae Listado de Campos
     this.listaCampos = await this.mapService.getListField();
@@ -102,12 +126,31 @@ export class ModalDibujarPoligonoComponent {
     this.mapService.SisListaRuc = this.numDoc
     this.mapService.SisListaRaz = this.nombreEmpresa
     this.mapService.SisListaUsr = this.loginService.getCurrentUserValue['Usuario'];
+    this.mapService.SisListaTenencia  = this.listaTenencia;
+    this.mapService.SisListaUsoTierra = this.listaUsoTierra;
+    this.mapService.SisListaCultivo   = this.ListaCultivo;
+    this.mapService.SisListaUsoAgricola   = this.ListaUsoAgricola;
+    this.mapService.SisistaUsoNoAgricola   = this.ListaUsoNoAgricola;
+    this.ListaUso = this.ListaUsoAgricola;
+
     //--Seteamos los variables de los Formularios
     //this.mapService.readDivFormLista = document.getElementById('divAttribMap');
     this.mapService.editDivAttribute = document.getElementById('divAttribMap');
+    this.mapService.ptDivMapa = document.getElementById('div-mapa');
+    this.mapService.ptDivAttr = document.getElementById('div-attr');
     this.admin = this.mapService.ptAttributeSelect;
   }
-
+  onChangeSelectUsoTierra() {
+    //--Valor por defecto
+    this.ListaUso = this.ListaUsoAgricola;
+    //--Validamos si es agricola o no agricola
+    this.isDisabled = this.admin.tipo !== 'AGRÍCOLA';
+    if (this.isDisabled) {
+      this.ListaUso = this.ListaUsoNoAgricola;
+      this.admin.cultivo=''
+      this.admin.area_de=''
+    }
+  }
   onChangeSelect(value:any) {
     //console.log(value);
     this.screenActive = value;
@@ -131,15 +174,23 @@ export class ModalDibujarPoligonoComponent {
       this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> nombre del campo</b>')
       return;
     }
-    if(this.admin.area_de==''){
-      this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> Área declarada</b>')
+    if(this.admin.tipo == 'AGRÍCOLA' && this.admin.area_de ==''){
+      this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> Superficie cultivada</b>')
       return;
     }
+    if(this.admin.tipo == 'AGRÍCOLA' && this.admin.area_de > this.admin.area_ca){
+      this.sweetAlert.AlertWarning('Actualización de atributos', ' La Superficie cultivada es <b> mayor</b> a la superficie del campo')
+      return;
+    }
+
     this.mapService.ptSaveAttribute();
     //--this.mapService.ptGraphicsLayerEdit;
-    }
+  }
+
   onCancelAttributes(){
     this.mapService.editDivAttribute.style.display = 'none';
+    this.mapService.ptDivMapa.style.width = '100%';
+    this.mapService.ptDivAttr.style.width = '0%';
     //this.mapService.readDivFormLista.style.display = 'block';
   } 
 }
