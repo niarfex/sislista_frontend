@@ -544,9 +544,9 @@ export class PlantillaUnoComponent implements OnInit {
           this.campos.push(new CampoGetDto({
             Id: 0,IdFundo: 0,Campo: myObject2["NOMRE_CAMPO"],
             IdTenencia: myObject2["IDE_TENENCIA"],
-            IdUsoTierra: myObject2["IDE_USO_TIERRA"],
+            IdUsoTierra: myObject2["IDE_TIPO_USO"],
             IdCultivo: myObject2["IDE_CULTIVO"],
-            IdUsoNoAgricola: [myObject2["IDE_TIPO_USO"]],
+            IdUsoNoAgricola: [myObject2["IDE_USO_TIERRA"]],
             Observacion: myObject2["OBSERVACIONES"],
             SuperficieCalc: Number.parseFloat(Number.parseFloat(myObject2["SUPERFICIE"]==null?0:myObject2["SUPERFICIE"]).toFixed(2)),
             SuperficieCultivada: Number.parseFloat(Number.parseFloat(myObject2["AREA_CULTIVO"]==null?0:myObject2["AREA_CULTIVO"]).toFixed(2)),
