@@ -523,11 +523,11 @@ export class MapService {
                                       TXT_CULTIVO_NOMBRE:'',
                                       TXT_USO_TIERRA:'',
                                       TXT_OBSERVACIONES:'',
-                                      NUM_AREA_DECLARADA:0,
+                                      NUM_AREA_DECLARADA:0.00,
                                       NUM_AREA_TOTAL:0}
           }else{
             this.ptAttributeCreate['TXT_CAMPO_NOMBRE'] = '';
-            this.ptAttributeCreate['NUM_AREA_DECLARADA'] = 0;
+            this.ptAttributeCreate['NUM_AREA_DECLARADA'] = 0.00;
           }
           evt.graphic.geometry = polygoneGeometry;
           evt.graphic.attributes = {...this.ptAttributeCreate}; //--Crea un clon modificable

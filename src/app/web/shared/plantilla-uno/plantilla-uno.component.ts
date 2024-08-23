@@ -529,8 +529,8 @@ export class PlantillaUnoComponent implements OnInit {
   }
   actualizarFundos(lista:any) {
     this.listFields = lista;
-    this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
-    if (this.objRegistro.ListFundos.length == 0) {
+    //this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
+    if (this.listFields.length > 0) {
       //console.log(this.listFields);
       let listaFundos = new Set(this.listFields.map(obj => obj["NOMBRE_FUNDO"]));
       let contFundos = 0;

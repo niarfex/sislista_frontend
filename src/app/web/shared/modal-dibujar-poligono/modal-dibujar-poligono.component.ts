@@ -142,13 +142,14 @@ export class ModalDibujarPoligonoComponent {
   }
   onChangeSelectUsoTierra() {
     //--Valor por defecto
-    this.ListaUso = this.ListaUsoAgricola;
+    this.admin.area_de=''
+    this.ListaUso = this.ListaUsoAgricola;    
     //--Validamos si es agricola o no agricola
     this.isDisabled = this.admin.tipo !== 'AGRÍCOLA';
     if (this.isDisabled) {
       this.ListaUso = this.ListaUsoNoAgricola;
       this.admin.cultivo=''
-      this.admin.area_de=''
+      this.admin.area_de=0.00
     }
   }
   onChangeSelect(value:any) {
