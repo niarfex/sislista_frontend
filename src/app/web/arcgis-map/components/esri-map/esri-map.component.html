@@ -153,7 +153,107 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
+            <!--Formulario de Edición de Atributos-->
+            <div id="divAttribMap2" class="card">
+                <div class="card-header">
+                        <i class="fa fa-id-card-o"></i>
+                        <span> {{admin.ruc}}</span>
+                </div>
+                <div class="card-body">
+                        <div class="input-group form-group">
+                            <label>Nombre del administrado:</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
+                            </div>
+                            <input type="text" readonly class="form-control" title="Nombre del administrado" placeholder="Administrado" [(ngModel)]="admin.nombre">
+                        </div>
+                        <div class="input-group form-group">
+                            <label>Nombre del fundo:</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-map"></i></span>
+                            </div>
+                            <input type="text" class="form-control" title="Nombre del fundo" placeholder="Nombre del fundo" [(ngModel)]="admin.fundo">						
+                        </div>
+                        <div class="input-group form-group">
+                            <label>Nombre del campo:</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-pie-chart"></i></span>
+                            </div>
+                            <input type="text" class="form-control" title="Nombre del campo" placeholder="Nombre del campo" [(ngModel)]="admin.campo">						
+                        </div>
+                        <div class="input-group form-group">
+                            <label>Tipo de tenencia:</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-users"></i></span>
+                            </div>
+                            <select class="form-select" [(ngModel)]="admin.tenencia">
+                                <option *ngFor="let item of this.mapService.SisListaTenencia"
+                                    [value]="item.codigo">{{ item.label }}
+                                </option>                                  
+                            </select>
+                        </div>                             
+                        <div class="input-group form-group">
+                            <label>uso de tierra:</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                            </div>
+                            <select class="form-select" [(ngModel)]="admin.tipo">
+                                <option *ngFor="let item of this.mapService.SisListaUsoTierra"
+                                    [value]="item.codigo">{{ item.label }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="input-group form-group">
+                            <label>Cultivo:</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                            </div>
+                            <select class="form-select" [(ngModel)]="admin.tipo">
+                                <option *ngFor="let item of this.mapService.SisListaCultivo"
+                                    [value]="item.codigo">{{ item.label }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="input-group form-group">
+                            <label>Tipo de Uso:</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                            </div>
+                            <select class="form-select" [(ngModel)]="admin.tipo">
+                                <option *ngFor="let item of this.mapService.SisListaUsoAgricola"
+                                    [value]="item.label">{{ item.label }}
+                                </option>
+                            </select>
+                        </div>                            
+                        <div class="input-group form-group">
+                            <label>Área declarada (ha):</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-object-ungroup"></i></span>
+                            </div>
+                            <input type="text" class="form-control" title="Área declarada" placeholder="Área declarada" [(ngModel)]="admin.area_de" (keypress)="setNumber($event, admin.area_de)">						
+                        </div> 
+                        <div class="input-group form-group">
+                            <label>Área calculada (ha):</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-object-group"></i></span>
+                            </div>
+                            <input type="text" readonly class="form-control" title="Área calculada" placeholder="Área calculada" [(ngModel)]="admin.area_ca">						
+                        </div>
+                        <div class="input-group form-group">
+                            <label>Observaciones:</label>
+                            <textarea class="form-control" rows="3" title="Observaciones" placeholder="Observaciones" [(ngModel)]="admin.observacion"></textarea>
+                        </div>                                                                                            
+                        <div class="row">
+                            <div class="col">                           
+                                <a class="btn btn-primary" (click)="onSaveAttributes()"><i class="fa fa-floppy-o"></i> Grabar</a>
+                            </div>  
+                            <div class="col">
+                                <a class="btn btn-primary" (click)="onCancelAttributes()"><i class="fa fa-times"></i> Cancelar</a>
+                            </div>                
+                        </div>
+                </div>
+            </div>                        
         </div>
     </div>
     <div [ngClass]="'w-100 m-0 p-0 ' + (activeStreet ? 'h-40' : 'h-0')">

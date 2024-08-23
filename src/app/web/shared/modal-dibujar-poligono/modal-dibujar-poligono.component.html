@@ -4,24 +4,24 @@
         <span class="logo-lg">
             <img src="assets/images/logo_midagri.svg" alt="" height="40">
         </span>
-        <span>  Mantenimiento de Geometrías</span>
+        <span>  SISTEMA DEL MARCO DE LISTA DE LA ENCUESTA NACIONAL AGROPECUARIA</span>
         <a class="btn btn-primary btn-gis-close" (click)="close()"><i class="fa fa-times"></i></a>
         </div>
     <div class="card-body">
         <div class="row" style="height: 100%;">
-            <div class="col-sm-10 div-map">
+            <div id="div-mapa" class="col-sm-10 div-map">
                 <app-esri-map [isFullView]="isFullViewMap" (changeFullView)="onChangeFullView($event)" (MapElement)="setMapElement($event)"></app-esri-map>   
             </div>
-            <div class="col-sm-2">
+            <div id="div-attr" class="col-sm-2">
                 <!--Formulario de actualizacion-->
                 <div id="divAttribMap" class="row card">
                     <div class="card-header">
                             <i class="fa fa-id-card-o"></i>
-                            <span> {{admin.ruc}}</span>
+                            <span> RUC : {{admin.ruc}}</span>
                     </div>
                     <div class="card-body">
                             <div class="input-group form-group">
-                                <label>Nombre del administrado:</label>
+                                <label>Nombre de la unidad agraria:</label>
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-address-book-o"></i></span>
                                 </div>
@@ -51,13 +51,20 @@
                                         [value]="item.codigo">{{ item.label }}
                                     </option>                                  
                                 </select>
-                            </div>                             
+                            </div>
+                            <div class="input-group form-group">
+                                <label>Superficie (ha):</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-object-group"></i></span>
+                                </div>
+                                <input type="text" readonly class="form-control" title="Área calculada" placeholder="Área calculada" [(ngModel)]="admin.area_ca">						
+                            </div>                                                         
                             <div class="input-group form-group">
                                 <label>uso de tierra:</label>
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
                                 </div>
-                                <select class="form-select" [(ngModel)]="admin.tipo">
+                                <select class="form-select" [(ngModel)]="admin.tipo" (change)="onChangeSelectUsoTierra()">
                                     <option *ngFor="let item of listaUsoTierra"
                                         [value]="item.codigo">{{ item.label }}
                                     </option>
@@ -66,44 +73,38 @@
                             <div class="input-group form-group">
                                 <label>Cultivo:</label>
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                                    <span class="input-group-text"><i class="fa fa-crop"></i></span>
                                 </div>
-                                <select class="form-select" [(ngModel)]="admin.tipo">
+                                <select class="form-select" [(ngModel)]="admin.cultivo" [attr.disabled]="this.isDisabled ? true : null">
                                     <option *ngFor="let item of ListaCultivo"
                                         [value]="item.codigo">{{ item.label }}
                                     </option>
                                 </select>
+                                <!--<p-autoComplete  [(ngModel)]="admin.cultivo" [dropdown]="true" (completeMethod)="filterCountry($event)" [suggestions]="filteredCountries" field="label"/>-->
                             </div>
+                            <div class="input-group form-group">
+                                <label>Superficie cultivada (ha):</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-object-ungroup"></i></span>
+                                </div>
+                                <input type="text" class="form-control" title="Superficie cultivada" placeholder="Superficie cultivada" [(ngModel)]="admin.area_de" (keypress)="setNumber($event, admin.area_de)" [attr.disabled]="this.isDisabled ? true : null">						
+                            </div> 
                             <div class="input-group form-group">
                                 <label>Tipo de Uso:</label>
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-pagelines"></i></span>
+                                    <span class="input-group-text"><i class="fa fa-industry"></i></span>
                                 </div>
-                                <select class="form-select" [(ngModel)]="admin.tipo">
-                                    <option *ngFor="let item of ListaUsoAgricola"
+                                <select class="form-select" [(ngModel)]="admin.uso">
+                                    <option *ngFor="let item of this.ListaUso"
                                         [value]="item.label">{{ item.label }}
                                     </option>
                                 </select>
                             </div>                            
                             <div class="input-group form-group">
-                                <label>Área declarada (ha):</label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-object-ungroup"></i></span>
-                                </div>
-                                <input type="text" class="form-control" title="Área declarada" placeholder="Área declarada" [(ngModel)]="admin.area_de" (keypress)="setNumber($event, admin.area_de)">						
-                            </div> 
-                            <div class="input-group form-group">
-                                <label>Área calculada (ha):</label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-object-group"></i></span>
-                                </div>
-                                <input type="text" readonly class="form-control" title="Área calculada" placeholder="Área calculada" [(ngModel)]="admin.area_ca">						
-                            </div>
-                            <div class="input-group form-group">
                                 <label>Observaciones:</label>
                                 <textarea class="form-control" rows="3" title="Observaciones" placeholder="Observaciones" [(ngModel)]="admin.observacion"></textarea>
                             </div>                                                                                            
-                            <div class="row">
+                            <div class="row" style="height: auto;">
                                 <div class="col">                           
                                     <a class="btn btn-primary" (click)="onSaveAttributes()"><i class="fa fa-floppy-o"></i> Grabar</a>
                                 </div>  

@@ -543,10 +543,14 @@ export class PlantillaUnoComponent implements OnInit {
           superficieFundo = superficieFundo + Number.parseFloat(myObject2["SUPERFICIE"]==null?0:myObject2["SUPERFICIE"]);
           this.campos.push(new CampoGetDto({
             Id: 0,IdFundo: 0,Campo: myObject2["NOMRE_CAMPO"],
-            IdTenencia: 0,IdUsoTierra: 0,IdCultivo: 0,
-            IdUsoNoAgricola: [],Observacion: "",
+            IdTenencia: myObject2["IDE_TENENCIA"],
+            IdUsoTierra: myObject2["IDE_TIPO_USO"],
+            IdCultivo: myObject2["IDE_CULTIVO"],
+            IdUsoNoAgricola: [myObject2["IDE_USO_TIERRA"]],
+            Observacion: myObject2["OBSERVACIONES"],
             SuperficieCalc: Number.parseFloat(Number.parseFloat(myObject2["SUPERFICIE"]==null?0:myObject2["SUPERFICIE"]).toFixed(2)),
-            Superficie: 0.00,SuperficieCultivada: 0.00,Orden: contCampos + 1,
+            SuperficieCultivada: Number.parseFloat(Number.parseFloat(myObject2["AREA_CULTIVO"]==null?0:myObject2["AREA_CULTIVO"]).toFixed(2)),
+            Superficie: 0.00,Orden: contCampos + 1,
             idusoNoAgricolaDisable: true,agricolaDisable: true,ListTipoUso:[]
           }));
           contCampos = contCampos + 1;

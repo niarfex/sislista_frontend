@@ -56,6 +56,11 @@ export class MapService {
   SisListaRuc: any;  //--Ruc de Administrado
   SisListaRaz: any;  //--Razon Social del Administrado
   SisListaUsr: any;  //--Usuario logueado
+  SisListaTenencia : any[] = [];  //--Lista de Tenencia
+  SisListaUsoTierra: any[] = [];  //--Lista Uso de Tierra
+  SisListaCultivo:   any[] = [];  //--Lista Cultivo
+  SisListaUsoAgricola:  any[] = [];  //--Lista Uso Agricola
+  SisistaUsoNoAgricola: any[] = [];  //--Lista Uso No Agricola
 
   SislistaLayer: any[] = [];
 
@@ -65,6 +70,9 @@ export class MapService {
   editDivAttribute:any;
   //readDivFormLista:any;
   editDivToolbar:any;
+  //--
+  ptDivMapa:any;
+  ptDivAttr:any;
 
   editEditor:any
   editWidget:any;
@@ -206,8 +214,8 @@ export class MapService {
         
         // iniciar constantes
         this.ptEditTool = {name:'', disabled:false};
-        this.ptAttributeSelect = {ruc:'', nombre:'', fundo:'', campo:'', tipo:'', 
-                                  tenencia:'', observacion:'', area_ca:'', area_de:'' };
+        this.ptAttributeSelect = {ruc:'', nombre:'', fundo:'', campo:'', tenencia:'', tipo:'', cultivo:'',
+                                  uso:'', observacion:'', area_ca:'', area_de:'' };
 
         this.isAddWMS = false;
         this.activePopup = false;
@@ -503,6 +511,7 @@ export class MapService {
           }
           break;
         case 'polygon':
+          const polygoneGeometry = this.EsriwebMercatorUtils.webMercatorToGeographic(evt.graphic.geometry);
           //--Se ha creado un nuevo Poligono
           if (this.ptAttributeCreate == null){
             this.ptAttributeCreate = {TXT_EMPRESA_RUC:this.SisListaRuc,
@@ -511,6 +520,8 @@ export class MapService {
                                       TXT_CAMPO_NOMBRE:'',
                                       TXT_TIPO_USO:'AGRÍCOLA',
                                       TXT_TIPO_TENENCIA:'PROPIO',
+                                      TXT_CULTIVO_NOMBRE:'',
+                                      TXT_USO_TIERRA:'',
                                       TXT_OBSERVACIONES:'',
                                       NUM_AREA_DECLARADA:0,
                                       NUM_AREA_TOTAL:0}
@@ -518,7 +529,7 @@ export class MapService {
             this.ptAttributeCreate['TXT_CAMPO_NOMBRE'] = '';
             this.ptAttributeCreate['NUM_AREA_DECLARADA'] = 0;
           }
-          evt.graphic.geometry = polylineGeometry;
+          evt.graphic.geometry = polygoneGeometry;
           evt.graphic.attributes = {...this.ptAttributeCreate}; //--Crea un clon modificable
           break;
        }     
@@ -588,7 +599,9 @@ export class MapService {
     if(this.ptGraphicSelect.length == 0){console.log('No selecciono un poligono'); return}
     //--Validamos si hay seleccionados
     this.editDivAttribute.style.display = 'block';
-
+    this.ptDivMapa.style.width = '80%';
+    this.ptDivAttr.style.width = '20%';
+    
     //--Obtenemos los datos principales
      let strAux = this.ptGraphicSelect.items[0].attributes['TXT_EMPRESA_RUC']
      this.ptAttributeSelect.ruc= (!this.SisListaRuc)?strAux:this.SisListaRuc;
@@ -602,11 +615,17 @@ export class MapService {
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_CAMPO_NOMBRE']
     this.ptAttributeSelect.campo = (!strAux)?'':strAux;
 
+    strAux = this.ptGraphicSelect.items[0].attributes['TXT_TIPO_TENENCIA']
+    this.ptAttributeSelect.tenencia= (!strAux)?'PROPIO':strAux;
+
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_TIPO_USO']
     this.ptAttributeSelect.tipo = (!strAux)?'AGRÍCOLA':strAux;
 
-    strAux = this.ptGraphicSelect.items[0].attributes['TXT_TIPO_TENENCIA']
-    this.ptAttributeSelect.tenencia= (!strAux)?'PROPIO':strAux;
+    strAux = this.ptGraphicSelect.items[0].attributes['TXT_CULTIVO_NOMBRE']
+    this.ptAttributeSelect.cultivo= (!strAux)?'':strAux;
+
+    strAux = this.ptGraphicSelect.items[0].attributes['TXT_USO_TIERRA']
+    this.ptAttributeSelect.uso= (!strAux)?'':strAux;
 
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_OBSERVACIONES']
     this.ptAttributeSelect.observacion = (!strAux)?'':strAux;
@@ -631,19 +650,50 @@ export class MapService {
     this.ptGraphicSelect.items[0].attributes['TXT_CAMPO_NOMBRE'] = this.ptAttributeSelect.campo;
     this.ptGraphicSelect.items[0].attributes['TXT_TIPO_USO'] = this.ptAttributeSelect.tipo;    
     this.ptGraphicSelect.items[0].attributes['TXT_TIPO_TENENCIA'] = this.ptAttributeSelect.tenencia;    
+    this.ptGraphicSelect.items[0].attributes['TXT_CULTIVO_NOMBRE'] = this.ptAttributeSelect.cultivo;    
+    this.ptGraphicSelect.items[0].attributes['TXT_USO_TIERRA'] = this.ptAttributeSelect.uso;    
     this.ptGraphicSelect.items[0].attributes['TXT_OBSERVACIONES'] = this.ptAttributeSelect.observacion;    
     this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'] = this.ptAttributeSelect.area_de;
-    //this.readDivFormLista.style.display = 'block';    
+    //--Datos de Auditoria
+    //this.setAuditAttribute(this.ptGraphicSelect.items[0].attributes)
+
+    //this.readDivFormLista.style.display = 'block';
+    this.ptDivMapa.style.width = '100%';
+    this.ptDivAttr.style.width = '0%';
   }
   setAuditAttribute(a:any){
+    // Calcula la hora en la zona horaria de Perú (UTC-5)
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime = (new Date(Date.now() - tzoffset))
+
+    // Obtén la fecha y hora actual en UTC
+    const nowUtc = new Date();
+
+    // Calcula la hora en la zona horaria de Perú (UTC-5)
+    const peruOffset = -5; // Perú es UTC-5
+    const nowPeru = new Date(nowUtc.getTime() + (peruOffset * 60 * 60 * 1000));
+
+    // Formatea la fecha y hora en formato MM/DD/YYYY hh:mm:ss
+    const formattedDate = this.formatDate(localISOTime);
+
     //--Datos de Empresa
     a['TXT_EMPRESA_RUC'] = this.SisListaRuc;
     a['TXT_EMPRESA_NOMBRE'] = this.SisListaRaz;
     //--Datos de Auditoria
     a['IDE_ACT_USUARIO'] = this.SisListaUsr;
-    a['FEC_ACT_FECHA'] = this.SisListaRuc;
+    a['FEC_ACT_FECHA'] = formattedDate.valueOf() //--MM/DD/AAAA hh:mm:ss
 
-  } 
+  }
+  formatDate(date: Date): string {
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const year = date.getFullYear();
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+
+    return `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
+  }
   //--Editar vertices de la Geometria seleccionada--
   ptEditGeometry(){
     this.editDivMenu.style.display = 'none';
@@ -1531,7 +1581,7 @@ export class MapService {
     const features = await this.getFeaturesQuery(strQuery, this.SislistaLayer[0].layer, geometryType);    
 
     //--Recorremos los Registros
-    features.forEach(f => {     
+    features.forEach(f => {
       let itemField={}
           itemField['IDE_EMPRESA'] = f.attributes.IDE_EMPRESA
           itemField['IDE_FUNDO'] = f.attributes.IDE_FUNDO
@@ -1539,6 +1589,25 @@ export class MapService {
           itemField['NOMBRE_EMPRESA'] = f.attributes.TXT_EMPRESA_NOMBRE
           itemField['NOMBRE_FUNDO'] = f.attributes.TXT_FUNDO_NOMBRE
           itemField['NOMRE_CAMPO'] = f.attributes.TXT_CAMPO_NOMBRE
+          itemField['TIPO_TENENCIA'] = f.attributes.TXT_TIPO_TENENCIA
+          itemField['TIPO_USO'] = f.attributes.TXT_TIPO_USO           
+          itemField['CULTIVO_NOMBRE'] = f.attributes.TXT_CULTIVO_NOMBRE
+          itemField['USO_TIERRA'] = f.attributes.TXT_USO_TIERRA
+
+          //--Obtenemos el ID de tenencia
+          const oTenencia = this.SisListaTenencia.find((obj) => obj.codigo  === f.attributes.TXT_TIPO_TENENCIA);
+          itemField['IDE_TENENCIA'] = (!oTenencia)?0:oTenencia.value;
+          //--Obtenemos el ID de tenencia
+          const oUsoTierra = this.SisListaUsoTierra.find((obj) => obj.codigo  === f.attributes.TXT_TIPO_USO);
+          itemField['IDE_TIPO_USO'] = (!oUsoTierra)?0:oUsoTierra.value;
+          const oCultivo = this.SisListaCultivo.find((obj) => obj.codigo  === f.attributes.TXT_CULTIVO_NOMBRE);
+          itemField['IDE_CULTIVO'] = (!oCultivo)?0:oCultivo.value;
+          const ListaUso = (f.attributes.TXT_TIPO_USO == 'AGRÍCOLA')?this.SisListaUsoAgricola:this.SisistaUsoNoAgricola;
+          const oUso = ListaUso.find((obj) => obj.label  === f.attributes.TXT_USO_TIERRA);          
+          itemField['IDE_USO_TIERRA'] = (!oUso)?0:oUso.value;
+
+          itemField['OBSERVACIONES'] = f.attributes.TXT_OBSERVACIONES           
+          itemField['AREA_CULTIVO'] = f.attributes.NUM_AREA_CULTIVO           
           itemField['SUPERFICIE'] = f.attributes.NUM_AREA_TOTAL; //Hectareas
       oListaFields.push(itemField)
      });
