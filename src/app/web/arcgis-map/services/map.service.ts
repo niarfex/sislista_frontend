@@ -520,6 +520,8 @@ export class MapService {
                                       TXT_CAMPO_NOMBRE:'',
                                       TXT_TIPO_USO:'AGRÍCOLA',
                                       TXT_TIPO_TENENCIA:'PROPIO',
+                                      TXT_CULTIVO_NOMBRE:'',
+                                      TXT_USO_TIERRA:'',
                                       TXT_OBSERVACIONES:'',
                                       NUM_AREA_DECLARADA:0,
                                       NUM_AREA_TOTAL:0}
@@ -613,11 +615,17 @@ export class MapService {
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_CAMPO_NOMBRE']
     this.ptAttributeSelect.campo = (!strAux)?'':strAux;
 
+    strAux = this.ptGraphicSelect.items[0].attributes['TXT_TIPO_TENENCIA']
+    this.ptAttributeSelect.tenencia= (!strAux)?'PROPIO':strAux;
+
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_TIPO_USO']
     this.ptAttributeSelect.tipo = (!strAux)?'AGRÍCOLA':strAux;
 
-    strAux = this.ptGraphicSelect.items[0].attributes['TXT_TIPO_TENENCIA']
-    this.ptAttributeSelect.tenencia= (!strAux)?'PROPIO':strAux;
+    strAux = this.ptGraphicSelect.items[0].attributes['TXT_CULTIVO_NOMBRE']
+    this.ptAttributeSelect.cultivo= (!strAux)?'':strAux;
+
+    strAux = this.ptGraphicSelect.items[0].attributes['TXT_USO_TIERRA']
+    this.ptAttributeSelect.uso= (!strAux)?'':strAux;
 
     strAux = this.ptGraphicSelect.items[0].attributes['TXT_OBSERVACIONES']
     this.ptAttributeSelect.observacion = (!strAux)?'':strAux;
@@ -642,21 +650,50 @@ export class MapService {
     this.ptGraphicSelect.items[0].attributes['TXT_CAMPO_NOMBRE'] = this.ptAttributeSelect.campo;
     this.ptGraphicSelect.items[0].attributes['TXT_TIPO_USO'] = this.ptAttributeSelect.tipo;    
     this.ptGraphicSelect.items[0].attributes['TXT_TIPO_TENENCIA'] = this.ptAttributeSelect.tenencia;    
+    this.ptGraphicSelect.items[0].attributes['TXT_CULTIVO_NOMBRE'] = this.ptAttributeSelect.cultivo;    
+    this.ptGraphicSelect.items[0].attributes['TXT_USO_TIERRA'] = this.ptAttributeSelect.uso;    
     this.ptGraphicSelect.items[0].attributes['TXT_OBSERVACIONES'] = this.ptAttributeSelect.observacion;    
     this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'] = this.ptAttributeSelect.area_de;
+    //--Datos de Auditoria
+    //this.setAuditAttribute(this.ptGraphicSelect.items[0].attributes)
+
     //this.readDivFormLista.style.display = 'block';
     this.ptDivMapa.style.width = '100%';
     this.ptDivAttr.style.width = '0%';
   }
   setAuditAttribute(a:any){
+    // Calcula la hora en la zona horaria de Perú (UTC-5)
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime = (new Date(Date.now() - tzoffset))
+
+    // Obtén la fecha y hora actual en UTC
+    const nowUtc = new Date();
+
+    // Calcula la hora en la zona horaria de Perú (UTC-5)
+    const peruOffset = -5; // Perú es UTC-5
+    const nowPeru = new Date(nowUtc.getTime() + (peruOffset * 60 * 60 * 1000));
+
+    // Formatea la fecha y hora en formato MM/DD/YYYY hh:mm:ss
+    const formattedDate = this.formatDate(localISOTime);
+
     //--Datos de Empresa
     a['TXT_EMPRESA_RUC'] = this.SisListaRuc;
     a['TXT_EMPRESA_NOMBRE'] = this.SisListaRaz;
     //--Datos de Auditoria
     a['IDE_ACT_USUARIO'] = this.SisListaUsr;
-    a['FEC_ACT_FECHA'] = this.SisListaRuc;
+    a['FEC_ACT_FECHA'] = formattedDate.valueOf() //--MM/DD/AAAA hh:mm:ss
 
-  } 
+  }
+  formatDate(date: Date): string {
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const year = date.getFullYear();
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+
+    return `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
+  }
   //--Editar vertices de la Geometria seleccionada--
   ptEditGeometry(){
     this.editDivMenu.style.display = 'none';
