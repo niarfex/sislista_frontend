@@ -43,6 +43,7 @@ export class ModalRegistroEspeciesComponent implements OnInit {
         .subscribe({
           next: (result) => {
             if(result.success){
+              //console.log(result);
               this.objRegistro = result.datos;
               if(this.objRegistro.Id>0){
                 this.modalForm.controls['CodigoEspecie'].setValue(this.objRegistro.CodigoEspecie.toString());
