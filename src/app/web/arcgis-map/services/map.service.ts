@@ -631,7 +631,7 @@ export class MapService {
     this.ptAttributeSelect.observacion = (!strAux)?'':strAux;
     
     strAux = this.ptGraphicSelect.items[0].attributes['NUM_AREA_DECLARADA'];
-    this.ptAttributeSelect.area_de= (!strAux)?'':strAux;
+    this.ptAttributeSelect.area_de= (!strAux)?0.00:strAux;
 
     this.ptAttributeSelect.area_ca = this.ptGraphicSelect.items[0].attributes['NUM_AREA_TOTAL'];   
     console.log('Atributos:' + this.ptAttributeSelect)
@@ -663,8 +663,7 @@ export class MapService {
   }
   setAuditAttribute(a:any){
     // Calcula la hora en la zona horaria de Perú (UTC-5)
-    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
-    var localISOTime = (new Date(Date.now() - tzoffset))
+    var localISOTime = (new Date(Date.now()))
 
     // Obtén la fecha y hora actual en UTC
     const nowUtc = new Date();
@@ -1607,7 +1606,7 @@ export class MapService {
           itemField['IDE_USO_TIERRA'] = (!oUso)?0:oUso.value;
 
           itemField['OBSERVACIONES'] = f.attributes.TXT_OBSERVACIONES           
-          itemField['AREA_CULTIVO'] = f.attributes.NUM_AREA_CULTIVO           
+          itemField['AREA_CULTIVO'] = f.attributes.NUM_AREA_DECLARADA           
           itemField['SUPERFICIE'] = f.attributes.NUM_AREA_TOTAL; //Hectareas
       oListaFields.push(itemField)
      });
