@@ -35,6 +35,7 @@ import { DatePipe } from '@angular/common';
 import moment from 'moment';
 import { Router } from '@angular/router';
 import { TrazabilidadGetDto } from 'src/app/models/Trazabilidad';
+import Swal, { SweetAlertResult } from "sweetalert2";
 
 @Component({
   standalone: true,
@@ -566,8 +567,9 @@ export class PlantillaUnoComponent implements OnInit {
           ListProvincia: null,ListDistrito: null,ListCampos: this.campos
         }));
         contFundos = contFundos + 1;
-      });
-      this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
+    });
+    this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
+    Swal.close();
     }
   }
   mostrarCargarArchivo(viewUserTemplate: TemplateRef<any>) {
