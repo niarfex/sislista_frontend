@@ -66,12 +66,12 @@
                                     (click)="activarRegistro(item.CodigoUUIDUsuario)"><i class="bi bi-lightbulb-fill"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Habilitar</span>
                                 </div>
-                                <div *ngIf="usuario.isAdministrador">
+                                <!--<div *ngIf="usuario.isAdministrador">
                                     <button  class="btn btn-primary"
                                     style="background-color: darkblue; border-color: darkblue; margin-left: 10px; margin-bottom: 5px;" type="button"
                                     ><i class="bi bi-gem"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Permisos</span>
-                                </div>                                
+                                </div>-->                           
                                 <div *ngIf="item.Estado==1 && usuario.isAdministrador">
                                     <button  class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;" type="button"
@@ -84,7 +84,7 @@
                                     type="button" (click)="eliminarRegistro(item.CodigoUUIDUsuario)"><i class="bi bi-trash3"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Eliminar</span>
                                 </div>
-                                <div *ngIf="usuario.isAdministrador">
+                                <div *ngIf="item.Estado==1 && usuario.isAdministrador">
                                     <button  class="btn btn-primary"
                                     style="background-color: darkblue; border-color: darkblue; margin-left: 10px; margin-bottom: 5px;" 
                                     type="button" (click)="enviarCredenciales(item.CodigoUUIDUsuario)"

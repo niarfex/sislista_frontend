@@ -35,7 +35,7 @@ export class ModalRegistroUsuariosComponent implements OnInit {
     ApellidoMaterno: ['', [Validators.required]],
     Celular: [''],
     CorreoElectronico: ['', [Validators.required,Validators.email]],
-    IdOrganizacion: ['', this.contacto ? [Validators.required] : []],
+    IdOrganizacion: [''],
     Cargo: ['', this.contacto ? [Validators.required] : []],
     OficinaArea: ['', this.contacto ? [Validators.required] : []],
     IdDepartamento: ['']
@@ -80,13 +80,16 @@ export class ModalRegistroUsuariosComponent implements OnInit {
               this.modalForm.controls['Nombre'].setValue(this.objRegistro.Nombre.toString());
               this.modalForm.controls['ApellidoPaterno'].setValue(this.objRegistro.ApellidoPaterno.toString());
               this.modalForm.controls['ApellidoMaterno'].setValue(this.objRegistro.ApellidoMaterno.toString());
-              this.modalForm.controls['Celular'].setValue(this.objRegistro.Celular.toString());
+              this.modalForm.controls['Celular'].setValue(this.objRegistro.Celular==null?null:this.objRegistro.Celular.toString());
               this.modalForm.controls['CorreoElectronico'].setValue(this.objRegistro.CorreoElectronico.toString());
               this.modalForm.controls['IdOrganizacion'].setValue(this.objRegistro.IdOrganizacion == null ? null : this.objRegistro.IdOrganizacion.toString());
               this.modalForm.controls['Cargo'].setValue(this.objRegistro.Cargo == null ? null : this.objRegistro.Cargo.toString());
               this.modalForm.controls['OficinaArea'].setValue(this.objRegistro.OficinaArea == null ? null : this.objRegistro.OficinaArea.toString());
               this.IdTipoDocumento.disable();
               this.NumeroDocumento.disable();
+              this.Nombre.disable();
+              this.ApellidoPaterno.disable();
+              this.ApellidoMaterno.disable();
             }
           }
           else {
@@ -101,7 +104,8 @@ export class ModalRegistroUsuariosComponent implements OnInit {
 
 
   onFocusOutEvent(event: any, nombreControl: string) {
-    this.modalForm.controls[nombreControl].setValue(event.target.value.trim());
+    if(nombreControl=="CorreoElectronico"){this.modalForm.controls[nombreControl].setValue(event.target.value.trim());}
+    else{this.modalForm.controls[nombreControl].setValue(event.target.value.trim().toUpperCase());}    
   }
 
   onClickSubmit(data) {
@@ -111,6 +115,10 @@ export class ModalRegistroUsuariosComponent implements OnInit {
         this.toastr.error("El número de DNI debe tener 8 dígitios", 'Error');
         return;
       }
+    }
+    if(this.IdOrganizacion.value=="" && (codPerfil=="PERFILADM" || codPerfil=="PERFILCON")){
+      this.toastr.error("Se debe asignar la Organización", 'Error');
+        return;
     }
     if(this.objRegistro.ListMarcoListaAsignados.length==0 && (codPerfil=="PERFILEMP" || codPerfil=="PERFILESP" || codPerfil=="PERFILSUP")){
       this.toastr.error("Se debe asignar por lo menos un elemento de marco de lista al usuario", 'Error');

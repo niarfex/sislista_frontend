@@ -119,7 +119,7 @@ export class PlantillaUnoComponent implements OnInit {
     IdTipoExplotacionSA: ['', [Validators.required]],
     IdTipoExplotacionPN: ['', [Validators.required]],
     TelefonoSA: [''],
-    Telefonopn: [''],
+    TelefonoPN: [''],
     CelularSA: ['', [Validators.required]],
     CelularPN: ['', [Validators.required]],
     CorreoElectronicoSA: ['', [Validators.required, Validators.email]],

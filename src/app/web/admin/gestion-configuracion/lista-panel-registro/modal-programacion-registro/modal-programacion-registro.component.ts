@@ -21,7 +21,7 @@ export class ModalProgramacionRegistroComponent implements OnInit {
   objRegistro:PanelRegistroGetDto = new PanelRegistroGetDto();
   active: boolean = true;
   modalForm=this.formBuilder.group({
-    IdPlantilla:['',[Validators.required]],
+    //IdPlantilla:['',[Validators.required]],
     IdAnio:['',[Validators.required]],
     ProgramacionRegistro:['',[Validators.required]],
     FechaInicio:['',[Validators.required]],
@@ -56,7 +56,7 @@ export class ModalProgramacionRegistroComponent implements OnInit {
             if(result.success){
               this.objRegistro = result.datos;
               if(this.objRegistro.Id>0){
-                this.modalForm.controls['IdPlantilla'].setValue(this.objRegistro.IdPlantilla.toString());
+                //this.modalForm.controls['IdPlantilla'].setValue(this.objRegistro.IdPlantilla.toString());
                 this.modalForm.controls['IdAnio'].setValue(this.objRegistro.IdAnio.toString());
                 this.modalForm.controls['ProgramacionRegistro'].setValue(this.objRegistro.ProgramacionRegistro.toString());
                 this.modalForm.controls['FechaInicio'].setValue(this.objRegistro.FechaInicio.toString().substring(0,this.objRegistro.FechaInicio.toString().indexOf('T')));
@@ -90,15 +90,21 @@ export class ModalProgramacionRegistroComponent implements OnInit {
  
 
   onFocusOutEvent(event: any,nombreControl:string){
-    this.modalForm.controls[nombreControl].setValue(event.target.value.trim()); 
+    this.modalForm.controls[nombreControl].setValue(event.target.value.trim().toUpperCase());
     
  }
  selecFecha(){
-    if(this.FechaInicio.value>this.FechaFin.value){
-      this.toastr.error("La fecha de cierre debe ser mayor a la fecha de inicio", 'Error');
-    }  
+    if(this.FechaInicio.value!="" && this.FechaFin.value!=""){
+      if(this.FechaInicio.value>this.FechaFin.value){
+        this.toastr.error("La fecha de cierre debe ser mayor a la fecha de inicio", 'Error');
+      }  
+    }
  }
   onClickSubmit(data) {
+    if(this.FechaInicio.value=="" || this.FechaFin.value==""){
+      this.toastr.error("Debe ingresar las fechas de inicio y cierre", 'Error');
+      return;
+    }
     if(this.FechaInicio.value>this.FechaFin.value){
       this.toastr.error("La fecha de cierre debe ser mayor a la fecha de inicio", 'Error');
       return;
@@ -117,7 +123,7 @@ export class ModalProgramacionRegistroComponent implements OnInit {
       
       
       accept: () => {   
-        this.objRegistro.IdPlantilla=Number.parseInt(this.IdPlantilla.value);
+        //this.objRegistro.IdPlantilla=Number.parseInt(this.IdPlantilla.value);
         this.objRegistro.IdAnio=Number.parseInt(this.IdAnio.value);
         this.objRegistro.ProgramacionRegistro=this.ProgramacionRegistro.value;
         this.objRegistro.FechaInicio=new Date(this.FechaInicio.value);
