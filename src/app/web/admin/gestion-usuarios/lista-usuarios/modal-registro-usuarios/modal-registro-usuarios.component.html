@@ -1,4 +1,4 @@
-<div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="false">
     <form [formGroup]="modalForm" (ngSubmit)="onClickSubmit(modalForm.value)">
         <div class="modal-header"
             style="background-color:  #008F49; color: white; text-align: center; align-items: center;">
@@ -17,7 +17,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="IdTipoDocumento">Tipo de documento*</label>
-                        <select formControlName="IdTipoDocumento" id="IdTipoDocumento" name="IdTipoDocumento"
+                        <select formControlName="IdTipoDocumento" id="IdTipoDocumento"
                             class="form-select" (change)="selTipoDocumento()">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListTipoDocumento" [value]="item.value">
@@ -119,15 +119,14 @@
                 <div *ngIf="contacto" class="col-sm-6">
                     <div class="form-group">
                         <label for="IdOrganizacion">Organización*</label>
-                        <select formControlName="IdOrganizacion" id="IdOrganizacion" name="IdOrganizacion"
+                        <select formControlName="IdOrganizacion" id="IdOrganizacion" 
                             class="form-select">
                             <option value="" disabled selected>-- Seleccionar --</option>
                             <option *ngFor="let item of objRegistro.ListOrganizacion" [value]="item.value">
                                 {{ item.label }}
                             </option>
                         </select>
-                        <div *ngIf="IdOrganizacion.invalid && (IdOrganizacion.dirty || IdOrganizacion.touched)"
-                            class="text-danger">
+                        <div *ngIf="IdOrganizacion.invalid && (IdOrganizacion.dirty || IdOrganizacion.touched)" class="text-danger">
                             <div *ngIf="IdOrganizacion.errors?.['required']">
                                 El campo es requerido.
                             </div>
@@ -166,8 +165,7 @@
                         <label for="Celular">Celular</label>
                         <input formControlName="Celular" maxlength="9" onkeypress="return '0123456789'.includes(event.key)"
                             maxlength="10" type="text" class="form-control"
-                            (focusout)="onFocusOutEvent($event,'Celular')">
-                       *
+                            (focusout)="onFocusOutEvent($event,'Celular')">                       
                     </div>
                 </div>
                 <div *ngIf="contacto || contactoMarco" class="col-sm-6">
@@ -197,7 +195,7 @@
                 <div class="col-sm-6">
                 </div>
             </div>
-            <div *ngIf="contactoMarco" class="row">
+            <div *ngIf="contactoMarco" class="row mb-3">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <select formControlName="IdDepartamento" id="IdDepartamento" name="IdDepartamento"
@@ -210,14 +208,14 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary"
+                    <button *ngIf="modalActivo" type="button" class="btn btn-primary"
                         style="background-color:  #008F49; border-color:  #008F49;"
                         (click)="consultarElementos(viewUserTemplate)">Consultar</button>
                 </div>
             </div>
             <div *ngIf="contactoMarco && objRegistro.ListMarcoListaAsignados.length>0" class="row">
                 <lista-marco-lista-asignado [lista_asignados]="objRegistro.ListMarcoListaAsignados"
-                (enviarAsignados)="actualizarAsignados($event)" 
+                (enviarAsignados)="actualizarAsignados($event)" [modalActivo]="modalActivo"
                 ></lista-marco-lista-asignado>
             </div>
         </div>

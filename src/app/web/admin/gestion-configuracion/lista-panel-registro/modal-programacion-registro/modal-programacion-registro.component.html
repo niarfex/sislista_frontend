@@ -1,4 +1,4 @@
-<div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="false">
     <form [formGroup]="modalForm" (ngSubmit) = "onClickSubmit(modalForm.value)">
         <div class="modal-header"
             style="background-color: green; color: white; text-align: center; align-items: center;">
@@ -107,6 +107,7 @@
                 <div class="col-sm-6">                     
                 </div>
             </div>
+            <!--
             <div class="row">
                 <div class="col-sm-12" style="color:green">
                     <h3>Datos de Cuestionario</h3>
@@ -135,6 +136,7 @@
                     
                 </div>
             </div>
+            -->
         </div>
         <div *ngIf="modalActivo" class="modal-footer text-end" style="display: block;">
             <button *ngIf="modalActivo" type="submit" class="btn btn-primary" [disabled]="!modalForm.valid"

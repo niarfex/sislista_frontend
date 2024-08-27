@@ -1,4 +1,4 @@
-<div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="modalRegOrganizaciones" href="#" tabindex="-1" role="dialog" aria-hidden="false">
     <form [formGroup]="plantillaForm">
         <div class="modal-header"
             style="background-color: #008F49; color: white; text-align: center; align-items: center;">
@@ -8,25 +8,25 @@
             <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="close()"></button>
         </div>
         <div class="modal-body">
-            <div class="row" style="text-align: center;">
+            <div class="row mb-3" style="text-align: center;">
                 <div class="col-sm-12" style="text-align: center;">
                     <span style="font-weight: bold;">Información confidencial amparada por Decreto Supremo Nº
                         043-2001-PCM del Decreto Estadístico</span>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-sm-12" style="text-align: center;">
                     <span style="font-weight: bold;">Objetivo: </span>“Contar con información georreferenciada de los
                     datos recolectados a través del soporte de un sistema de información geográfica”.
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-sm-12" style="color:#008F49">
                     <h3>Capítulo I. Características de la Empresa</h3>
                 </div>
             </div>
             <!--Para Persona Natural-->
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="IdCondicionJuridica">1. Condición jurídica</label>
@@ -67,7 +67,7 @@
                     <div class="form-group">
                         <label for="NumeroDocumentoPN">3. Número de documento</label>
                         <div class="input-group">
-                            <input formControlName="NumeroDocumentoPN" maxlength="11" type="text"
+                            <input formControlName="NumeroDocumentoPN" maxlength="20" type="text"
                                 onkeypress="return '0123456789'.includes(event.key)" class="form-control"
                                 (focusout)="onFocusOutEvent($event,'NumeroDocumentoPN')" required>
                             <button *ngIf="modalActivoEmp" class="btn btn-primary"
@@ -131,7 +131,7 @@
                 <div *ngIf="perPN" class="col-sm-4">
                     <div class="form-group">
                         <label for="DireccionFiscalDomicilioPN">7. Domicilio</label>
-                        <input formControlName="DireccionFiscalDomicilioPN" type="text" class="form-control"
+                        <input formControlName="DireccionFiscalDomicilioPN" type="text" maxlength="100" class="form-control"
                             (focusout)="onFocusOutEvent($event,'DireccionFiscalDomicilioPN')" required>
                         <div *ngIf="DireccionFiscalDomicilioPN.invalid && (DireccionFiscalDomicilioPN.dirty || DireccionFiscalDomicilioPN.touched)"
                             class="text-danger">
@@ -265,7 +265,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="NumeroDocumentoSA">2. RUC</label>
-                        <input formControlName="NumeroDocumentoSA" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
+                        <input formControlName="NumeroDocumentoSA" maxlength="11" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
                         <div *ngIf="NumeroDocumentoSA.invalid && (NumeroDocumentoSA.dirty || NumeroDocumentoSA.touched)"
                             class="text-danger">
                             <div *ngIf="NumeroDocumentoSA.errors?.['required']">
@@ -277,7 +277,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="RazonSocial">3. Razón Social</label>
-                        <input formControlName="RazonSocial" type="text" (focusout)="onFocusOutEvent($event,'RazonSocial')" class="form-control" required>
+                        <input formControlName="RazonSocial" type="text" maxlength="200" (focusout)="onFocusOutEvent($event,'RazonSocial')" class="form-control" required>
                         <div *ngIf="RazonSocial.invalid && (RazonSocial.dirty || RazonSocial.touched)"
                             class="text-danger">
                             <div *ngIf="RazonSocial.errors?.['required']">
@@ -289,7 +289,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="DireccionFiscalDomicilioSA">4. Dirección fiscal</label>
-                        <input formControlName="DireccionFiscalDomicilioSA" type="text" (focusout)="onFocusOutEvent($event,'DireccionFiscalDomicilioSA')" class="form-control" required>
+                        <input formControlName="DireccionFiscalDomicilioSA" type="text" maxlength="100" (focusout)="onFocusOutEvent($event,'DireccionFiscalDomicilioSA')" class="form-control" required>
                         <div *ngIf="DireccionFiscalDomicilioSA.invalid && (DireccionFiscalDomicilioSA.dirty || DireccionFiscalDomicilioSA.touched)"
                             class="text-danger">
                             <div *ngIf="DireccionFiscalDomicilioSA.errors?.['required']">
@@ -373,7 +373,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="TelefonoSA">9. Teléfono fijo</label>
-                        <input formControlName="TelefonoSA" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
+                        <input formControlName="TelefonoSA" type="text" maxlength="9" onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
                         <div *ngIf="TelefonoSA.invalid && (TelefonoSA.dirty || TelefonoSA.touched)" class="text-danger">
                             <div *ngIf="TelefonoSA.errors?.['required']">
                                 El campo es requerido.
@@ -384,7 +384,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="CelularSA">10. Celular</label>
-                        <input formControlName="CelularSA" type="text" onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
+                        <input formControlName="CelularSA" type="text" maxlength="9" onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
                         <div *ngIf="CelularSA.invalid && (CelularSA.dirty || CelularSA.touched)" class="text-danger">
                             <div *ngIf="CelularSA.errors?.['required']">
                                 El campo es requerido.
@@ -395,7 +395,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="CorreoElectronicoSA">11. Correo electrónico institucional</label>
-                        <input formControlName="CorreoElectronicoSA" type="text" (focusout)="onFocusOutEvent($event,'CorreoElectronicoSA')" class="form-control" required>
+                        <input formControlName="CorreoElectronicoSA" type="text" maxlength="50" (focusout)="onFocusOutEvent($event,'CorreoElectronicoSA')" class="form-control" required>
                         <div *ngIf="CorreoElectronicoSA.invalid && (CorreoElectronicoSA.dirty || CorreoElectronicoSA.touched)"
                             class="text-danger">
                             <div *ngIf="CorreoElectronicoSA.errors?.['required']">
@@ -407,7 +407,7 @@
                 <div *ngIf="perSA" class="col-sm-4">
                     <div class="form-group">
                         <label for="PaginaWebSA">12. Página web</label>
-                        <input formControlName="PaginaWebSA" type="text" (focusout)="onFocusOutEvent($event,'PaginaWebSA')" class="form-control" required>
+                        <input formControlName="PaginaWebSA" type="text" maxlength="100" (focusout)="onFocusOutEvent($event,'PaginaWebSA')" class="form-control" required>
                         <div *ngIf="PaginaWebSA.invalid && (PaginaWebSA.dirty || PaginaWebSA.touched)"
                             class="text-danger">
                             <div *ngIf="PaginaWebSA.errors?.['required']">
@@ -417,16 +417,16 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="perSA" class="row">
+            <div *ngIf="perSA" class="row mb-3">
                 <div class="col-sm-12" style="color:darkgray">
                     <h3>Datos del Representante Legal:</h3>
                 </div>
             </div>
-            <div *ngIf="perSA" class="row">
+            <div *ngIf="perSA" class="row mb-3">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="NombreRepLegal">13. Nombres y apellidos</label>
-                        <input formControlName="NombreRepLegal" type="text" (focusout)="onFocusOutEvent($event,'NombreRepLegal')" class="form-control" required>
+                        <input formControlName="NombreRepLegal" type="text" maxlength="200" (focusout)="onFocusOutEvent($event,'NombreRepLegal')" class="form-control" required>
                         <div *ngIf="NombreRepLegal.invalid && (NombreRepLegal.dirty || NombreRepLegal.touched)"
                             class="text-danger">
                             <div *ngIf="NombreRepLegal.errors?.['required']">
@@ -438,7 +438,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="CelularRepLegal">14. Celular</label>
-                        <input formControlName="CelularRepLegal" type="text" (focusout)="onFocusOutEvent($event,'CelularRepLegal')" 
+                        <input formControlName="CelularRepLegal" type="text" maxlength="9" (focusout)="onFocusOutEvent($event,'CelularRepLegal')" 
                         onkeypress="return '0123456789'.includes(event.key)" class="form-control" required>
                         <div *ngIf="CelularRepLegal.invalid && (CelularRepLegal.dirty || CelularRepLegal.touched)" class="text-danger">
                             <div *ngIf="CelularRepLegal.errors?.['required']">
@@ -450,7 +450,7 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="CorreoRepLegal">15. Correo electrónico</label>
-                        <input formControlName="CorreoRepLegal" type="text" (focusout)="onFocusOutEvent($event,'CorreoRepLegal')" class="form-control" required>
+                        <input formControlName="CorreoRepLegal" type="text" maxlength="50" (focusout)="onFocusOutEvent($event,'CorreoRepLegal')" class="form-control" required>
                         <div *ngIf="CorreoRepLegal.invalid && (CorreoRepLegal.dirty || CorreoRepLegal.touched)"
                             class="text-danger">
                             <div *ngIf="CorreoRepLegal.errors?.['required']">

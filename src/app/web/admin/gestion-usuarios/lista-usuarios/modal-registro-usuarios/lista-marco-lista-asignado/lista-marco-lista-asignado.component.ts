@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, SimpleChanges, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { MarcoListaListDto } from 'src/app/models/MarcoLista';
 
@@ -6,15 +7,19 @@ import { MarcoListaListDto } from 'src/app/models/MarcoLista';
   selector: 'lista-marco-lista-asignado',
   templateUrl: './lista-marco-lista-asignado.component.html',
   styleUrl: './lista-marco-lista-asignado.component.scss',
-  providers: [ConfirmationService],
-  encapsulation : ViewEncapsulation.None
+  providers: [BsModalService, ConfirmationService],
+  encapsulation: ViewEncapsulation.None
 })
 export class ListaMarcoListaAsignadoComponent implements OnInit {
   @Input() lista_asignados: MarcoListaListDto[] = [];
+  @Input() modalActivo: boolean = true;
   @Output() enviarAsignados = new EventEmitter<any>();
+  modalRef?: BsModalRef;  
+  idRegistroML: number;
   private lastTableLazyLoadEvent: LazyLoadEvent;
   constructor(_injector: Injector
-    , private confirmationService: ConfirmationService    
+    , private confirmationService: ConfirmationService
+    , private modalService: BsModalService
   ) {
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -26,7 +31,16 @@ export class ListaMarcoListaAsignadoComponent implements OnInit {
     this.lastTableLazyLoadEvent = event;
     // Lots of beautifull data loading code here 
     // (like calling a server trough a service and so on)...
-}
+  }
+  visualizarElemento(viewUserTemplate: TemplateRef<any>,id:number) {
+    this.idRegistroML = id;
+    this.modalActivo = false;
+    this.modalRef = this.modalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-lg'
+    });
+  }
   eliminarElemento(id: number) {
     this.confirmationService.confirm({
       message: '¿Estás seguro de eliminar el elemento?',
@@ -48,6 +62,9 @@ export class ListaMarcoListaAsignadoComponent implements OnInit {
 
       }
     });
-    
+
   }
+  exitModal = (): void => {
+    this.modalRef?.hide();
+  };
 }

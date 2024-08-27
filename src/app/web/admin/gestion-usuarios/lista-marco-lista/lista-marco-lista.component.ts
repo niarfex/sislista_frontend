@@ -66,7 +66,7 @@ export class ListaMarcoListaComponent implements OnInit {
     this.modalRef = this.modalService.show(viewUserTemplate, {
       backdrop: 'static',
       keyboard: false,
-      class: 'modal-m'
+      class: 'modal-lg'
     });
   }
   agregarRegistro(viewUserTemplate: TemplateRef<any>, id: number) {
