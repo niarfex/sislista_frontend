@@ -11,6 +11,7 @@ import { LoginService } from 'src/auth/services/login.service';
 import { EsriMapComponent } from '../../arcgis-map/components/esri-map/esri-map.component';
 import { MapService } from '../../arcgis-map/services/map.service';
 import { SweetAlert } from '../../arcgis-map/util/SweetAlert';
+import { SwalUtil } from '../../arcgis-map/util/SwalUtil';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -96,6 +97,9 @@ export class ModalDibujarPoligonoComponent {
   } 
 
   async close() {
+    //--Activamos el spinner
+    const mensaje = 'Actualizando formulario SiSLISTA...';
+    SwalUtil.loading('',mensaje,()=>{window.location.reload();});
     //--Trae Listado de Campos
     this.listaCampos = await this.mapService.getListField();
     this.enviarListaFundos.emit(this.listaCampos);
