@@ -20,13 +20,13 @@
                     datos recolectados a través del soporte de un sistema de información geográfica”.
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloI?'#f7a7a7':null">
                 <div class="col-sm-12" style="color:#008F49">
                     <h3>Capítulo I. Características de la Empresa</h3>
                 </div>
             </div>
             <!--Para Persona Natural-->
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloI?'#f7a7a7':null">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="IdCondicionJuridica">1. Condición jurídica</label>
@@ -417,12 +417,12 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="perSA" class="row mb-3">
+            <div *ngIf="perSA" class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloI?'#f7a7a7':null">
                 <div class="col-sm-12" style="color:darkgray">
                     <h3>Datos del Representante Legal:</h3>
                 </div>
             </div>
-            <div *ngIf="perSA" class="row mb-3">
+            <div *ngIf="perSA" class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloI?'#f7a7a7':null">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="NombreRepLegal">13. Nombres y apellidos</label>
@@ -460,12 +460,12 @@
                     </div>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloII?'#f7a7a7':null">
                 <div class="col-sm-12" style="color:green">
                     <h3>Capítulo II. Características del Fundo</h3>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloII?'#f7a7a7':null">
                 <div class="col-sm-4">
                 </div>
                 <div class="col-sm-4">
@@ -487,13 +487,13 @@
                         style="background-color: #008F49; border-color: #008F49;">Edición gráfica</button>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloII?'#f7a7a7':null">
                 <div class="col-sm-12" style="color:darkgray">
                     <h3>17. Caracteristicas de fundos y uso de la tierra por campo</h3>
                 </div>
             </div>
 
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloII?'#f7a7a7':null">
                 <div class="col-sm-12">
                     <registro-fundo-plantilla *ngFor="let item of objRegistro.ListFundos" [fundo]="item"
                         [listTenencia]="objRegistro.ListTenencia" [listUsoTierra]="objRegistro.ListUsoTierra"
@@ -502,20 +502,19 @@
                         [listUsoNoAgricola]="objRegistro.ListUsoNoAgricola"></registro-fundo-plantilla>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloIII?'#f7a7a7':null">
                 <div class="col-sm-12" style="color:green">
                     <h3>Capítulo III. Existencia de aves, ganado, búfalo y camélidos sudamericanos</h3>
                 </div>
             </div>
-
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloIII?'#f7a7a7':null">
                 <div class="col-sm-12">
                     <lista-sistema-pecuario [listaPecuarios]="objRegistro.ListPecuarios"
                         (enviarLista)="actualizarPecuarios($event)" (enviarPecuario)="agregarPecuario($event)"
                         [objCuestionario]="objRegistro" [modalActivo]="modalActivoEmp"></lista-sistema-pecuario>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloIV?'#f7a7a7':null">
                 <div class="col-sm-9" style="color:green">
                     <h3>Capítulo IV. Datos de la entrevista</h3>
                 </div>
@@ -525,16 +524,16 @@
                         (click)="registrarInformante(viewUserTemplate)">Agregar</button>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloIV?'#f7a7a7':null">
                 <lista-informantes [listaInformantes]="objRegistro.ListInformantes" [modalActivo]="modalActivoEmp"
                 (enviarLista)="actualizarInformantes($event)"></lista-informantes>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloIV?'#f7a7a7':null">
                 <div class="col-sm-12" style="color:darkgray">
                     <h3>ARCHIVOS PARA GABINETE:</h3>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloIV?'#f7a7a7':null">
                 <div class="col-sm-4">
                     <div class="row" style="font-weight: bold; color: darkgrey; margin-top: 5px;">
                         <span>Seleccionar archivo</span>
@@ -573,7 +572,7 @@
                         (click)="adjuntarArchivo()">Adjuntar</button>
                 </div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;" [style.background-color]="obsCapituloIV?'#f7a7a7':null">
                 <div class="col-sm-1"></div>
                 <div class="col-sm-10">
                     <lista-archivos [listaArchivos]="objRegistro.ListArchivos" [modalActivo]="modalActivoEmp"
@@ -581,7 +580,7 @@
                 </div>
                 <div class="col-sm-1"></div>
             </div>
-            <div class="row mb-3">
+            <div class="row" style="padding-bottom: 8px;">
                 <div class="col-sm-6" style="color:black; font-size: small;">
                     <span style="margin-right: 5px; font-size: medium;"><i class="bi bi-stopwatch"></i></span><span
                         style="font-weight: bold;">Temporizador:</span> {{time.hours}}:{{time.minutes}}:{{time.seconds}}
