@@ -178,14 +178,20 @@ export class ModalDibujarPoligonoComponent {
     if(this.admin.campo==''){
       this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> nombre del campo</b>')
       return;
-    }
-    if(this.admin.tipo == 'AGRÍCOLA' && this.admin.area_de ==''){
-      this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> Superficie cultivada</b>')
-      return;
-    }
-    if(this.admin.tipo == 'AGRÍCOLA' && this.admin.area_de > this.admin.area_ca){
-      this.sweetAlert.AlertWarning('Actualización de atributos', ' La Superficie cultivada es <b> mayor</b> a la superficie del campo')
-      return;
+    }    
+    if(this.admin.tipo == 'AGRÍCOLA'){
+      if(this.admin.cultivo ==''){
+        this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta seleccionar <b> el cultivo</b>')
+        return;
+      }
+      if(this.admin.area_de ==''){
+        this.sweetAlert.AlertWarning('Actualización de atributos', ' Falta registrar <b> Superficie cultivada</b>')
+        return;
+      }
+      if(this.admin.area_de > this.admin.area_ca){
+        this.sweetAlert.AlertWarning('Actualización de atributos', ' La Superficie cultivada es <b> mayor</b> a la superficie del campo')
+        return;
+      }
     }
 
     this.mapService.ptSaveAttribute();
