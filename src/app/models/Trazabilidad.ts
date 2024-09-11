@@ -44,6 +44,7 @@ export interface ITrazabilidadGetDto {
     Observacion: String
     EstadoResultado: number;
     IdSeccion: number;
+    CodigoSeccion: String;
     Seccion: String;
     Perfil: String;
 }
@@ -53,6 +54,7 @@ export class TrazabilidadGetDto implements ITrazabilidadGetDto {
     Observacion: String
     EstadoResultado: number=0;
     IdSeccion: number=0;
+    CodigoSeccion: String;
     Seccion: String;
     Perfil: String;
     constructor(data?: ITrazabilidadGetDto) {
@@ -70,6 +72,7 @@ export class TrazabilidadGetDto implements ITrazabilidadGetDto {
             this.Observacion = _data["Observacion"];
             this.EstadoResultado = _data["EstadoResultado"];
             this.IdSeccion = _data["IdSeccion"];
+            this.CodigoSeccion = _data["CodigoSeccion"];
             this.Seccion = _data["Seccion"];
             this.Perfil = _data["Perfil"];
         }

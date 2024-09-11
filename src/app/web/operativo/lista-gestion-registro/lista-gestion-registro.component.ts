@@ -86,7 +86,16 @@ export class ListaGestionRegistroComponent implements OnInit {
     });
   }
 
-  subsanarRegistro(uuid:String){}
+  subsanarRegistro(viewUserTemplate: TemplateRef<any>,numDoc:String,idPeriodo:number){
+    this.idPeriodo=idPeriodo;
+    this.numDoc = numDoc;
+    this.modalActivo=true;
+    this.modalRef = this.modalService.show(viewUserTemplate, {
+      backdrop: 'static',
+      keyboard: false,
+      class: 'modal-xl'
+    });
+  }
 
   exportar(){
     this.gestionregistroServiceProxy.getAllToExcel(this.txtBusqueda).subscribe(async (event) => {

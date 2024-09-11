@@ -81,6 +81,7 @@ export class ModalRegistroObservacionComponent {
       EstadoResultado:this.estadoResultado,
       IdSeccion:Number.parseInt(this.IdSeccion.value),
       Seccion:this.listaSecciones.find(x=>x.value==this.IdSeccion.value).label,
+      CodigoSeccion:"",
       Perfil:this.perfil
     });
     this.listaObservaciones.push(observacion);

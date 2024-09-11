@@ -95,6 +95,10 @@ export class PlantillaUnoComponent implements OnInit {
     minutes: number;
     seconds: number;
   };
+  obsCapituloI:boolean=false;
+  obsCapituloII:boolean=false;
+  obsCapituloIII:boolean=false;
+  obsCapituloIV:boolean=false;
   SubmodalRef?: BsModalRef;
   plantillaForm = this.formBuilder.group({
     IdCondicionJuridica: ['', [Validators.required]],
@@ -197,7 +201,7 @@ export class PlantillaUnoComponent implements OnInit {
         next: (result) => {
           if (result.success) {
             this.objRegistro = result.datos;
-            //console.log(this.objRegistro);
+            console.log(this.objRegistro);
             this.cadPeriodo = this.objRegistro.ListPeriodos.find(x => x.value == this.idPeriodo.toString()).label;
             this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
             this.plantillaForm.controls['IdCondicionJuridica'].setValue(this.objRegistro.IdCondicionJuridica.toString());
@@ -243,6 +247,11 @@ export class PlantillaUnoComponent implements OnInit {
               this.nombreElemento = this.objRegistro.Nombre.toString() + " " + this.objRegistro.ApellidoPaterno.toString() + " " + this.objRegistro.ApellidoMaterno.toString();
             }
             if (this.objRegistro.CodigoUUID != null) {
+              if(this.usuario.isAdministrador){
+                this.plantillaForm.disable();
+                  this.modalActivoEmp = false;
+                  this.modalActivoSup = false;
+              }
               if (this.usuario.isEmpadronador) {
                 if (this.objRegistro.CodigoEstadoRegistro != "TRABAJOGABINETE"
                   && this.objRegistro.CodigoEstadoRegistro != "PARAREGISTRAR2"
@@ -284,7 +293,12 @@ export class PlantillaUnoComponent implements OnInit {
                     this.modalActivoSup = false;
                 }
               }
-
+              if(this.objRegistro.ListObservaciones.length>0){
+                this.obsCapituloI=this.objRegistro.ListObservaciones.filter(x=>x.CodigoSeccion=="CAPITULOI").length>0?true:false;
+                this.obsCapituloII=this.objRegistro.ListObservaciones.filter(x=>x.CodigoSeccion=="CAPITULOII").length>0?true:false;
+                this.obsCapituloIII=this.objRegistro.ListObservaciones.filter(x=>x.CodigoSeccion=="CAPITULOIII").length>0?true:false;
+                this.obsCapituloIV=this.objRegistro.ListObservaciones.filter(x=>x.CodigoSeccion=="CAPITULOIV").length>0?true:false;
+              }
               //this.modalForm.controls['IdPerfil'].setValue(this.objRegistro.IdPerfil.toString());
 
             }
@@ -530,9 +544,11 @@ export class PlantillaUnoComponent implements OnInit {
   }
   actualizarFundos(lista:any) {
     this.listFields = lista;
+    //se limpia la lista de fundos
+    this.objRegistro.ListFundos=[];
     //this.CantidadFundo.setValue(this.objRegistro.ListFundos.length.toString());
     if (this.listFields.length > 0) {
-      //console.log(this.listFields);
+      console.log(this.listFields);
       let listaFundos = new Set(this.listFields.map(obj => obj["NOMBRE_FUNDO"]));
       let contFundos = 0;
       listaFundos.forEach(myObject => {

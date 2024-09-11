@@ -109,7 +109,7 @@
                                     (item.CodigoEstadoRegistro == 'OBSERVADOSUPERVISOR' || item.CodigoEstadoRegistro == 'OBSERVADOESPECIALISTA')">
                                     <button   class="btn btn-primary"
                                     style="background-color: #008F49; border-color: #008F49; margin-left: 10px; margin-bottom: 5px;"
-                                    type="button" (click)="subsanarRegistro(item.CodigoUUID)"><i class="bi bi-wrench"></i>
+                                    type="button" (click)="subsanarRegistro(viewUserTemplate,item.NumeroDocumento,item.IdPeriodo)"><i class="bi bi-wrench"></i>
                                     </button><span class="d-none d-xl-inline-block ms-1" style="font-size: medium;">Levantar Observaciones</span>
                                 </div>       
                             </div>
